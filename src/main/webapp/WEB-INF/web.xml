@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- 
+		서버를 실행시키면 applicationContext 컨테이너 와 DispatcherServlet 컨테이너가 생성된다.
+				   (applicationContext.xml)   (/cofig/presentation-layer.xml)
+		사용자의 요청이 들어왔을때 어디에서 처리할지 설정하는 xml파일 
+	-->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	
+	<!-- 백엔드 부분을 관리하는 부분 ContextLoaderListener -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- DispatcherServlet부분 -->
+	<!-- Processes application requests (어플리케이션의 리퀘스트를 처리한다.) -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<!-- servlet 요청이 들어오면 아래 지정한 클래스로 보내주라는 의미 -->
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<!-- presentation-layer 위치를 지정하는 곳 -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/config/presentation-layer.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<!-- 브라우저에서 요청하는 값들을 어떤 형식으로 받을건지 설정하는 부분 -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- 스프링에서 요청 처리시 한글 인코딩 처리 -->
+	<filter>
+    <filter-name>characterEncoding</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+	    <init-param>
+	      <param-name>encoding</param-name>
+	      <param-value>UTF-8</param-value>
+	    </init-param>
+	</filter>
+
+  <filter-mapping>
+      <filter-name>characterEncoding</filter-name>
+      <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+
+</web-app>

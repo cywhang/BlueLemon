@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace = "MemberMapper">
+
+	<!-- 회원 ID를 조건으로 회원 조회 : getMember -->
+	<select id = "getMember" resultType = "member">
+		SELECT a.*, b.member_Follow_Count member_Follow_Count, c.member_Following_Count member_Following_Count FROM member a
+		LEFT OUTER JOIN(
+		SELECT following, COUNT(*) member_Follow_Count FROM FOLLOW GROUP BY following
+		) b
+		ON a.member_Id = b.following
+		LEFT OUTER JOIN(
+		SELECT follower, COUNT(*) member_Following_Count FROM follow GROUP BY follower
+		) c
+		ON a.member_Id = c.follower
+		WHERE a.member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원 ID를 조건으로 회원 조회 : getMemberInfo -->
+	<select id="getMemberInfo" resultType="member">
+		SELECT * FROM member WHERE
+		member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원 존재 여부 조회 : confirmID -->
+	<select id = "confirmID" resultType = "String">
+		SELECT member_Password FROM member where member_Id = #{member_Id}
+	</select>
+	
+	<!-- 회원 등록 : insertMember -->
+	<insert id = "insertMember">
+		insert into member 
+		values
+		(#{member_Id},#{member_Name}, #{member_Email}, #{member_Password},  
+		#{member_Phone}, sysdate,
+		to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
+		#{member_Profile_Image, jdbcType=VARCHAR}, #{member_Country,jdbcType=VARCHAR}, 
+		#{member_Mbti, jdbcType=CHAR})
+	</insert>
+	
+	<!-- 회원 정보 수정 : updateMember -->
+	<update id="memberUpdate">
+	UPDATE member
+	SET member_Email = #{member_Email},
+					    member_Password = #{member_Password},
+					    member_Phone = #{member_Phone},
+					    member_Profile_Image = #{member_Profile_Image},
+					    member_Country = #{member_Country},
+					    member_Mbti = #{member_Mbti}
+	WHERE member_Id = #{member_Id}
+
+	</update>
+	
+	<!-- 비밀번호 변경 :  changePwd -->
+	<update id="changePwd">
+		update member set member_Password=#{member_Password} 
+		where member_Id=#{member_Id}
+	</update>
+	
+	<!-- 회원 탈퇴 : memberDelete -->
+	<delete id="memberDelete">
+		delete from member
+		where member_Id = #{member_Id}
+	</delete>
+	
+	<!-- 친구 추천 : recommendMember -->
+	<!-- 나를 팔로우하는데 내가 팔로우하지 않는 사람 추천 -->
+	<select id = "getRecommendMember" resultType = "member">
+		SELECT * FROM member
+		WHERE member_Id in (SELECT follower from follow
+							WHERE following = #{member_Id} AND follower not in (SELECT following FROM follow
+																				WHERE follower = #{member_Id}))	
+	</select>
+	
+	
+	<!-- 팔로우 체크 -->	
+	<select id = "checkFollow" resultType = "String">
+		SELECT follower FROM follow
+		WHERE follower = #{follower} AND following = #{following}
+	</select>			
+	
+	<!-- 팔로우 추가 -->		
+	<insert id = "addFollow">
+		INSERT INTO follow(follower, following)
+		VALUES(#{follower}, #{following})
+	</insert>						
+	
+	<!-- 팔로우 취소 -->	
+	<delete id = "delFollow">
+		DELETE FROM follow
+		WHERE follower = #{follower} AND following = #{following}
+	</delete>			
+	
+	<!-- 전체 멤버 프로필 이미지 조회 -->
+	<resultMap id="memberProfileResultMap" type="java.util.HashMap">
+    	<id column="member_Id" property="member_Id" />
+    	<result column="member_Profile_Image" property="member_Profile_Image" />
+	</resultMap>
+	
+	<select id="memberProfile" resultMap="memberProfileResultMap">
+		select member_Id, member_Profile_Image 
+		  from member 
+	</select>
+	
+	<!-- 팔로워가 가장 많은 멤버 조회 -->
+	<select id = "MostFamous" resultType = "member">
+		<![CDATA[
+			SELECT a.member_Follow_Count member_Follow_Count, b.*
+			FROM (SELECT following, COUNT(*) member_Follow_Count FROM follow GROUP BY following ORDER BY member_Follow_Count DESC) a
+			LEFT OUTER JOIN member b
+			ON a.following = b.member_Id
+			WHERE ROWNUM <= 5
+		]]>
+	</select>
+	
+	<!-- 나를 팔로우한 사람 -->
+	<select id = "getFollowers" resultType = "member">
+		SELECT * FROM member
+		WHERE member_Id IN (SELECT follower FROM follow
+							WHERE following = #{member_Id})
+	</select>
+	
+	<!-- 내가 팔로우한 사람 -->
+	<select id = "getFollowings" resultType = "member">
+		SELECT * FROM member
+		WHERE member_Id IN (SELECT following FROM follow
+							WHERE follower = #{member_Id})	
+	</select>
+</mapper>

@@ -1,0 +1,119 @@
+/*
+Template Name: Vogel - Social Network & Community HTML Template
+Author: Askbootstrap
+Author URI: https://themeforest.net/user/askbootstrap
+Version: 1.2
+*/
+
+
+/*
+- Header Logo
+- Demo Slider
+- Media Mobile
+*/
+
+
+/* Header Logo */
+.logo {
+  height: 100px;
+}
+
+.elite-logo {
+  height: 50px;
+}
+
+/* Demo Slider */
+.demo-slider.slick-initialized {
+  display: unset;
+}
+.demo-slider {
+  display: none;
+}
+.demo-slider button:after,
+.demo-slider button:before {
+  font-family: "Rubik";
+  color: #000;
+  font-size: 27px;
+}
+.demo-slider button {
+  position: absolute;
+  top: -16px;
+  right: 4px;
+}
+.demo-slider button.slick-prev.slick-arrow {
+  left: auto !important;
+  right: 40px;
+}
+.screen-demo  img.img-fluid.rounded-4 {
+  margin: 0px 0px -15px 15px;
+}
+.demo-slider .slick-arrow {
+  width: 29px !important;
+  height: 29px !important;
+  box-shadow: none !important;
+  border: 1px solid #ebebeb !important;
+}
+.demo-slider .slick-arrow::before {
+  font-size: 19px;
+  color: #000 !important;
+}
+.demo-slider .slick-arrow:hover::before {
+  background: none !important;
+}
+.demo-slider .slick-arrow:hover, .demo-slider .slick-arrow:focus {
+ background: none !important;
+}
+
+/* Media Mobile */
+@media (max-width: 576px) {
+
+  .container.px-lg-5 {
+      padding: 0px !important;
+  }
+  .style-2 {
+      display: none;
+  }
+  .demo-section-demo {
+      padding: 0px !important;
+  }
+  .row.align-items-center.vh-100 {
+      margin: 0px !important;
+  }
+}
+@media (max-width: 768px) { 
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+}
+@media (max-width: 992px) {
+  .demo-section-intro{
+    display: none;
+  }
+}
+@media (min-width: 992px) {
+	.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+}
+@media (min-width: 1400px) {
+	.container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl,
+  .container-xxl {
+		max-width: 1260px;
+	}
+}
+

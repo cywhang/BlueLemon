@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	<!-- 직접Webapp에 jsp소스를 작성하지않고 web-inf/view 폴더에 넣는다. -->
+	<!-- 
+		 "WEB-INF/views" 폴더에 JSP 파일을 배치하는 것은 보안, 구조적인 명확성, 직접적인 접근 방지, 
+		 논리적인 경로 매핑, DispatcherServlet 구성, 컨텍스트 경로 감추기, 
+		 리소스 보호 등 다양한 이점을 제공합니다. 이는 스프링 MVC 프로젝트를 보다 견고하고 유지보수 가능한 구조로 
+		 만들어줍니다.
+		 그래서 jsp파일에서 바로 ctrl+f11 을눌러서 실행이 불가능하다.
+	-->
+	
+	<!-- Controller 객체를 등록 -->
+	<context:component-scan base-package="com.blue.view"></context:component-scan>
+	
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<!-- 리소스 경로 설정 -->
+	<!-- location : css, image 파일의 실제 경로 지정 -->
+	<!-- mapping : 소스에서 리소스(css, image) 지정 형식 -->
+	<mvc:resources location="/WEB-INF/template/vendor/" mapping="/vendor/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/template/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/template/img/" mapping="/img/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/template/js/" mapping="/js/**"></mvc:resources>
+	
+	<!-- 파일 전송 객체 등록 -->
+	<!-- 사이즈가 -1이면 크기 무제한 -->
+	<bean id = "multipartResolver" class = "org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name ="maxUploadSize" value ="-1"></property>
+	</bean>
+	
+	<!-- View Resolver 등록 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name = "prefix" value = "/WEB-INF/template/"></property>
+		<property name = "suffix" value = ".jsp"></property>
+		<property name="contentType" value = "text/html;charset=UTF-8"></property>
+	</bean>
+	
+	<!-- 예외 처리 설정 -->
+	<bean id = "exceptionResolver" class = "org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name = "exceptionMappings">
+			<props>
+				<!-- 예외들 -->
+				<prop key = "java.lang.ArithmeticException">
+					common/arithmeticError
+				</prop>
+				<prop key = "java.lang.NullPointerException">
+					common/nullPointerError
+				</prop>
+			</props>
+		</property>
+		<!-- SimpleMappingExceptionResolver에서 예외처리 매핑이 되지않은 경우의 기본 에러에 대해서 뷰를 설정하는 부분. -->
+		<!-- 일반적인 예외 처리를 위한 공통 에러 페이지로 사용될 수 있다. (정의되지않은 예외로 인한 사용자를 위한 조치) -->
+		<property name = "defaultErrorView" value = "common/error"></property>
+	</bean>
+	
+</beans>

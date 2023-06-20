@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="FollowMapper">
+
+	<select id="getFollowing" resultType="follow">
+		select following from follow where follower = #{member_id}
+	</select>
+	
+	<select id="getFollower" resultType="follow">
+		select follower from follow where following = #{member_id}
+	</select>
+	
+	<select id="getMoreFollowing" resultType="follow">
+		<![CDATA[
+		select following 
+			from (select following, rownum as rn from follow where follower = #{follower}) 
+			where rn >= #{FollowingLocalPageFirstNum} 
+			and rn <= #{FollowingLocalPageLastNum}
+		]]>
+	</select>
+	
+	<select id="getMoreFollower" resultType="follow">
+		<![CDATA[
+		select follower 
+			from (select follower, rownum as rn from follow where following = #{following}) 
+			where rn >= #{FollowerLocalPageFirstNum} 
+			and rn <= #{FollowerLocalPageLastNum}
+		]]>
+	</select>
+</mapper>
