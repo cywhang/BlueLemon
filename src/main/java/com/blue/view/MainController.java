@@ -46,7 +46,7 @@ public class MainController {
 	private ReplyService replyService;
 	@Autowired
 	private FollowService followService;
-	//
+	//테스트로 풀리퀘스트 할거임 ㅋㅋㅋㅋㅋㅋㅋ
 	// 로그인 페이지로 이동
 	@GetMapping(value="/login")
 	public String login(){
