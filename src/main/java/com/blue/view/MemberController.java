@@ -45,11 +45,11 @@ public class MemberController {
 	public ResponseEntity<String> checkDuplicate(@RequestParam("member_Id") String member_Id) {
 	    int result = memberService.confirmID(member_Id);
 	    if (result == 1) {
-	    	System.out.println("중복된 아이디 :" + result);
+	    	//System.out.println("중복된 아이디 :" + result);
 	        return ResponseEntity.ok("duplicate");
 	        
 	    } else {
-	    	 System.out.println("사용가능한 아이디:" + result);
+	    	//System.out.println("사용가능한 아이디:" + result);
 	        return ResponseEntity.ok("not-duplicate");
 	      
 	    } 
@@ -62,17 +62,17 @@ public class MemberController {
         if (!profilePhoto.isEmpty()) {
              // 프로필 사진을 저장할 경로를 결정합니다.
 	          String image_Path = "C:/spring-workspace/BlueLemon/src/main/webapp/WEB-INF/template/img/uploads/profile/";
-	          System.out.println("저장할 경로 설정 = " + image_Path);
+	          //System.out.println("저장할 경로 설정 = " + image_Path);
 	          // 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
 	          String fileName = vo.getMember_Id() + ".png";
-	          System.out.println("저장할 파일명 = " + fileName);
+	          // System.out.println("저장할 파일명 = " + fileName);
 	          // 파일을 지정된 경로에 저장합니다.
 	         
-	          System.out.println("add : " + email_add );
+	          // System.out.println("add : " + email_add );
 		
 	          try {
 	        	  profilePhoto.transferTo(new File(image_Path + fileName));
-	        	  System.out.println("profilePhoto 값 = " + profilePhoto);
+	        	  // System.out.println("profilePhoto 값 = " + profilePhoto);
 	        	  // 저장된 파일의 경로를 MemberVO에 설정합니다.
 	        	  vo.setMember_Profile_Image(fileName);
 	          } catch (IOException e) {
@@ -81,15 +81,15 @@ public class MemberController {
 	          } 
         // 이미지 업로드 없을시 기본 이미지 사용   
         } else {
-        	System.out.println("업로드 이미지 없음 > 기본이미지 사용");
+        	//System.out.println("업로드 이미지 없음 > 기본이미지 사용");
         	vo.setMember_Profile_Image("default.png");
         }
         
         if(email_add.equals(email_add)){
-        	System.out.println("이메일 주소 입력칸 입력");
+        	//System.out.println("이메일 주소 입력칸 입력");
         	vo.setMember_Email(vo.getMember_Email() + "@" + email_add);
         } else {
-        	System.out.println("이메일 주소가 입력되지 않았습니다.");
+        	//System.out.println("이메일 주소가 입력되지 않았습니다.");
         }        
         
         memberService.insertMember(vo);
@@ -154,7 +154,7 @@ public class MemberController {
 	// 회원정보 수정 불러오기
 	@GetMapping("/edit_profile")
 	public String userProfile(MemberVO vo,HttpSession session, Model model) {
-		System.out.println("edit_profile getmapping해서 컨트롤러로 옴");
+		//System.out.println("edit_profile getmapping해서 컨트롤러로 옴");
 	    MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 	   
 	    // 이메일 주소를 @ 기준으로 분리하여 메일 아이디와 메일 도메인으로 설정
@@ -189,25 +189,23 @@ public class MemberController {
 		
 		// 세션에있는 비밀번호
 		String sessionPass = loginUser.getMember_Password();
-		System.out.println("DB 상 Pass = " + sessionPass);
+		//System.out.println("DB 상 Pass = " + sessionPass);
 
 		// 입력받아서 vo로 들어오는 비밀번호
 		String voPass = vo.getMember_Password();
-		System.out.println("입력받은 Pass = " +voPass);
+		//System.out.println("입력받은 Pass = " +voPass);
 		
 		if(!(sessionPass.equals(voPass))) {
 			// alert 관련은 edit_profile.jsp 맨 위에 있음
 			rttr.addFlashAttribute("msg", "wrong");
-			System.out.println("비번 틀림");
+			//System.out.println("비번 틀림");
 			return "redirect:edit_profile";
 		} else {
 			memberService.deleteMember(loginUser);
 			session.invalidate();
-			System.out.println("탈퇴 완료");
+			//System.out.println("탈퇴 완료");
 			rttr.addFlashAttribute("msg", "withdrawlSuccess");
 			return "redirect:login";
 		}
-	}
-	
-	
+	}	
 } 

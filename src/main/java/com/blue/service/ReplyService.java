@@ -11,10 +11,10 @@ public interface ReplyService {
 	ArrayList<ReplyVO> getReplyPreview(int post_Seq);
 	
 	// 게시글 상세보기 모달창의 댓글 리스트
-	ArrayList<ReplyVO> listReply(int post_Seq);
+	ArrayList<ReplyVO> getListReply(int post_Seq);
 	
 	// 댓글 좋아요 여부 조회
-	String checkReplyLike(ReplyVO voForReplyCheck);
+	String getCheckReplyLike(ReplyVO voForReplyCheck);
 	
 	// 댓글 좋아요 처리
 	void changeReplyLike(LikeVO vo);

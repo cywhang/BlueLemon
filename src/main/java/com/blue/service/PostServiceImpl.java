@@ -18,8 +18,7 @@ public class PostServiceImpl implements PostService {
 	
 	// 게시글 가져오기
 	@Override
-	public ArrayList<PostVO> getlistPost(String member_Id) {
-		
+	public ArrayList<PostVO> getlistPost(String member_Id) {		
 		return postDao.listPost(member_Id);
 	}
 	
@@ -39,7 +38,7 @@ public class PostServiceImpl implements PostService {
 	// 인기글 조회
 	@Override
 	public List<PostVO> getHottestFeed() {
-		System.out.println("[인기글 - 3] getHottestFeed()를 위해 postService를 통해 postServiceImpl로 옴");
+		//System.out.println("[인기글 - 3] getHottestFeed()를 위해 postService를 통해 postServiceImpl로 옴");
 		return postDao.getHottestFeed();
 	}
 
@@ -56,8 +55,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public ArrayList<PostVO> getMemberPost(String member_Id) {
-		
+	public ArrayList<PostVO> getMemberPost(String member_Id) {		
 		return postDao.getMemberPost(member_Id);
 	}
 
