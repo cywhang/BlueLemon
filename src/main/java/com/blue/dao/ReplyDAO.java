@@ -24,7 +24,7 @@ public class ReplyDAO {
 		Date currentTime = new Date();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
-		System.out.println(currentTime);
+		//System.out.println(currentTime);
 	    List<ReplyVO> resultList = mybatis.selectList("ReplyMapper.replyPreview", post_Seq);
 	    for(ReplyVO vo : resultList) {
 	    	String wroteTimeString = dateFormat.format(vo.getReply_Date());
@@ -92,26 +92,26 @@ public class ReplyDAO {
 
 	public String checkReplyLike(ReplyVO voForReplyCheck) {
 		String check = mybatis.selectOne("ReplyMapper.checkReplyLike", voForReplyCheck);
-		System.out.println("[미리보기 댓글 - 3] DAO - 좋아요 중이면 id 뜸 : " + check);
+		//System.out.println("[미리보기 댓글 - 3] DAO - 좋아요 중이면 id 뜸 : " + check);
 		if (check == null) {
 			check = "N";
 		} else {
 			check = "Y";
 		}
-		System.out.println("[미리보기 댓글 - 4] DAO에서 리턴 : " + check);
+		//System.out.println("[미리보기 댓글 - 4] DAO에서 리턴 : " + check);
 		return check;
 	}
 
 	public void changeReplyLike(LikeVO vo) {
-		System.out.println("[미리보기 댓글 좋아요 - 6] DAO로 옴 member_Id = " + vo.getMember_Id() + ", post_Seq = " + vo.getPost_Seq() + ", reply_Seq = " + vo.getReply_Seq());
+		//System.out.println("[미리보기 댓글 좋아요 - 6] DAO로 옴 member_Id = " + vo.getMember_Id() + ", post_Seq = " + vo.getPost_Seq() + ", reply_Seq = " + vo.getReply_Seq());
 		String check = mybatis.selectOne("ReplyMapper.checkReplyLike", vo);
-		System.out.println("[미리보기 댓글 좋아요 - 7] 댓글 좋아요 여부 체크함 (좋아요 중이면 id 뜸) : " + check);
+		//System.out.println("[미리보기 댓글 좋아요 - 7] 댓글 좋아요 여부 체크함 (좋아요 중이면 id 뜸) : " + check);
 		if(check == null) {
 			mybatis.update("ReplyMapper.addReplyLike", vo);
-			System.out.println("[미리보기 댓글 좋아요 - 8 - if] 좋아요 중 아니라서 좋아요 함");
+			//System.out.println("[미리보기 댓글 좋아요 - 8 - if] 좋아요 중 아니라서 좋아요 함");
 		} else {
 			mybatis.update("ReplyMapper.delReplyLike", vo);
-			System.out.println("[미리보기 댓글 좋아요 - 8 - else] 좋아요 중이라서 좋아요 취소 함");
+			//System.out.println("[미리보기 댓글 좋아요 - 8 - else] 좋아요 중이라서 좋아요 취소 함");
 		}
 	}
 	

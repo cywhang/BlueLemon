@@ -18,7 +18,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberVO getMember(String member_id) {		
-		System.out.println("[로그인 - 7 - if - 2] getMember()를 위해 MemberService를 통해 MemberServiceImpl로 옴");
+		//System.out.println("[로그인 - 7 - if - 2] getMember()를 위해 MemberService를 통해 MemberServiceImpl로 옴");
 		return memberDao.getMember(member_id);
 	}
 
@@ -39,13 +39,13 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int doLogin(MemberVO vo) {
-		System.out.println("[로그인 - 3] doLogin()을 위해 MemberService를 통해 MemberServiceImpl로 옴");
+		//System.out.println("[로그인 - 3] doLogin()을 위해 MemberService를 통해 MemberServiceImpl로 옴");
 		return memberDao.doLogin(vo);
 	}
 
 	@Override
 	public List<MemberVO> getRecommendMember(String member_Id) {
-		System.out.println("[멤버추천 - 3] getRecommendMember()를 위해 MemberService를 통해 MemberServiceImpl로 옴");
+		//System.out.println("[멤버추천 - 3] getRecommendMember()를 위해 MemberService를 통해 MemberServiceImpl로 옴");
 		return memberDao.getRecommendMember(member_Id);
 	}
 
