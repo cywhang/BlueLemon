@@ -135,7 +135,7 @@
                            <!-- 뉴스피드들을 감싸는 부분 -->
                            <div class="pt-4 feeds">                              
                               <!-- Feed Item -->
-                              <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="10">
+                              <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
                                     <div class="d-flex">
                                        <!-- 작성자의 프로필사진 -->
@@ -257,7 +257,16 @@
                                        </div>
                                     </div>
                                  </div>
-                              </c:forEach> <!-- 게시글 출력 반복문 -->                                 
+                              </c:forEach> <!-- 게시글 출력 반복문 -->          
+                              <div id="main_feed"></div>
+                              <div id="loadingStop"></div>           
+		                         <!-- 피드무한스크롤 -->
+		                         <div class="text-center mt-4" id="feedInfinity">
+								    <div class="spinner-border" role="status">
+									   <span class="visually-hidden">Loading...</span>
+									</div>
+									<p class="mb-0 mt-2">Loading</p>
+		                  		</div>                                           
                            </div>
                         </div><!-- 뉴스피드 부분 -->
                         
@@ -690,5 +699,7 @@
       <script src="js/insert.js"></script>
       <!-- Trending Js -->
       <script src="js/trending.js"></script>
+      <!-- Infinite Js -->
+      <script src="js/infinite.js"></script>
    </body>
 </html>

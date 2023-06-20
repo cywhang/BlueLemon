@@ -177,7 +177,7 @@
 	                     <!-- 사이드바의 항목들을 정의하는 부분 -->
                          <ul class="navbar-nav justify-content-end flex-grow-1">
                             <li class="nav-item">
-                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
+                               <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                             </li>
                             <li class="nav-item">
                               <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
@@ -187,7 +187,7 @@
                             </li>
                             <!-- PAGES 드롭다운 항목 -->
                             <li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                               <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                <span class="material-icons me-3">web</span> Contact Us
                                </a>
                                <ul class="dropdown-menu px-2 py-1 mb-2">
@@ -213,7 +213,7 @@
                          </div>
                          <ul class="navbar-nav justify-content-end flex-grow-1">
                             <li class="nav-item">
-                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
+                               <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                             </li>
                             <li class="nav-item">
                               <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
@@ -222,7 +222,7 @@
                                <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
                             </li>
                             <li class="nav-item dropdown">
-                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                               <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   <span class="material-icons me-3">web</span> Contact Us
                                </a>
                                <ul class="dropdown-menu px-2 py-1 mb-2">
@@ -231,7 +231,7 @@
                                </ul>
                             </li>
                             <li class="nav-item">
-                               <a href="index" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
+                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                             </li>
                          </ul>
                       </div>
