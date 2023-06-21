@@ -81,5 +81,16 @@ public class PostDAO {
 		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
 		return memberPostList;
 	}
+
+	public ArrayList<PostVO> getAllPost() {
+		List<PostVO> result = mybatis.selectList("PostMapper.getAllPost");
+		ArrayList<PostVO> getAllPost = new ArrayList<PostVO>(result);
+		return getAllPost;
+	}
+	
+	//게시글 삭제
+	public void deletePost(int post_Seq) {
+		mybatis.delete("PostMapper.deletePost", post_Seq);
+	}
 	
 }

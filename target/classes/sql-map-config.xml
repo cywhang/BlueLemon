@@ -9,6 +9,7 @@
 		<typeAlias type="com.blue.dto.ReplyVO" alias = "reply"/>
 		<typeAlias type="com.blue.dto.LikeVO" alias = "like"/>
 		<typeAlias type = "com.blue.dto.FollowVO" alias = "follow"/>
+		<typeAlias type = "com.blue.dto.QnaVO" alias = "qna"/>
 	</typeAliases>
 
 	<!-- SQL 매핑 파일 등록 -->
@@ -19,6 +20,7 @@
 		<mapper resource="mappings/reply-mapping.xml"/>
 		<mapper resource="mappings/like-mapping.xml"/>
 		<mapper resource="mappings/follow-mapping.xml"/>
+		<mapper resource="mappings/qna-mapping.xml"/>
 	</mappers>
 </configuration>
 

@@ -90,3 +90,14 @@ Version: 1.2
 	toggleSwitch.addEventListener('change', switchTheme, false);
 
 })(jQuery); // End of use strict
+
+
+function deletePost(post_Seq){
+	
+	if(confirm('삭제하시겠습니까?')){
+		window.location.href="/blue/postDelete?post_Seq="+ post_Seq;
+	}else{
+		
+	}
+	
+}

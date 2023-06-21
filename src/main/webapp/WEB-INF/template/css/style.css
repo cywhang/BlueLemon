@@ -36,7 +36,7 @@ body {
     font-family: 'Gilroy', sans-serif;
 }
 
-/* ÀÌ¹ÌÁö ¾÷·Î´õ css */
+/* ì´ë¯¸ì§€ ì—…ë¡œë” css */
 :root {
   --hoverBg: #dee2e6;
   --text: #0d6efd;
@@ -99,7 +99,7 @@ body {
   object-fit: cover;
   border-radius: 8px;
 }
-/* ÀÌ¹ÌÁö ¾÷·Î´õ  */
+/* ì´ë¯¸ì§€ ì—…ë¡œë”  */
 
 /* FAQ */
 .faq-page .accordion-button {
@@ -315,7 +315,7 @@ body {
     font-size: 14px;
 }
 
-/* ÀÌ¹ÌÁö ½½¶óÀÌµå + ´ñ±Û ¸®½ºÆ® Modal */
+/* ì´ë¯¸ì§€ ìŠ¬ë¼ì´ë“œ + ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ Modal */
 #commentModal .modal-dialog {
     max-width: 900px;
     overflow-y: auto;
@@ -331,7 +331,7 @@ body {
 	overflow-y: auto;
 }
 
-/* ´ñ±Û ¸®½ºÆ® Modal */
+/* ëŒ“ê¸€ ë¦¬ìŠ¤íŠ¸ Modal */
 #commentModal2 .modal-dialog {
     max-width: 600px;
     overflow-y: auto;
@@ -482,7 +482,7 @@ body {
 .btn-check:checked:hover + .btn-outline-primary .follow {
     display: block !important;
 }
-/* Ã¼Å©¹Ú½º hover ½Ã »ö»ó º¯°æ */
+/* ì²´í¬ë°•ìŠ¤ hover ì‹œ ìƒ‰ìƒ ë³€ê²½ */
 .btn-check:not(:checked):hover + .btn-outline-primary,
 .btn-check:checked:hover + .btn-outline-primary {
     background-color: #0d6efd;
@@ -490,7 +490,7 @@ body {
     color: #ffffff;
 }
 
-/* Ã¼Å©µÈ »óÅÂ¿¡¼­ hover ½Ã ¹è°æÀÌ Èò»öÀ¸·Î º¯°æ */
+/* ì²´í¬ëœ ìƒíƒœì—ì„œ hover ì‹œ ë°°ê²½ì´ í°ìƒ‰ìœ¼ë¡œ ë³€ê²½ */
 .btn-check:checked:hover + .btn-outline-primary {
     background-color: #ffffff;
     border-color: #0d6efd;

@@ -135,7 +135,7 @@
                            <!-- 뉴스피드들을 감싸는 부분 -->
                            <div class="pt-4 feeds">                              
                               <!-- Feed Item -->
-                              <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="10">
+                              <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
                                     <div class="d-flex">
                                        <!-- 작성자의 프로필사진 -->
@@ -148,13 +148,24 @@
                                                 </a>
                                                 <div class="d-flex align-items-center small">
                                                    <p class="text-muted mb-0">${postVO.post_Date}</p>
-                                                   <div class="dropdown">
-                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-                                                      <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
-                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
-                                                      </ul>
-                                                   </div>
+                                                   
+                                                      
+                                                      <c:choose>
+                                                      	<c:when test="${member_Id == postVO.member_Id}">
+		                                                     <div class="dropdown">
+		                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+		                                                      	<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+		                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
+		                                                         <li><a class="dropdown-item text-muted" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
+		                                                        </ul>
+		                                                   	 </div>
+                                                      	</c:when>
+                                                      	<c:otherwise>
+                                                      	
+                                                      	</c:otherwise>
+                                                      </c:choose>
+                                                         
+                                                      
                                                 </div>
                                              </div>
                                              <div class="my-2">
@@ -257,7 +268,16 @@
                                        </div>
                                     </div>
                                  </div>
-                              </c:forEach> <!-- 게시글 출력 반복문 -->                                 
+                              </c:forEach> <!-- 게시글 출력 반복문 -->          
+                              <div id="main_feed"></div>
+                              <div id="loadingStop"></div>           
+		                         <!-- 피드무한스크롤 -->
+		                         <div class="text-center mt-4" id="feedInfinity">
+								    <div class="spinner-border" role="status">
+									   <span class="visually-hidden">Loading...</span>
+									</div>
+									<p class="mb-0 mt-2">Loading</p>
+		                  		</div>                                           
                            </div>
                         </div><!-- 뉴스피드 부분 -->
                         
@@ -281,7 +301,14 @@
                            <!-- 트랜딩 탭의 Feeds -->
                            <div class="feeds">
                               <!-- Feed Item -->                              
-                              <div id="trending_feed"></div>                              
+                              <div id="trending_feed"></div>
+                              	<div id="trendingFeedInfinite"></div>
+                              	<div id="trendingFeedStop"></div>
+                              	<div class="text-center mt-4" id="trendFeedLoading">
+				                    <div class="ms-auto" align="center">
+		                                    	<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="handleTrendInfinity()">+ 더보기</span>
+		                            </div>
+                              	</div>
                            </div><!-- class="trending" -->                        
                         </div> <!-- class="feed" -->
                      </div>
@@ -690,5 +717,7 @@
       <script src="js/insert.js"></script>
       <!-- Trending Js -->
       <script src="js/trending.js"></script>
+      <!-- Infinite Js -->
+      <script src="js/infinite.js"></script>
    </body>
 </html>

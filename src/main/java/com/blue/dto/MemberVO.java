@@ -23,7 +23,6 @@ public class MemberVO {
 	private String member_Country;
 	private String member_Mbti;
 	private String member_Follow_Count;
-	private String member_Following_Count;
-	
+	private String member_Following_Count;	
 	private int bothFollow;
 }

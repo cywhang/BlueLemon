@@ -57,6 +57,10 @@
 					       #{post_Public}, #{post_Image_Count}, #{post_Hashtag})
 	</insert>
 	
+	<!-- 게시글 삭제 -->
+	<delete id="deletePost">
+		delete from post where post_Seq = #{post_Seq}
+	</delete>
 	
 	<!-- 게시글 좋아요 체크 -->
 	<select id = "checkLike" resultType = "String">
@@ -83,5 +87,10 @@
 		ORDER BY post_Seq DESC
 	</select>
 	
+	<!-- 관리자 전체 게시글 조회 -->
+	<select id = "getAllPost" resultType = "post">
+		SELECT * FROM post
+		ORDER BY post_Seq DESC
+	</select>
 	
 </mapper>
