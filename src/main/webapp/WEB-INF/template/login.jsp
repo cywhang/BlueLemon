@@ -152,15 +152,13 @@
 					<input type="submit" value="Log in" class="btn" />
 					<br>
 					<c:choose>
-						<c:when test="${empty message}">							
+						<c:when test="${empty message}">		
+											
 						</c:when>
 						<c:otherwise>
 							<br>
 							<p align="center" style="color:red">
 								${message}
-								<script>
-								alert("로그인 바랍니다.")
-								</script>
 							</p>
 						</c:otherwise>
 					</c:choose>

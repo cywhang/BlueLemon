@@ -151,6 +151,7 @@ public class MainController {
 			model.addAttribute("replyMap", replymap);
 			model.addAttribute("recommendMember", recommendMember);
 			model.addAttribute("hottestFeed", hottestFeed);	
+			model.addAttribute("member_Id", member_Id);
 			return "index";
 		}
 	}

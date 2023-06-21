@@ -64,5 +64,10 @@ public class PostServiceImpl implements PostService {
 		return postDao.postLikeCount(post_Seq);
 	}
 
+	@Override
+	public void deletePost(int post_Seq) {
+		postDao.deletePost(post_Seq);
+	}
+
 	
 }

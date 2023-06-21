@@ -284,7 +284,7 @@ $.ajax({
 	                    html += '                  <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>';
 	                    html += '                  <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">';
 	                    html += '                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>';
-	                    html += '                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
+	                    html += '                    <li><a class="dropdown-item text-muted" onclick="deletePost(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
 	                    html += '                  </ul>';
 	                    html += '                </div>';
 					}else{
@@ -318,15 +318,15 @@ $.ajax({
 
                if(PostVO.post_LikeYN == "Y"){
                    html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
-                   html += '                              <img class="likeImage_${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
+                   html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
                    html += '                           </button>';
-                   html += '                              <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                   html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
 
                }else{
                    html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
-                   html += '                              <img class="likeImage_${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "false">';
+                   html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/like.png" width="20px" height="20px" data-liked = "false">';
                    html += '                           </button>';
-                   html += '                              <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                   html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
                }
 
                html += '                           </div>';
@@ -375,12 +375,12 @@ $.ajax({
 
                if(replyVO.reply_LikeYN == 'N'){
                	html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
-                   html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="false">';
+                   html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/unlike.png" data-liked="false">';
                    html += '														</button>';
                    html += '														<p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
                }else{
                    html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + trending_replyMap[i].post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
-                   html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/unlike.png" data-liked="true">';
+                   html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="true">';
                    html += '														</button>';
                    html += '														<p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
                }
@@ -530,7 +530,7 @@ $.ajax({
 	                    html += '                  <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>';
 	                    html += '                  <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">';
 	                    html += '                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>';
-	                    html += '                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
+	                    html += '                    <li><a class="dropdown-item text-muted" onclick="deletePost(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
 	                    html += '                  </ul>';
 	                    html += '                </div>';
 					}else{
@@ -564,15 +564,15 @@ $.ajax({
                 
                 if(PostVO.post_LikeYN == "Y"){
                     html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
-                    html += '                              <img class="likeImage_${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
+                    html += '                              <img class="likeImage_' + PostVO.post_Seq + '1" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
                     html += '                           </button>';
-                    html += '                              <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                    html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '1" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
 
                 }else{
                     html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
-                    html += '                              <img class="likeImage_${postVO.post_Seq}" src="img/unlike.png" width="20px" height="20px" data-liked = "false">';
+                    html += '                              <img class="likeImage_' + PostVO.post_Seq + '1" src="img/unlike.png" width="20px" height="20px" data-liked = "false">';
                     html += '                           </button>';
-                    html += '                              <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
+                    html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '1" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
                 }
                 
                 html += '                           </div>';
