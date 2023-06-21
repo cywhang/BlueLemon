@@ -519,6 +519,7 @@
                      <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                      <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
                   </div>
+                  
                   <!-- 해시태그 입력창 -->
                   <div>
                      <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="#해시태그" id="floatingTextarea2" style="height: 50px"></textarea>

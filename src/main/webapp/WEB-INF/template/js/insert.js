@@ -13,7 +13,7 @@ $(function() {
   // 드래그 앤 드롭
   $(".sortable").sortable();	
   
-  //이미지 삭제
+  //이미지 삭제  
   $(document).on('click', '.delBtn', function() {
     $(this).closest('li').remove();
     console.log("li태그 지움");

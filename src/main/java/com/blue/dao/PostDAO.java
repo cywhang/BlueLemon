@@ -13,7 +13,7 @@ import com.blue.dto.TagVO;
 
 @Repository("PostDAO")
 public class PostDAO {
-
+ 
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	

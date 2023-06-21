@@ -9,7 +9,7 @@ import lombok.ToString;
 @ToString
 public class TagVO {
 
-	private int    tag_Seq;
+	private int    tag_Seq; 
 	private int    post_Seq;
 	private String tag_Content;
 }
