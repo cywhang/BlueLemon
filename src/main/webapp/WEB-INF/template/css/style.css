@@ -36,70 +36,55 @@ body {
     font-family: 'Gilroy', sans-serif;
 }
 
-/* 이미지 업로더 css */
-:root {
-  --hoverBg: #dee2e6;
-  --text: #0d6efd;
+/* 이미지 업로드 */
+.inputFile,
+#Preview,
+#Preview li{
+    float:left
+}
+.inputFile{
+    margin-bottom: 10px;
+}
+.addImgBtn{
+    width: 80px !important;
+    height: 80px !important;
+    line-height: 71px !important;
+    background-color: #fff !important;
+    color: #b7b7b7 !important;
+    border: 2px solid #b7b7b7;
+    font-size: 35px !important;
+    padding-left: 37%;
 }
 
-.uploaderContainer {
-  width: clamp(0px, 100%, 512px);
-  margin: 32px auto;
-  text-align: center;
+#Preview{
+    margin-left: 20px;
+    width: 650px;
 }
-
-.uploaderLabel {
-  width: 100%;
-  height: 100%;
-  margin: 0px auto;
-  cursor: pointer;
+#Preview li{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 1px solid #ececec;
+    cursor:move
 }
-.cancel-button {
-    border: none;
-    background-color: transparent;
-  }
-.uploaderInner {
-  width: 100%;
-  height: 128px
-  margin: 64px auto;
-  border-radius: 8px;
-  font-size: 16px;
-  line-height: 128px;
-  color: var(--text);
+.delBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    background-color: #dc3545;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    line-height: 16px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
 }
-
-@media (any-hover: hover){
-  .uploaderInner:hover{
-    background-color: var(--hoverBg);
-  }
+ul li::marker {
+  color: rgba(0, 0, 0, .05);
 }
-
-.label--hover{
-  background-color: var(--hoverBg);
-}
-
-.preview-title{
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.preview {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 16px;
-  border-radius: 8px;
-  align-items: center;
-}
-
-.embed-img{
-  width: 100%;
-  height: 128px;
-  object-position: center;
-  object-fit: cover;
-  border-radius: 8px;
-}
-/* 이미지 업로더  */
+/* 이미지 업로드 */
 
 /* FAQ */
 .faq-page .accordion-button {

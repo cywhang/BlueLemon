@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
+import com.blue.dto.TagVO;
 
 @Repository("PostDAO")
 public class PostDAO {
@@ -93,4 +94,14 @@ public class PostDAO {
 		mybatis.delete("PostMapper.deletePost", post_Seq);
 	}
 	
+	// 게시글 추가 시 필요한 가장높은 시퀀스 조회
+	public int postSeqCheck() {
+		return mybatis.selectOne("PostMapper.postSeqCheck");
+	}
+	
+	// 게시글 추가의 해시태그 인서트
+	public void insertTag(TagVO vo) {
+		// 컨트롤러에서넘어온 값
+		mybatis.insert("PostMapper.insertTag", vo);
+	}
 }
