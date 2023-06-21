@@ -88,5 +88,10 @@ public class PostServiceImpl implements PostService {
 		postDao.insertTag(vo);
 	}
 
+	@Override
+	public ArrayList<TagVO> getHashtagList(int post_Seq) {
+		return postDao.getHashtagList(post_Seq);
+	}
+
 	
 }

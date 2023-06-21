@@ -45,4 +45,7 @@ public interface PostService {
 	
 	// 게시글 추가의 해시태그 인서트
 	void insertTag(TagVO vo);
+	
+	// 게시글 해시태그 조회
+	ArrayList<TagVO> getHashtagList(int post_Seq);
 }

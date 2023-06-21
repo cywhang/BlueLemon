@@ -104,4 +104,11 @@ public class PostDAO {
 		// 컨트롤러에서넘어온 값
 		mybatis.insert("PostMapper.insertTag", vo);
 	}
+	
+	// 게시글 해시태그 조회
+	public ArrayList<TagVO> getHashtagList(int post_Seq) {
+		List<TagVO> result = mybatis.selectList("PostMapper.postHashtag", post_Seq);
+		ArrayList<TagVO> hashList = new ArrayList<TagVO>(result);
+		return hashList;
+	}
 }
