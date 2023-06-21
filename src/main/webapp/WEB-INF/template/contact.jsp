@@ -119,7 +119,7 @@
                         <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page">
 	                        <div class="rounded-3">
 	                           <div class="mb-3">
-	                              <h5 class="lead fw-bold text-body mb-0">mmmmmmMy Questionsssssssssssssssssssss</h5>
+	                              <h5 class="lead fw-bold text-body mb-0">My Questions</h5>
 	                           </div>
 	                           <div class="row justify-content-center">
 	                              <div class="col-lg-12">								     
