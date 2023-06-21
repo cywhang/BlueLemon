@@ -21,12 +21,6 @@ public class HomeController {
 		return "tags";
 	}
 	
-	@GetMapping(value="/contact")
-	public String Contact() {
-		
-		return "contact";
-	}
-	
 	@GetMapping(value="/faq")
 	public String Faq() {
 		
@@ -39,10 +33,5 @@ public class HomeController {
 		return "404";
 	}
 	
-	@GetMapping(value="/edit-profile")
-	public String EditProfile() {
-		
-		return "edit-profile";
-	}
 	
 }
