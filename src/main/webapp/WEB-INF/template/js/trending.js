@@ -27,6 +27,26 @@ function trending_List() {
                 for (var i = 0; i < 10; i++) {
                     var PostVO = trending_postList[i];
                     
+                    if(i == trending_postList.legnth && trending_postList.legnth < 10){
+                    	
+                    	console.log("마지막 행 실행중");
+                    	  
+                    	  var loadingStop = document.getElementById("trendingFeedStop");
+                    	  
+                    	  // 컨테이너 초기화
+                    	  loadingStop.innerHTML = "";
+                          
+                          html += '<div id="trendFeedEnd"><br>';
+                          html += '	<h5 align="center">No Post To Show</h5>';
+                          html += '	<br>';
+                          html += '</div>';
+                                  
+                          loadingStop.innerHTML += html;
+                    	
+                    	document.getElementById("trendFeedLoading").remove();
+                    	
+                    }
+                    
                     console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
 
                     html += '<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">';

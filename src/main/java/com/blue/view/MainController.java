@@ -410,7 +410,7 @@ public class MainController {
 			//System.out.println("전체 회원 프로필: " + profilemap);
 
 			Map<String, Object> responseData = new HashMap<>();
-
+			
 			responseData.put("profileMap", profilemap);
 			responseData.put("postList", postlist);
 			responseData.put("replyMap", replymap);
