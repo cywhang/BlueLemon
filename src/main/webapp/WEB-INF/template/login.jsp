@@ -158,9 +158,6 @@
 							<br>
 							<p align="center" style="color:red">
 								${message}
-								<script>
-								alert("로그인 바랍니다.")
-								</script>
 							</p>
 						</c:otherwise>
 					</c:choose>

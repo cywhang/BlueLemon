@@ -101,4 +101,10 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getFollowings(String member_Id) {
 		return memberDao.getFollowings(member_Id);
 	}
+
+	// 관리자 - 전체 회원 조회
+	@Override
+	public List<MemberVO> getAllMember() {
+		return memberDao.getAllMember();
+	}
 }

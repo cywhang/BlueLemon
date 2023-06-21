@@ -57,8 +57,13 @@ public class MainController {
 		if(result == 1) {			
 			//System.out.println("[로그인 - 7 - if - 1] MemberDAO에서 받아온 result로 로그인 처리하고 memberService의 getMember호출");
 			//System.out.println("[로그인 - 7 - if - 5] getMember로 받아온 회원 정보를 loginUser라는 이름으로 세션에 올리고 index.jsp 호출");
-			model.addAttribute("loginUser", memberService.getMember(vo.getMember_Id()));
-			return "redirect:index";
+			if(vo.getMember_Id().equals("admin")) {
+				model.addAttribute("loginUser", memberService.getMember(vo.getMember_Id()));
+				return "redirect:admin_Index";
+			} else {
+				model.addAttribute("loginUser", memberService.getMember(vo.getMember_Id()));
+				return "redirect:index";
+			}
 		} else {
 			//System.out.println("[로그인 - 7 - else - 1] 정상이 아니면 login_fail.jsp 호출 -> alert 후 login.jsp로");
 			return "login_fail";

@@ -64,5 +64,11 @@ public class PostServiceImpl implements PostService {
 		return postDao.postLikeCount(post_Seq);
 	}
 
+	// 관리자용 전체 게시글 조회
+	@Override
+	public ArrayList<PostVO> getAllPost() {
+		return postDao.getAllPost();
+	}
+
 	
 }

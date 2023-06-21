@@ -136,4 +136,9 @@ public class MemberDAO {
 		List<MemberVO> followings = mybatis.selectList("MemberMapper.getFollowings", member_Id);
 		return followings;
 	}
+
+	// 관리자 - 전체 회원 조회
+	public List<MemberVO> getAllMember() {
+		return mybatis.selectList("MemberMapper.getAllMember");
+	}
 }
