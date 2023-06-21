@@ -26,17 +26,11 @@
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    </head>
    <style>
-   		table {
-   			border-collapse : collapse;
-   		}
-   		th, td {
-   			border : 1px solid black;
-   			padding : 5px;
-   		}
    		.qnaDiv {
-   			border : 1px solid black;
-   			padding : 5px;
+   			border : 1px solid #c6c1c1;
+   			padding : 9px;
    			border-radius : 10px;
+   			color : #555568;
    		}
    </style>
    <body class="bg-light">
@@ -115,40 +109,51 @@
                               </form>
                            </div>
                         </div>
+                     </div>
                         <!-- Contact form-->
-                        <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page">
+                        <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page" style = "margin-top : 10px; margin-bottom : 10px;">
 	                        <div class="rounded-3">
 	                           <div class="mb-3">
-	                              <h5 class="lead fw-bold text-body mb-0">My Questionsabc</h5>
+	                              <h5 class="lead fw-bold text-body mb-0">My Questions</h5>
 	                           </div>
 	                           <div class="row justify-content-center">
 	                              <div class="col-lg-12">								     
 								     <div class="accordion overflow-hidden bg-white" id="accordionExample">
 									    <c:forEach items = "${qnaList}" var = "qna">
 		                                   <div class="accordion-item">
-		                                      <h3 class="accordion-header" id="heading_${qna.qna_Seq}">
-		                                         <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
-		                                  	        ${qna.qna_Title}
-		                                         </button>
+		                                      <h3 class="accordion-header" id="heading_${qna.qna_Seq}">		                                      	 
+		                                         <button class ="accordion-button collapsed fw-bold" style = "padding : 10px;"type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
+												    <div style = "color : #555568; display: flex; flex-direction: column;">	
+												    	<c:choose>
+												    		<c:when test = "${qna.qna_Done eq '2'}">
+												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Answered ]</p> ${qna.qna_Date}</div>
+												    			<div style="font-size : 15px; text-align : left; margin-top : 5px; width : 100%; color : #0975e0;">[ Title ] ${qna.qna_Title}</div>										
+												    		</c:when>
+												    		<c:otherwise>
+												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Not Answered ]</p> ${qna.qna_Date}</div>
+												    			<div style="font-size: 15px; text-align: left; margin-top : 5px; width : 100%">[ Title ] ${qna.qna_Title}</div>										
+												    		</c:otherwise>
+												    	</c:choose>			       
+												    </div>
+												</button>
 		                                      </h3>
 		                                      <div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
-		                                         <div class="accordion-body">
+		                                         <div class="accordion-body" style = "padding : 10px;">
 		                                            <div class = "qnaDiv">
 		                                         	   <label>Message</label>
 		                                         	   <hr>
 		                                         	   <div>${qna.qna_Message}</div>		                                         		
 		                                         	</div>
-		                                         	<hr>
 		                                         	<c:choose>
 		                                         	   <c:when test = "${qna.qna_Done eq '2'}">
-		                                         	      <div class = "qnaDiv">
+		                                         	      <div class = "qnaDiv" style = "margin-top : 5px;">
 		                                         		     <label>Answer</label>
 		                                         		     <hr>
 		                                         		     <div>${qna.qna_Answer}</div>		                                         		
 		                                         	      </div>
 		                                         	   </c:when>
 		                                         	   <c:otherwise>
-		                                         	      <div class = "qnaDiv">
+		                                         	      <div class = "qnaDiv" style = "margin-top : 5px;">
 		                                         		     <label>Answer</label>
 		                                         		     <hr>
 		                                         		     <div>Sorry, Now We Are Checking Your Question</div>		                                         		
@@ -158,25 +163,14 @@
 		                                         </div>
 		                                      </div>
 		                                   </div>     
-		                                </c:forEach>
-	                                    <div class="accordion-item">
-	                                       <h3 class="accordion-header" id="headingTwo">
-	                                          <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-	                                             프로필 사진 업로드 방법
-	                                          </button>
-	                                       </h3>
-	                                       <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-	                                          <div class="accordion-body">
-	                                             프로필의 변경은 로그인 후 좌측 사이드메뉴에서 Profile을 들어가신 후
-	                                          </div>
-	                                       </div>
-	                                    </div>	                      
+		                                </c:forEach>	                                             
 		                             </div>                       
 	                              </div>
 	                           </div>
 	                        </div>
 	                    </div>
-                        <div class="row row-cols-2 row-cols-lg-4 pt-5">
+	                 <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page">
+                        <div class="row row-cols-2 row-cols-lg-4 pt-5" style = "padding-top : 5px!important;">
                            <div class="col">
                               <div class="feature bg-primary bg-gradient text-white rounded-4 mb-3"><i class="icofont-chat"></i></div>
                               <div class="h6 mb-2 fw-bold text-black">Chat with us</div>
