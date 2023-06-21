@@ -33,17 +33,11 @@
    			border : 1px solid black;
    			padding : 5px;
    		}
-   		.toggle-row {
-	        cursor: pointer;
-	    }
-	
-	    .details-row {
-	        display: none;
-	    }
-	
-	    .details-row.show {
-	        display: table-row;
-	    }
+   		.qnaDiv {
+   			border : 1px solid black;
+   			padding : 5px;
+   			border-radius : 10px;
+   		}
    </style>
    <body class="bg-light">
       <div class="theme-switch-wrapper ms-3">
@@ -121,52 +115,67 @@
                               </form>
                            </div>
                         </div>
-                        <div>
-							<script>
-							    // Add event listeners to toggle rows
-							    var toggleRows = document.querySelectorAll('.toggle-row');
-							    toggleRows.forEach(function(row) {
-							        row.addEventListener('click', function() {
-							            var detailsRow = this.nextElementSibling;
-							            var detailsTable = detailsRow.querySelector('table');
-							            detailsRow.classList.toggle('show');
-							            if (detailsRow.classList.contains('show')) {
-							                detailsTable.style.display = 'table';
-							            } else {
-							                detailsTable.style.display = 'none';
-							            }
-							        });
-							    });
-							</script>
-                        	<table style="width: 600px;">
-							    <tr>
-							        <th>Title</th>
-							        <th>Date</th>
-							        <th>Done</th>
-							    </tr>
-							    <c:forEach items="${qnaList}" var="qna">
-							        <tr class="toggle-row">
-							            <td>${qna.qna_Title}</td>
-							            <td>${qna.qna_Date}</td>
-							            <td>${qna.qna_Done}</td>
-							        </tr>
-							        <tr class="details-row">
-							            <td colspan="3">
-							                <table>
-							                    <tr>
-							                        <td>Message</td>
-							                        <td colspan="2">${qna.qna_Message}</td>
-							                    </tr>
-							                    <tr>
-							                        <td>Answer</td>
-							                        <td colspan="2">${qna.qna_Answer}</td>
-							                    </tr>
-							                </table>
-							            </td>
-							        </tr>
-							    </c:forEach>
-							</table>
-                        </div>
+                        <!-- Contact form-->
+                        <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page">
+	                        <div class="rounded-3">
+	                           <div class="mb-3">
+	                              <h5 class="lead fw-bold text-body mb-0">mmmmmmMy Questionsssssssssssssssssssss</h5>
+	                           </div>
+	                           <div class="row justify-content-center">
+	                              <div class="col-lg-12">								     
+								     <div class="accordion overflow-hidden bg-white" id="accordionExample">
+									    <c:forEach items = "${qnaList}" var = "qna">
+		                                   <div class="accordion-item">
+		                                      <h3 class="accordion-header" id="heading_${qna.qna_Seq}">
+		                                         <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
+		                                  	        ${qna.qna_Title}
+		                                         </button>
+		                                      </h3>
+		                                      <div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
+		                                         <div class="accordion-body">
+		                                            <div class = "qnaDiv">
+		                                         	   <label>Message</label>
+		                                         	   <hr>
+		                                         	   <div>${qna.qna_Message}</div>		                                         		
+		                                         	</div>
+		                                         	<hr>
+		                                         	<c:choose>
+		                                         	   <c:when test = "${qna.qna_Done eq '2'}">
+		                                         	      <div class = "qnaDiv">
+		                                         		     <label>Answer</label>
+		                                         		     <hr>
+		                                         		     <div>${qna.qna_Answer}</div>		                                         		
+		                                         	      </div>
+		                                         	   </c:when>
+		                                         	   <c:otherwise>
+		                                         	      <div class = "qnaDiv">
+		                                         		     <label>Answer</label>
+		                                         		     <hr>
+		                                         		     <div>Sorry, Now We Are Checking Your Question</div>		                                         		
+		                                         	      </div>
+		                                         	   </c:otherwise> 
+		                                         	</c:choose>
+		                                         </div>
+		                                      </div>
+		                                   </div>     
+		                                </c:forEach>
+	                                    <div class="accordion-item">
+	                                       <h3 class="accordion-header" id="headingTwo">
+	                                          <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+	                                             프로필 사진 업로드 방법
+	                                          </button>
+	                                       </h3>
+	                                       <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+	                                          <div class="accordion-body">
+	                                             프로필의 변경은 로그인 후 좌측 사이드메뉴에서 Profile을 들어가신 후
+	                                          </div>
+	                                       </div>
+	                                    </div>	                      
+		                             </div>                       
+	                              </div>
+	                           </div>
+	                        </div>
+	                    </div>
                         <div class="row row-cols-2 row-cols-lg-4 pt-5">
                            <div class="col">
                               <div class="feature bg-primary bg-gradient text-white rounded-4 mb-3"><i class="icofont-chat"></i></div>
