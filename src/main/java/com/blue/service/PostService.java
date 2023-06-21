@@ -32,6 +32,9 @@ public interface PostService {
 	// 게시글 좋아요 조회
 	int getPost_Like_Count(int post_Seq);
 	
+	// 관리자 - 전체 게시글 조회
+	ArrayList<PostVO> getAllPost();
+
 	// 게시글 삭제
 	void deletePost(int post_Seq);
 }

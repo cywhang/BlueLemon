@@ -55,4 +55,7 @@ public interface MemberService {
 	
 	// 팔로잉의 이미지
 	List<MemberVO> getFollowings(String member_Id);
+	
+	// 관리자 - 전체 회원 조회
+	List<MemberVO> getAllMember();
 }
