@@ -105,16 +105,6 @@
    		 values(tag_seq.nextval, #{post_Seq}, <![CDATA[#{tag_Content}]]>)
 	</insert>
 	
-	<!-- 전체 멤버 프로필 이미지 조회 -->
-	<resultMap id="memberProfileResultMap" type="java.util.HashMap">
-    	<id column="member_Id" property="member_Id" />
-    	<result column="member_Profile_Image" property="member_Profile_Image" />
-	</resultMap>
-	
-	<select id="memberProfile" resultMap="memberProfileResultMap">
-		select member_Id, member_Profile_Image 
-		  from member 
-	</select>
 	<!-- 게시글 해시태그 출력 -->
 	<select id="postHashtag" resultType="tag">
 	select *

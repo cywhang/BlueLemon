@@ -178,8 +178,8 @@
                                              	<!-- 게시글 내용 -->                                        
                                                 <p class="text-dark">${postVO.post_Content}</p>
                                                 <!-- 해시태그 -->
-                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}" varStatus="status" begin="0" end="3">
-                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
                                                 </c:forEach>
                                                 <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
                                                 <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">

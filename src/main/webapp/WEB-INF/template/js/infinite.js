@@ -299,7 +299,10 @@ $.ajax({
                if(PostVO.post_Hashtag == null){
 
                }else{
-               	html += '               <a href="#" class="mb-3 text-primary">' + PostVO.post_Hashtag + '</a>';
+            	  var hash = hashMap[PostVO.post_Seq];
+            	  for(var i=0; i<hash.length(); i++){
+               		html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
+            	  }
                }
 
                html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
@@ -545,7 +548,10 @@ $.ajax({
                 if(PostVO.post_Hashtag == null){
                 	
                 }else{
-                	html += '               <a href="#" class="mb-3 text-primary">' + PostVO.post_Hashtag + '</a>';
+                  var hash = hashMap[postVO.post_Seq];
+                  for(var i=0; i<hash.length(); i++){
+                	html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
+                  }
                 }
 
                 html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';

@@ -96,6 +96,7 @@ function deletePost(post_Seq){
 	
 	if(confirm('삭제하시겠습니까?')){
 		window.location.href="/blue/postDelete?post_Seq="+ post_Seq;
+		console.log(post_Seq);
 	}else{
 		
 	}

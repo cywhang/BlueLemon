@@ -146,7 +146,6 @@ public class PostAndLikeController {
 			}
 		}
 		
-		
 		// 2. 해시태그 처리 부분
 		String hashTag = vo.getPost_Hashtag();
 		
