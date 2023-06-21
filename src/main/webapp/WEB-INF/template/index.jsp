@@ -290,7 +290,14 @@
                            <!-- 트랜딩 탭의 Feeds -->
                            <div class="feeds">
                               <!-- Feed Item -->                              
-                              <div id="trending_feed"></div>                              
+                              <div id="trending_feed"></div>
+                              	<div id="trendingFeedInfinite"></div>
+                              	<div id="trendingFeedStop"></div>
+                              	<div class="text-center mt-4" id="trendFeedLoading">
+				                    <div class="ms-auto" align="center">
+		                                    	<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="handleTrendInfinity()">+ 더보기</span>
+		                            </div>
+                              	</div>
                            </div><!-- class="trending" -->                        
                         </div> <!-- class="feed" -->
                      </div>
