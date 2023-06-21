@@ -31,5 +31,7 @@ public interface PostService {
 	
 	// 게시글 좋아요 조회
 	int getPost_Like_Count(int post_Seq);
-
+	
+	// 게시글 삭제
+	void deletePost(int post_Seq);
 }

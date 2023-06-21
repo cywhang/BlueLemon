@@ -263,4 +263,13 @@ public class PostAndLikeController {
 		
 		return dataMap;
 	}
+	
+	@GetMapping("/postDelete")
+	public String postDelete(@RequestParam(value="post_Seq") int post_Seq) {
+		
+		postService.deletePost(post_Seq);
+		
+		return "redirect:/index";
+	}
+	
 }
