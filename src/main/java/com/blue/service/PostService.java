@@ -35,4 +35,6 @@ public interface PostService {
 	// 관리자 - 전체 게시글 조회
 	ArrayList<PostVO> getAllPost();
 
+	// 게시글 삭제
+	void deletePost(int post_Seq);
 }

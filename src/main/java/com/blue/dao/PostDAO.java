@@ -88,4 +88,9 @@ public class PostDAO {
 		return getAllPost;
 	}
 	
+	//게시글 삭제
+	public void deletePost(int post_Seq) {
+		mybatis.delete("PostMapper.deletePost", post_Seq);
+	}
+	
 }

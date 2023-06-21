@@ -152,7 +152,8 @@
 					<input type="submit" value="Log in" class="btn" />
 					<br>
 					<c:choose>
-						<c:when test="${empty message}">							
+						<c:when test="${empty message}">		
+											
 						</c:when>
 						<c:otherwise>
 							<br>

@@ -69,6 +69,11 @@ public class PostServiceImpl implements PostService {
 	public ArrayList<PostVO> getAllPost() {
 		return postDao.getAllPost();
 	}
+	
+	@Override
+	public void deletePost(int post_Seq) {
+		postDao.deletePost(post_Seq);
+	}
 
 	
 }

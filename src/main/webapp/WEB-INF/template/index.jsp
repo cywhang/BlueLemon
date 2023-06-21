@@ -148,13 +148,24 @@
                                                 </a>
                                                 <div class="d-flex align-items-center small">
                                                    <p class="text-muted mb-0">${postVO.post_Date}</p>
-                                                   <div class="dropdown">
-                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-                                                      <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
-                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
-                                                      </ul>
-                                                   </div>
+                                                   
+                                                      
+                                                      <c:choose>
+                                                      	<c:when test="${member_Id == postVO.member_Id}">
+		                                                     <div class="dropdown">
+		                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+		                                                      	<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+		                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
+		                                                         <li><a class="dropdown-item text-muted" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
+		                                                        </ul>
+		                                                   	 </div>
+                                                      	</c:when>
+                                                      	<c:otherwise>
+                                                      	
+                                                      	</c:otherwise>
+                                                      </c:choose>
+                                                         
+                                                      
                                                 </div>
                                              </div>
                                              <div class="my-2">
