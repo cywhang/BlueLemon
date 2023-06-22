@@ -40,7 +40,8 @@ input[type="file"] + label:active {
 
 </style>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="js/createaccount.js"></script>
+   <!-- create Js -->
+   <script type="text/javascript" src="js/createaccount.js"></script>
 <script>
 // 프로필 사진 미리보기 함수	
 function previewProfileImage(event) {
@@ -143,7 +144,7 @@ function previewProfileImage(event) {
                                     <label for="floatingEmail">PHONE</label>
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-center">
-                                    <input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" >
+                                    <input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" onclick="handleDateClick()">
                                     <label for="floatingBirth">DATE OF BIRTH</label>
                                  </div>
                                  <label class="mb-2 text-muted small">GENDER</label>
@@ -215,6 +216,8 @@ function previewProfileImage(event) {
       <script src="js/custom.js"></script>
       <!-- Slick Js -->
       <script src="vendor/slick/slick/slick.min.js"></script>
+      <!-- create Js -->
+      <script type="text/javascript" src="js/createaccount.js"></script>
       </form>
    </body>
 </html>

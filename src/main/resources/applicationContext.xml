@@ -10,36 +10,58 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-		
+
 	<!-- 서비스 객체 동의 소스에서 필요한 객체등록 시 사용하는 어노테이션 -->
 	<context:component-scan base-package="com.blue"></context:component-scan>
-	
+
 	<!-- 예외처리, xml 메시지 변환 등 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
-	
-	<!--  AOP 관련 어노테이션 기능 -->
+
+	<!-- AOP 관련 어노테이션 기능 -->
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
-	
+
 	<!-- 데이터소스 설정 -->
-	<context:property-placeholder location = "classpath:config/database.properties"></context:property-placeholder>
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	<context:property-placeholder
+		location="classpath:config/database.properties"></context:property-placeholder>
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driver}" />
 		<property name="url" value="${jdbc.url}" />
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-	
+
 	<!-- SqlSessionFactoryBean 등록 -->
 	<!-- 데이터베이스 세션을 생성해 주는 객체 -->
- 
-	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+
+	<bean id="sessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"></property>
-		<property name="configLocation" value="classpath:sql-map-config.xml"></property>		
+		<property name="configLocation"
+			value="classpath:sql-map-config.xml"></property>
 	</bean>
-	
-	<!-- SqlSessionTemplate 객체(DAO에서 사용하는 Sql session 객체) 제공  -->
+
+	<!-- SqlSessionTemplate 객체(DAO에서 사용하는 Sql session 객체) 제공 -->
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sessionFactory"></constructor-arg>
 	</bean>
-		
+
+	<!-- naver -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.naver.com" />
+		<property name="port" value="465" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="username" value="johann89@naver.com" />
+		<property name="password" value="!rladygks8989" />
+
+		<!-- email 요청시에 smtp -->
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.smtp.auth">true</prop>
+			</props>
+		</property>
+	</bean>
+
 </beans>

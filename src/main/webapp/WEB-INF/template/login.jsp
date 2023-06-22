@@ -147,7 +147,6 @@
 					<input name="member_Id" type="text" placeholder="Username" class="input-1" />
 					<div class="overlap-text">
 						<input name="member_Password" type="password" placeholder="Password" class="input-2" />
-						<a href="#">Forgot?</a>
 					</div>
 					<input type="submit" value="Log in" class="btn" />
 					<br>
@@ -168,6 +167,9 @@
 		<div class="sub-content">
 			<div class="s-part">
 				Don't have an account?<a href="join_view">Sign up</a>
+			</div>
+			<div class="s-part">
+				Forgot ID/Password?<a href="find_info">Forgot</a>
 			</div>
 		</div>
 	</div>

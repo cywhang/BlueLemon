@@ -27,6 +27,19 @@
 		SELECT member_Password FROM member where member_Id = #{member_Id}
 	</select>
 	
+	<!-- 회원정보조회 -->
+	<select id="selectMember" parameterType="String"
+		resultType="member">
+		select * from member where
+		member_Email = #{member_Email}
+	</select>
+	
+	<!-- 패스워드변경 -->
+	<update id="updatePassword" parameterType="member">
+		update member set member_Password=#{member_Password}
+		where member_Id= #{member_Id}
+	</update>
+	
 	<!-- 회원 등록 : insertMember -->
 	<insert id = "insertMember">
 		insert into member 
@@ -51,11 +64,28 @@
 
 	</update>
 	
-	<!-- 비밀번호 변경 :  changePwd -->
-	<update id="changePwd">
-		update member set member_Password=#{member_Password} 
+	<!-- 로그인시 아이디와 비밀번호 확인 -->
+	<select id="loginUser" resultType="member">
+		select * from member
 		where member_Id=#{member_Id}
-	</update>
+		and member_Password=#{member_Password}
+	</select>
+	
+	<!-- 아이디 찾기 -->
+	<select id="searchId" resultType="String">
+		select NVL(member_Id, 0) from
+		member
+		where member_Name = #{member_Name}
+		and member_Phone = #{member_Phone}
+	</select>
+
+	<!-- 패스워드 찾기 -->
+	<select id="PwdByIdNameEmail" resultType="String">
+		SELECT member_Password
+		FROM member
+		WHERE member_Id = #{member_Id}
+		AND member_Email = #{member_Email}
+	</select>
 	
 	<!-- 회원 탈퇴 : memberDelete -->
 	<delete id="memberDelete">
@@ -132,4 +162,11 @@
 		SELECT * FROM member
 		WHERE member_Id != 'admin'
 	</select>
+	
+	<!-- 검색어를 기반으로 회원을 검색하는 쿼리 -->
+	<select id="searchMembers" resultType="member">
+		SELECT * FROM member
+		WHERE member_Id LIKE #{keyword}||'%'
+	</select>
+	
 </mapper>
