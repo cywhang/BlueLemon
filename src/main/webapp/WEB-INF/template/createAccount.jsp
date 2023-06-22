@@ -171,14 +171,12 @@ function previewProfileImage(event) {
                                  	</div>
                                  </div>
                                  <div>
-									<label>Profile</label>
+									<label for="file">
 									<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
 									<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden;">
-									<p id="photo_file_name"></p>
+								</label>
 								</div>
-                                   
                                  </div>
-                                 
                                  <div class="d-grid">
                                     <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_save()">SAVE</button>
                                  </div>
