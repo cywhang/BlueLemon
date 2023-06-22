@@ -130,7 +130,6 @@ $(function() {
           formData.append("fileList[]", fileList[i]);
       }
       console.log(filesArr);
-      debugger;
       
       $.ajax({
           method: 'POST',
