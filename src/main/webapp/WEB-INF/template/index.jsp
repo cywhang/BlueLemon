@@ -513,13 +513,13 @@
                   <input type="checkbox" name="post_Public" value="y" checked="checked">
                	  <!-- 게시글 내용 작성창 -->
                   <div class="form-floating">
-                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
+                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)"></textarea>
                      <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
                   </div>
                   
                   <!-- 해시태그 입력창 -->
                   <div>
-                     <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="#해시태그" id="floatingTextarea2" style="height: 50px"></textarea>
+                     <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
                      <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
                   </div>
                   <div class="d-flex justify-content-between">

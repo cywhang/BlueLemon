@@ -102,8 +102,10 @@ public class PostAndLikeController {
 		System.out.println("==================================게시글 작성=====================================");
 		System.out.println("insertPost vo : " + vo);
 		
-		// post_seq.nextval
+		// MAX(post_Seq) + 1
 		int nextSeq = postService.postSeqCheck();
+		// nextval을 사용하지않고 강제로 시퀀스를 주입하기위한 postVO에 set해준다
+		vo.setPost_Seq(nextSeq);
 		
 		// 바뀐 순서정보를 담는부분
 		Map<Integer, Integer> index = new HashMap<>();

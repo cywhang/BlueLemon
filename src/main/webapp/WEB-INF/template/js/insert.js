@@ -8,6 +8,10 @@ tagify.on('add', function() {
   console.log(tagify.value); // 입력된 태그 정보 객체
 })
 
+
+
+
+
 // 이미지 업로드
 $(function() {
   // 드래그 앤 드롭
@@ -32,6 +36,18 @@ $(function() {
 	    // 이미지 컨테이너 초기화
 	    $('#Preview').empty();
 	});
+  
+  //특수문자 입력 방지            %%%%%% 아직 안됨 %%%%%%%%%ㄴ
+  function characterCheck(obj){
+  	var regExp = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; 
+  	// 허용할 특수문자는 여기서 삭제하면 됨
+  	// 지금은 띄어쓰기도 특수문자 처리됨 참고하셈
+  	if( regExp.test(obj.value) ){
+  		alert("#는  입력하실수 없습니다.");
+  		obj.value = obj.value.substring( 0 , obj.value.length - 1 ); // 입력한 특수문자 한자리 지움
+  		}
+  }
+  
   
 });
 
