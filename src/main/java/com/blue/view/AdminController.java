@@ -1,6 +1,9 @@
 package com.blue.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +49,19 @@ public class AdminController {
 	@GetMapping("/admin_Index")
 	public String getRecommendMember(Model model, HttpSession session) {
 		
-		if(session.getAttribute("loginUser") == null) {
-			model.addAttribute("message", "로그인을 해주세요");
-			return "login";
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+
+			return "admin_Index";
 		} else {
 			
-			List<MemberVO> allMember = memberService.getAllMember();
+			model.addAttribute("message", "관리자로 로그인 해주세요");
 			
-			ArrayList<PostVO> postlist = postService.getAllPost();
+			return "login";			
+		}
+			
+			
+			
+			
 			
 //			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
 //			
@@ -105,23 +113,59 @@ public class AdminController {
 //			model.addAttribute("replyMap", replymap);
 //			model.addAttribute("recommendMember", recommendMember);
 //			model.addAttribute("hottestFeed", hottestFeed);	
-			return "admin_Index";
-		}
+		
 	}
 	
 
 	@GetMapping("/member_Table")
-	public String member_Table() {
-		return "member_Table";
+	public String member_Table(Model model, HttpSession session) throws ParseException {
+		
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+
+			List<MemberVO> allMember = memberService.getAllMember();
+			for(int i = 0; i < allMember.size(); i++) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String joinDate = sdf.format(allMember.get(i).getMember_Join_Date());
+				allMember.get(i).setMember_Join_Date_String(joinDate);
+			}
+			
+			model.addAttribute("allMember", allMember);
+			
+			return "member_Table";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}		
+	}
+	
+	@GetMapping("/member_Delete_By_Admin")
+	public String member_Delete_By_Admin(String member_Id) {
+		postService.deleteOneMemsTag(member_Id);
+		memberService.deleteMember(member_Id);
+		return "redirect:member_Table";
 	}
 	
 	@GetMapping("/post_Table")
-	public String post_Table() {
-		return "post_Table";
+	public String post_Table(Model model, HttpSession session) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+
+			ArrayList<PostVO> postlist = postService.getAllPost();
+			return "post_Table";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}
 	}
 	
 	@GetMapping("/qna_Table")
-	public String qna_Table() {
-		return "qna_Table";
+	public String qna_Table(Model model, HttpSession session) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+
+			ArrayList<PostVO> postlist = postService.getAllPost();
+			return "qna_Table";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}
 	}
 }

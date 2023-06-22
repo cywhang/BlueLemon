@@ -36,7 +36,7 @@ public interface MemberService {
 	boolean checkDuplicate(String member_Id);
 
 	// 회원 탈퇴
-	void deleteMember(MemberVO vo);
+	void deleteMember(String member_Id);
 	
 	// 나를 팔로우 했는데 나는 팔로우 안한 사람 추천
 	List<MemberVO> getRecommendMember(String member_Id);
