@@ -60,13 +60,7 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.updateMember(vo);
 		
 	}
-
-	@Override
-	public void changePwd(MemberVO vo) {
-		memberDao.changePwd(vo);
-		
-	}
-
+	
 	@Override
 	public boolean checkDuplicate(String member_Id) {
 		int result = memberDao.confirmID(member_Id);
@@ -106,5 +100,36 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<MemberVO> getAllMember() {
 		return memberDao.getAllMember();
+	}
+
+	@Override
+	public String searchId(MemberVO vo) {
+		return memberDao.searchId(vo);
+	}
+
+	@Override
+	public MemberVO findPassword(MemberVO vo) {
+		return memberDao.findPassword(vo);
+	}
+
+	@Override
+	public void updatePassword(MemberVO vo) {
+		memberDao.updatePassword(vo);
+		
+	}
+
+	@Override
+	public boolean checkPassword(String member_Id, String member_Password) {
+		return memberDao.checkPassword(member_Id, member_Password);
+	}
+
+	@Override
+	public String selectPwdByIdNameEmail(MemberVO vo) {
+		return memberDao.PwdByIdNameEmail(vo);
+	}
+
+	@Override
+	public List<MemberVO> searchMembers(String keyword) {
+		 return	memberDao.searchMembers(keyword);
 	}
 }

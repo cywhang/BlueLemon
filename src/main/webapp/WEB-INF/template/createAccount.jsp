@@ -40,7 +40,8 @@ input[type="file"] + label:active {
 
 </style>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   <script src="js/createaccount.js"></script>
+   <!-- create Js -->
+   <script type="text/javascript" src="js/createaccount.js"></script>
 <script>
 // 프로필 사진 미리보기 함수	
 function previewProfileImage(event) {
@@ -143,7 +144,7 @@ function previewProfileImage(event) {
                                     <label for="floatingEmail">PHONE</label>
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-center">
-                                    <input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" >
+                                    <input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" onclick="handleDateClick()">
                                     <label for="floatingBirth">DATE OF BIRTH</label>
                                  </div>
                                  <label class="mb-2 text-muted small">GENDER</label>
@@ -170,14 +171,12 @@ function previewProfileImage(event) {
                                  	</div>
                                  </div>
                                  <div>
-									<label>Profile</label>
+									<label for="file">
 									<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
 									<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden;">
-									<p id="photo_file_name"></p>
+								</label>
 								</div>
-                                   
                                  </div>
-                                 
                                  <div class="d-grid">
                                     <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_save()">SAVE</button>
                                  </div>
@@ -215,6 +214,8 @@ function previewProfileImage(event) {
       <script src="js/custom.js"></script>
       <!-- Slick Js -->
       <script src="vendor/slick/slick/slick.min.js"></script>
+      <!-- create Js -->
+      <script type="text/javascript" src="js/createaccount.js"></script>
       </form>
    </body>
 </html>

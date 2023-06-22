@@ -137,6 +137,17 @@
 		    <scope>provided</scope>
 		</dependency>
 		
+		<!-- 메일관련 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
 		
 		<!-- Logging -->
 		<dependency>
