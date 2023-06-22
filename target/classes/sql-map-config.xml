@@ -10,8 +10,9 @@
 		<typeAlias type="com.blue.dto.LikeVO" alias = "like"/>
 		<typeAlias type = "com.blue.dto.FollowVO" alias = "follow"/>
 		<typeAlias type = "com.blue.dto.QnaVO" alias = "qna"/>
+		<typeAlias type = "com.blue.dto.TagVO" alias = "tag"/>
 	</typeAliases>
-
+ 
 	<!-- SQL 매핑 파일 등록 -->
 	<!-- 매핑 파일의 위치를 지정하는 곳 -->
 	<mappers>

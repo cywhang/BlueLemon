@@ -22,6 +22,7 @@ import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.QnaVO;
 import com.blue.dto.ReplyVO;
+import com.blue.dto.TagVO;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
 import com.blue.service.QnaService;
@@ -108,6 +109,9 @@ public class MainController {
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
 			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
 			
+			// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+			Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
+			
 			// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
 			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
 			for(int i=0; i<postlist.size(); i++) {
@@ -145,6 +149,9 @@ public class MainController {
 				postlist.get(i).setPost_LikeYN(post_LikeYN);
 				//System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
 				
+				// i번째 게시글의 해시태그 체크    hashmap
+				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+				hashmap.put(post_Seq, hash);
 			}
 			
 			// 전체 회원 프로필 이미지 조회
@@ -157,6 +164,7 @@ public class MainController {
 			model.addAttribute("recommendMember", recommendMember);
 			model.addAttribute("hottestFeed", hottestFeed);	
 			model.addAttribute("member_Id", member_Id);
+			model.addAttribute("hashMap", hashmap);
 			return "index";
 		}
 	}
@@ -370,6 +378,9 @@ public class MainController {
 
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
 			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+			
+			// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+			Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
 
 			// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
 			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
@@ -379,6 +390,9 @@ public class MainController {
 
 				// i번째 게시글의 댓글 리스트를 담음
 				ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+				
+				
+				
 				//System.out.println("replylist로 담음");
 				//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
 				//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
@@ -408,6 +422,10 @@ public class MainController {
 				postlist.get(i).setPost_LikeYN(post_LikeYN);
 				//System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
 
+				// i번째 게시글의 해시태그 체크    hashmap
+				
+				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+				hashmap.put(post_Seq, hash);
 			}
 
 
@@ -421,6 +439,7 @@ public class MainController {
 			responseData.put("postList", postlist);
 			responseData.put("replyMap", replymap);
 			responseData.put("session_Id", member_Id);
+			responseData.put("hashMap", hashmap);
 
 			return ResponseEntity.ok(responseData);
 

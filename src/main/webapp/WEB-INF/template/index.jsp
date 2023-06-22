@@ -30,9 +30,14 @@
       <link href="css/style.css" rel="stylesheet">
       <!-- 아이콘 css -->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-      <!-- 파일 업로드 -->
-	  <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>    
-	  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+	  <!-- 파일 업로드 -->
+	  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+	  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  	  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  	  <!-- 해시태그  -->
+  	  <script src="https://unpkg.com/@yaireo/tagify"></script>
+	  <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
    </head>
    
 
@@ -169,11 +174,13 @@
                                                 </div>
                                              </div>
                                              <div class="my-2">
-                                             	<%-- 해시태그 검색 기능, #인식 링크차별화 --%>
-                                             	<br>                                               
+                                             	<br>       
+                                             	<!-- 게시글 내용 -->                                        
                                                 <p class="text-dark">${postVO.post_Content}</p>
-                                                <a href="#" class="mb-3 text-primary">${postVO.post_Hashtag}</a>
-                                                
+                                                <!-- 해시태그 -->
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
+                                                </c:forEach>
                                                 <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
                                                 <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 	                                               <c:choose>
@@ -429,7 +436,7 @@
 										     <small class="text-muted">
 											    <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
 									         </small>
-											 <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
+											 <p class="fw-bold mb-0 pe-3 text-dark"><!-- 해시태그 --></p>
 										  	 <small class="text-muted">
 											    ${postVO.post_Like_Count}'s Like
 										     </small>							
@@ -441,7 +448,7 @@
 											  	<small class="text-muted">
 											       <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
 											    </small>
-												<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
+												<p class="fw-bold mb-0 pe-3 text-dark"><!-- 해시태그 --></p>
 										  		<small class="text-muted">
 												   ${postVO.post_Like_Count}'s Like
 											    </small>		
@@ -492,15 +499,14 @@
             <div class="modal-content rounded-4 p-4 border-0 bg-light">
                <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
                   <!-- 뒤로가기 버튼 -->
-                  <a href="#" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+                  <a href="#" id="closeModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
                   <!-- 기본 사람모양 아이콘 -->
                   <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel"><span class="material-icons md-32">account_circle</span></h5>
                   <!-- 작성자 아이디 표시 -->
                   <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">작성자: ${sessionScope.loginUser.member_Id}</h5>
                </div>
-               
                <!-- 게시글 작성 폼 -->
-               <form action="insertPost" method="POST" enctype="multipart/form-data">
+               <form onsubmit="return false;" enctype="multipart/form-data">
                <div class="modal-body p-0 mb-3">
                	  <!-- 입력 부분 -->
                	  <!-- 작성자 아이디 -->
@@ -513,26 +519,30 @@
                      <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                      <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
                   </div>
+                  
                   <!-- 해시태그 입력창 -->
-                  <div class="form-floating">
-                     <input type="text" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 50px"></input>
-                     <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label>
+                  <div>
+                     <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="#해시태그" id="floatingTextarea2" style="height: 50px"></textarea>
+                     <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
                   </div>
                   <div class="d-flex justify-content-between">
                 	 <button type="reset" class="btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
   				 	 	<span class="material-icons me-2 md-16">refresh</span>초기화
 					 </button>
-                  	 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center"><span class="material-icons me-2 md-16">send</span>Post</button>
+                  	 <button onclick="submitForm()" id="submitButton" data-bs-dismiss="modal" class="btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center"><span class="material-icons me-2 md-16">send</span>Post</button>
                   </div>
                </div>
                <!-- 이미지 업로드 부분 -->
-               <div class="uploaderContainer">
-			       <label class="uploaderLabel" id="uploaderLabel" for="uploaderInput">
-			      		<div class="uploaderInner" id="inner">드래그하거나 클릭해서 업로드</div>
-			       </label>
-				   <input id="uploaderInput" class="input" name="uploadImgs" accept="image/png" type="file" multiple="multiple" hidden="true" max="4">
-			       <div class="preview" id="preview"></div>
-		       </div>
+               <div class="filebox clearfix">
+			   	  <div class="inputFile">
+			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
+			        <label for="AddImgs" class="addImgBtn">+</label>
+			        <!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+			        <input  type="file" onchange="addFile(this);" name="uploadImgs" id="AddImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+				  </div>
+				  <!-- 이미지 미리보기 컨테이너 -->
+				  <ul id="Preview" class="sortable"></ul>
+			   </div>
 		  	   </form>
             </div>
          </div>
@@ -697,8 +707,6 @@
          </div>
       </div>
       
-      <!-- Jquery Js -->
-      <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Custom Js -->

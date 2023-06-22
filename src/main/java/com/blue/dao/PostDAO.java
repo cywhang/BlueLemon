@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 
 import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
+import com.blue.dto.TagVO;
 
 @Repository("PostDAO")
 public class PostDAO {
-
+ 
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
@@ -93,4 +94,21 @@ public class PostDAO {
 		mybatis.delete("PostMapper.deletePost", post_Seq);
 	}
 	
+	// 게시글 추가 시 필요한 가장높은 시퀀스 조회
+	public int postSeqCheck() {
+		return mybatis.selectOne("PostMapper.postSeqCheck");
+	}
+	
+	// 게시글 추가의 해시태그 인서트
+	public void insertTag(TagVO vo) {
+		// 컨트롤러에서넘어온 값
+		mybatis.insert("PostMapper.insertTag", vo);
+	}
+	
+	// 게시글 해시태그 조회
+	public ArrayList<TagVO> getHashtagList(int post_Seq) {
+		List<TagVO> result = mybatis.selectList("PostMapper.postHashtag", post_Seq);
+		ArrayList<TagVO> hashList = new ArrayList<TagVO>(result);
+		return hashList;
+	}
 }

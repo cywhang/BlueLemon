@@ -4,7 +4,7 @@
 
 	<!-- 뉴스피드 게시글 조회 -->
 	<select id ="listPost" resultType ="post">
-		SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_hashtag, post_like_count, post_reply_count
+		SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_like_count, post_reply_count
 		FROM post
 		LEFT OUTER JOIN (SELECT post_seq, count(*) post_Like_Count
 		            FROM likes
@@ -19,12 +19,12 @@
 		                    FROM follow
 		                    WHERE follower = #{member_Id})
 		OR member_id = #{member_Id}
-		ORDER BY post_Seq DESC
+		ORDER BY post_Seq DESC 
 	</select> 
 	
 	<!-- 게시글 상세조회(모달창) -->
 	<select id ="postDetail" resultType ="post">
-		SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_hashtag, post_like_count, post_reply_count
+		SELECT post_seq, member_id, post_content, TO_CHAR(post_date, 'yy-mm-dd') post_date, post_public, post_image_count, post_like_count, post_reply_count
 		FROM post
 		LEFT OUTER JOIN (SELECT post_seq, count(*) post_Like_Count
 		            FROM likes
@@ -52,9 +52,9 @@
   
 	<!-- 게시글 등록 -->
 	<insert id="insertPost">
-		insert into post(post_seq, member_id, post_content, post_public, post_image_count, post_hashtag) 
+		insert into post(post_seq, member_id, post_content, post_public, post_image_count) 
 					values(post_seq.nextval, #{member_Id}, #{post_Content}, 
-					       #{post_Public}, #{post_Image_Count}, #{post_Hashtag})
+					       #{post_Public}, #{post_Image_Count})
 	</insert>
 	
 	<!-- 게시글 삭제 -->
@@ -91,6 +91,25 @@
 	<select id = "getAllPost" resultType = "post">
 		SELECT * FROM post
 		ORDER BY post_Seq DESC
+	</select>
+	
+	<!-- 가장 최근에 생성된 시퀀스 번호 조회 (이미지 저장위해서 조회) -->
+	<select id="postSeqCheck" resultType = "int">
+		select MAX(post_Seq)
+		  from post
+	</select>
+	
+	<!-- 해시태그 테이블 저장 -->
+	<insert id="insertTag">
+    insert into tag(tag_Seq, post_Seq, tag_Content)
+   		 values(tag_seq.nextval, #{post_Seq}, <![CDATA[#{tag_Content}]]>)
+	</insert>
+	
+	<!-- 게시글 해시태그 출력 -->
+	<select id="postHashtag" resultType="tag">
+	select *
+	  from tag
+	 where post_seq = #{post_Seq}
 	</select>
 	
 </mapper>
