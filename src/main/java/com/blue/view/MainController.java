@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -79,7 +80,7 @@ public class MainController {
 	}
 	
 	// index 페이지 로드
-	@GetMapping("/index")
+	@RequestMapping("/index")
 	public String getRecommendMember(Model model, HttpSession session) {
 		
 		if(session.getAttribute("loginUser") == null) {
