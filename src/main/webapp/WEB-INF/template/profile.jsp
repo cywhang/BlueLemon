@@ -1009,11 +1009,12 @@
                   <div class="fix-sidebar">
                      <div class="side-trend lg-none">
                         <!-- Search Tab -->
-                        <div class="sticky-sidebar2 mb-3">
-                           <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
-                              <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-                              <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search Vogel">
-                           </div>
+                        <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
+                           <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
+                           <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" onkeyup="searchMembers()">
+                        </div>
+                        <!-- 검색 결과 리스트 -->
+                        <div id="searchResults"></div>
                            <div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
                               <!-- 실시간 인기 급상승 게시글 -->
                               <h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
@@ -1319,5 +1320,7 @@
       <script src="js/modal.js"></script>
       <!-- People Js -->
       <script src="js/people.js"></script>
+      <!-- Search Peple Js -->
+      <script src="js/searchpeople.js"></script>
    </body>
 </html>
