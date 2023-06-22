@@ -91,7 +91,7 @@ public class PostAndLikeController {
 	        return "error";
 	    }
 	}
-	
+	 
 	// 게시글 작성
 	@PostMapping("insertPost")
 	// @ResponseBody
