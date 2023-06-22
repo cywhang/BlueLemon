@@ -533,7 +533,7 @@
                   </div>
                </div>
                <!-- 이미지 업로드 부분 -->
-               <div class="clearfix"><!-- class : filebox  -->
+               <div class="clearfix">
 			   	  <div class="inputFile">
 			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
 			        <label for="AddImgs" class="addImgBtn">+</label>

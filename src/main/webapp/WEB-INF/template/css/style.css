@@ -46,18 +46,18 @@ body {
     margin-bottom: 10px;
 }
 .addImgBtn{
-    width: 80px !important;
+    width: 451px !important;
     height: 80px !important;
     line-height: 71px !important;
     background-color: #fff !important;
     color: #b7b7b7 !important;
     border: 2px solid #b7b7b7;
     font-size: 35px !important;
-    padding-left: 37%;
+    padding-left: 46%;
 }
 
 #Preview{
-    margin-left: 20px;
+    margin-left: -2px;
     width: 650px;
 }
 #Preview li{
