@@ -91,50 +91,42 @@ public class PostAndLikeController {
 	        return "error";
 	    }
 	}
-	
+	 
 	// 게시글 작성
 	@PostMapping("insertPost")
 	// @ResponseBody
-	public String insertPost(PostVO vo, @RequestParam("attach_file") MultipartFile[] attach_file,
-							 @RequestParam("fileList[]") String[] fileList,
+	public String insertPost(PostVO vo, @RequestParam(value="attach_file", required = false) MultipartFile[] attach_file,
+							@RequestParam(value = "fileList[]", required = false) String[] fileList,
 						     HttpSession session) {
-		System.out.println("==================================게시글 작성=====================================");
-
-		System.out.println("insertPost vo : " + vo);
-		System.out.println("insertPost file길이 : " + attach_file.length);
 		
-		// 바뀐 순서정보를 담는부분
-		Map<Integer, Integer> index = new HashMap<>();
-		for(int k=0; k < fileList.length; k++) {
-			String file = fileList[k];
-	        int aa = Integer.parseInt(file.substring(4));
-	        index.put(k+1 , aa);
-	    }
-		System.out.println("인덱스사이즈 : " + index.size());
+		System.out.println("==================================게시글 작성=====================================");
+		System.out.println("insertPost vo : " + vo);
 		
 		// post_seq.nextval
 		int nextSeq = postService.postSeqCheck();
 		
-		// 1. 이미지 업로드 처리 부분
-		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
-		// 1-1. 업로드할 이미지 개수 vo 객체에 저장
-		int imgCount = attach_file.length;
-		vo.setPost_Image_Count(imgCount);
+		// 바뀐 순서정보를 담는부분
+		Map<Integer, Integer> index = new HashMap<>();
 		
-		// 1-2. 이미지 파일명 수정 후 지정해 놓은 경로에 저장하는 부분
-		for(int i=1; i < (imgCount+1); i++) {
+		// 1. 사용자가 이미지를 첨부했을 때 
+		if (attach_file != null && attach_file.length > 0) {
+			System.out.println("insertPost file길이 : " + attach_file.length);
+			
+			// 1. 이미지 업로드 처리 부분
+			String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+			// 1. 업로드할 이미지 개수 vo 객체에 저장
+			int imgCount = attach_file.length;
+			vo.setPost_Image_Count(imgCount);
+			
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
 				System.out.println("이미지 없음");
-				continue;
-			}else {      	    // 1개이상의 이미지를 업로드 했을때
+				
+			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
 				System.out.println("이미지 " + imgCount + " 개");
-				int real = index.get(i);
-				System.out.println("real : "+real);
-				MultipartFile file = attach_file[real];
-				String fileName = nextSeq + "-" + i + ".png";
+				MultipartFile file = attach_file[0];
+				String fileName = nextSeq + "-" + 1 + ".png";
 				System.out.println(fileName);
 				System.out.println("File Name: " + file.getOriginalFilename());
-				
 				try {
 		            // 파일을 지정된 경로에 저장
 		            file.transferTo(new File(folderPath + fileName));
@@ -143,31 +135,92 @@ public class PostAndLikeController {
 		            e.printStackTrace();
 		            System.out.println("파일 저장 실패");
 		        }
+				
+			} else { // 2개 이상의 이미지를 업로드 했을때
+				System.out.println("이미지 " + imgCount + " 개 이상");
+				
+				if(fileList != null) { // 이미지 순서 변경이 있을 경우
+					System.out.println("fileList.length : " + fileList.length);
+					for(int k=0; k < fileList.length; k++) {
+						System.out.println("fileList처리중");
+						String file = fileList[k];
+				        int aa = Integer.parseInt(file.substring(4));
+				        index.put(k+1 , aa);
+				        System.out.println("인덱스에담긴 순서 : " + index.get(k+1));
+				    }
+					System.out.println("인덱스Map사이즈 : " + index.size());
+					
+					for(int i=1; i < (imgCount+1); i++) {
+						System.out.println("이미지 " + imgCount + " 개");
+						int real = index.get(i);
+						System.out.println("real : " + real);
+						MultipartFile file = attach_file[real];
+						String fileName = nextSeq + "-" + i + ".png";
+						System.out.println(fileName);
+						System.out.println("File Name: " + file.getOriginalFilename());
+						
+						try {
+				            // 파일을 지정된 경로에 저장
+				            file.transferTo(new File(folderPath + fileName));
+				            System.out.println("파일 저장 성공");
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				            System.out.println("파일 저장 실패");
+				        }
+					}
+				} else {  // 이미지 순서 변경이 없을 경우
+					for(int j=1; j<imgCount+1; j++) {
+						index.put(j, j);
+						System.out.println("인덱스에담긴 순서 : " + index.get(j));
+					}
+					System.out.println("인덱스Map사이즈 : " + index.size());
+					
+					for(int i=1; i < (imgCount+1); i++) {
+						System.out.println("이미지 " + imgCount + " 개");
+						int real = (index.get(i)-1);
+						System.out.println("real : " + real);
+						MultipartFile file = attach_file[real];
+						String fileName = nextSeq + "-" + i + ".png";
+						System.out.println(fileName);
+						System.out.println("File Name: " + file.getOriginalFilename());
+						
+						try {
+				            // 파일을 지정된 경로에 저장
+				            file.transferTo(new File(folderPath + fileName));
+				            System.out.println("파일 저장 성공");
+				        } catch (IOException e) {
+				            e.printStackTrace();
+				            System.out.println("파일 저장 실패");
+				        }
+					}
+				}
 			}
 		}
 		
-		// 2. 해시태그 처리 부분
 		String hashTag = vo.getPost_Hashtag();
-		
-		try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode jsonNode = objectMapper.readTree(hashTag);
-
-            for (JsonNode node : jsonNode) {
-            	// n번째 해시태그 내용 
-                String value = node.get("value").asText();
-                
-                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
-                String values = "#" + value;
-                
-                TagVO tvo = new TagVO();
-                tvo.setPost_Seq(nextSeq);
-                tvo.setTag_Content(values);
-                postService.insertTag(tvo);
-            }
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
+		if (hashTag != null && !hashTag.isEmpty()) {
+			// 2. 해시태그 처리 부분
+			
+			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            JsonNode jsonNode = objectMapper.readTree(hashTag);
+	
+	            for (JsonNode node : jsonNode) {
+	            	// n번째 해시태그 내용 
+	                String value = node.get("value").asText();
+	                
+	                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
+	                String values = "#" + value;
+	                
+	                TagVO tvo = new TagVO();
+	                tvo.setPost_Seq(nextSeq);
+	                tvo.setTag_Content(values);
+	                postService.insertTag(tvo);
+	            }
+	        } catch (JsonProcessingException e) {
+	            e.printStackTrace();
+	        }
+		}
 		
 		// 3. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
 		if (vo.getPost_Public() == "") {

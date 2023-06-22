@@ -495,13 +495,13 @@
                <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
                   <!-- 뒤로가기 버튼 -->
                   <a href="#" id="closeModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
-                  <!-- 기본 사람모양 아이콘 -->
-                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel"><span class="material-icons md-32">account_circle</span></h5>
+                  <!-- 작성자 프로필 이미지 -->
+                  <img src="img/uploads/profile/${profileMap[sessionScope.loginUser.member_Id]}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
                   <!-- 작성자 아이디 표시 -->
                   <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">작성자: ${sessionScope.loginUser.member_Id}</h5>
                </div>
                <!-- 게시글 작성 폼 -->
-               <form onsubmit="return false;" enctype="multipart/form-data">
+               <form onsubmit="return false;" enctype="multipart/form-data" id="postInsert">
                <div class="modal-body p-0 mb-3">
                	  <!-- 입력 부분 -->
                	  <!-- 작성자 아이디 -->
@@ -521,14 +521,14 @@
                      <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
                   </div>
                   <div class="d-flex justify-content-between">
-                	 <button type="reset" class="btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
+                	 <button id="resetB" type="reset" class="btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
   				 	 	<span class="material-icons me-2 md-16">refresh</span>초기화
 					 </button>
                   	 <button onclick="submitForm()" id="submitButton" data-bs-dismiss="modal" class="btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center"><span class="material-icons me-2 md-16">send</span>Post</button>
                   </div>
                </div>
                <!-- 이미지 업로드 부분 -->
-               <div class="filebox clearfix">
+               <div class="clearfix">
 			   	  <div class="inputFile">
 			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
 			        <label for="AddImgs" class="addImgBtn">+</label>
