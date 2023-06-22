@@ -48,4 +48,7 @@ public interface PostService {
 	
 	// 게시글 해시태그 조회
 	ArrayList<TagVO> getHashtagList(int post_Seq);
+	
+	// 한 회원의 전체 해시태그 삭제
+	void deleteOneMemsTag(String member_Id);
 }

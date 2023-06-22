@@ -112,4 +112,13 @@
 	 where post_seq = #{post_Seq}
 	</select>
 	
+	<!-- 회원 탈퇴 전 해당 회원이 등록한 해시태그 삭제 -->
+		
+	<!-- 회원 탈퇴 전 해시테그 테이블 데이터 삭제 -->
+	<delete id = "deleteOneMemsTag">
+		DELETE FROM tag
+		WHERE post_Seq IN (SELECT post_Seq FROM post
+                   		   WHERE member_Id = #{member_Id})
+	</delete>
+	
 </mapper>

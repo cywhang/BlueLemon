@@ -93,5 +93,10 @@ public class PostServiceImpl implements PostService {
 		return postDao.getHashtagList(post_Seq);
 	}
 
+	@Override
+	public void deleteOneMemsTag(String member_Id) {
+		postDao.deleteOneMemsTag(member_Id);
+	}
+
 	
 }

@@ -200,7 +200,8 @@ public class MemberController {
 			//System.out.println("ºñ¹ø Æ²¸²");
 			return "redirect:edit_profile";
 		} else {
-			memberService.deleteMember(loginUser);
+			postService.deleteOneMemsTag(loginUser.getMember_Id());
+			memberService.deleteMember(loginUser.getMember_Id());
 			session.invalidate();
 			//System.out.println("Å»Åð ¿Ï·á");
 			rttr.addFlashAttribute("msg", "withdrawlSuccess");

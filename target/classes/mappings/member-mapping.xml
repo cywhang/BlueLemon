@@ -59,8 +59,7 @@
 	
 	<!-- 회원 탈퇴 : memberDelete -->
 	<delete id="memberDelete">
-		delete from member
-		where member_Id = #{member_Id}
+			DELETE FROM member WHERE member_Id = #{member_Id}
 	</delete>
 	
 	<!-- 친구 추천 : recommendMember -->

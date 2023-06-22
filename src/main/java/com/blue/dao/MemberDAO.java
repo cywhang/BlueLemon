@@ -80,8 +80,8 @@ public class MemberDAO {
 	}
 	
 	// È¸¿ø Å»Åð
-	public void deleteMember(MemberVO vo) {
-		mybatis.update("MemberMapper.memberDelete", vo.getMember_Id());		
+	public void deleteMember(String member_Id) {
+		mybatis.delete("MemberMapper.memberDelete", member_Id);		
 	}
 	
 	// ÃßÃµ È¸¿ø Á¶È¸

@@ -342,6 +342,7 @@ public class PostAndLikeController {
 		return dataMap;
 	}
 	
+	// 게시글 삭제
 	@GetMapping("/postDelete")
 	public String postDelete(@RequestParam(value="post_Seq") int post_Seq) {
 		

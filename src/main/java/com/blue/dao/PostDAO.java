@@ -111,4 +111,9 @@ public class PostDAO {
 		ArrayList<TagVO> hashList = new ArrayList<TagVO>(result);
 		return hashList;
 	}
+	
+	// 한 회원의 전체 해시태그 삭제
+	public void deleteOneMemsTag(String member_Id) {
+		mybatis.delete("PostMapper.deleteOneMemsTag", member_Id);
+	}
 }
