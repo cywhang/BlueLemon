@@ -86,6 +86,13 @@ ul li::marker {
 }
 /* 이미지 업로드 */
 
+#wirter{
+	width:      36px;
+	height:     36px;
+	min-width:  36px;
+	min-height: 36px;
+}
+
 /* FAQ */
 .faq-page .accordion-button {
     font-size: 14px;

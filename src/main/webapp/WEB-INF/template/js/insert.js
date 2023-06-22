@@ -19,6 +19,20 @@ $(function() {
     console.log("li태그 지움");
   });
   
+  // 뒤로가기 버튼시 내용 초기화
+  $('#closeModal').on('click', function() {
+	    // form 태그 초기화
+	    $('#postInsert')[0].reset();
+	    // 이미지 컨테이너 초기화
+	    $('#Preview').empty();
+	});
+  
+  // 초기화 버튼 클릭시 내용 초기화
+  $('#resetB').on('click', function() {
+	    // 이미지 컨테이너 초기화
+	    $('#Preview').empty();
+	});
+  
 });
 
 
@@ -28,7 +42,7 @@ $(function() {
   
   /* 첨부파일 추가 */
   function addFile(obj){
-      var maxFileCnt = 5;   // 첨부파일 최대 개수
+      var maxFileCnt = 4;   // 첨부파일 최대 개수
       console.log("첨부파일 최대 개수 : ", maxFileCnt);
       var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
       console.log("기존 추가된 첨부파일 개수 : ", attFileCnt);
@@ -103,13 +117,15 @@ $(function() {
   // preview컨테이너에 변경된 순서 정보를 담는 작업
   var fileList = [];
 	$('#Preview').on('sortupdate', function(event, ui) {
+		newFileList = [];
 		$('#Preview li').each(function() {
 			var fileId = $(this).attr('id'); // 파일의 고유 ID
-			fileList.push(fileId);
+			newFileList.push(fileId);
 		});
-			// fileList 배열에 변경된 파일 순서 정보가 포함됩니다.
-			console.log(fileList);
-	// 변경된 순서 정보를 서버로 전송하거나 필요한 처리를 수행합니다.
+		// 이미지 순서 변경이 있을 때만 fileList에 할당
+		fileList = newFileList.length > 0 ? newFileList : null;
+		// fileList 배열에 변경된 파일 순서 정보가 포함됩니다.
+		console.log(fileList);
 	});
 
 		
@@ -130,7 +146,6 @@ $(function() {
           formData.append("fileList[]", fileList[i]);
       }
       console.log(filesArr);
-      debugger;
       
       $.ajax({
           method: 'POST',
