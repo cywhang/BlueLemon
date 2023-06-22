@@ -53,7 +53,7 @@
 	<!-- 게시글 등록 -->
 	<insert id="insertPost">
 		insert into post(post_seq, member_id, post_content, post_public, post_image_count) 
-					values(post_seq.nextval, #{member_Id}, #{post_Content}, 
+					values(#{post_Seq}, #{member_Id}, #{post_Content}, 
 					       #{post_Public}, #{post_Image_Count})
 	</insert>
 	
