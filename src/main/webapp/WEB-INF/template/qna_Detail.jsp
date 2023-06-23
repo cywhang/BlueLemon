@@ -15,24 +15,22 @@
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     </head>
     <style>
-    	#datatablesSimple th:nth-child(1), #datatablesSimple td:nth-child(1) {
-    		width : 8% !important
-    	}
-    	#datatablesSimple th:nth-child(2), #datatablesSimple td:nth-child(2) {
-    		width : 8% !important
-    	}
-    	#datatablesSimple th:nth-child(3), #datatablesSimple td:nth-child(3) {
-    		width : 22% !important
-    	}
-    	#datatablesSimple th:nth-child(4), #datatablesSimple td:nth-child(4) {
-    		width : 45% !important
-    	}
-    	#datatablesSimple th:nth-child(5), #datatablesSimple td:nth-child(5) {
-    		width : 10% !important
-    	}
-    	#datatablesSimple th:nth-child(6), #datatablesSimple td:nth-child(6) {
-    		width : 7% !important
-    	}
+	    .qnaDetailTable {
+			border-collapse: collapse;
+			margin-left : 20%
+		}
+		
+		.qnaDetailTable th,
+		.qnaDetailTable td {
+			border: 1px solid black;
+			padding: 8px;
+		}
+		
+		.qnaDetailTable th {
+			text-align: left;
+			background-color: #f2f2f2;
+		}
+		
     </style>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -103,39 +101,40 @@
                                 Q&A DataTable
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>Qna Seq</th>
-                                            <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Message</th>
-                                            <th>Date</th>
-                                            <th>Done</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Qna Seq</th>
-                                            <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Message</th>
-                                            <th>Date</th>
-                                            <th>Done</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-                                  		<c:forEach items = "${allQna}" var = "qna">
-                                  			<tr>
-                                  				<td>${qna.qna_Seq}</td>
-                                  				<td>${qna.member_Id}</td>
-                                  				<td><a href = "qna_Detail?qna_Seq=${qna.qna_Seq}">${qna.qna_Title}</a></td>
-                                  				<td>${qna.qna_Message}</td>
-                                  				<td>${qna.qna_Date}</td>
-                                  				<td>${qna.qna_Done}</td>
-                                  			</tr>        
-                                    	</c:forEach>                                    
-                                    </tbody>                 
+                                <table class = "qnaDetailTable">
+                                    <tr>
+                                        <th style = "width : 10%">Sequence</th>
+                                        <td style = "width : 10%">${qnaDetail.qna_Seq}</td>
+                                        <th style = "width : 10%">ID</th>
+                                        <td style = "width : 20%">${qnaDetail.member_Id}</td>
+                                        <th style = "width : 10%">Date</th>
+                                        <td style = "width : 40%">${qnaDetail.qna_Date}</td>
+                                    </tr>    
+                                    <tr>
+                                        <th colspan = "2">Title</th>
+                                        <td colspan = "4">${qnaDetail.qna_Title}</td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan = "2">Message</th>
+                                        <td colspan = "4">${qnaDetail.qna_Message}"</td>
+                                    </tr>
+                                    <tr>
+                                    <c:choose>
+                                    	<c:when test="${qnaDetail.qna_Done eq 1}">
+                                    		<th colspan = "2">Answer</th>
+	                                    	<td colspan = "4">
+	                                    		<form id = "qna_Answer" action = "qna_Answer" method = "POST">
+	                                    			<input type = "text" name = "qna_Answer">
+	                                    			<input type = "hidden" name = "qna_Seq" value = "${qnaDetail.qna_Seq}">
+	                                    			<button type = "submit">Send</button>
+	                                    		</form>
+	                                    	</td>
+                                    	</c:when>
+                                    	<c:otherwise>
+                                    		<th colspan = "2">Answer</th>
+	                                    	<td colspan = "4">${qnaDetail.qna_Answer}</td>
+                                    	</c:otherwise>
+                                    </c:choose>
                                 </table>
                             </div>
                         </div>

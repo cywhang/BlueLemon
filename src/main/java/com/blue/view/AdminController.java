@@ -152,11 +152,27 @@ public class AdminController {
 	public String qna_Table(Model model, HttpSession session) {
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
 
-			ArrayList<PostVO> postlist = postService.getAllPost();
+			List<QnaVO> allQna = qnaService.getAllQna();
+			model.addAttribute("allQna", allQna);
 			return "qna_Table";
 		} else {
 			model.addAttribute("message", "관리자로 로그인 해주세요");
 			return "login";			
 		}
+	}
+	
+	@GetMapping("qna_Detail")
+	public String qna_Detail(Model model, int qna_Seq) {
+		QnaVO qnaDetail = qnaService.getQnaDetail(qna_Seq);
+		model.addAttribute("qnaDetail", qnaDetail);
+		return "qna_Detail";
+	}
+	
+	@PostMapping("/qna_Answer")
+	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq) {
+		QnaVO voForUpdate = qnaService.getQnaDetail(qna_Seq);
+		voForUpdate.setQna_Answer(qna_Answer);
+		qnaService.updateQnaAnswer(voForUpdate);
+		return "redirect:/qna_Detail?qna_Seq=" + qna_Seq;
 	}
 }

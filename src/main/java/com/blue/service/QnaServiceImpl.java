@@ -25,4 +25,25 @@ public class QnaServiceImpl implements QnaService {
 		return qnaDao.getMyQna(member_Id);
 	}
 
+	@Override
+	public int checkMaxSeq() {
+		return qnaDao.checkMaxSeq();
+	}
+
+	@Override
+	public List<QnaVO> getAllQna() {
+		return qnaDao.getAllQna();
+	}
+
+	@Override
+	public QnaVO getQnaDetail(int qna_Seq) {
+		return qnaDao.getQnaDetail(qna_Seq);
+	}
+
+	@Override
+	public void updateQnaAnswer(QnaVO vo) {
+		qnaDao.updateQnaAnswer(vo);
+		
+	}
+
 }

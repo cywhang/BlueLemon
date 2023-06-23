@@ -47,8 +47,12 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Dashboard
                             </a>
-                            <div class="sb-sidenav-menu-heading">Interface</div>                            
+                            <a class="nav-link" href="index">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                FEED
+                            </a>
                             
+                            <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link" href="member_Table">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Member Table
