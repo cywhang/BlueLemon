@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Blue Lemon</title>
+<title>BlueLemon</title>
 <style type="text/css">
 	
 	* {

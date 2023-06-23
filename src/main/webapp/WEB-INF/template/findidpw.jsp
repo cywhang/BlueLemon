@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Blue Lemon Finde ID/PW</title> 
+<title>BlueLemon</title> 
 <style>
     /* 전체 페이지 스타일 */
 	body {

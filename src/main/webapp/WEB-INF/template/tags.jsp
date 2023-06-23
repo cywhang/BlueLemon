@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="icon" type="image/png" href="img/logo.png">
-      <title>Vogel - Social Network & Community HTML Template</title>
+      <title>BlueLemon</title>
       <meta name="description" content="Vogel - Social Network & Community HTML Template">
       <meta name="keywords" content="bootstrap5, e-learning, forum, games, online course, Social Community, social events, social feed, social media, social media template, social network html, social sharing, twitter">
       <!-- Bootstrap CSS -->
