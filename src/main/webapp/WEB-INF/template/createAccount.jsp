@@ -59,7 +59,7 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <link rel="icon" type="image/png" href="img/logo.png">
-   <title>Vogel - Social Network & Community HTML Template</title>
+   <title>BlueLemon</title>
    <meta name="description" content="Vogel - Social Network & Community HTML Template">
    <meta name="keywords" content="bootstrap5, e-learning, forum, games, online course, Social Community, social events, social feed, social media, social media template, social network html, social sharing, twitter">
    <!-- Bootstrap CSS -->
@@ -149,15 +149,15 @@
                                     </div>
                                     <div>
                                        <div class = "d-flex align-items-center rounded" style="border:1px solid #dee2e6;">
-                                       <label style = "height : 40px;margin-top : 10px; margin-left : 10px; margin-right : 10%">GENDER</label>
-                                       <div class="form-check" style = "margin-left : 30%; margin-right : 5%">
-                                          <input class="form-check-input" type="radio" value="M" name="member_Gender" id="male" style = "margin-top : 8px;">
-                                          <label class="form-check-label" for="male" style = "margin-top : 6px;">Male</label>
-                                       </div>
-                                       <div class="form-check mx-3">
-                                          <input class="form-check-input" type="radio" value="F" name="member_Gender" id="female" style = "margin-top : 8px;">
-                                          <label class="form-check-label" for="female" style = "margin-top : 6px;">Female</label>
-                                       </div>
+                                          <label style = "height : 40px; margin-top : 10px; margin-left : 10px; margin-right : 10%">GENDER</label>
+                                          <div class="form-check" style = "margin-left : 30%; margin-right : 5%">
+                                             <input class="form-check-input" type="radio" value="M" name="member_Gender" id="male" style = "margin-top : 8px;">
+                                             <label class="form-check-label" for="male" style = "margin-top : 6px;">Male</label>
+                                          </div>
+                                          <div class="form-check mx-3">
+                                             <input class="form-check-input" type="radio" value="F" name="member_Gender" id="female" style = "margin-top : 8px;">
+                                             <label class="form-check-label" for="female" style = "margin-top : 6px;">Female</label>
+                                          </div>
                                        </div>
                                     </div>
                                     <div style = "margin-top : 10px;">

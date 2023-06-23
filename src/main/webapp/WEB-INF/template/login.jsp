@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>블루 레몬</title>
+<title>BlueLemon</title>
 <style type="text/css">
 	
 	* {
@@ -112,10 +112,9 @@
 	}
 	
 </style>
-</head>
-<body>
 	<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Overpass+Mono" rel="stylesheet">
-	
+</head>
+<body>	
 	<div id="wrapper">
 		<div class="main-content">
 			<div class="header">
@@ -130,8 +129,7 @@
 					<input type="submit" value="Log in" class="btn" style = "margin-top : 1px;"/>
 					<br>
 					<c:choose>
-						<c:when test="${empty message}">		
-											
+						<c:when test="${empty message}">											
 						</c:when>
 						<c:otherwise>
 							<br>
