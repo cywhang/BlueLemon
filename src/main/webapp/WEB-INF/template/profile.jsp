@@ -56,11 +56,22 @@
                               <p class="text-muted mb-0">${member.member_Name}</p>
                            </div>
                            <div class="ms-auto btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                              <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}">
-	                             <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
-		                             <span class="follow">+ Follow</span>
-		                             <span class="following d-none">Following</span>	                              
-	                             </label>
+                              <c:choose>
+                                 <c:when test="${member.follow_Check eq 'n'}">
+                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}">                              
+	                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
+		                               <span class="follow">+ Follow</span>
+		                               <span class="following d-none">Following</span>	                              
+	                                </label>
+                                 </c:when>
+                                 <c:otherwise>
+                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}" checked = "checked">                              
+	                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
+		                               <span class="follow">+ Follow</span>
+		                               <span class="following d-none">Following</span>	                              
+	                                </label>
+                                 </c:otherwise>
+                              </c:choose>
                            </div>
                         </div>
                         <div class="p-3" style = "margin-left : 70px;">
@@ -87,11 +98,11 @@
                            	  
                               <div>
                                  <c:choose>
-                                 	<c:when test = "${empty member.member_Follow_Count}">
+                                 	<c:when test = "${empty followers_Size}">
                                  		<p class="mb-0">0 <span class="text-muted">Followers</span></p>
                                  	</c:when>
                                  	<c:otherwise>
-                                 		<p class="mb-0">${member.member_Follow_Count} <span class="text-muted">Followers</span></p>
+                                 		<p class="mb-0">${followers_Size} <span class="text-muted">Followers</span></p>
                                  	</c:otherwise>
                                  </c:choose>
                                  
@@ -115,11 +126,11 @@
                               <div class="ms-5 ps-5">
                               	
                               	 <c:choose>
-                                 	<c:when test = "${empty member.member_Following_Count}">
+                                 	<c:when test = "${empty followings_Size}">
                                  		<p class="mb-0">0 <span class="text-muted">Following</span></p>
                                  	</c:when>
                                  	<c:otherwise>
-                                 		<p class="mb-0">${member.member_Following_Count} <span class="text-muted">Following</span></p>
+                                 		<p class="mb-0">${followings_Size} <span class="text-muted">Following</span></p>
                                  	</c:otherwise>
                                  </c:choose>
                                  <div class="d-flex">
@@ -142,23 +153,6 @@
                            </div>
                         </div>
                      </div>
-                     <!-- 이 ul 부분은 삭제해도 될 듯 -->
-                     <!--  
-                     <ul class="top-osahan-nav-tab nav nav-pills justify-content-center nav-justified mb-4 shadow-sm rounded-4 overflow-hidden bg-white mt-4" id="pills-tab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted active" id="pills-feed-tab" data-bs-toggle="pill" data-bs-target="#pills-feed" type="button" role="tab" aria-controls="pills-feed" aria-selected="true">Vogel(2)</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted" id="pills-people-tab" data-bs-toggle="pill" data-bs-target="#pills-people" type="button" role="tab" aria-controls="pills-people" aria-selected="false">Liked</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false">Ree-Vogel</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted" id="pills-mentions-tab" data-bs-toggle="pill" data-bs-target="#pills-mentions" type="button" role="tab" aria-controls="pills-mentions" aria-selected="false">Mentions</button>
-                        </li>
-                     </ul>
-                     -->
                      <div class="tab-content" id="pills-tabContent" style = "margin-top : 20px;">
                         <div class="tab-pane fade show active" id="pills-feed" role="tabpanel" aria-labelledby="pills-feed-tab">
                            <div class="ms-1">

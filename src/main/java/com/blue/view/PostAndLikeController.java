@@ -199,9 +199,17 @@ public class PostAndLikeController {
 			}
 		}
 		
+		// 2. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
+		if (vo.getPost_Public() == "") {
+			vo.setPost_Public("n");
+		}
+		
+		// 3. 인서트 처리
+		postService.insertPost(vo);
+		
 		String hashTag = vo.getPost_Hashtag();
 		if (hashTag != null && !hashTag.isEmpty()) {
-			// 2. 해시태그 처리 부분
+			// 4. 해시태그 처리 부분
 			
 			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
 	            ObjectMapper objectMapper = new ObjectMapper();
@@ -223,14 +231,6 @@ public class PostAndLikeController {
 	            e.printStackTrace();
 	        }
 		}
-		
-		// 3. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
-		if (vo.getPost_Public() == "") {
-			vo.setPost_Public("n");
-		}
-		
-		// 4. 인서트 처리
-		postService.insertPost(vo);
 
 		return "/index";
 	}

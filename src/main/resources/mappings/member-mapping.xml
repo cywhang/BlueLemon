@@ -101,7 +101,6 @@
 																				WHERE follower = #{member_Id}))	
 	</select>
 	
-	
 	<!-- 팔로우 체크 -->	
 	<select id = "checkFollow" resultType = "String">
 		SELECT follower FROM follow

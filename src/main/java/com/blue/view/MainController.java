@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.blue.dto.FollowVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.QnaVO;
@@ -182,6 +183,14 @@ public class MainController {
 	    List<MemberVO> mostFamous = memberService.getMostFamousMember();
 	    //System.out.println("[PEOPLE 탭 - 7] MOST FAMOUS LIST를 받아오기 성공");
 	    
+	    for(int i = 0 ; i < mostFamous.size() ; i++) {
+	    	String check_Id = mostFamous.get(i).getMember_Id();
+	    	FollowVO check_Vo = new FollowVO();
+	    	check_Vo.setFollower(member_Id);
+	    	check_Vo.setFollowing(check_Id);
+	    	String followCheck = memberService.checkFollow(check_Vo);
+	    	mostFamous.get(i).setFollow_Check(followCheck);
+	    }
 	    Map<String, Object> responseData = new HashMap<>();
 	    responseData.put("canFollow", canFollow);
 	    responseData.put("mostFamous", mostFamous);
@@ -195,6 +204,11 @@ public class MainController {
 		//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
 		MemberVO member = memberService.getMember(member_Id);
 		String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		FollowVO checkVo = new FollowVO();
+		checkVo.setFollower(loginUser_Id);
+		checkVo.setFollowing(member_Id);
+		String followCheck = memberService.checkFollow(checkVo);
+		member.setFollow_Check(followCheck);
 		
 		// 팔로워 팔로우 숫자 밑에 작은 동그라미 이미지들 채울 용도
 		List<MemberVO> followers = memberService.getFollowers(member_Id);
