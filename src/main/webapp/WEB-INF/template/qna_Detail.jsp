@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Tables - SB Admin</title>
+        <title>Blue Lemon - Admin Page</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link href="css/admin_Styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -24,10 +24,10 @@
 		.qnaDetailTable td {
 			border: 1px solid black;
 			padding: 8px;
+			text-align : center;
 		}
 		
 		.qnaDetailTable th {
-			text-align: left;
 			background-color: #f2f2f2;
 		}
 		
@@ -35,25 +35,9 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="admin_Index.html">Blue Lemon</a>
+            <a class="navbar-brand ps-3" href="admin_Index">Blue Lemon</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Logout</a></li>
-                    </ul>
-                </li>
-            </ul>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -66,7 +50,7 @@
                                 Dashboard
                             </a>
                             <a class="nav-link" href="index">
-                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-laptop"></i></div>
                                 FEED
                             </a>
                             
@@ -83,6 +67,10 @@
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Q&A Table
                             </a>
+                            <a class = "nav-link" href = "logout">
+                            	<div class = "sb-nav-link-icon"><i class = "fas fa-power-off"></i></div>
+                            	LogOut
+                            </a>
                         </div>
                     </div>
                 </nav>
@@ -92,8 +80,7 @@
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Q&A Table</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="admin_Index.html">Dashboard</a></li>
-                            <li class="breadcrumb-item active">Tables</li>
+                            <li class="breadcrumb-item"><a href="admin_Index" style = "text-decoration : none;">Dashboard</a></li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-header">
@@ -124,9 +111,12 @@
                                     		<th colspan = "2">Answer</th>
 	                                    	<td colspan = "4">
 	                                    		<form id = "qna_Answer" action = "qna_Answer" method = "POST">
-	                                    			<input type = "text" name = "qna_Answer">
+	                                    			<textarea name = "qna_Answer" rows = "5" style = "width : 100%;"></textarea>
 	                                    			<input type = "hidden" name = "qna_Seq" value = "${qnaDetail.qna_Seq}">
-	                                    			<button type = "submit">Send</button>
+	                                    			<div align = "right">
+		                                    			<button type="reset" style = "width : 15%">Reset</button>
+		                                    			<button type = "submit" style = "width : 15%">Send</button>
+	                                    			</div>
 	                                    		</form>
 	                                    	</td>
                                     	</c:when>

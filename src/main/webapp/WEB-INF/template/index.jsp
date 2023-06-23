@@ -315,19 +315,10 @@
                         </div> <!-- class="feed" -->
                      </div>
                   </div><!-- class="main container" -->
-                  
-                  <!-- 무한 스크롤 -->
- <!--                
- 					 <div class="text-center mt-4">
-                     <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                     </div>
-                     <p class="mb-0 mt-2">Loading</p>
-                  </div>
-      --> 
                </main> <!-- index페이지의 센터 column -->
                
-               <!-- index페이지 왼쪽 사이드바 column -->
+               <!-- Sidebar -->
+               <!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
                <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
                      <div class="sidebar-nav mb-3">
@@ -342,6 +333,13 @@
                            <li class="nav-item">
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
+                           <c:choose>
+                              <c:when test="${loginUser.member_Id eq 'admin'}">
+                           	     <a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
+                           	  </c:when>
+                              <c:otherwise>
+                           	  </c:otherwise>
+                           </c:choose>
                            <li class="nav-item">
                               <a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
@@ -365,8 +363,7 @@
                      </div>
                   </div>
                   
-                  <!-- Sidebar -->
-                  <!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
+                  <!-- index페이지 왼쪽 사이드바 column -->
                   <div class="ps-0 m-none fix-sidebar">
                      <div class="sidebar-nav mb-3">
                         <div class="pb-4 mb-4">
@@ -378,6 +375,13 @@
                            <li class="nav-item">
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
+                           <c:choose>
+                              <c:when test="${loginUser.member_Id eq 'admin'}">
+                           	     <a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
+                           	  </c:when>
+                              <c:otherwise>
+                           	  </c:otherwise>
+                           </c:choose>
                            <li class="nav-item">
                               <a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
