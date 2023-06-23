@@ -99,8 +99,8 @@ public class PostAndLikeController {
 							@RequestParam(value = "fileList[]", required = false) String[] fileList,
 						     HttpSession session) {
 		
-		System.out.println("==================================게시글 작성=====================================");
-		System.out.println("insertPost vo : " + vo);
+		//System.out.println("==================================게시글 작성=====================================");
+		//System.out.println("insertPost vo : " + vo);
 		
 		// MAX(post_Seq) + 1
 		int nextSeq = postService.postSeqCheck();
@@ -112,7 +112,7 @@ public class PostAndLikeController {
 		
 		// 1. 사용자가 이미지를 첨부했을 때 
 		if (attach_file != null && attach_file.length > 0) {
-			System.out.println("insertPost file길이 : " + attach_file.length);
+			//System.out.println("insertPost file길이 : " + attach_file.length);
 			
 			// 1. 이미지 업로드 처리 부분
 			String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
@@ -121,78 +121,78 @@ public class PostAndLikeController {
 			vo.setPost_Image_Count(imgCount);
 			
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
-				System.out.println("이미지 없음");
+				//System.out.println("이미지 없음");
 				
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
-				System.out.println("이미지 " + imgCount + " 개");
+				//System.out.println("이미지 " + imgCount + " 개");
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
-				System.out.println(fileName);
-				System.out.println("File Name: " + file.getOriginalFilename());
+				//System.out.println(fileName);
+				//System.out.println("File Name: " + file.getOriginalFilename());
 				try {
 		            // 파일을 지정된 경로에 저장
 		            file.transferTo(new File(folderPath + fileName));
-		            System.out.println("파일 저장 성공");
+		            //System.out.println("파일 저장 성공");
 		        } catch (IOException e) {
 		            e.printStackTrace();
-		            System.out.println("파일 저장 실패");
+		            //System.out.println("파일 저장 실패");
 		        }
 				
 			} else { // 2개 이상의 이미지를 업로드 했을때
-				System.out.println("이미지 " + imgCount + " 개 이상");
+				//System.out.println("이미지 " + imgCount + " 개 이상");
 				
 				if(fileList != null) { // 이미지 순서 변경이 있을 경우
-					System.out.println("fileList.length : " + fileList.length);
+					//System.out.println("fileList.length : " + fileList.length);
 					for(int k=0; k < fileList.length; k++) {
-						System.out.println("fileList처리중");
+						//System.out.println("fileList처리중");
 						String file = fileList[k];
 				        int aa = Integer.parseInt(file.substring(4));
 				        index.put(k+1 , aa);
-				        System.out.println("인덱스에담긴 순서 : " + index.get(k+1));
+				        //System.out.println("인덱스에담긴 순서 : " + index.get(k+1));
 				    }
-					System.out.println("인덱스Map사이즈 : " + index.size());
+					//System.out.println("인덱스Map사이즈 : " + index.size());
 					
 					for(int i=1; i < (imgCount+1); i++) {
-						System.out.println("이미지 " + imgCount + " 개");
+						//System.out.println("이미지 " + imgCount + " 개");
 						int real = index.get(i);
-						System.out.println("real : " + real);
+						//System.out.println("real : " + real);
 						MultipartFile file = attach_file[real];
 						String fileName = nextSeq + "-" + i + ".png";
-						System.out.println(fileName);
-						System.out.println("File Name: " + file.getOriginalFilename());
+						//System.out.println(fileName);
+						//System.out.println("File Name: " + file.getOriginalFilename());
 						
 						try {
 				            // 파일을 지정된 경로에 저장
 				            file.transferTo(new File(folderPath + fileName));
-				            System.out.println("파일 저장 성공");
+				           //System.out.println("파일 저장 성공");
 				        } catch (IOException e) {
 				            e.printStackTrace();
-				            System.out.println("파일 저장 실패");
+				            //System.out.println("파일 저장 실패");
 				        }
 					}
 				} else {  // 이미지 순서 변경이 없을 경우
 					for(int j=1; j<imgCount+1; j++) {
 						index.put(j, j);
-						System.out.println("인덱스에담긴 순서 : " + index.get(j));
+						//System.out.println("인덱스에담긴 순서 : " + index.get(j));
 					}
-					System.out.println("인덱스Map사이즈 : " + index.size());
+					//System.out.println("인덱스Map사이즈 : " + index.size());
 					
 					for(int i=1; i < (imgCount+1); i++) {
-						System.out.println("이미지 " + imgCount + " 개");
+						//System.out.println("이미지 " + imgCount + " 개");
 						int real = (index.get(i)-1);
-						System.out.println("real : " + real);
+						//System.out.println("real : " + real);
 						MultipartFile file = attach_file[real];
 						String fileName = nextSeq + "-" + i + ".png";
-						System.out.println(fileName);
-						System.out.println("File Name: " + file.getOriginalFilename());
+						//System.out.println(fileName);
+						//System.out.println("File Name: " + file.getOriginalFilename());
 						
 						try {
 				            // 파일을 지정된 경로에 저장
 				            file.transferTo(new File(folderPath + fileName));
-				            System.out.println("파일 저장 성공");
+				            //System.out.println("파일 저장 성공");
 				        } catch (IOException e) {
 				            e.printStackTrace();
-				            System.out.println("파일 저장 실패");
+				            //System.out.println("파일 저장 실패");
 				        }
 					}
 				}
