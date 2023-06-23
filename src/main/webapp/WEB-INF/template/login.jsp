@@ -29,7 +29,7 @@
 	  width: 250px;
 	  height: 40%;
 	  margin: 10px auto;
-	  background-color: #fff;
+	  background-color: #edf2f6;
 	  border: 2px solid #e6e6e6;
 	  padding: 40px 50px;
 	}
@@ -40,11 +40,8 @@
 	}
 	
 	.header img {
-	  height: 50px;
-	  width: 175px;
-	  margin: auto;
+	  margin-left : -16px;
 	  position: relative;
-	  left: 40px;
 	}
 	
 	.input-1,
@@ -89,7 +86,7 @@
 	  margin: 10px auto;
 	  border: 1px solid #e6e6e6;
 	  padding: 20px 50px;
-	  background-color: #fff;
+	  background-color: #edf2f6;
 	}
 	
 	.s-part {
@@ -114,24 +111,6 @@
 	    background-color: yellow;
 	}
 	
-	/* youtube link */
-	.youtube{
-	  position: fixed;
-	  bottom: 10px;
-	  right: 10px;
-	  width: 160px;
-	  text-align: center;
-	  padding: 15px 10px;
-	  background: #bb0000;
-	  border-radius: 5px;
-	}
-	
-	.youtube a{
-	  text-decoration: none;
-	  color: #fff;
-	  text-transform: capitalize;
-	  letter-spacing: 1px;
-	}
 </style>
 </head>
 <body>
@@ -140,7 +119,7 @@
 	<div id="wrapper">
 		<div class="main-content">
 			<div class="header">
-				<img src="https://i.imgur.com/zqpwkLQ.png" />
+				<img src="img/login_Logo.png"/>
 			</div>
 			<div class="l-part">
 				<form method="post" action="loginProc">
@@ -148,7 +127,7 @@
 					<div class="overlap-text">
 						<input name="member_Password" type="password" placeholder="Password" class="input-2" />
 					</div>
-					<input type="submit" value="Log in" class="btn" />
+					<input type="submit" value="Log in" class="btn" style = "margin-top : 1px;"/>
 					<br>
 					<c:choose>
 						<c:when test="${empty message}">		
@@ -165,11 +144,11 @@
 			</div>
 		</div>
 		<div class="sub-content">
-			<div class="s-part">
-				Don't have an account?<a href="join_view">Sign up</a>
+			<div class="s-part" style = "text-align : left;">
+				Don't have an account?<a href="join_view" style = "margin-left : 20px;">Sign Up</a>
 			</div>
-			<div class="s-part">
-				Forgot ID/Password?<a href="find_info">Forgot</a>
+			<div class="s-part" style = "text-align : left;">
+				Forgot ID/Password?<a href="find_info" style = "margin-left : 28px;">Find ID/PW</a>
 			</div>
 		</div>
 	</div>
