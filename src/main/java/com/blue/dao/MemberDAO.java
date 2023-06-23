@@ -191,4 +191,15 @@ public class MemberDAO {
 	public List<MemberVO> getAllMember() {
 		return mybatis.selectList("MemberMapper.getAllMember");
 	}
+	
+	// 내가 상대를 팔로우했나 체크
+	public String checkFollow(FollowVO check_Vo) {
+		String result = null;
+		if(mybatis.selectOne("MemberMapper.checkFollow", check_Vo) != null) {
+			result = "y";
+		} else {
+			result = "n";
+		}
+		return result;
+	}
 }

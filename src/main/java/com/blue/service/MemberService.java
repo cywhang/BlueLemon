@@ -33,11 +33,8 @@ public interface MemberService {
 	boolean checkDuplicate(String member_Id);
 
 	// 회원 탈퇴
-
 	void deleteMember(String member_Id);
 	
-
-
 	// 아이디 찾기
 	String searchId(MemberVO vo);
 
@@ -54,9 +51,7 @@ public interface MemberService {
 	String selectPwdByIdNameEmail(MemberVO vo);
 
 	// 회원검색
-
 	List<MemberVO> searchMembers(String keyword);
-
 
 	// 나를 팔로우 했는데 나는 팔로우 안한 사람 추천
 	List<MemberVO> getRecommendMember(String member_Id);
@@ -78,4 +73,7 @@ public interface MemberService {
 
 	// 관리자 - 전체 회원 조회
 	List<MemberVO> getAllMember();
+	
+	// 내가 상대 팔로우 했나 여부
+	String checkFollow(FollowVO check_Vo);
 }

@@ -132,4 +132,9 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> searchMembers(String keyword) {
 		 return	memberDao.searchMembers(keyword);
 	}
+
+	@Override
+	public String checkFollow(FollowVO check_Vo) {
+		return memberDao.checkFollow(check_Vo);
+	}
 }
