@@ -70,7 +70,8 @@ public class AdminController {
 				totalCount += todaysTag.get(i).getTag_Count();
 			}		
 			for(int i = 0; i < todaysTag.size(); i++) {
-				todaysTagContent.add(todaysTag.get(i).getTag_Content());
+				String temp = "\"" + todaysTag.get(i).getTag_Content() + "\"";
+				todaysTagContent.add(temp);
 				double div = (todaysTag.get(i).getTag_Count() / totalCount) * 100;
 				String divResult = String.format("%.2f", div);
 				todaysTagPercent.add(divResult);

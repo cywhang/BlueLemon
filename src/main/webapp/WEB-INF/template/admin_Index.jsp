@@ -16,6 +16,7 @@
     </head>
     <script>
     	var memberTendency = ${memberTendency};
+    	console.log(memberTendency);
     </script>
     <script>
 		var todaysTagContent = ${todaysTagContent};
