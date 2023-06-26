@@ -364,4 +364,49 @@ public class MemberController {
 
 		return searchResults;
 	}
+	
+	// PEOPLE 탭 List 가져오기
+			@PostMapping("/moreSerachPeopleList")
+			@ResponseBody
+			public ResponseEntity<Map<String, Object>> getSerachPeopleList(@RequestBody Map<String, String> requestbody, HttpSession session, Model model){
+
+				//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
+				String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+
+			    String hashTag = requestbody.get("hashTag");
+
+			    List<MemberVO> searchFollow = memberService.searchMembers(hashTag);
+
+			    //System.out.println("[PEOPLE 탭 - 4] CAN FOLLOW LIST를 받아오기 성공");
+
+			    int searchFollowSize = searchFollow.size();
+
+			    Map<String, Object> responseData = new HashMap<>();
+
+			    int totalPageNum = 0;
+
+			    if(searchFollowSize % 5 != 0 && searchFollowSize > 5) {
+			    	totalPageNum = searchFollowSize / 5 + 1;
+				} else if(searchFollowSize % 5 != 0 && searchFollowSize < 5) {
+					totalPageNum = 0;
+				} else if(searchFollowSize % 5 == 0) {
+					totalPageNum = searchFollowSize / 5;
+				}
+
+			    List<MemberVO> myFollowing = memberService.getFollowings(member_Id);
+
+			    for(int i=0; i<myFollowing.size(); i++) {
+					for(int j=0; j<searchFollow.size(); j++) {
+						if(myFollowing.get(i).getMember_Id().equals(searchFollow.get(j).getMember_Id())) {
+							searchFollow.get(j).setBothFollow(1);
+						}
+					}
+				}
+
+			    responseData.put("totalPageNum", totalPageNum);
+			    responseData.put("searchFollow", searchFollow);
+			    responseData.put("searchFollowSize", searchFollowSize);
+
+			    return ResponseEntity.ok(responseData);
+			}
 }

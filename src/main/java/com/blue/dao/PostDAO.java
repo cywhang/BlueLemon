@@ -121,4 +121,11 @@ public class PostDAO {
 	public PostVO selectPostDetail(int post_Seq) {
 		return mybatis.selectOne("PostMapper.selectPostDetail", post_Seq); 
 	}
+	
+	// 해시태그로 게시글 검색
+	public ArrayList<PostVO> getHashTagPost(String hashTag){
+		List<PostVO> result = mybatis.selectList("PostMapper.getHashTagPost", hashTag);
+		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
+		return memberPostList;
+	}
 }

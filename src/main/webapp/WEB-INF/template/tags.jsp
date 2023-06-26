@@ -614,7 +614,9 @@
                      <!-- Search Tab -->
                      <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
                            <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-                           <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" onkeyup="searchMembers()">
+                           <form action="/blue/search_HashTag" method="get">
+                           		<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
+                           </form>
                         </div>
                         <!-- 검색 결과 리스트 -->
                         <div id="searchResults"></div>

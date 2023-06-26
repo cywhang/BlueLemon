@@ -184,11 +184,6 @@
 	                                                </div>
 	                                             </div>
 	                                             <div class="my-2">
-	                                             	<%-- 해시태그 검색 기능, #인식 링크차별화 --%>
-	                                             	<br>                                               
-	                                                <p class="text-dark">${postVO.post_Content}</p>
-	                                                <a href="#" class="mb-3 text-primary">${postVO.post_Hashtag}</a>
-	                                                
 	                                                <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
 	                                                <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 		                                                <c:choose>
@@ -200,7 +195,11 @@
 		                                                	</c:otherwise>
 		                                                </c:choose>
 	                                                </a>
-	                                                
+	                                                <br>
+	                                                <!-- 해시태그 -->
+	                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                                </c:forEach>
 	                                                <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
 	                                                <div class="d-flex align-items-center justify-content-between mb-2">
 	                                                    <%-- 게시글 좋아요 버튼 (카운트) --%>
@@ -463,7 +462,9 @@
                         <!-- Search Tab -->
                         <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
                            <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-                           <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" onkeyup="searchMembers()">
+                           <form action="/blue/search_HashTag" method="get">
+                           		<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
+                           </form>
                         </div>
                         <!-- 검색 결과 리스트 -->
                         <div id="searchResults"></div>

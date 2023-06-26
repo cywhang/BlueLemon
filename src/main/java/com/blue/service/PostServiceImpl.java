@@ -104,5 +104,8 @@ public class PostServiceImpl implements PostService {
 		return postDao.selectPostDetail(post_Seq);
 	}
 
-	
+	@Override
+	public ArrayList<PostVO> getHashTagPost(String hashTag) {
+		return postDao.getHashTagPost(hashTag);
+	}
 }
