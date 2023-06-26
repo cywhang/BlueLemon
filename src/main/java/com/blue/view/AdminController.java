@@ -52,9 +52,35 @@ public class AdminController {
 		
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
 			
-			List<Integer> memberTendency = memberService.getMemberTendency();
+			// 회원 가입 추세
+			List<Integer> memberTendencyDayByDay = memberService.getMemberTendency();
+			List<Integer> memberTendency = new ArrayList<Integer>();
+			int sum = 0;
+			for(int i = 0; i < memberTendencyDayByDay.size(); i++) {
+				sum += memberTendencyDayByDay.get(i);
+				memberTendency.add(sum);
+			}
+			
+			// 오늘의 해시태그
+			List<TagVO> todaysTag = postService.getTodaysTag();
+			List<String> todaysTagContent = new ArrayList<String>();
+			List<String> todaysTagPercent = new ArrayList<String>();
+			double totalCount = 0;
+			for(int i = 0; i < todaysTag.size(); i++) {
+				totalCount += todaysTag.get(i).getTag_Count();
+			}		
+			for(int i = 0; i < todaysTag.size(); i++) {
+				todaysTagContent.add(todaysTag.get(i).getTag_Content());
+				double div = (todaysTag.get(i).getTag_Count() / totalCount) * 100;
+				String divResult = String.format("%.2f", div);
+				todaysTagPercent.add(divResult);
+			}
 			model.addAttribute("memberTendency", memberTendency);
+			model.addAttribute("todaysTagContent",todaysTagContent);
+			model.addAttribute("todaysTagPercent", todaysTagPercent);
 
+			System.out.println("todaysTagContent" + todaysTagContent);
+			System.out.println("todaysTagPercent" + todaysTagPercent);
 			return "admin_Index";
 		} else {
 			

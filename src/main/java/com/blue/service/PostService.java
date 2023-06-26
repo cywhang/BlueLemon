@@ -57,4 +57,7 @@ public interface PostService {
 	
 	// 해쉬 태그 검색 기능
 	ArrayList<PostVO> getHashTagPost(String hashTag);
+	
+	// 관리자 페이지 오늘의 해시태그
+	ArrayList<TagVO> getTodaysTag();
 }

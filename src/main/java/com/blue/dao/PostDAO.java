@@ -128,4 +128,10 @@ public class PostDAO {
 		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
 		return memberPostList;
 	}
+
+	public ArrayList<TagVO> getTodaysTag() {
+		List<TagVO> result = mybatis.selectList("PostMapper.getTodaysTag");
+		ArrayList<TagVO> todaysTag = new ArrayList<TagVO>(result);
+		return todaysTag;
+	}
 }

@@ -108,4 +108,9 @@ public class PostServiceImpl implements PostService {
 	public ArrayList<PostVO> getHashTagPost(String hashTag) {
 		return postDao.getHashTagPost(hashTag);
 	}
+
+	@Override
+	public ArrayList<TagVO> getTodaysTag() {
+		return postDao.getTodaysTag();
+	}
 }

@@ -134,12 +134,24 @@
 		WHERE p.post_Seq = #{post_Seq}
 	</select>
 	
-		<!-- 해쉬태그 검색 기능 -->
+	<!-- 해쉬태그 검색 기능 -->
 	<select id="getHashTagPost" resultType="post">
 		select *
 		from post
 		where post_seq in (select post_seq from tag where tag_content like <![CDATA[#{tag_content}]]>)
 	</select>
 	
-	
+	<!-- 관리자 페이지 오늘의 해시태그 -->
+	<select id = "getTodaysTag" resultType = "tag">
+		<![CDATA[
+			SELECT tag_Content, tag_Count
+			FROM(SELECT tag_Content, COUNT(*) tag_Count
+			     FROM tag
+			     WHERE post_Seq IN(SELECT post_Seq FROM post 
+			                       WHERE TRUNC(post_Date) = TRUNC(sysdate))
+			     GROUP BY tag_Content
+			     ORDER BY tag_Count DESC)
+			WHERE ROWNUM <= 5
+		]]>
+	</select>	
 </mapper>

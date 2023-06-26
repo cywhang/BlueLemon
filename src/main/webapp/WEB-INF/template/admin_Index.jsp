@@ -17,6 +17,12 @@
     <script>
     	var memberTendency = ${memberTendency};
     </script>
+    <script>
+		var todaysTagContent = ${todaysTagContent};
+		var todaysTagPercent = ${todaysTagPercent};
+		console.log(todaysTagContent);
+		console.log(todaysTagPercent);
+    </script>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
@@ -116,8 +122,8 @@
                             <div class="col-xl-6">
                                 <div class="card mb-4">
                                     <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Post Tendency
+                                        <i class="fas fa-chart-pie me-1"></i>
+                                        HashTag Tendency
                                     </div>
                                     <div class="card-body"><canvas id="myPieChart" width="100%" height="40"></canvas></div>
                                 </div>
@@ -143,7 +149,6 @@
         <script src="js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
         <script src="js/chart-area-demo.js"></script>
-        <script src="js/chart-bar-demo.js"></script>
         <script src="js/chart-pie-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
