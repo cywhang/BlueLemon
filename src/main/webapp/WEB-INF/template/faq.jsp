@@ -78,7 +78,7 @@
 	                                       <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 	                                          <div class="accordion-body">
 	                                          	  프로필의 변경은 로그인 후 좌측 사이드메뉴에서 Profile을 들어가신 후<br> Edit-Profile을 통해 변경할 수 있습니다.
-	                                             <strong>프로필 이미지는 JPG 확장자만 사용 가능합니다.</strong><br>
+	                                             <strong>프로필 이미지는 PNG 확장자만 사용 가능합니다.</strong><br>
 	                                             		폭력적이거나 선정적인 이미지는 제거되거나 계정 사용이 정지될 수 있습니다.
 	                                          </div>
 	                                       </div>
