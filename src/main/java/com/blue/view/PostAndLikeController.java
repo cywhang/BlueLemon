@@ -439,7 +439,7 @@ public class PostAndLikeController {
 		
 		postService.deletePost(post_Seq);
 		
-		return "post_Table";
+		return "redirect:post_Table";
 	}
 	
 	@GetMapping("/search_HashTag")
