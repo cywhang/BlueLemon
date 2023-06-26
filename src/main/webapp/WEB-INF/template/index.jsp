@@ -185,9 +185,9 @@
                                                 <br>
                                                 
                                                 <!-- 해시태그 -->
-                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
-                                                </c:forEach>
+                                                 <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                                </c:forEach>
                                                 <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
