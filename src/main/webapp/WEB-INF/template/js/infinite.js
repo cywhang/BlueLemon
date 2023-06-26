@@ -2,6 +2,8 @@
  *  인피니트 스크롤을 구현하기 위한 js
  */
 
+var trendpageNum = 0;
+
 function followingload(followingTotalPageNum, followingPageNum){
 	
 	var followingTotalPageNum = followingTotalPageNum
@@ -443,13 +445,10 @@ $.ajax({
 
 
 
-var trendpageNum = 0;
-
 
 
 //뷰포트 내에 들어올 경우 실행할 함수
 function handleTrendInfinity() {
-console.log("트랜드 무한 로딩이 뷰포트 내에 들어왔습니다!");
 
 console.log("트랜드 페이지 넘버 포스트 출력 전 : " + trendpageNum);
 
@@ -692,3 +691,4 @@ $.ajax({
     }
 });
 }
+

@@ -18,16 +18,16 @@ function trending_List() {
             // 받아온 데이터를 활용해 동적으로 카드 추가
             if (trending_postList.length > 0) {
                 var trending_feed = document.getElementById("trending_feed");
-
+                
                 // 컨테이너 초기화
                 trending_feed.innerHTML = "";
                 
                 var html = "";
                 
                 for (var i = 0; i < 10; i++) {
-                    var PostVO = trending_postList[i];
                     
-                    if(i == trending_postList.legnth && trending_postList.legnth < 10){
+                    
+                    if(i == (trending_postList.length) && trending_postList.length <= 10){
                     	
                     	console.log("마지막 행 실행중");
                     	  
@@ -46,6 +46,8 @@ function trending_List() {
                     	document.getElementById("trendFeedLoading").remove();
                     	
                     }
+                    
+                    var PostVO = trending_postList[i];
                     
                     console.log("아이디 : " + PostVO.member_Id + " + 글 시퀀스 : " + PostVO.post_Seq);
 

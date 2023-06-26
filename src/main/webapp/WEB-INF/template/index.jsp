@@ -274,12 +274,23 @@
                               <div id="main_feed"></div>
                               <div id="loadingStop"></div>           
 		                         <!-- 피드무한스크롤 -->
-		                         <div class="text-center mt-4" id="feedInfinity">
-								    <div class="spinner-border" role="status">
-									   <span class="visually-hidden">Loading...</span>
-									</div>
-									<p class="mb-0 mt-2">Loading</p>
-		                  		</div>                                           
+		                         <c:choose>
+		                         	<c:when test="${fn:length(postList)<=10}">
+		                         		<div id="feedEnd">
+						                    <br>
+						                    <h5 align="center">No Post To Show</h5>
+						                    <br>
+						                </div>
+		                         	</c:when>
+		                         	<c:otherwise>
+			                         	<div class="text-center mt-4" id="feedInfinity">
+										    <div class="spinner-border" role="status">
+											   <span class="visually-hidden">Loading...</span>
+											</div>
+											<p class="mb-0 mt-2">Loading</p>
+				                  		</div>  
+		                         	</c:otherwise>
+		                         </c:choose>		                                                                  
                            </div>
                         </div><!-- 뉴스피드 부분 -->
                         

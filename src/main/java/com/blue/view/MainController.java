@@ -14,8 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -271,13 +273,90 @@ public class MainController {
 		// 화면 우측 Hottest Feed
 		List<PostVO> hottestFeed = postService.getHottestFeed();
 		
+		model.addAttribute("loginUser_Id", loginUser_Id);
 		model.addAttribute("member", member);
+		model.addAttribute("member_Id", member_Id);
 		model.addAttribute("postlist", postlist);
 		model.addAttribute("profileMap", profilemap);
 		model.addAttribute("replyMap", replymap);
 		model.addAttribute("hottestFeed", hottestFeed);	
 		return "profile";
-	}
+	} 
+	
+	
+	// Profile 이동
+	@PostMapping("/profileInfinite")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> MoreProfilePost(@RequestBody Map<String, String> requestBody, Model model, HttpSession session) {
+		
+		String member_Id = requestBody.get("member_Id");
+		
+		//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
+		MemberVO member = memberService.getMember(member_Id);
+		
+		String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		
+		// 내가 쓴 글을 postlist에 담음
+		ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
+		//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");		
+		
+		// 각 post_seq에 대한 댓글들을 매핑할 공간.
+		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+				
+		// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
+		// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
+		for(int i = 0; i < postlist.size(); i++) {
+			
+			int post_Seq = postlist.get(i).getPost_Seq();
+			
+			// i번째 게시글의 댓글 리스트를 담음
+			ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+			// i번째 게시글의 댓글 좋아요 여부 체크
+			for(int k = 0; k < replylist.size(); k++) {
+				ReplyVO voForReplyCheck = replylist.get(k);
+				String realReply_Member_Id = replylist.get(k).getMember_Id();
+				voForReplyCheck.setMember_Id(loginUser_Id);		
+				String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
+				replylist.get(k).setReply_LikeYN(reply_LikeYN);
+				replylist.get(k).setMember_Id(realReply_Member_Id);
+
+				//System.out.println("[프로필 페이지 - 3] 해당 댓글 좋아요 눌렀나 체크됨");
+			}
+			
+			// i번째의 게시글의 댓글을 map에 매핑하는 작업
+			replymap.put(i, replylist);
+			//System.out.println("[프로필 페이지 - 4] 게시글 별 댓글을 매핑함");		
+			
+			// i번째 게시글의 좋아요 여부 체크
+			PostVO voForLikeYN = new PostVO();
+			voForLikeYN.setMember_Id(loginUser_Id);
+			voForLikeYN.setPost_Seq(post_Seq);
+			String post_LikeYN = postService.getLikeYN(voForLikeYN);
+			int post_Like_Count = postService.getPost_Like_Count(post_Seq);
+			postlist.get(i).setPost_Like_Count(post_Like_Count);
+			postlist.get(i).setPost_LikeYN(post_LikeYN);
+			//System.out.println("[프로필 페이지 - 5] " + i + "번째 게시글 좋아요 눌렀나 체크됨 : " + post_LikeYN);
+			
+		}
+		
+		// 전체 회원 프로필 이미지 조회
+		HashMap<String, String> profilemap = memberService.getMemberProfile();
+		//System.out.println("전체 회원 프로필: " + profilemap);		
+		//System.out.println("[프로필 페이지 - 6] 출력준비를 위한 postvo 준비");
+		
+		// 화면 우측 Hottest Feed
+		List<PostVO> hottestFeed = postService.getHottestFeed();
+		
+		Map<String, Object> responseData = new HashMap<>();
+		
+		responseData.put("session_Id", loginUser_Id);
+		responseData.put("postlist", postlist);
+		responseData.put("profileMap", profilemap);
+		responseData.put("replyMap", replymap);
+		
+	      
+	    return ResponseEntity.ok(responseData);
+	} 
 	
 	@GetMapping("trending_List")
 	public ResponseEntity<Map<String, Object>> trending_List(HttpSession session, Model model) {

@@ -17,7 +17,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="admin_Index">Blue Lemon</a>
+            <a class="navbar-brand ps-3" href="admin_Index">BlueLemon</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         </nav>
@@ -34,8 +34,7 @@
                             <a class="nav-link" href="index">
                                 <div class="sb-nav-link-icon"><i class="fas fa-laptop"></i></div>
                                 FEED
-                            </a>
-                            
+                            </a>                            
                             <div class="sb-sidenav-menu-heading">Interface</div>
                             <a class="nav-link" href="member_Table">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
@@ -96,7 +95,7 @@
                                     	<c:forEach items="${postList}" var="postVO" varStatus="status" begin="0" end="${postListSize}">
 	                                        <tr>
 	                                            <td>${postVO.member_Id}</td>
-	                                            <td><a href="ViewDetail?post_Seq=${postVO.post_Seq}">${postVO.post_Content}</a></td>
+	                                            <td><a href="post_Detail?post_Seq=${postVO.post_Seq}">${postVO.post_Content}</a></td>
 	                                            <td>
 		                                            <c:choose>
 		                                            	<c:when test="${empty hashMap[postVO.post_Seq]}">
