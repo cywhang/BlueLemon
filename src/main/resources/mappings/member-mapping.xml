@@ -167,4 +167,21 @@
 		WHERE member_Id LIKE #{keyword}||'%'
 	</select>
 	
+	<!-- 관리자 페이지 회원수 그래프 -->
+	<select id = "getMemberTendency" resultType = "Integer">
+		<![CDATA[
+			WITH date_range AS (
+				SELECT TRUNC(SYSDATE) - LEVEL + 1 AS join_date
+				FROM dual
+				CONNECT BY LEVEL <= 10
+			)
+			SELECT NVL(memCount, 0)
+			FROM date_range
+			LEFT OUTER JOIN (SELECT TRUNC(member_Join_Date) member_Join_Date, Count(*) memCount
+			                 FROM member
+			                 GROUP BY member_Join_Date)
+			ON (date_range.join_date = member_Join_Date)
+			ORDER BY join_date
+		]]>
+	</select>
 </mapper>
