@@ -218,11 +218,12 @@ $.ajax({
    dataType: "json", // 데이터 형식을 JSON으로 지정
    success: function(response) {
 
- 	  var trending_profileMap = response.profileMap;
+ 	   var trending_profileMap = response.profileMap;
        var trending_postList = response.postList;
        var trending_replyMap = response.replyMap;
        var session_Id = response.session_Id;
-
+       var hashMap = response.hashMap;
+       
        var firstRow = pageNum * 10;
        var lastRow = pageNum * 10 + 9;
 
@@ -297,15 +298,19 @@ $.ajax({
                html += '            </div>';
                html += '            <div class="my-2">';
                html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+               html += '               <br>';
+               
+               var hash = hashMap[PostVO.post_Seq];
 
-               if(PostVO.post_Hashtag == null){
+	             if(hash == null){
 
-               }else{
-            	  var hash = hashMap[PostVO.post_Seq];
-            	  for(var i=0; i<hash.length(); i++){
-               		html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
-            	  }
-               }
+	             }else{
+
+	          	  for(var j=0; j<hash.length; j++){
+	          		  var Tag = hash[j]
+	             		html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+	          	  }
+	             }
 
                html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
 
@@ -468,6 +473,7 @@ $.ajax({
         var trending_postList = response.trending_postList;
         var trending_replyMap = response.trending_replyMap;
         var session_Id = response.session_Id;
+        var hashMap = response.hashMap;
         
         var firstRow = trendpageNum * 10;
         var lastRow = trendpageNum * 10 + 9;
@@ -544,14 +550,7 @@ $.ajax({
                 html += '            <div class="my-2">';
                 html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
                 
-                if(PostVO.post_Hashtag == null){
-                	
-                }else{
-                  var hash = hashMap[postVO.post_Seq];
-                  for(var i=0; i<hash.length(); i++){
-                	html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
-                  }
-                }
+               
 
                 html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
                 
@@ -564,6 +563,20 @@ $.ajax({
                 
                 
                 html += '               </a>';
+                html += '               <br>';
+                
+                var hash = hashMap[PostVO.post_Seq];
+
+	             if(hash == null){
+
+	             }else{
+
+	          	  for(var j=0; j<hash.length; j++){
+	          		  var Tag = hash[j]
+	             		html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+	          	  }
+	             }
+	             
                 html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
                 html += '                  <div class="like-group" role="group">';
                 

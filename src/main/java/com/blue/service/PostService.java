@@ -54,4 +54,7 @@ public interface PostService {
 	
 	// 관리자 게시글 상세정보
 	PostVO selectPostDetail(int post_Seq);
+	
+	// 해쉬 태그 검색 기능
+	ArrayList<PostVO> getHashTagPost(String hashTag);
 }

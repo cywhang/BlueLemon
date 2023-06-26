@@ -228,6 +228,9 @@ public class MainController {
 		
 		// 각 post_seq에 대한 댓글들을 매핑할 공간.
 		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+		
+		// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+		Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
 				
 		// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
 		// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
@@ -263,6 +266,10 @@ public class MainController {
 			postlist.get(i).setPost_LikeYN(post_LikeYN);
 			//System.out.println("[프로필 페이지 - 5] " + i + "번째 게시글 좋아요 눌렀나 체크됨 : " + post_LikeYN);
 			
+			// i번째 게시글의 해시태그 체크    hashmap
+			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+			hashmap.put(post_Seq, hash);
+			
 		}
 		
 		// 전체 회원 프로필 이미지 조회
@@ -279,7 +286,10 @@ public class MainController {
 		model.addAttribute("postlist", postlist);
 		model.addAttribute("profileMap", profilemap);
 		model.addAttribute("replyMap", replymap);
-		model.addAttribute("hottestFeed", hottestFeed);	
+		model.addAttribute("hottestFeed", hottestFeed);
+		model.addAttribute("hashMap", hashmap);
+		
+		
 		return "profile";
 	} 
 	
@@ -302,6 +312,9 @@ public class MainController {
 		
 		// 각 post_seq에 대한 댓글들을 매핑할 공간.
 		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+		
+		// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+		Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
 				
 		// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
 		// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
@@ -337,6 +350,10 @@ public class MainController {
 			postlist.get(i).setPost_LikeYN(post_LikeYN);
 			//System.out.println("[프로필 페이지 - 5] " + i + "번째 게시글 좋아요 눌렀나 체크됨 : " + post_LikeYN);
 			
+			// i번째 게시글의 해시태그 체크    hashmap
+			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+			hashmap.put(post_Seq, hash);
+			
 		}
 		
 		// 전체 회원 프로필 이미지 조회
@@ -353,7 +370,8 @@ public class MainController {
 		responseData.put("postlist", postlist);
 		responseData.put("profileMap", profilemap);
 		responseData.put("replyMap", replymap);
-		
+		responseData.put("hashMap", hashmap);
+
 	      
 	    return ResponseEntity.ok(responseData);
 	} 
@@ -371,7 +389,10 @@ public class MainController {
 	       
 	    // 각 post_seq에 대한 댓글들을 매핑할 공간.
 	    Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
-	      
+
+	    // 각 post_seq에 대한 해시태그들을 매핑할 공간.
+	 	Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
+	 	
 	    // 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
 	    // 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
 	    for(int i=0; i<hottestFeed.size(); i++) {
@@ -408,6 +429,10 @@ public class MainController {
 	        String post_LikeYN = postService.getLikeYN(voForLikeYN);
 	        hottestFeed.get(i).setPost_LikeYN(post_LikeYN);
 	        //  System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + hottestFeed.get(i).getPost_LikeYN());
+	        
+	     // i번째 게시글의 해시태그 체크    hashmap
+	     			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+	     			hashmap.put(post_Seq, hash);
 	    }
 	      	      
 	    // 전체 회원 프로필 이미지 조회
@@ -421,6 +446,7 @@ public class MainController {
 	    responseData.put("trending_profileMap", profilemap);
 	    responseData.put("trending_postList", hottestFeed);
 	    responseData.put("trending_replyMap", replymap);
+	    responseData.put("hashMap", hashmap);
 	      
 	    return ResponseEntity.ok(responseData);
 	}
@@ -461,6 +487,7 @@ public class MainController {
 	}
 	// index 페이지 로드
 	@GetMapping("/feedInfinite")
+	@ResponseBody
 	public ResponseEntity<Map<String, Object>> feedInfinite(Model model, HttpSession session) {
 
 			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();

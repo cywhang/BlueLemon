@@ -134,4 +134,12 @@
 		WHERE p.post_Seq = #{post_Seq}
 	</select>
 	
+		<!-- 해쉬태그 검색 기능 -->
+	<select id="getHashTagPost" resultType="post">
+		select *
+		from post
+		where post_seq in (select post_seq from tag where tag_content like <![CDATA[#{tag_content}]]>)
+	</select>
+	
+	
 </mapper>

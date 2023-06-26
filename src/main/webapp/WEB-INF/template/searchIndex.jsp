@@ -77,13 +77,10 @@
                   	 <!-- 피드, 피플, 트랜딩 버튼 -->
                      <ul class="top-osahan-nav-tab nav nav-pills justify-content-center nav-justified mb-4 shadow-sm rounded-4 overflow-hidden bg-white sticky-sidebar2" id="pills-tab" role="tablist">
                         <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted active" id="pills-feed-tab" data-bs-toggle="pill" data-bs-target="#pills-feed" type="button" role="tab" aria-controls="pills-feed" aria-selected="true">Feed</button>
+                           <button class="p-3 nav-link text-muted active" id="pills-feed-tab" data-bs-toggle="pill" data-bs-target="#pills-feed" type="button" role="tab" aria-controls="pills-feed" aria-selected="true">#해시태그 검색</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted" id="pills-people-tab" data-bs-toggle="pill" data-bs-target="#pills-people" type="button" role="tab" aria-controls="pills-people" aria-selected="false" onclick = "people_List()">People</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                           <button class="p-3 nav-link text-muted" id="pills-trending-tab" data-bs-toggle="pill" data-bs-target="#pills-trending" type="button" role="tab" aria-controls="pills-trending" aria-selected="false" onclick = "trending_List()">Trending</button>
+                           <button class="p-3 nav-link text-muted" id="pills-people-tab" data-bs-toggle="pill" data-bs-target="#pills-people" type="button" role="tab" aria-controls="pills-people" aria-selected="false">@인물 검색</button>
                         </li>
                      </ul>
                      
@@ -139,7 +136,17 @@
                            <!-- 뉴스피드들을 감싸는 부분 -->
                            <div class="pt-4 feeds">                              
                               <!-- Feed Item -->
-                              <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
+                              
+                              <c:choose>
+                              	<c:when test="${postListSize==0}">
+									<br>
+					                 	<h5 align="center">No Post To Show</h5>
+									<br>
+                              	</c:when>
+                              	
+                              	<c:otherwise>
+                              	
+                              		 <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
                                     <div class="d-flex">
                                        <!-- 작성자의 프로필사진 -->
@@ -169,6 +176,13 @@
                                                 </div>
                                              </div>
                                              <div class="my-2">
+                                             	<br>       
+                                             	<!-- 게시글 내용 -->                                        
+                                                <p class="text-dark">${postVO.post_Content}</p>
+                                                <!-- 해시태그 -->
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+                                                	<a id="hash" href="search_HashTag?hashTag=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+                                                </c:forEach>
                                                 <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
                                                 <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 	                                               <c:choose>
@@ -179,16 +193,8 @@
 	                                                     <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded mb-3" alt="post-img">
 	                                                  </c:otherwise>
 	                                               </c:choose>
-                                                </a>      
-                                             	<!-- 게시글 내용 -->                                        
-                                                <p class="text-dark">${postVO.post_Content}</p>
-                                                <br>
+                                                </a>
                                                 
-                                                <!-- 해시태그 -->
-                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
-                                                </c:forEach>
-                                                <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                                    <%-- 게시글 좋아요 버튼 (카운트) --%>
@@ -207,13 +213,13 @@
 													        <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">${postVO.post_Like_Count}</p>
 													     </c:otherwise>
 											          </c:choose>
-												   </div>													
+												   </div>
+													
 							                       <div>
                                                    	  <%-- 댓글 버튼 + 카운트 --%>
       					                              <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><span>${postVO.post_Reply_Count}</span></div>
                                                    </div>
                                                 </div>
-                                                <br>
                                                  
                                                 <!-- 댓글 입력창 부분 (클릭시 모달창) -->
                                                 <div class="d-flex align-items-center mb-3" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})">
@@ -271,37 +277,122 @@
                                        </div>
                                     </div>
                                  </div>
-                              </c:forEach> <!-- 게시글 출력 반복문 -->          
-                              <div id="main_feed"></div>
-                              <div id="loadingStop"></div>           
-		                         <!-- 피드무한스크롤 -->
-		                         <c:choose>
-		                         	<c:when test="${fn:length(postList)<=10}">
-		                         		<div id="feedEnd">
-						                    <br>
-						                    <h5 align="center">No Post To Show</h5>
-						                    <br>
-						                </div>
-		                         	</c:when>
-		                         	<c:otherwise>
-			                         	<div class="text-center mt-4" id="feedInfinity">
-										    <div class="spinner-border" role="status">
-											   <span class="visually-hidden">Loading...</span>
-											</div>
-											<p class="mb-0 mt-2">Loading</p>
-				                  		</div>  
-		                         	</c:otherwise>
-		                         </c:choose>		                                                                  
+                              </c:forEach> <!-- 게시글 출력 반복문 -->
+                              
+                              	</c:otherwise>
+                              </c:choose>
+                              
+                             
+                              <input type="hidden" value="${hashTag}" id="hashTag"/>          
+                              <div id="SearchMainFeed"></div>
+                              <div id="SearchLoadingStop"></div>
+                              <c:choose>
+                              	<c:when test="${postListSize<10}">           
+			                         
+		                  		</c:when>
+		                  		<c:otherwise>
+		                  			<!-- 피드무한스크롤 -->
+			                         <div class="text-center mt-4" id="SearchFeedInfinity">
+									    <div class="spinner-border" role="status">
+										   <span class="visually-hidden">Loading...</span>
+										</div>
+										<p class="mb-0 mt-2">Loading</p>
+			                  		</div>
+		                  		</c:otherwise>
+		                  	  </c:choose>                                           
                            </div>
                         </div><!-- 뉴스피드 부분 -->
                         
+                        
                         <!-- people 탭 클릭시 -->                        
                         <div class="tab-pane fade" id="pills-people" role="tabpanel" aria-labelledby="pills-people-tab">
-                           <h6 class="mb-3 fw-bold text-body">People Who Follow You</h6>
-                           <div id="canFollowPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm"></div>
+                           <h6 class="mb-3 fw-bold text-body">People Search Result by '${hashTag}'</h6>
+                           <div id="searchPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
+                           <c:choose>
+								<c:when test="${searchFollow eq null}">
+		                            <div>
+				                        <br>
+				                        <h5 align="center">Nobody To Follow</h5>
+				                        <br>
+				                    </div>
+                        		</c:when>
+                        		<c:otherwise>
+                        			<c:forEach var="search" items="${searchFollow}" begin="0" end="4">
+		                           		<a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">
+		                                 <img src="img/uploads/profile/${search.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
+		                                 <div>
+		                                     <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${search.member_Id}</p>
+		                                     <div class="text-muted fw-light">
+		                                         <p class="mb-1 small">${search.member_Name}</p>
+		                                     </div>
+		                                 </div>
+		                                 <div class="ms-auto">
+		                                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+		                                     
+		                                      <c:choose>
+													<c:when test="${search.bothFollow==1}">
+														 <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}" checked="checked">
+				                                         <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
+				                                             <span class="following d-none">Following</span>
+				                                             <span class="follow">+ Follow</span>
+				                                         </label>
+			                                     	</c:when>
+					                        		<c:otherwise>
+					                        			 <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}">
+				                                         <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
+				                                             <span class="following d-none">Following</span>
+				                                             <span class="follow">+ Follow</span>
+				                                         </label>
+					                        		</c:otherwise>
+					                        	</c:choose>
+		                                         
+		                                     </div>
+		                                 </div>
+		                             </a>
+		                        	</c:forEach>
+                        		</c:otherwise>
+                        	</c:choose>
+                        		<div id="searchFollowMoreLoadBox"></div>
+                           </div>
+                           
+                           
+                           <div id="searchFollowMoreLoadBtn">
+                           <c:choose>
+                           		<c:when test="${searchFollowSize>5}">
+	                           		<div class="ms-auto" align="center">
+										<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="searchPeopleInfinity('${hashTag}')">+ 더보기</span>
+									</div>                           	
+									<br>
+                           		</c:when>
+                           		<c:otherwise>
+                           			
+                           		</c:otherwise>
+                           </c:choose>
+                           </div>
                            
                            <h6 class="mb-3 fw-bold text-body">Most Popular People</h6>
-                           <div id="mostFollowPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm"></div>
+                           <div id="mostFollowPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
+                            <c:forEach var="popular" items="${mostFamous}" begin="0" end="4">
+                           		<a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none">
+                                 <img src="img/uploads/profile/${popular.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img" style="height:65px; width:65px">
+                                 <div>
+                                     <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${popular.member_Id}</p>
+                                     <div class="text-muted fw-light">
+                                         <p class="mb-1 small">${popular.member_Name}</p>
+                                     </div>
+                                 </div>
+                                 <div class="ms-auto">
+                                     <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                         <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}">
+                                         <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${popular.member_Id}" onclick="changeFollow('${popular.member_Id}')">
+                                             <span class="following d-none">Following</span>
+                                             <span class="follow">+ Follow</span>
+                                         </label>
+                                     </div>
+                                 </div>
+                             </a>
+                        	</c:forEach>
+                           </div>
                         </div>
                         
                         <!-- trending탭 클릭시 -->
@@ -320,17 +411,26 @@
                               	<div id="trendingFeedStop"></div>
                               	<div class="text-center mt-4" id="trendFeedLoading">
 				                    <div class="ms-auto" align="center">
-		                               <span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="handleTrendInfinity()">+ 더보기</span>
+		                                    	
 		                            </div>
                               	</div>
                            </div><!-- class="trending" -->                        
                         </div> <!-- class="feed" -->
                      </div>
                   </div><!-- class="main container" -->
+                  
+                  <!-- 무한 스크롤 -->
+ <!--                
+ 					 <div class="text-center mt-4">
+                     <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                     </div>
+                     <p class="mb-0 mt-2">Loading</p>
+                  </div>
+      --> 
                </main> <!-- index페이지의 센터 column -->
                
-               <!-- Sidebar -->
-               <!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
+               <!-- index페이지 왼쪽 사이드바 column -->
                <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
                   <div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
                      <div class="sidebar-nav mb-3">
@@ -345,13 +445,6 @@
                            <li class="nav-item">
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
-                           <c:choose>
-                              <c:when test="${loginUser.member_Id eq 'admin'}">
-                           	     <a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
-                           	  </c:when>
-                              <c:otherwise>
-                           	  </c:otherwise>
-                           </c:choose>
                            <li class="nav-item">
                               <a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
@@ -375,7 +468,8 @@
                      </div>
                   </div>
                   
-                  <!-- index페이지 왼쪽 사이드바 column -->
+                  <!-- Sidebar -->
+                  <!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
                   <div class="ps-0 m-none fix-sidebar">
                      <div class="sidebar-nav mb-3">
                         <div class="pb-4 mb-4">
@@ -387,13 +481,6 @@
                            <li class="nav-item">
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
-                           <c:choose>
-                              <c:when test="${loginUser.member_Id eq 'admin'}">
-                           	     <a href="admin_Index" class="nav-link"><img src = "img/admin_Icon.png"/><span style = "margin-left : 16px;">Admin Page</span></a>
-                           	  </c:when>
-                              <c:otherwise>
-                           	  </c:otherwise>
-                           </c:choose>
                            <li class="nav-item">
                               <a href = "profile?member_Id=${loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
@@ -531,13 +618,13 @@
                   <input type="checkbox" name="post_Public" value="y" checked="checked">
                	  <!-- 게시글 내용 작성창 -->
                   <div class="form-floating">
-                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)"></textarea>
+                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                      <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
                   </div>
                   
                   <!-- 해시태그 입력창 -->
                   <div>
-                     <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
+                     <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="#해시태그" id="floatingTextarea2" style="height: 50px"></textarea>
                      <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
                   </div>
                   <div class="d-flex justify-content-between">
@@ -738,10 +825,6 @@
       <script src="js/people.js"></script>
       <!-- Insert Js -->
       <script src="js/insert.js"></script>
-      <!-- Trending Js -->
-      <script src="js/trending.js"></script>
-      <!-- Infinite Js -->
-      <script src="js/infinite.js"></script>
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
    </body>

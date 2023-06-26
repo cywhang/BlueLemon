@@ -14,6 +14,7 @@ function trending_List() {
             var trending_postList = response.trending_postList;
             var trending_replyMap = response.trending_replyMap;
             var session_Id = response.session_Id;
+            var hashMap = response.hashMap;
             
             // 받아온 데이터를 활용해 동적으로 카드 추가
             if (trending_postList.length > 0) {
@@ -80,12 +81,7 @@ function trending_List() {
                     html += '            <div class="my-2">';
                     html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
                     
-                    if(PostVO.post_Hashtag == null){
-                    	
-                    }else{
-                    	html += '               <a href="#" class="mb-3 text-primary">' + PostVO.post_Hashtag + '</a>';
-                    }
-
+                    
                     html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
                     
                     
@@ -97,6 +93,21 @@ function trending_List() {
                     
                     
                     html += '               </a>';
+                    html += '               <br>';
+                    
+                    var hash = hashMap[PostVO.post_Seq];
+
+		             if(hash == null){
+
+		             }else{
+
+		          	  for(var j=0; j<hash.length; j++){
+		          		  var Tag = hash[j]
+		             		html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+		          	  }
+		             }
+
+                    
                     html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
                     html += '                  <div class="like-group" role="group">';
                     
