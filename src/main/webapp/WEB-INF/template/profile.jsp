@@ -773,7 +773,7 @@
       <script src="js/modal.js"></script>
       <!-- People Js -->
       <script src="js/people.js"></script>
-      <!-- Search Peple Js -->
+      <!-- Search People Js -->
       <script src="js/searchpeople.js"></script>
       <!-- profile Js -->
       <script src="js/profile.js"></script>
