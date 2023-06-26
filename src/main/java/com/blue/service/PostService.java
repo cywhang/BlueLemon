@@ -54,4 +54,7 @@ public interface PostService {
 	
 	// 관리자 게시글 상세정보
 	PostVO selectPostDetail(int post_Seq);
+	
+	// 관리자 페이지 오늘의 해시태그
+	ArrayList<TagVO> getTodaysTag();
 }

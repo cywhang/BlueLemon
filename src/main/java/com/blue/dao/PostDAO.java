@@ -121,4 +121,10 @@ public class PostDAO {
 	public PostVO selectPostDetail(int post_Seq) {
 		return mybatis.selectOne("PostMapper.selectPostDetail", post_Seq); 
 	}
+
+	public ArrayList<TagVO> getTodaysTag() {
+		List<TagVO> result = mybatis.selectList("PostMapper.getTodaysTag");
+		ArrayList<TagVO> todaysTag = new ArrayList<TagVO>(result);
+		return todaysTag;
+	}
 }

@@ -1,7 +1,7 @@
 // Set new default font family and font color to mimic Bootstrap's default styling
 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#292b2c';
-
+console.log(memberTendency);
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 // 현재 날짜 포함 10일 가져오기
@@ -23,7 +23,6 @@ while (currentDateCopy <= currentDate) {
 
 // 5. labels 배열을 사용해 차트 생성
 var ctx = document.getElementById("myAreaChart");
-console.log(memberTendency);
 
 var myLineChart = new Chart(ctx, {
   type: 'line',

@@ -104,5 +104,10 @@ public class PostServiceImpl implements PostService {
 		return postDao.selectPostDetail(post_Seq);
 	}
 
+	@Override
+	public ArrayList<TagVO> getTodaysTag() {
+		return postDao.getTodaysTag();
+	}
+
 	
 }
