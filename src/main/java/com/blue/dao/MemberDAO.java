@@ -202,4 +202,9 @@ public class MemberDAO {
 		}
 		return result;
 	}
+
+	// 관리자 페이지 회원수 현황 그래프
+	public List<Integer> getMemberTendency() {
+		return mybatis.selectList("MemberMapper.getMemberTendency");
+	}
 }

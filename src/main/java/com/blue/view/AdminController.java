@@ -51,6 +51,9 @@ public class AdminController {
 	public String getRecommendMember(Model model, HttpSession session) {
 		
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			
+			List<Integer> memberTendency = memberService.getMemberTendency();
+			model.addAttribute("memberTendency", memberTendency);
 
 			return "admin_Index";
 		} else {

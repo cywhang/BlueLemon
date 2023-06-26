@@ -137,4 +137,10 @@ public class MemberServiceImpl implements MemberService {
 	public String checkFollow(FollowVO check_Vo) {
 		return memberDao.checkFollow(check_Vo);
 	}
+
+	// 관리자 페이지 회원수 현황 그래프
+	@Override
+	public List<Integer> getMemberTendency() {
+		return memberDao.getMemberTendency();
+	}
 }

@@ -76,4 +76,7 @@ public interface MemberService {
 	
 	// 내가 상대 팔로우 했나 여부
 	String checkFollow(FollowVO check_Vo);
+	
+	// 관리자 - 회원 가입 현황 그래프
+	List<Integer> getMemberTendency();
 }
