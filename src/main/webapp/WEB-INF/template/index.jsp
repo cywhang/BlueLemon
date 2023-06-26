@@ -169,13 +169,7 @@
                                                 </div>
                                              </div>
                                              <div class="my-2">
-                                             	<br>       
-                                             	<!-- 게시글 내용 -->                                        
-                                                <p class="text-dark">${postVO.post_Content}</p>
-                                                <!-- 해시태그 -->
-                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
-                                                </c:forEach>
+                                             	<br> 
                                                 <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
                                                 <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 	                                               <c:choose>
@@ -186,8 +180,16 @@
 	                                                     <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded mb-3" alt="post-img">
 	                                                  </c:otherwise>
 	                                               </c:choose>
-                                                </a>
+                                                </a>      
+                                             	<!-- 게시글 내용 -->                                        
+                                                <p class="text-dark">${postVO.post_Content}</p>
+                                                <br>
                                                 
+                                                <!-- 해시태그 -->
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+                                                	<a id="hash" href="#" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
+                                                </c:forEach>
+                                                <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                                    <%-- 게시글 좋아요 버튼 (카운트) --%>
@@ -206,13 +208,13 @@
 													        <p class ="post_Like_Count_${postVO.post_Seq}" style="display: inline; margin-left: 3px; font-size : 13px;">${postVO.post_Like_Count}</p>
 													     </c:otherwise>
 											          </c:choose>
-												   </div>
-													
+												   </div>													
 							                       <div>
                                                    	  <%-- 댓글 버튼 + 카운트 --%>
       					                              <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><span>${postVO.post_Reply_Count}</span></div>
                                                    </div>
                                                 </div>
+                                                <br>
                                                  
                                                 <!-- 댓글 입력창 부분 (클릭시 모달창) -->
                                                 <div class="d-flex align-items-center mb-3" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})">
