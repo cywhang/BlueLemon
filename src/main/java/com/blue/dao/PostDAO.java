@@ -116,4 +116,9 @@ public class PostDAO {
 	public void deleteOneMemsTag(String member_Id) {
 		mybatis.delete("PostMapper.deleteOneMemsTag", member_Id);
 	}
+	
+	// 관리자 게시글 상세조회
+	public PostVO selectPostDetail(int post_Seq) {
+		return mybatis.selectOne("PostMapper.selectPostDetail", post_Seq); 
+	}
 }

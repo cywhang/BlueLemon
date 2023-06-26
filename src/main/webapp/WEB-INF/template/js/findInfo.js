@@ -184,7 +184,7 @@
     
 	  });
 	  function isPasswordValid(password) {
-		    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,}$/;
+		    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%#*^~?&]{8,}$/;
 		    return passwordRegex.test(password);
 		  }
 

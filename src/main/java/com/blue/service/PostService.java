@@ -51,4 +51,7 @@ public interface PostService {
 	
 	// 한 회원의 전체 해시태그 삭제
 	void deleteOneMemsTag(String member_Id);
+	
+	// 관리자 게시글 상세정보
+	PostVO selectPostDetail(int post_Seq);
 }

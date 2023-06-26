@@ -290,8 +290,7 @@
 											<p class="mb-0 mt-2">Loading</p>
 				                  		</div>  
 		                         	</c:otherwise>
-		                         </c:choose>
-		                                                                  
+		                         </c:choose>		                                                                  
                            </div>
                         </div><!-- 뉴스피드 부분 -->
                         

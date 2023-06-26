@@ -94,8 +94,7 @@
                            <div style = "width : 500px;">
                            	  <hr>
                            </div>
-                           <div class="d-flex followers" style = "margin-top : 10px;">
-                           	  
+                           <div class="d-flex followers" style = "margin-top : 10px;">                           	  
                               <div>
                                  <c:choose>
                                  	<c:when test = "${empty followers_Size}">
@@ -104,8 +103,7 @@
                                  	<c:otherwise>
                                  		<p class="mb-0">${followers_Size} <span class="text-muted">Followers</span></p>
                                  	</c:otherwise>
-                                 </c:choose>
-                                 
+                                 </c:choose>                                 
                                  <div class="d-flex">
                                  	<a href = "follow?member_Id=${member.member_Id}">
 	                                 	<c:choose>
@@ -123,8 +121,7 @@
                                  	</a>
                                  </div>
                               </div>
-                              <div class="ms-5 ps-5">
-                              	
+                              <div class="ms-5 ps-5">                              	
                               	 <c:choose>
                                  	<c:when test = "${empty followings_Size}">
                                  		<p class="mb-0">0 <span class="text-muted">Following</span></p>
@@ -171,13 +168,19 @@
 	                                                </a>
 	                                                <div class="d-flex align-items-center small">
 	                                                   <p class="text-muted mb-0">${postVO.post_Date}</p>
-	                                                   <div class="dropdown">
-	                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-	                                                      <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-	                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
-	                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
-	                                                      </ul>
-	                                                   </div>
+	                                                   <c:choose>
+	                                                      <c:when test="${loginUser_Id == postVO.member_Id}">	                                                      
+		                                                     <div class="dropdown">
+		                                                        <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+		                                                        <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+		                                                           <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
+		                                                           <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
+		                                                        </ul>
+		                                                     </div>
+	                                                      </c:when>
+	                                                      <c:otherwise>	                                                      
+	                                                      </c:otherwise>
+	                                                   </c:choose>
 	                                                </div>
 	                                             </div>
 	                                             <div class="my-2">
@@ -397,15 +400,9 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
-                           <!-- 
-                           <li class="nav-item">
-                              <a href="tags" class="nav-link"><span class="material-icons me-3">local_fire_department</span> <span>Trending</span></a>
-                           </li>
-                            -->
                         </ul>
                      </div>
                   </div>
-                  <!-- Sidebar -->
                   <!-- Sidebar -->
                   <!-- 브라우저 창의 크기가 줄어들때 나오는 메뉴버튼을 누르면 왼쪽에서 나타나는 사이드바 -->
                   <div class="ps-0 m-none fix-sidebar">

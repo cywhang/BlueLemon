@@ -98,5 +98,11 @@ public class PostServiceImpl implements PostService {
 		postDao.deleteOneMemsTag(member_Id);
 	}
 
+	@Override
+	public PostVO selectPostDetail(int post_Seq) {
+		
+		return postDao.selectPostDetail(post_Seq);
+	}
+
 	
 }
