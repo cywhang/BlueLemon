@@ -827,5 +827,7 @@
       <script src="js/insert.js"></script>
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- Search Infinite Js -->
+      <script src="js/searchInfinite.js"></script>
    </body>
 </html>
