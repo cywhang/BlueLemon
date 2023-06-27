@@ -65,8 +65,6 @@ function handleFeedInfinity(hashTag) {
 		     if (trending_postList.length > 0) {
 		         var feed = document.getElementById("SearchMainFeed");
 		
-		         // 컨테이너 초기화
-		         feed.innerHTML = "";
 		
 		         var html = "";
 		

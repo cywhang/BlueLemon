@@ -235,9 +235,6 @@ $.ajax({
        if (trending_postList.length > 0) {
            var feed = document.getElementById("main_feed");
 
-           // 컨테이너 초기화
-           feed.innerHTML = "";
-
            var html = "";
 
            for (var i = firstRow; i <= lastRow; i++) {
@@ -486,9 +483,6 @@ $.ajax({
         if (trending_postList.length > 0) {
             var feed = document.getElementById("trendingFeedInfinite");
 
-            // 컨테이너 초기화
-            feed.innerHTML = "";
-            
             var html = "";
             
             for (var i = firstRow; i <= lastRow; i++) {
