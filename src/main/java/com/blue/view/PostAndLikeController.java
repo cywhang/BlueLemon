@@ -654,23 +654,12 @@ public class PostAndLikeController {
 			    JsonNode jsonNode = objectMapper.readTree(hashTag);
 			
 			    for (JsonNode node : jsonNode) {
-			    	// 실제로 담을 해시태그 내용
-			    	String values;
 			    	// n번째 해시태그 내용
 			        String value = node.get("value").asText();
 			        
-			        // '#' 문자 포함 여부 확인
-			        if (value.contains("#")) {
-			            // '#' 문자를 포함하고 있는 경우
-			            values = value;
-			        } else {
-			            // '#' 문자를 포함하지 않은 경우
-			            values = "#" + value;
-			        }
-			        
 			        TagVO tvo = new TagVO();
 			        tvo.setPost_Seq(post_Seq);
-			        tvo.setTag_Content(values);
+			        tvo.setTag_Content(value);
 			        postService.insertTag(tvo);
 			    }
 			} catch (JsonProcessingException e) {
