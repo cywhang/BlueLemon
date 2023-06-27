@@ -103,8 +103,9 @@
 								<div class="mb-3">
 									<h5 class="lead fw-bold text-body mb-0">Create Account</h5>
 								</div>
-								 <div class="row justify-content-center">
+								<div class="row justify-content-center">
 									<div class="col-lg-12" style = "margin-bottom : 5%;">
+										<label class="mb-2 text-muted small" style = "margin-left : 5px;">필수 입력 항목</label>
 										<div class="form-floating mb-3 d-flex align-items-end">
 											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id">
 											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" id="check_duplicate_button">중복 체크</button>
@@ -153,6 +154,7 @@
 												<label class="form-check-label" for="female">Female</label>
 											</div>
 										</div>
+										<label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
 										<div>
 											<div class="form-floating mb-3 d-flex align-items-center">
 												<input type="text" name="member_Country" class="form-control rounded-5" name="member_Country" id="member_Country">
