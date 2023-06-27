@@ -54,9 +54,16 @@
       
       <!-- 브라우저 창의 크기가 줄어들때 오른쪽 위에 출력되는 메뉴펼치기 버튼 -->
       <div class="web-none d-flex align-items-center px-3 pt-3">
-         <a href="index" class="text-decoration-none">
-            <img src="img/logo.png" class="img-fluid logo-mobile" alt="brand-logo">
-         </a>
+         <div>      	
+            <a href="index" class="text-decoration-none">
+               <img src="img/logo.png" class="img-fluid logo-mobile" alt="brand-logo" style = "width : 100%;">
+            </a>
+      	 </div>
+      	 <div style = "margin-left : 5%;">
+            <a href="index" class="text-decoration-none">
+               <img src="img/notification.png">
+            </a>      	
+      	 </div>
          <button class="ms-auto btn btn-primary ln-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <span class="material-icons">menu</span>
          </button>
@@ -335,10 +342,17 @@
                   <div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
                      <div class="sidebar-nav mb-3">
                         <!-- 좌측 상단의 홈페이지 로고 -->
-                        <div class="pb-4">
-                           <a href="index" class="text-decoration-none">
-                           <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
-                           </a>
+                        <div class="pb-4 mb-4 d-flex">
+                           <div>
+	                           <a href="index" class="text-decoration-none">
+	                               <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
+	                           </a>
+                           </div>
+                           <div style = "margin-left : 10%; margin-top : 10%;">
+	                           <a href = "index">
+	                              <img src = "img/notification.png">                           	
+	                           </a>                        
+                           </div>                 
                         </div>
                         <!-- 사이드바의 항목들을 정의하는 부분 -->
                         <ul class="navbar-nav justify-content-end flex-grow-1">
@@ -378,10 +392,17 @@
                   <!-- index페이지 왼쪽 사이드바 column -->
                   <div class="ps-0 m-none fix-sidebar">
                      <div class="sidebar-nav mb-3">
-                        <div class="pb-4 mb-4">
-                           <a href="index" class="text-decoration-none">
-                           <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
-                           </a>
+                        <div class="pb-4 mb-4 d-flex">
+                           <div>
+	                           <a href="index" class="text-decoration-none">
+	                               <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
+	                           </a>
+                           </div>
+                           <div style = "margin-left : 30%; margin-top : 8%;">
+	                           <a href = "index">
+	                              <img src = "img/notification.png">                           	
+	                           </a>                        
+                           </div>                 
                         </div>
                         <ul class="navbar-nav justify-content-end flex-grow-1">
                            <li class="nav-item">
