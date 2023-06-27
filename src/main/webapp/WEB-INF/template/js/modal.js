@@ -507,6 +507,7 @@ function insertReply(post_Seq){
 			  let reply_Seq = replies[i].reply_Seq;
 			  
 			  let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
+			  	.addClass('thumbs')
 			    .on('click', function() {
 			    	toggleReplyLike(post_Seq, reply_Seq);
 			    });
@@ -629,6 +630,7 @@ function insertReply2(post_Seq){
 			  let reply_Seq = replies[i].reply_Seq;
 			  
 			  let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
+			    .addClass('thumbs')
 			    .on('click', function() {
 			    	toggleReplyLike(post_Seq, reply_Seq);
 			    });
