@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="UTF-8">
    <head>
-      <!-- 필수 메타 태그 --><!-- 필수 메타 태그 -->
+      <!-- 필수 메타 태그 --><!-- 필수 메타 태그 --><!-- 필수 메타 태그 -->
       <meta charset="utf-8">
       <!-- 데스크톱, 태블릿, 모바일 등 화면 크기를 자동으로 조절해주는 곳 -->
       <meta name="viewport" content="width=device-width, initial-scale=1">
