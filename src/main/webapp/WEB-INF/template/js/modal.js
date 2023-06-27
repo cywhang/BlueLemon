@@ -691,3 +691,178 @@ function insertReply2(post_Seq){
 }
 
 
+$('#closeModal').on('hidden.bs.modal', function () {
+	  var hashtagContainer = document.getElementById('hashtagContainer');
+	  if (hashtagContainer) {
+	    var existingInput = hashtagContainer.querySelector('input');
+	    if (existingInput) {
+	      existingInput.tagify.destroy();
+	      hashtagContainer.removeChild(existingInput);
+	    }
+	  }
+	});
+
+
+//edit view
+function postEditView(post_Seq){
+	
+	var data = {
+		post_Seq : post_Seq
+	};
+	console.log("postEditView의 post_Seq : ",data);
+	$.ajax({
+		url : "postEditView",
+		type : "GET",
+		dataType: "json",
+		data : data, // post_Seq를 보냄
+		
+		success : function(response) {
+			console.log("ajax응답 성공");
+			console.log(response);    // ajax요청으로 응답받은 값
+			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
+			var post = response.post; // 게시글 정보
+			var folderPath = response.folderPath;
+			
+		    var hashList = response.hashList; 
+		    var hashtags = hashList.map(function(tag) {
+	    	  return tag.tag_Content;
+	    	});
+		    
+		    // 1. 게시글 공개여부 
+		    var checkboxContainer = $('#postPublicContainer');
+	
+			var checkbox = $('<input>').attr({
+			  type: 'checkbox',
+			  name: 'post_Public',
+			  value: 'y'
+			}).prop('checked', post.post_Public === 'y');
+	
+			checkboxContainer.empty().append(checkbox);
+		    
+			
+		    // 2. 게시글 내용
+		    var textareaContainer = $('#postContentContainer');
+			
+			var textarea = $('<textarea>').addClass('form-control rounded-5 border-0 shadow-sm')
+			   .attr({
+			     name: 'post_Content',
+			     placeholder: 'Leave a comment here',
+			     id: 'floatingTextarea2',
+			     style: 'height: 200px',
+			}).text(post.post_Content);
+			
+			var label = $('<label>').attr('for', 'floatingTextarea2')
+			  .addClass('h6 text-muted mb-0')
+			  .text('게시글 내용');
+			
+			textareaContainer.empty().append(textarea, label);
+		    
+			
+		    // 3. 게시글 해시태그
+			var tagifyScript = document.createElement('script');
+			tagifyScript.src = 'https://unpkg.com/@yaireo/tagify';
+			tagifyScript.onload = function() {
+			  var hashtagContainer = document.getElementById('hashtagContainer');
+
+			  if (hashtagContainer) {
+			    // 기존에 생성된 입력 필드 및 플러그인 인스턴스 제거
+			    var existingInput = hashtagContainer.querySelector('input');
+			    if (existingInput) {
+			      hashtagContainer.removeChild(existingInput);
+			    }
+
+			    // 새로운 입력 필드 생성 및 초기화
+			    var input = document.createElement('input');
+			    input.setAttribute('name', 'post_Hashtag');
+			    input.setAttribute('class', 'form-control rounded-5 border-0 shadow-sm');
+			    input.setAttribute('placeholder', '해시태그: #없이 입력');
+			    input.setAttribute('id', 'floatingTextarea2');
+			    input.setAttribute('style', 'height: 50px');
+			    input.value = hashtags.join(',');
+
+			    hashtagContainer.appendChild(input);
+
+			    new Tagify(input);
+			  }
+			};
+
+			document.head.appendChild(tagifyScript);
+
+			// 4. 이미지 컨테이너
+			$(document).ready(function() {
+			  // 서버에서 가져온 게시글 이미지들의 URL 배열
+			  var editFileArr = []; // 기존 업로드된 이미지를 담을 배열
+			  var editFileNo = 0;   // 숫자 값으로 사용하기 위한 초기화
+			  
+			  var ImageCount = post.post_Image_Count;
+			  console.log("해당 게시글의 이미지 카운트: ",ImageCount);
+			  
+			  if(ImageCount > 0){ // 해당 게시글에 이미지가 업로드 되어있을 경우
+				  var imageUrls = [];
+				  for(var i=1; i < ImageCount+1; i++){
+					  var image = folderPath + post.post_Seq + "-" + i + ".png"
+					  imageUrls.push(image);
+				  }
+	
+				  // 이미지 입력창 및 미리보기 컨테이너를 동적으로 생성하여 부모 요소에 추가
+				  var imageContainer = $("#editPreview");
+				  imageContainer.empty();
+				  
+				  // 이미지 미리보기 컨테이너 생성
+//				  var previewContainer = $('<ul id="editPreview" class="sortable"></ul>');
+//				  imageContainer.empty().append(previewContainer);
+	
+				  
+				  // 업로드한 이미지가 이미 있으면 미리보기 컨테이너에 이미지들 생성해주는 부분
+				  // 서버에서 가져온 이미지들을 미리보기 컨테이너에 추가
+				  for (var i = 0; i < ImageCount; i++) {
+				    var imageUrl = imageUrls[i];
+	
+				    // 이미지 미리보기 요소 생성
+				    var imagePreview = $('<li id="file' + i + '" class="editfilebox ui-state-default">' +
+				      '<img src="' + imageUrl + '" width="80" height="80">' +
+				      '<a class="delete" onclick="deleteAlreadyFile(' + i + ');">' +
+				      '<span class="delBtn">x</span>' +
+				      '</a>' +
+				      '</li>');
+				    
+				    imageContainer.append(imagePreview);
+				    
+				    editFileArr.push(imageUrl);
+				    // 기존 이미지로 인한 다음 이미지 추가시 부여할 순번 
+				    alreadyFileNo = i + 1;
+				  }
+				  
+				  // modalAction.js페이지의 전역변수에 값을 설정하는 부분
+				  alreadyVariable(editFileArr, alreadyFileNo);
+				  
+			  } else{ // 해당 게시글에 이미지가 업로드 되어있지 않은경우
+				  var imageContainer = $("#editPreview");
+				  imageContainer.empty();
+			  }
+			  
+			  // edit폼 제출 버튼 생성
+			  var button = $('<button></button>').attr({
+				    'id': 'submitButton',
+				    'class': 'btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center update-button',
+				    'data-bs-dismiss': 'modal'
+				  }).click(function() {
+				     postEditAction(post_Seq);
+				  });
+				  
+				  var span = $('<span></span>').addClass('material-icons me-2 md-16').text('create');
+				  button.append(span).append('Update');
+				  
+				  // 버튼을 원하는 위치에 추가
+				  $('#editButtonContainer').empty().append(button);
+			});
+		    
+		},error : function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+
+
+

@@ -113,4 +113,14 @@ public class PostServiceImpl implements PostService {
 	public ArrayList<TagVO> getTodaysTag() {
 		return postDao.getTodaysTag();
 	}
+
+	@Override
+	public void updatePost(PostVO vo) {
+		postDao.updatePost(vo);
+	}
+
+	@Override
+	public void deleteTag(int post_Seq) {
+		postDao.deleteTag(post_Seq);
+	}
 }

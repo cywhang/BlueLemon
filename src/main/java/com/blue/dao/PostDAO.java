@@ -134,4 +134,14 @@ public class PostDAO {
 		ArrayList<TagVO> todaysTag = new ArrayList<TagVO>(result);
 		return todaysTag;
 	}
+	
+	// 게시글 수정 처리
+	public void updatePost(PostVO vo) {
+		mybatis.update("PostMapper.updatePost", vo);
+	}
+	
+	// 게시글 해시태그 수정전 삭제 처리
+	public void deleteTag(int post_Seq) {
+		mybatis.delete("PostMapper.deleteTag", post_Seq);
+	}
 }

@@ -16,7 +16,6 @@ public class PostVO {
 	private String 	post_Update; 		 // 게시글 수정일
 	private String  post_Public;		 // 게시글 공개 여부
 	private int 	post_Image_Count;    // 게시글 첨부 이미지 갯수
-	private int 	post_Count;			 // 게시글 조회수
 	private int 	post_Like_Count;  	 // 게시글 좋아요 수
 	private int 	post_Reply_Count;	 // 게시글 댓글 수
 	private String  post_Hashtag;		 // 게시글 해시태그

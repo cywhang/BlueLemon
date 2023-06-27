@@ -42,6 +42,33 @@ body {
 #Preview li{
     float:left
 }
+#Preview{
+    margin-left: -2	px;
+    width: 650px;
+}
+#Preview li{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 1px solid #ececec;
+    cursor:move
+}
+
+#editPreview,
+#editPreview li{
+    float:left
+}
+#editPreview{
+    margin-left: -2	px;
+    width: 650px;
+}
+#editPreview li{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 1px solid #ececec;
+    cursor:move
+}
 .inputFile{
     margin-bottom: 10px;
 }
@@ -56,17 +83,6 @@ body {
     padding-left: 46%;
 }
 
-#Preview{
-    margin-left: -2	px;
-    width: 650px;
-}
-#Preview li{
-    margin-left: 10px;
-    margin-bottom: 10px;
-    position: relative;
-    border: 1px solid #ececec;
-    cursor:move
-}
 .delBtn{
     position: absolute;
     top: 0;
@@ -92,7 +108,19 @@ ul li::marker {
 	min-width:  36px;
 	min-height: 36px;
 }
+.update-button{
+	background-color: #ffc107;
+}
+.update-button:hover {
+  background-color: #ffc107; 
+}
 
+.editbutton:active {
+  background-color: orange; 
+}
+.deletebutton:active {
+  background-color: lightcoral; 
+}
 /* FAQ */
 .faq-page .accordion-button {
     font-size: 14px;

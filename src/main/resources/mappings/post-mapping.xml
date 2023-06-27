@@ -154,4 +154,18 @@
 			WHERE ROWNUM <= 5
 		]]>
 	</select>	
+	
+	<!-- 게시글 수정 처리 -->
+	<update id="updatePost">
+		update post
+		   set post_content     = #{post_Content},
+		       post_public  	= #{post_Public},
+		       post_image_count = #{post_Image_Count}
+		 where post_seq = #{post_Seq}
+	</update>
+	
+	<!-- 게시글 해시태그 수정전 삭체 저리 -->
+	<delete id="deleteTag">
+		delete from tag where post_seq = #{post_Seq}
+	</delete>
 </mapper>
