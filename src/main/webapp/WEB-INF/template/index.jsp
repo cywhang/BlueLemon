@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="UTF-8">
    <head>
-      <!-- 필수 메타 태그 -->
+      <!-- 필수 메타 태그 --><!-- 필수 메타 태그 --><!-- 필수 메타 태그 -->
       <meta charset="utf-8">
       <!-- 데스크톱, 태블릿, 모바일 등 화면 크기를 자동으로 조절해주는 곳 -->
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -159,9 +159,9 @@
 		                                                     <div class="dropdown">
 		                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
 		                                                      	<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-		                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
+		                                                         <li><button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2"><span class="material-icons md-13 me-1">edit</span>Edit</button></li>
 		                                                         <!-- deletePost()는 custom.js에 있음 -->
-		                                                         <li><a class="dropdown-item text-muted" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
+		                                                         <li><button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</button></li>
 		                                                        </ul>
 		                                                   	 </div>
                                                       	</c:when>
@@ -188,7 +188,7 @@
                                                 
                                                 <!-- 해시태그 -->
                                                  <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
 	                                                </c:forEach>
                                                 <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
@@ -512,8 +512,7 @@
          </div>
       </div>
       
-      <!-- 이 아래부터는 모달창에 관한 코드 -->
-      <!-- Post Modal -->
+      <!-- Post Insert Modal -->
       <!-- 글 작성 모달창 -->
       <div class="modal fade" id="postModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered">
@@ -537,7 +536,7 @@
                   <input type="checkbox" name="post_Public" value="y" checked="checked">
                	  <!-- 게시글 내용 작성창 -->
                   <div class="form-floating">
-                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px" onkeyup="characterCheck(this)" onkeydown="characterCheck(this)"></textarea>
+                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                      <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
                   </div>
                   
@@ -569,6 +568,56 @@
          </div>
       </div>
       
+      
+      <!-- Post Edit Modal -->
+      <!-- 글 수정 모달창 -->
+      <div class="modal fade" id="postModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-4 border-0 bg-light">
+               <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
+                  <!-- 뒤로가기 버튼 -->
+                  <a href="#" id="closeEditModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+                  <!-- 작성자 프로필 이미지 -->
+                  <img src="img/uploads/profile/${profileMap[sessionScope.loginUser.member_Id]}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
+                  <!-- 수정 모달창의 제목-->
+                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">수정 페이지</h5> <!-- 작성자: ${sessionScope.loginUser.member_Id} -->
+               </div>
+               <!-- 게시글 작성 폼 -->
+               <form onsubmit="return false;" enctype="multipart/form-data" id="postUpdate">
+               <div class="modal-body p-0 mb-3">
+               	  <!-- 입력 부분 -->
+               	  <!-- 작성자 아이디 히든으로 넘김 -->
+               	  <input type="hidden" name="member_Id" value="${sessionScope.loginUser.member_Id}">
+               	  <!-- 동적 공개여부 체크박스  -->
+                  <label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부<div id="postPublicContainer"></div></label>
+               	  <!-- 게시글 내용 작성창 -->
+                  <div class="form-floating" id="postContentContainer"></div>
+                  
+                  <!-- 해시태그 입력창 -->
+                  <div>
+                  	<div id="hashtagContainer"></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                  	 <div></div>
+                  	    <!-- edit 폼 제출 버튼 -->
+                  	 	<div id="editButtonContainer"></div>
+                  </div>
+               </div>
+               <!-- 이미지 업로드 부분 -->
+               <div class="clearfix">
+			   	  <div class="inputFile">
+			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
+			        <label for="editImgs" class="addImgBtn">+</label>
+			        <!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+			        <input type="file" onchange="editFile(this);" name="uploadImgs" id="editImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+				  </div>
+				  <!-- 이미지 미리보기 컨테이너 -->
+				  <ul id="editPreview"></ul>
+			   </div>
+		  	   </form>
+            </div>
+         </div>
+      </div>
       
       <!-- 게시글 상세보기 모달창 1 -->
       <!-- 이미지 슬라이드, 댓글 리스트 모달창 -->
@@ -743,7 +792,7 @@
       <!-- People Js -->
       <script src="js/people.js"></script>
       <!-- Insert Js -->
-      <script src="js/insert.js"></script>
+      <script src="js/modalAction.js"></script>
       <!-- Trending Js -->
       <script src="js/trending.js"></script>
       <!-- Infinite Js -->

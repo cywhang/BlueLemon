@@ -60,4 +60,10 @@ public interface PostService {
 	
 	// 관리자 페이지 오늘의 해시태그
 	ArrayList<TagVO> getTodaysTag();
+	
+	// 게시글 수정 처리
+	void updatePost(PostVO vo);
+		
+	// 게시글 해시태그 수정전 삭제 처리
+	void deleteTag(int post_Seq);
 }

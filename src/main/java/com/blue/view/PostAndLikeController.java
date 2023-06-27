@@ -104,9 +104,7 @@ public class PostAndLikeController {
 	public String insertPost(PostVO vo, @RequestParam(value="attach_file", required = false) MultipartFile[] attach_file,
 							@RequestParam(value = "fileList[]", required = false) String[] fileList,
 						     HttpSession session) {
-		
-		//System.out.println("==================================게시글 작성=====================================");
-		//System.out.println("insertPost vo : " + vo);
+		System.out.println("==================================게시글 작성=====================================");
 		
 		// MAX(post_Seq) + 1
 		int nextSeq = postService.postSeqCheck();
@@ -122,12 +120,13 @@ public class PostAndLikeController {
 			
 			// 1. 이미지 업로드 처리 부분
 			String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+			System.out.println(folderPath);
 			// 1. 업로드할 이미지 개수 vo 객체에 저장
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
 			
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
-				//System.out.println("이미지 없음");
+				System.out.println("이미지 없음");
 				
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
 				//System.out.println("이미지 " + imgCount + " 개");
@@ -224,10 +223,11 @@ public class PostAndLikeController {
 	            for (JsonNode node : jsonNode) {
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
-	                	
+	                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
+	                String values = "#" + value;
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
-	                tvo.setTag_Content(value);
+	                tvo.setTag_Content(values);
 	                postService.insertTag(tvo);
 	            }
 	        } catch (JsonProcessingException e) {
@@ -402,13 +402,284 @@ public class PostAndLikeController {
 	
 	// 게시글 삭제
 	@GetMapping("/postDelete")
-	public String postDelete(@RequestParam(value="post_Seq") int post_Seq) {
+	public String postDelete(@RequestParam(value="post_Seq") int post_Seq, HttpSession session) {
 		
 		postService.deletePost(post_Seq);
+		System.out.println("포스트 시퀀스 : " + post_Seq);
+		// 1. 이미지 업로드 실제경로
+		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+		// 절대경로의 이미지 전체를 folder에 저장한다
+		File folder = new File(folderPath);
+		// folder의 파일들을 리스트화 시킨다.
+		File[] files = folder.listFiles();
 		
+		if (files != null) {
+		    for (File file : files) {
+		        // 파일 경로에서 파일 이름을 추출합니다.
+		        String fileName = file.getPath().substring(file.getPath().lastIndexOf('\\') + 1);
+		        
+		        // 파일 이름을 "-"를 기준으로 분리합니다.
+		        String[] parts = fileName.split("-");
+		        
+		        // 파일 이름이 적어도 두 부분으로 이루어져 있고, 첫 번째 부분이 post_Seq와 일치하는지 확인합니다.
+		        if (parts.length >= 2 && parts[0].equals(String.valueOf(post_Seq))) {
+		            // 파일을 삭제합니다.
+		            if (file.delete()) {
+		                // 파일 삭제가 성공한 경우, 성공 메시지를 출력합니다.
+		                System.out.println("파일 삭제: " + fileName);
+		            } else {
+		                // 파일 삭제가 실패한 경우, 실패 메시지를 출력합니다.
+		                System.out.println("파일 삭제 실패: " + fileName);
+		            }
+		        }
+		    }
+	    } else {
+	        System.out.println("기존 이미지 없음");
+	    }
 		return "redirect:/index";
 	}
+	
+	// 게시글 수정 View
+	@GetMapping("/postEditView")
+	@ResponseBody
+	public Map<String, Object> postEditView(HttpSession session, @RequestParam("post_Seq") int post_Seq){
+		
+		// ajax요청에 대한 응답을 보내기 위한 객체 생성
+		Map<String, Object> dataMap = new HashMap<>();
+		
+		// 세션에서 아이디를 얻어옴
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		
+		// 게시글 상세정보 얻어옴
+		PostVO postInfo = postService.getpostDetail(post_Seq);
+		
+		// 해시태그 리스트
+		ArrayList<TagVO> hashlist = postService.getHashtagList(post_Seq);
+		
+		// 이미지 경로
+		// 이미지 경로를 반드시 절대경로로 지정하지 않아도 이미지를 표시할 수 있다.
+		//String folderPath = session.getServletContext().getRealPath("img/uploads/post/");
+		String folderPath = "img/uploads/post/";
+		
+		dataMap.put("hashList", hashlist);
+		dataMap.put("post", postInfo);
+		dataMap.put("folderPath", folderPath);
+		return dataMap;
+	}
+	
+	// 게시글 수정 Action
+	@PostMapping("postEditAction")
+	public String postEditAction(PostVO vo, @RequestParam(value="editAttach_file", required = false) MultipartFile[] attach_file,
+								@RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,	
+								@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
+								@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
+								HttpSession session, int post_Seq) {
 
+		System.out.println("==================================게시글 수정=====================================");
+		System.out.println("insertPost vo : " + vo);
+		vo.setPost_Seq(post_Seq);
+		
+		System.out.println("attach_file : " + attach_file.length);
+		System.out.println("deletedStrings : " + deletedStrings.length);
+		int deleteStrings = deletedStrings.length;
+		System.out.println("alreadyFileNo : " + alreadyFileNo);
+		System.out.println("currentEditFileNo : " + currentEditFileNo);
+		
+		
+		
+		// 1. 이미지 업로드 실제경로
+		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+		// 1. 이미지 출력 상대경로
+		String imagePath = "img/uploads/post/";
+		
+		int imgCount = attach_file.length;
+		System.out.println("imgCount : " + imgCount);
+		vo.setPost_Image_Count(currentEditFileNo);
+		
+		
+		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
+			System.out.println("이미지 없음");
+			
+			// 기존 파일 삭제
+			// 절대경로의 이미지 전체를 folder에 저장한다
+			File folder = new File(folderPath);
+			// folder의 파일들을 리스트화 시킨다.
+			File[] files = folder.listFiles();
+			
+			// 기존이미지를 삭제했을때
+			if (files != null && deletedStrings.length > 0) {
+			 for (String deletedString : deletedStrings) {
+			        String fileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+			        String absoluteFilePath = folderPath + fileName;
+			        File fileToDelete = new File(absoluteFilePath);
+			        if (fileToDelete.delete()) {
+			            System.out.println("파일 삭제: " + fileName);
+			            
+			            // 삭제된 파일 이후의 파일들 이름 변경
+			            int deletedIndex = Integer.parseInt(fileName.split("-")[1].split("\\.")[0]);
+			            for (int i = deletedIndex + 1; i <= files.length; i++) {
+			                String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
+			                String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
+			                File originalFile = new File(originalFilePath);
+			                File newFile = new File(newFilePath);
+			                if (originalFile.renameTo(newFile)) {
+			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+			                } else {
+			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+			                }
+			            }
+			        } else {
+			            System.out.println("파일 삭제 실패: " + fileName);
+			        }
+			    }
+			}else {
+				System.out.println("기존 이미지 없음");
+			}
+			
+		} else if (imgCount == 1 ){ // 수정폼 제출시 이미지가 1개 일때
+			// 실제 파일  설정 부분
+			MultipartFile file = attach_file[0];
+			String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+1) + ".png";
+			System.out.println(fileName);
+			System.out.println("File Name: " + file.getOriginalFilename());
+			
+			// 기존파일 삭제 유무 체크후 처리
+			File folder = new File(folderPath);
+			File[] files = folder.listFiles();
+			if (files != null && deletedStrings.length > 0) {
+			 for (String deletedString : deletedStrings) {
+			        String alreadyFileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+			        String absoluteFilePath = folderPath + alreadyFileName;
+			        File fileToDelete = new File(absoluteFilePath);
+			        if (fileToDelete.delete()) {
+			            System.out.println("파일 삭제: " + alreadyFileName);
+			            
+			            // 삭제된 파일 이후의 파일들 이름 변경
+			            int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
+			            for (int i = deletedIndex + 1; i <= files.length; i++) {
+			                String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
+			                String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
+			                File originalFile = new File(originalFilePath);
+			                File newFile = new File(newFilePath);
+			                if (originalFile.renameTo(newFile)) {
+			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+			                } else {
+			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+			                }
+			            }
+			            
+			        } else {
+			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+			        }
+			    }
+			}else {
+				System.out.println("기존 이미지 없음");
+			}
+			try {
+		        // 실제 파일 저장 처리 부분
+		        file.transferTo(new File(folderPath + fileName));
+		        System.out.println("파일 저장 성공");
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        System.out.println("파일 저장 실패");
+		    }
+			
+		} else { // 수정폼 제출시 이미지가 2개 이상일때
+			System.out.println("이미지 " + imgCount + " 개 ");
+			
+			// 기존파일 삭제 유무 체크후 처리
+			File folder = new File(folderPath);
+			File[] files = folder.listFiles();
+			if (files != null && deletedStrings.length > 0) {
+			 for (String deletedString : deletedStrings) {
+			        String alreadyFileName = deletedString.substring(deletedString.lastIndexOf('/') + 1);
+			        String absoluteFilePath = folderPath + alreadyFileName;
+			        File fileToDelete = new File(absoluteFilePath);
+			        if (fileToDelete.delete()) {
+			            System.out.println("파일 삭제: " + alreadyFileName);
+			            
+			            // 삭제된 파일 이후의 파일들 이름 변경
+			            int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
+			            for (int i = deletedIndex + 1; i <= files.length; i++) {
+			                String originalFilePath = folderPath + post_Seq + "-" + i + ".png";
+			                String newFilePath = folderPath + post_Seq + "-" + (i - 1) + ".png";
+			                File originalFile = new File(originalFilePath);
+			                File newFile = new File(newFilePath);
+			                if (originalFile.renameTo(newFile)) {
+			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+			                } else {
+			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+			                }
+			            }
+			        } else {
+			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+			        }
+			    }
+			}else {
+				System.out.println("기존 이미지 없음");
+			}
+			// 실제 파일 저장 처리 부분
+			for(int i=0; i<attach_file.length; i++) {
+				System.out.println("추가된 이미지 " + imgCount + " 개");
+				MultipartFile file = attach_file[i];     
+				String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+(i+1)) + ".png";
+				System.out.println(fileName);
+				System.out.println("File Name: " + file.getOriginalFilename());
+				
+				try {
+		            // 파일을 지정된 경로에 저장
+		            file.transferTo(new File(folderPath + fileName));
+		            System.out.println("파일 저장 성공");
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		            System.out.println("파일 저장 실패");
+		        }
+			}
+		}
+		
+		if (vo.getPost_Public() == "") {
+		vo.setPost_Public("n");
+		}
+		// 2. 수정 처리
+		postService.updatePost(vo);
+		
+		// 3. 해시태그 수정 전 삭제 처리
+		postService.deleteTag(post_Seq);
+		
+		// 4. 해시태그 처리 부분
+		String hashTag = vo.getPost_Hashtag();
+		if (hashTag != null && !hashTag.isEmpty()) {
+			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
+			    ObjectMapper objectMapper = new ObjectMapper();
+			    JsonNode jsonNode = objectMapper.readTree(hashTag);
+			
+			    for (JsonNode node : jsonNode) {
+			    	// 실제로 담을 해시태그 내용
+			    	String values;
+			    	// n번째 해시태그 내용
+			        String value = node.get("value").asText();
+			        
+			        // '#' 문자 포함 여부 확인
+			        if (value.contains("#")) {
+			            // '#' 문자를 포함하고 있는 경우
+			            values = value;
+			        } else {
+			            // '#' 문자를 포함하지 않은 경우
+			            values = "#" + value;
+			        }
+			        
+			        TagVO tvo = new TagVO();
+			        tvo.setPost_Seq(post_Seq);
+			        tvo.setTag_Content(values);
+			        postService.insertTag(tvo);
+			    }
+			} catch (JsonProcessingException e) {
+			    e.printStackTrace();
+			}
+		}
+		return "/index";
+	}
+	
 	// 관리자 페이지에서 게시글 상세보기
 	@GetMapping("/post_Detail")
 	public String post_detail(Model model, int post_Seq) {
