@@ -75,9 +75,6 @@ $.ajax({
      if (trending_postList.length > 0) {
          var feed = document.getElementById("profileFeed");
 
-         // 컨테이너 초기화
-         feed.innerHTML = "";
-
          var html = "";
 
          for (var i = firstRow; i <= lastRow; i++) {

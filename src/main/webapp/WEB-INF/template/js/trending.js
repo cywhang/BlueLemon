@@ -20,9 +20,6 @@ function trending_List() {
             if (trending_postList.length > 0) {
                 var trending_feed = document.getElementById("trending_feed");
                 
-                // 컨테이너 초기화
-                trending_feed.innerHTML = "";
-                
                 var html = "";
                 
                 for (var i = 0; i < 10; i++) {
