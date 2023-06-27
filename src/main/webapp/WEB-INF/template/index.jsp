@@ -59,11 +59,6 @@
                <img src="img/logo.png" class="img-fluid logo-mobile" alt="brand-logo" style = "width : 100%;">
             </a>
       	 </div>
-      	 <div style = "margin-left : 5%;">
-            <a href="index" class="text-decoration-none">
-               <img src="img/notification.png">
-            </a>      	
-      	 </div>
          <button class="ms-auto btn btn-primary ln-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
             <span class="material-icons">menu</span>
          </button>
@@ -348,11 +343,6 @@
 	                               <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
 	                           </a>
                            </div>
-                           <div style = "margin-left : 10%; margin-top : 10%;">
-	                           <a href = "index">
-	                              <img src = "img/notification.png">                           	
-	                           </a>                        
-                           </div>                 
                         </div>
                         <!-- 사이드바의 항목들을 정의하는 부분 -->
                         <ul class="navbar-nav justify-content-end flex-grow-1">
@@ -397,12 +387,7 @@
 	                           <a href="index" class="text-decoration-none">
 	                               <img src="img/logo.png" class="img-fluid logo" alt="brand-logo">
 	                           </a>
-                           </div>
-                           <div style = "margin-left : 30%; margin-top : 8%;">
-	                           <a href = "index">
-	                              <img src = "img/notification.png">                           	
-	                           </a>                        
-                           </div>                 
+                           </div>      
                         </div>
                         <ul class="navbar-nav justify-content-end flex-grow-1">
                            <li class="nav-item">
