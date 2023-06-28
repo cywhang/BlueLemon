@@ -400,7 +400,6 @@ function postEditAction(post_Seq){
         }
     }
     
-    debugger;
     $.ajax({
         method: 'POST',
         url: 'postEditAction',
