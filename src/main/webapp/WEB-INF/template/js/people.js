@@ -27,7 +27,7 @@ function people_List() {
                     card.classList.add("account-item");
                     card.classList.add("pf-item");
                     card.innerHTML = `
-                        <a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none">
+                        <a href="profile?member_Id=`+ follow.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
                             <img src="img/uploads/profile/${follow.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                             <div>
                                 <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${follow.member_Id}</p>
@@ -82,7 +82,7 @@ function people_List() {
                         card2.classList.add("account-item");
                         card2.classList.add("pf-item");
                         card2.innerHTML = `
-                            <a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none">
+                            <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
                                 <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                 <div>
                                     <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
@@ -110,7 +110,7 @@ function people_List() {
                         card2.classList.add("account-item");
                         card2.classList.add("pf-item");
                         card2.innerHTML = `
-                            <a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none">
+                            <a href="profile?member_Id=`+ famous.member_Id +`" class="p-3 border-bottom d-flex text-dark text-decoration-none">
                                 <img src="img/uploads/profile/${famous.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
                                 <div>
                                     <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${famous.member_Id}</p>
