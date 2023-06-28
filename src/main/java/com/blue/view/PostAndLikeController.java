@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.LikeVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.ReplyVO;
 import com.blue.dto.TagVO;
+import com.blue.service.AlarmService;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
 import com.blue.service.ReplyService;
@@ -44,7 +46,8 @@ public class PostAndLikeController {
 	private ReplyService replyService;
 	@Autowired
 	private MemberService memberService;
-	
+	@Autowired
+	private AlarmService alarmService;
 	
 	// 좋아요 변경(PostMapping)
 	@PostMapping("/changeLike")
@@ -52,6 +55,7 @@ public class PostAndLikeController {
 	public String changeLike(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
 		//System.out.println("[게시글 좋아요 - 3] PostMapping으로 /changeLike 를 Map 형식으로 잡아옴.");
 	    int post_Seq = requestBody.get("post_Seq");
+	    PostVO postVO = postService.getpostDetail(post_Seq);
 	    String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 	    //System.out.println("[게시글 좋아요 - 4] 세션에서 로그인 유저 아이디 받아옴 member_Id = " + member_Id);
 	    try {
@@ -59,7 +63,7 @@ public class PostAndLikeController {
 	        vo.setMember_Id(member_Id);
 	        vo.setPost_Seq(post_Seq);
 
-	        // System.out.println("[게시글 좋아요 - 5] LikeVO객체 vo를 가지고 changeLike() 요청 시작");
+	        // System.out.println("[게시글 좋아요 - 5] LikeVO객체 vo를 가지고 changeLike() 요청 시작");	        
 	        postService.changeLike(vo);
 	        // System.out.println("[게시글 좋아요 - 9] changeLike 하고 js에 success 리턴");
 	        return "success";
@@ -223,11 +227,9 @@ public class PostAndLikeController {
 	            for (JsonNode node : jsonNode) {
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
-	                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
-	                String values = "#" + value;
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
-	                tvo.setTag_Content(values);
+	                tvo.setTag_Content(value);
 	                postService.insertTag(tvo);
 	            }
 	        } catch (JsonProcessingException e) {
@@ -250,6 +252,7 @@ public class PostAndLikeController {
 		
 		// 1. 게시글 상세페이지에서 클릭한 게시글의 정보를 출력하기 위한 PostVO 값 저장
 		PostVO postInfo = postService.getpostDetail(post_Seq);
+		postInfo.setPost_Content(postInfo.getPost_Content().replace("\n", "<br>"));
 		
 		// 2. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
 		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
@@ -360,7 +363,11 @@ public class PostAndLikeController {
 		//System.out.println("세션 아이디: " + member_Id);
 
 		// 2. insert쿼리문에 파라미터 객체로 보낼 변수선언
+		// 알림 등록을 동시에 진행하기 위해 reply_Seq도 nextVal에서 강제주입으로 변경
+		int next_Reply_Seq = replyService.getMaxReply_Seq() + 1;
+		
 		ReplyVO rep = new ReplyVO();
+		rep.setReply_Seq(next_Reply_Seq);
 		rep.setMember_Id(member_Id);
 		rep.setPost_Seq(post_Seq);
 		rep.setReply_Content(reply_Content);
@@ -368,6 +375,18 @@ public class PostAndLikeController {
 		
 		// 3. insert쿼리문 실행
 		replyService.insertReply(rep);
+		
+		// 알람
+		String postWriter = postService.getPostWriter(post_Seq);
+		
+		AlarmVO alarmVO = new AlarmVO();
+		alarmVO.setKind(3);
+		alarmVO.setFrom_Mem(member_Id);
+		alarmVO.setTo_Mem(postWriter);
+		alarmVO.setPost_Seq(post_Seq);
+		alarmVO.setReply_Seq(next_Reply_Seq);
+		
+		alarmService.insertAlarm(alarmVO);
 		
 		// 4. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
 		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
@@ -405,7 +424,7 @@ public class PostAndLikeController {
 	public String postDelete(@RequestParam(value="post_Seq") int post_Seq, HttpSession session) {
 		
 		postService.deletePost(post_Seq);
-		System.out.println("포스트 시퀀스 : " + post_Seq);
+		//System.out.println("포스트 시퀀스 : " + post_Seq);
 		// 1. 이미지 업로드 실제경로
 		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
 		// 절대경로의 이미지 전체를 folder에 저장한다
@@ -642,9 +661,10 @@ public class PostAndLikeController {
 		}
 		// 2. 수정 처리
 		postService.updatePost(vo);
-		
+		System.out.println("해시태그 삭제 전");
 		// 3. 해시태그 수정 전 삭제 처리
 		postService.deleteTag(post_Seq);
+		System.out.println("해시태그 삭제");
 		
 		// 4. 해시태그 처리 부분
 		String hashTag = vo.getPost_Hashtag();
@@ -669,39 +689,6 @@ public class PostAndLikeController {
 		return "/index";
 	}
 	
-	// 관리자 페이지에서 게시글 상세보기
-	@GetMapping("/post_Detail")
-	public String post_detail(Model model, int post_Seq) {
-		System.out.println("폼에서 넘겨 받은 post_Seq 값 :" + post_Seq);
-		
-		
-		// PostVO 에 post_seq에 대한 게시글을 담는다.
-		PostVO PostDetail = postService.selectPostDetail(post_Seq);
-		System.out.println("해당 시퀀스의 게시글 :" + PostDetail);
-		// ReplyVO 에 post_seq에 대한 댓글 담는다.
-		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
-		System.out.println("해당 시퀀스의 댓글 : " + replyList);
-		// TagVO 에 post_seq에 대한 해시태그를 담는다.
-		ArrayList<TagVO> hash = postService.getHashtagList(post_Seq); 
-		System.out.println("해당 시퀀스의 해시태그 : " + hash);
-		
-		model.addAttribute("post", PostDetail);
-		model.addAttribute("reply", replyList);
-		model.addAttribute("hash", hash);
-		
-		
-		return "post_Detail";
-	}
-	
-	// 게시글 삭제 (관리자용 -> 삭제 후 관리자 페이지에 머뭄)
-	@GetMapping("/deletePost")
-	public String deletePost(@RequestParam(value="post_Seq") int post_Seq) {
-		
-		postService.deletePost(post_Seq);
-		
-		return "redirect:post_Table";
-	}
-	
 	@GetMapping("/search_HashTag")
 	public String search_HashTag(@RequestParam(value="tag_Content") String hashTag, HttpSession session, Model model){
 
@@ -710,7 +697,6 @@ public class PostAndLikeController {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
-
 
 			/* index페이지의 팔로우 부분 */
 			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
@@ -741,6 +727,7 @@ public class PostAndLikeController {
 			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
 			for(int i=0; i<postlist.size(); i++) {
 				// 자신, 팔로잉한 사람들의 게시글의 post_seq를 불러온다.
+				postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
 				int post_Seq = postlist.get(i).getPost_Seq();
 
 				// i번째 게시글의 댓글 리스트를 담음
@@ -826,81 +813,77 @@ public class PostAndLikeController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getMoreSearchHashTag(@RequestBody Map<String, String> requestbody, HttpSession session, Model model){
 
+		//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
-			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
-			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		String hashTag = requestbody.get("hashTag");
 
-			String hashTag = requestbody.get("hashTag");
+		/* index페이지의 뉴스피드 부분 */
+		// 자신, 팔로잉한 사람들의 게시글을 담는부분
+		ArrayList<PostVO> postlist = postService.getHashTagPost(hashTag);
+		//System.out.println("게시글 " + postlist.size() + "개 불러옴");
 
-			/* index페이지의 뉴스피드 부분 */
-			// 자신, 팔로잉한 사람들의 게시글을 담는부분
-			ArrayList<PostVO> postlist = postService.getHashTagPost(hashTag);
-			//System.out.println("게시글 " + postlist.size() + "개 불러옴");
+		// 각 post_seq에 대한 댓글들을 매핑할 공간.
+		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
 
-			// 각 post_seq에 대한 댓글들을 매핑할 공간.
-			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+		// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+		Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
 
-			// 각 post_seq에 대한 해시태그들을 매핑할 공간.
-			Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
-
-			// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
-			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
-			for(int i=0; i<postlist.size(); i++) {
-				// 자신, 팔로잉한 사람들의 게시글의 post_seq를 불러온다.
-				int post_Seq = postlist.get(i).getPost_Seq();
-
-				// i번째 게시글의 댓글 리스트를 담음
-				ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-				//System.out.println("replylist로 담음");
-				//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
-				//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
-				// i번째 게시글의 댓글 좋아요 여부 체크
-				for(int k = 0; k < replylist.size(); k++) {
-					ReplyVO voForReplyCheck = replylist.get(k);
-					String realReply_Member_Id = replylist.get(k).getMember_Id();
-					voForReplyCheck.setMember_Id(member_Id);
-					//System.out.println("[미리보기 댓글 - 2] 댓글 좋아요 눌렀나 확인하러 보냄");				
-					String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
-					replylist.get(k).setReply_LikeYN(reply_LikeYN);
-					//System.out.println("[미리보기 댓글 - 5] DAO에서 리턴받아서 set해줌. 해당 댓글 좋아요 누름 ? " + replylist.get(k).getReply_LikeYN());
-					replylist.get(k).setMember_Id(realReply_Member_Id);
-				}
-
-				// i번째의 게시글의 댓글을 map에 매핑하는 작업
-				replymap.put(i, replylist);
-				//System.out.println(i + "번째 게시글 댓글 여부" + replymap.get(i));			
-
-				// i번째 게시글의 좋아요 여부 체크
-				PostVO voForLikeYN = new PostVO();
-				voForLikeYN.setMember_Id(member_Id);
-				voForLikeYN.setPost_Seq(post_Seq);
-				//System.out.println("[좋아요 여부 확인 - 0] 게시글 번호 : " + post_Seq);
-				//System.out.println("[좋아요 여부 확인 - 1] Setting 전 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
-				String post_LikeYN = postService.getLikeYN(voForLikeYN);
-				postlist.get(i).setPost_LikeYN(post_LikeYN);
-				//System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
-
-				// i번째 게시글의 해시태그 체크    hashmap
-				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
-				hashmap.put(post_Seq, hash);
+		// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
+		// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
+		for(int i=0; i<postlist.size(); i++) {
+			// 자신, 팔로잉한 사람들의 게시글의 post_seq를 불러온다.
+			int post_Seq = postlist.get(i).getPost_Seq();
+			postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
+			// i번째 게시글의 댓글 리스트를 담음
+			ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+			//System.out.println("replylist로 담음");
+			//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
+			//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
+			// i번째 게시글의 댓글 좋아요 여부 체크
+			for(int k = 0; k < replylist.size(); k++) {
+				ReplyVO voForReplyCheck = replylist.get(k);
+				String realReply_Member_Id = replylist.get(k).getMember_Id();
+				voForReplyCheck.setMember_Id(member_Id);
+				//System.out.println("[미리보기 댓글 - 2] 댓글 좋아요 눌렀나 확인하러 보냄");				
+				String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
+				replylist.get(k).setReply_LikeYN(reply_LikeYN);
+				//System.out.println("[미리보기 댓글 - 5] DAO에서 리턴받아서 set해줌. 해당 댓글 좋아요 누름 ? " + replylist.get(k).getReply_LikeYN());
+				replylist.get(k).setMember_Id(realReply_Member_Id);
 			}
 
-			// 전체 회원 프로필 이미지 조회
-			HashMap<String, String> profilemap = memberService.getMemberProfile();
-			//System.out.println("전체 회원 프로필: " + profilemap);
+			// i번째의 게시글의 댓글을 map에 매핑하는 작업
+			replymap.put(i, replylist);
+			//System.out.println(i + "번째 게시글 댓글 여부" + replymap.get(i));			
 
+			// i번째 게시글의 좋아요 여부 체크
+			PostVO voForLikeYN = new PostVO();
+			voForLikeYN.setMember_Id(member_Id);
+			voForLikeYN.setPost_Seq(post_Seq);
+			//System.out.println("[좋아요 여부 확인 - 0] 게시글 번호 : " + post_Seq);
+			//System.out.println("[좋아요 여부 확인 - 1] Setting 전 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
+			String post_LikeYN = postService.getLikeYN(voForLikeYN);
+			postlist.get(i).setPost_LikeYN(post_LikeYN);
+			//System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
 
+			// i번째 게시글의 해시태그 체크    hashmap
+			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+			hashmap.put(post_Seq, hash);
+		}
 
-			Map<String, Object> responseData = new HashMap<>();
+		// 전체 회원 프로필 이미지 조회
+		HashMap<String, String> profilemap = memberService.getMemberProfile();
+		//System.out.println("전체 회원 프로필: " + profilemap);
 
-			responseData.put("profileMap", profilemap);
-			responseData.put("postList", postlist);
-			responseData.put("replyMap", replymap);
-			responseData.put("member_Id", member_Id);
-			responseData.put("hashMap", hashmap);
+		Map<String, Object> responseData = new HashMap<>();
 
-			return ResponseEntity.ok(responseData);
+		responseData.put("profileMap", profilemap);
+		responseData.put("postList", postlist);
+		responseData.put("replyMap", replymap);
+		responseData.put("member_Id", member_Id);
+		responseData.put("hashMap", hashmap);
 
+		return ResponseEntity.ok(responseData);
 	}
 	
 }

@@ -7,15 +7,20 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.TagVO;
+import com.blue.service.AlarmService;
 
 @Repository("PostDAO")
 public class PostDAO {
  
 	@Autowired
 	private SqlSessionTemplate mybatis;
+	
+	@Autowired
+	private AlarmService alarmService;
 	
 	// index페이지 요청시 실행되는 부분(게시글 리스트)
 	public ArrayList<PostVO> listPost(String member_Id) {
@@ -42,13 +47,36 @@ public class PostDAO {
 	public void changeLike(LikeVO vo) {
 		//System.out.println("[게시글 좋아요 - 6] changeLike()를 위해 DAO로 옴 member_Id = " + vo.getMember_Id() + "post_Seq = " + vo.getPost_Seq());
 		String check = mybatis.selectOne("PostMapper.checkLike", vo);
+		
+		// 알람
+		String post_Writer = mybatis.selectOne("PostMapper.postWriter", vo.getPost_Seq());
+		AlarmVO alarmVO = new AlarmVO();
+		alarmVO.setKind(2);
+		alarmVO.setFrom_Mem(vo.getMember_Id());
+		alarmVO.setTo_Mem(post_Writer);
+		alarmVO.setPost_Seq(vo.getPost_Seq());
+		alarmVO.setReply_Seq(0);
+		
+		// 알람 테이블에 해당 알람 있나 확인
+        int alarmResult = alarmService.getOneAlarm_Seq(alarmVO);	
+        
 		//System.out.println("[게시글 좋아요 - 7] post-mapping.xml에서 checkLike로 좋아요 체크");
 		if(check == null) {
 			mybatis.update("PostMapper.addLike", vo);
 			//System.out.println("[게시글 좋아요 - 8 - if] 좋아요 중 아니라서 좋아요 함");
+			
+			if(alarmResult == 0) {
+				alarmService.insertAlarm(alarmVO);
+			} else {}
+			
 		} else {
 			mybatis.update("PostMapper.delLike", vo);
 			//System.out.println("[게시글 좋아요 - 8 - else] 좋아요 중이라서 좋아요 취소 함");
+			
+			if(alarmResult == 0) {
+			} else {
+				alarmService.deleteAlarm(alarmResult);
+			}
 		}
 	}
 	public List<PostVO> getHottestFeed() {
@@ -143,5 +171,9 @@ public class PostDAO {
 	// 게시글 해시태그 수정전 삭제 처리
 	public void deleteTag(int post_Seq) {
 		mybatis.delete("PostMapper.deleteTag", post_Seq);
+	}
+
+	public String getPostWriter(int post_Seq) {
+		return mybatis.selectOne("PostMapper.postWriter", post_Seq);
 	}
 }

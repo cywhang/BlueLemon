@@ -135,19 +135,16 @@
                            <!-- Feeds -->
                            <!-- 뉴스피드들을 감싸는 부분 -->
                            <div class="pt-4 feeds">                              
-                              <!-- Feed Item -->
-                              
+                              <!-- Feed Item -->                              
                               <c:choose>
                               	<c:when test="${postListSize==0}">
 									<br>
 					                 	<h5 align="center">No Post To Show</h5>
 									<br>
-                              	</c:when>
-                              	
-                              	<c:otherwise>
-                              	
-                              		 <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
-                                 <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
+                              	</c:when>                              	
+                              	<c:otherwise>                              	
+                              		<c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
+                                 	<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
                                     <div class="d-flex">
                                        <!-- 작성자의 프로필사진 -->
                                        <img src="img/uploads/profile/${profileMap[postVO.member_Id]}"  class="img-fluid rounded-circle user-img" alt="profile-img">
@@ -160,29 +157,33 @@
                                                 <div class="d-flex align-items-center small">
                                                    <p class="text-muted mb-0">${postVO.post_Date}</p>
                                                       <c:choose>
-                                                      	<c:when test="${member_Id == postVO.member_Id}">
-		                                                     <div class="dropdown">
-		                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-		                                                      	<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-		                                                         <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
-		                                                         <!-- deletePost()는 custom.js에 있음 -->
-		                                                         <li><a class="dropdown-item text-muted" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
-		                                                        </ul>
-		                                                   	 </div>
-                                                      	</c:when>
-                                                      	<c:otherwise>
-                                                      	</c:otherwise>
+                                                         <c:when test="${member_Id == postVO.member_Id}">
+		                                                    <div class="dropdown">
+		                                                       <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+		                                                       <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+		                                                          <li>
+		                                                             <button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2">
+		                                                                <span class="material-icons md-13 me-1">edit</span>
+		                                                         	    Edit
+		                                                             </button>
+		                                                          </li>
+		                                                          <!-- deletePost()는 custom.js에 있음 -->
+		                                                          <li>
+		                                                             <button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})">
+		                                                                <span class="material-icons md-13 me-1">delete</span>
+		                                                         	    Delete
+		                                                             </button>
+		                                                          </li>
+		                                                       </ul>
+		                                                   	</div>
+                                                      	 </c:when>
+                                                      	 <c:otherwise>
+                                                         </c:otherwise>
                                                       </c:choose>
                                                 </div>
                                              </div>
                                              <div class="my-2">
-                                             	<br>       
-                                             	<!-- 게시글 내용 -->                                        
-                                                <p class="text-dark">${postVO.post_Content}</p>
-                                                <!-- 해시태그 -->
-                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-                                                	<a id="hash" href="search_HashTag?hashTag=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
-                                                </c:forEach>
+                                             	<br>    
                                                 <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
                                                 <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 	                                               <c:choose>
@@ -194,7 +195,14 @@
 	                                                  </c:otherwise>
 	                                               </c:choose>
                                                 </a>
-                                                
+                                                <br>   
+                                             	<!-- 게시글 내용 -->                                        
+                                                <p class="text-dark">${postVO.post_Content}</p>
+                                                <!-- 해시태그 -->
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+                                                </c:forEach>
+                                                <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                                    <%-- 게시글 좋아요 버튼 (카운트) --%>
@@ -318,7 +326,7 @@
                         		</c:when>
                         		<c:otherwise>
                         			<c:forEach var="search" items="${searchFollow}" begin="0" end="4">
-		                           		<a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">
+		                           		<a href="profile?member_Id=${search.member_Id}" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">
 		                                 <img src="img/uploads/profile/${search.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img">
 		                                 <div>
 		                                     <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${search.member_Id}</p>
@@ -418,16 +426,6 @@
                         </div> <!-- class="feed" -->
                      </div>
                   </div><!-- class="main container" -->
-                  
-                  <!-- 무한 스크롤 -->
- <!--                
- 					 <div class="text-center mt-4">
-                     <div class="spinner-border" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                     </div>
-                     <p class="mb-0 mt-2">Loading</p>
-                  </div>
-      --> 
                </main> <!-- index페이지의 센터 column -->
                
                <!-- index페이지 왼쪽 사이드바 column -->
@@ -561,10 +559,6 @@
 								    </div>
 						         </div>
 							  </c:forEach>
-                              <!-- Show More -->
-                              <a href="follow" class="text-decoration-none">
-                                 <div class="p-3">Show More</div>
-                              </a>
                            </div>
                         </div>
                      </div>
@@ -808,7 +802,55 @@
             </div>
          </div>
       </div>
-      
+      <!-- Post Edit Modal -->
+      <!-- 글 수정 모달창 -->
+      <div class="modal fade" id="postModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-4 border-0 bg-light">
+               <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
+                  <!-- 뒤로가기 버튼 -->
+                  <a href="#" id="closeEditModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+                  <!-- 작성자 프로필 이미지 -->
+                  <img src="img/uploads/profile/${profileMap[sessionScope.loginUser.member_Id]}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
+                  <!-- 수정 모달창의 제목-->
+                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">수정 페이지</h5> <!-- 작성자: ${sessionScope.loginUser.member_Id} -->
+               </div>
+               <!-- 게시글 작성 폼 -->
+               <form onsubmit="return false;" enctype="multipart/form-data" id="postUpdate">
+               <div class="modal-body p-0 mb-3">
+               	  <!-- 입력 부분 -->
+               	  <!-- 작성자 아이디 히든으로 넘김 -->
+               	  <input type="hidden" name="member_Id" value="${sessionScope.loginUser.member_Id}">
+               	  <!-- 동적 공개여부 체크박스  -->
+                  <label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부<div id="postPublicContainer"></div></label>
+               	  <!-- 게시글 내용 작성창 -->
+                  <div class="form-floating" id="postContentContainer"></div>
+                  
+                  <!-- 해시태그 입력창 -->
+                  <div>
+                  	<div id="hashtagContainer"></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                  	 <div></div>
+                  	    <!-- edit 폼 제출 버튼 -->
+                  	 	<div id="editButtonContainer"></div>
+                  </div>
+               </div>
+               <!-- 이미지 업로드 부분 -->
+               <div class="clearfix">
+			   	  <div class="inputFile">
+			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
+			        <label for="editImgs" class="addImgBtn">+</label>
+			        <!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+			        <input type="file" onchange="editFile(this);" name="uploadImgs" id="editImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+				  </div>
+				  <!-- 이미지 미리보기 컨테이너 -->
+				  <ul id="editPreview"></ul>
+			   </div>
+		  	   </form>
+            </div>
+         </div>
+      </div>      
       <!-- Bootstrap Bundle Js -->
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Custom Js -->

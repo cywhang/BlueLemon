@@ -103,7 +103,7 @@
                                     </tr>
                                     <tr>
                                         <th colspan = "2">Message</th>
-                                        <td colspan = "4">${qnaDetail.qna_Message}"</td>
+                                        <td colspan = "4">${qnaDetail.qna_Message}</td>
                                     </tr>
                                     <tr>
                                     <c:choose>
@@ -113,6 +113,7 @@
 	                                    		<form id = "qna_Answer" action = "qna_Answer" method = "POST">
 	                                    			<textarea name = "qna_Answer" rows = "5" style = "width : 100%;"></textarea>
 	                                    			<input type = "hidden" name = "qna_Seq" value = "${qnaDetail.qna_Seq}">
+	                                    			<input type = "hidden" name = "member_Id" value = "${qnaDetail.member_Id}">
 	                                    			<div align = "right">
 		                                    			<button type="reset" style = "width : 15%">Reset</button>
 		                                    			<button type = "submit" style = "width : 15%">Send</button>

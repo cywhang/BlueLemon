@@ -3,7 +3,6 @@ package com.blue.view;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,21 +10,20 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.QnaVO;
 import com.blue.dto.ReplyVO;
 import com.blue.dto.TagVO;
+import com.blue.service.AlarmService;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
 import com.blue.service.QnaService;
@@ -44,7 +42,8 @@ public class AdminController {
 	private ReplyService replyService;
 	@Autowired
 	private QnaService qnaService;
-	
+	@Autowired
+	private AlarmService alarmService;
 	
 	// index 페이지 로드
 	@GetMapping("/admin_Index")
@@ -90,8 +89,7 @@ public class AdminController {
 			return "login";			
 		}
 		
-	}
-	
+	}	
 
 	@GetMapping("/member_Table")
 	public String member_Table(Model model, HttpSession session) throws ParseException {
@@ -172,11 +170,41 @@ public class AdminController {
 		} else {
 			model.addAttribute("message", "관리자로 로그인 해주세요");
 			return "login";			
-		}		
-		
-
+		}
 	}
-
+	
+	// 관리자 페이지에서 게시글 상세보기
+	@GetMapping("/post_Detail")
+	public String post_detail(Model model, int post_Seq) {
+		//System.out.println("폼에서 넘겨 받은 post_Seq 값 :" + post_Seq);
+				
+		// PostVO 에 post_seq에 대한 게시글을 담는다.
+		PostVO postDetail = postService.selectPostDetail(post_Seq);
+		postDetail.setPost_Content(postDetail.getPost_Content().replace("\n", "<br>"));
+		//System.out.println("해당 시퀀스의 게시글 :" + PostDetail);
+		// ReplyVO 에 post_seq에 대한 댓글 담는다.
+		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
+		//System.out.println("해당 시퀀스의 댓글 : " + replyList);
+		// TagVO 에 post_seq에 대한 해시태그를 담는다.
+		ArrayList<TagVO> hash = postService.getHashtagList(post_Seq); 
+		//System.out.println("해당 시퀀스의 해시태그 : " + hash);
+		
+		model.addAttribute("post", postDetail);
+		model.addAttribute("reply", replyList);
+		model.addAttribute("hash", hash);
+		
+		
+		return "post_Detail";
+	}
+	
+	// 게시글 삭제 (관리자용 -> 삭제 후 관리자 페이지에 머뭄)
+	@GetMapping("/deletePost")
+	public String deletePost(@RequestParam(value="post_Seq") int post_Seq) {
+		
+		postService.deletePost(post_Seq);
+		
+		return "redirect:post_Table";
+	}
 	
 	@GetMapping("/qna_Table")
 	public String qna_Table(Model model, HttpSession session) {
@@ -194,15 +222,28 @@ public class AdminController {
 	@GetMapping("qna_Detail")
 	public String qna_Detail(Model model, int qna_Seq) {
 		QnaVO qnaDetail = qnaService.getQnaDetail(qna_Seq);
+		qnaDetail.setQna_Message(qnaDetail.getQna_Message().replace("\n", "<br>"));
+		if(qnaDetail.getQna_Done().equals("2")) {
+			qnaDetail.setQna_Answer(qnaDetail.getQna_Answer().replace("\n", "<br>"));
+		} else {
+			
+		}
 		model.addAttribute("qnaDetail", qnaDetail);
 		return "qna_Detail";
 	}
 	
 	@PostMapping("/qna_Answer")
-	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq) {
+	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq, @RequestParam("member_Id") String member_Id) {
 		QnaVO voForUpdate = qnaService.getQnaDetail(qna_Seq);
 		voForUpdate.setQna_Answer(qna_Answer);
 		qnaService.updateQnaAnswer(voForUpdate);
-		return "redirect:/qna_Detail?qna_Seq=" + qna_Seq;
+		AlarmVO alarmVO = new AlarmVO();
+		alarmVO.setKind(5);
+		alarmVO.setFrom_Mem("admin");
+		alarmVO.setTo_Mem(member_Id);
+		alarmVO.setPost_Seq(0);
+		alarmVO.setReply_Seq(0);
+		alarmService.insertAlarm(alarmVO);
+		return "redirect:qna_Detail?qna_Seq=" + qna_Seq;
 	}
 }

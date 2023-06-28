@@ -279,10 +279,6 @@
 	                              </div>
 	                              <img src="img/trend1.jpg" class="img-fluid rounded-4 ms-auto" alt="trending-img">
 	                           </a>
-	                           <!-- Show More -->
-	                           <a href="explore" class="text-decoration-none">
-	                              <div class="p-3">Show More</div>
-	                           </a>
 	                        </div>
 	                     </div>
 	                  </div>

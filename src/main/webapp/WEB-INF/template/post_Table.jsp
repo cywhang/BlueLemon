@@ -103,7 +103,7 @@
 														</c:when>
 														<c:otherwise>
 															<c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-		                                                		${hash.tag_Content}&nbsp;&nbsp;
+		                                                		#${hash.tag_Content}&nbsp;&nbsp;
 															</c:forEach>
 														</c:otherwise>
 													</c:choose>
