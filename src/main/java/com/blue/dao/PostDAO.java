@@ -81,16 +81,7 @@ public class PostDAO {
 	}
 	public List<PostVO> getHottestFeed() {
 		//System.out.println("[인기글 - 4] getHottestFeed()를 위해 postDAO로 오고 post-mapping.xml에 가서 받아옴");
-		List<PostVO> hottestFeed = mybatis.selectList("PostMapper.getHottestFeed");
-    	for(int i = 0 ; i < hottestFeed.size(); i++) {
-    		String post_Hashtag = "";
-    		List<TagVO> tags = mybatis.selectList("PostMapper.postHashtag", hottestFeed.get(i).getPost_Seq());
-	    	for(int j = 0 ; j < tags.size() ; j++) {
-	    		post_Hashtag += "#" + tags.get(j).getTag_Content() + " ";
-	    	}
-    		hottestFeed.get(i).setPost_Hashtag(post_Hashtag);
-    	}
-		return hottestFeed;
+		return mybatis.selectList("PostMapper.getHottestFeed");
 	}
 	
 	public void insertPost(PostVO vo) {		
