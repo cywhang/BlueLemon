@@ -223,11 +223,9 @@ public class PostAndLikeController {
 	            for (JsonNode node : jsonNode) {
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
-	                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
-	                String values = "#" + value;
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
-	                tvo.setTag_Content(values);
+	                tvo.setTag_Content(value);
 	                postService.insertTag(tvo);
 	            }
 	        } catch (JsonProcessingException e) {
@@ -281,10 +279,16 @@ public class PostAndLikeController {
 			replyList.get(i).setReply_LikeYN(reply_LikeYN);
 		}
 		
+		// 6. 게시글의 해시태그 
+		ArrayList<TagVO> hashTag = postService.getHashtagList(post_Seq);
+		
+		
  		// 게시글 상세정보 VO
  		dataMap.put("post", postInfo);  
  		// 게시글의 댓글 리스트
  		dataMap.put("replies", replyList);
+ 		// 게시글의 해시태그
+ 		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
 		
@@ -292,7 +296,7 @@ public class PostAndLikeController {
 	}
 	
 	
-	// 게시글 상세보기 페이지 (댓글 리스트만)
+	// 게시글 상세보기 페이지 (댓글 리스트, 본글 내용)
 	@GetMapping("/replyModal")
 	@ResponseBody
 	public Map<String, Object> modalReply(@RequestParam int post_Seq, HttpSession session) {
@@ -317,6 +321,9 @@ public class PostAndLikeController {
 		LikeYN.setMember_Id(member_Id);
 		LikeYN.setPost_Seq(post_Seq);
 		
+		// 5. 게시글의 해시태그 
+		ArrayList<TagVO> hashTag = postService.getHashtagList(post_Seq);
+		
 		// 조회 결과 담음
 		String post_LikeYN = postService.getLikeYN(LikeYN);
 		postInfo.setPost_LikeYN(post_LikeYN);
@@ -338,6 +345,8 @@ public class PostAndLikeController {
  		dataMap.put("post", postInfo);  
  		// 게시글의 댓글 리스트
  		dataMap.put("replies", replyList);
+ 		// 게시글의 해시태그
+ 		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
 		
