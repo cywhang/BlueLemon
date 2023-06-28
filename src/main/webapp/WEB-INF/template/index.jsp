@@ -402,7 +402,7 @@
                               
                               	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
 									<li>
-										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px">
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
 											${alarmVO.message}
 										</a>
 									</li>
@@ -470,7 +470,7 @@
                               
                               	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
 									<li>
-										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px">
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
 											${alarmVO.message}
 										</a>
 									</li>

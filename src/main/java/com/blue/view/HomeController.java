@@ -22,36 +22,6 @@ public class HomeController {
 	@Autowired
 	private AlarmService alarmService;
 	
-	@GetMapping(value="/explore")
-	public String Explore(HttpSession session, Model model) {
-		
-		if(session.getAttribute("loginUser") == null) {
-			//System.out.println("세션값 없음");
-			model.addAttribute("message", "로그인을 해주세요");
-			return "login";
-			
-		} else {
-			
-		return "explore";
-		
-		}
-	}
-	
-	@GetMapping(value="/tags")
-	public String Tags(HttpSession session, Model model) {
-		
-		if(session.getAttribute("loginUser") == null) {
-			//System.out.println("세션값 없음");
-			model.addAttribute("message", "로그인을 해주세요");
-			return "login";
-		} else {
-		
-		return "tags";
-		
-		}
-	}
-	
-	
 	@GetMapping(value="/faq")
 	public String Faq(HttpSession session, Model model) {
 		
