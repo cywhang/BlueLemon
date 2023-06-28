@@ -139,7 +139,7 @@
                               
                            <!-- Feeds -->
                            <!-- 뉴스피드들을 감싸는 부분 -->
-                           <div class="pt-4 feeds">                              
+                           <div class="pt-4 feeds" id="firstShowMainFeed">                              
                               <!-- Feed Item -->
                               <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
@@ -199,7 +199,7 @@
                                                 
                                                 <!-- 해시태그 -->
                                                 <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-	                                            	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                                <a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
 	                                            </c:forEach>
                                                 <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
@@ -373,7 +373,7 @@
                            <li class="nav-item">
                               <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
                            </li>
-                           <!-- PAGES 드롭다운 항목 -->
+                           <!-- Contact Us 드롭다운 항목 -->
                            <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <span class="material-icons me-3">web</span> Contact Us
@@ -386,6 +386,31 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+									<li>
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px">
+											${alarmVO.message}
+										</a>
+									</li>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
+                           
                         </ul>
                      </div>
                   </div>
@@ -429,6 +454,30 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+									<li>
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px">
+											${alarmVO.message}
+										</a>
+									</li>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
                         </ul>
                      </div>
                   </div>
@@ -804,7 +853,9 @@
       <script src="js/trending.js"></script>
       <!-- Infinite Js -->
       <script src="js/infinite.js"></script>
-      <!-- Search Peple Js -->
+      <!-- Search People Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- Alarm Js -->
+      <script src="js/alarm.js"></script>
    </body>
 </html>

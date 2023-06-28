@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.blue.dto.AlarmVO;
 
-@Repository("AlarmDao")
+@Repository("alarmDao")
 public class AlarmDAO {
 
 	@Autowired
@@ -35,5 +35,5 @@ public class AlarmDAO {
 	public void deleteAlarm(int alarm_Seq) {
 		mybatis.delete("AlarmMapper.deleteAlarm", alarm_Seq);
 	}
-
+	
 }

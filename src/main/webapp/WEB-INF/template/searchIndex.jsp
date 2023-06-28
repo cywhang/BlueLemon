@@ -462,6 +462,47 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
                         </ul>
                      </div>
                   </div>
@@ -497,6 +538,47 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
                         </ul>
                      </div>
                   </div>
