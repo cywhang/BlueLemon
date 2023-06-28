@@ -23,7 +23,12 @@ public class AlarmServiceImpl implements AlarmService {
 	public List<AlarmVO> getAllAlarm(String member_Id) {
 		return alarmDao.selectAlarm(member_Id);
 	}
-	
+
+	@Override
+	public int getOneAlarm_Seq(AlarmVO alarmVO) {
+		return alarmDao.getOneAlarm_Seq(alarmVO);
+	}
+
 	@Override
 	public void deleteAlarm(int alarm_Seq) {
 		alarmDao.deleteAlarm(alarm_Seq);

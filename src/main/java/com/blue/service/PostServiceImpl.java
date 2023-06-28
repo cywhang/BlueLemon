@@ -123,4 +123,9 @@ public class PostServiceImpl implements PostService {
 	public void deleteTag(int post_Seq) {
 		postDao.deleteTag(post_Seq);
 	}
+
+	@Override
+	public String getPostWriter(int post_Seq) {
+		return postDao.getPostWriter(post_Seq);
+	}
 }

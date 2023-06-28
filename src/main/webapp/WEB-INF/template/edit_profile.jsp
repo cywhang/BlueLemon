@@ -35,40 +35,25 @@
 	  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
    </head>
  <style>
-	.error-message {
-		color: red;
-	}
 	
-	.success-message {
-		color: green;
-	
-	/* 파일 선택 버튼 옆의 파일 이름 숨김 */
-	input[type="file"] {
-	    width: 0.1px;
-	    height: 0.1px;
-	    opacity: 0;
-	    overflow: hidden;
-	    position: absolute;
-	    z-index: -1;
-	}
-	input[type="file"] + label {
-	    font-size: 1.25em;
-	    font-weight: 700;
-	    color: white;
-	    background-color: #4CAF50;
-	    display: inline-block;
-	    padding: 8px 12px;
-	    cursor: pointer;
-	    border-radius: 4px;
-	}
-	
-	input[type="file"] + label:hover {
-	    background-color: #45a049;
-	}
-	
-	input[type="file"] + label:active {
-	    background-color: #3e8e41;
-	}
+	 .custom-file-upload {
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #0d6efd;
+        color: #0d6efd;
+        border-radius: 4px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #0d6efd;
+    }
+
+    .custom-file-upload input[type="file"] {
+        display: none;
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/editprofile.js"></script>
@@ -192,15 +177,19 @@
                                     <label for="floatingBirth">MBTI</label>
                                  </div>
 	                          </div>
-	                          <div>
-							     <label>Profile</label>
-								 <input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
-								 <img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden;">
-							     <p id="photo_file_name"></p>
-						      </div>
-	                       </div>
-	                    </div>
-	                    <div class="d-grid">
+	                          <div class="rounded"  style="border:1px solid #dee2e6; height : auto; width: 96%;">
+								<label style = "width : 23%; margin-top : 12px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
+									Profile Image
+								</label><br>
+								<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 3%; margin-top : 2%;">
+									<span style = "color : white;">Upload</span>
+									<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
+								</label>											
+								<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden; margin-left : 20%;">
+							</div>
+	                   	 </div>
+	                   	 <br>
+	                    <div>
 	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update()">SAVE</button>
 	                    </div>
 	                 </div>
@@ -451,10 +440,6 @@
 								    </div>
 						         </div>
 							  </c:forEach>
-                              <!-- Show More -->
-                              <a href="follow" class="text-decoration-none">
-                                 <div class="p-3">Show More</div>
-                              </a>
                            </div>
                         </div>
                      </div>
@@ -720,4 +705,5 @@
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
    </body>
+>>>>>>> refs/remotes/origin/develop
 </html>

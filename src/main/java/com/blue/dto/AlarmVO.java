@@ -16,4 +16,5 @@ public class AlarmVO {
 	private int post_Seq;
 	private int reply_Seq;
 	private String message;
+	
 }

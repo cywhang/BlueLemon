@@ -202,6 +202,7 @@ public class FollowController {
 			//System.out.println("[팔로우, 언팔로우 - 7] FollowVO객체 vo를 가지고 changeFollow() 요청");
 			memberService.changeFollow(vo);
 			//System.out.println("[팔로우, 언팔로우 - 12] changeFollow 하고 js에 success 리턴");
+			
 			return "success";
 		} catch (Exception e) {
 			//System.out.println("[팔로우, 언팔로우 - 5 - catch] JSON 파싱 오류난 경우");

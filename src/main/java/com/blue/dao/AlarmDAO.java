@@ -8,23 +8,32 @@ import org.springframework.stereotype.Repository;
 
 import com.blue.dto.AlarmVO;
 
-@Repository("AlarmDao")
+@Repository("alarmDao")
 public class AlarmDAO {
 
 	@Autowired
 	private SqlSessionTemplate mybatis;
 
 	public void insertAlarm(AlarmVO alarmVO) {
-		System.out.println("DAO에서 sql 타기 전 : " + alarmVO);
 		mybatis.insert("AlarmMapper.insertAlarm", alarmVO);		
 	}
 	
 	public List<AlarmVO> selectAlarm(String member_Id){
 		return mybatis.selectList("AlarmMapper.selectAlarm", member_Id);
 	}
-	
+
+	public int getOneAlarm_Seq(AlarmVO alarmVO) {
+        String result = mybatis.selectOne("AlarmMapper.getOneAlarm_Seq", alarmVO);
+        System.out.println("mapper 다녀온 result : " + result);
+        if(result == null) {
+        	return 0;
+        } else {
+        	return Integer.parseInt(result);
+        }
+	}
+
 	public void deleteAlarm(int alarm_Seq) {
 		mybatis.delete("AlarmMapper.deleteAlarm", alarm_Seq);
 	}
-
+	
 }

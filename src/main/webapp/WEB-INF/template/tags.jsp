@@ -689,10 +689,6 @@
                               </div>
                               <img src="img/trend1.jpg" class="img-fluid rounded-4 ms-auto" alt="trending-img">
                            </a>
-                           <!-- Show More -->
-                           <a href="explore" class="text-decoration-none">
-                              <div class="p-3">Show More</div>
-                           </a>
                         </div>
                         <div class="bg-white rounded-4 overflow-hidden shadow-sm account-follow mb-4">
                            <h6 class="fw-bold text-body p-3 mb-0 border-bottom">Who to follow</h6>

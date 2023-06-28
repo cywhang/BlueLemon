@@ -335,7 +335,7 @@ function searchPeopleInfinity(hashTag){
 		    	var search = searchFollowList[i];
 		    	
 		    	
-		    	html += '<a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">';
+		    	html += '<a href="profile?member_Id=' + search.member_Id + '" class="p-3 border-bottom d-flex text-dark text-decoration-none" style="height:95px;">';
 		    	html += '   <img src="img/uploads/profile/' + search.member_Profile_Image + '" class="img-fluid rounded-circle me-3" alt="profile-img">';
 		    	html += '   <div>';
 		    	html += '       <p class="fw-bold mb-0 pe-3 d-flex align-items-center">' + search.member_Id + '</p>';

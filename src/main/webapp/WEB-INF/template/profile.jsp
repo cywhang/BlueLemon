@@ -24,6 +24,14 @@
       <link href="css/style.css" rel="stylesheet">
       <!-- Material Icons -->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	  <!-- 파일 업로드 -->
+	  <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+	  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  	  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  	  <!-- 해시태그  -->
+  	  <script src="https://unpkg.com/@yaireo/tagify"></script>
+	  <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+	  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
    </head>
    <body class="bg-light">
       <div class="theme-switch-wrapper ms-3">
@@ -55,24 +63,30 @@
                               <h6 class="mb-0 d-flex align-items-start text-body fs-6 fw-bold">${member.member_Id}</h6>
                               <p class="text-muted mb-0">${member.member_Name}</p>
                            </div>
-                           <div class="ms-auto btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                              <c:choose>
-                                 <c:when test="${member.follow_Check eq 'n'}">
-                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}">                              
-	                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
-		                               <span class="follow">+ Follow</span>
-		                               <span class="following d-none">Following</span>	                              
-	                                </label>
-                                 </c:when>
-                                 <c:otherwise>
-                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}" checked = "checked">                              
-	                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
-		                               <span class="follow">+ Follow</span>
-		                               <span class="following d-none">Following</span>	                              
-	                                </label>
-                                 </c:otherwise>
-                              </c:choose>
-                           </div>
+                           <c:choose>
+                              <c:when test="${member.member_Id == loginUser_Id}">                        
+                              </c:when>
+                              <c:otherwise>
+		                           <div class="ms-auto btn-group" role="group" aria-label="Basic checkbox toggle button group">
+		                              <c:choose>
+		                                 <c:when test="${member.follow_Check eq 'n'}">
+		                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}">                              
+			                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
+				                               <span class="follow">+ Follow</span>
+				                               <span class="following d-none">Following</span>	                              
+			                                </label>
+		                                 </c:when>
+		                                 <c:otherwise>
+		                                    <input type="checkbox" class="btn-check" id="btncheck_${member.member_Id}" checked = "checked">                              
+			                                <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck_${member.member_Id}" onclick ="changeFollow('${member.member_Id}')">
+				                               <span class="follow">+ Follow</span>
+				                               <span class="following d-none">Following</span>	                              
+			                                </label>
+		                                 </c:otherwise>
+		                              </c:choose>
+		                           </div>                              
+                              </c:otherwise>
+                           </c:choose>                           
                         </div>
                         <div class="p-3" style = "margin-left : 70px;">
                            <p class="mb-2 fs-6">Birth Day : ${member.member_Birthday}</p>
@@ -173,8 +187,19 @@
 		                                                     <div class="dropdown">
 		                                                        <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
 		                                                        <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-		                                                           <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>
-		                                                           <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>
+		                                                           <li>
+		                                                              <button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2">
+		                                                                 <span class="material-icons md-13 me-1">edit</span>
+		                                                         	     Edit
+		                                                              </button>
+		                                                           </li>
+		                                                           <!-- deletePost()는 custom.js에 있음 -->
+		                                                           <li>
+		                                                              <button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})">
+		                                                                 <span class="material-icons md-13 me-1">delete</span>
+		                                                         	     Delete
+		                                                              </button>
+		                                                           </li>
 		                                                        </ul>
 		                                                     </div>
 	                                                      </c:when>
@@ -195,11 +220,16 @@
 		                                                	</c:otherwise>
 		                                                </c:choose>
 	                                                </a>
-	                                                <br>
+	                                                <br>      
+                                             	<!-- 게시글 내용 -->                                        
+                                                <p class="text-dark">${postVO.post_Content}</p>
+                                                <br>
+	                                                
 	                                                <!-- 해시태그 -->
 	                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
 	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
 	                                                </c:forEach>
+	                                                <hr>
 	                                                <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
 	                                                <div class="d-flex align-items-center justify-content-between mb-2">
 	                                                    <%-- 게시글 좋아요 버튼 (카운트) --%>
@@ -240,7 +270,7 @@
 	                                                 		<div class="d-flex mb-2">
 	                                                 			<!-- 댓글 작성자 프로필 이미지 출력부분 -->
 			                                                    <a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${reply.post_Seq})">
-			                                                    	  <img src="img/uploads/profile/${profileMap[reply.member_Id]}" class="img-fluid rounded-circle profile" alt="commenters-img">
+			                                                   		<img src="img/uploads/profile/${profileMap[reply.member_Id]}" class="img-fluid rounded-circle profile" alt="commenters-img">
 			                                                    </a>
 		                                                     	<div class="ms-2 small">
 		                                                        	<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${reply.post_Seq});">
@@ -592,10 +622,6 @@
 								    </div>
 						         </div>
 							  </c:forEach>
-                              <!-- Show More -->
-                              <a href="follow" class="text-decoration-none">
-                                 <div class="p-3">Show More</div>
-                              </a>
                            </div>
                         </div>
                      </div>
@@ -839,6 +865,56 @@
             </div>
          </div>
       </div>
+      
+      <!-- Post Edit Modal -->
+      <!-- 글 수정 모달창 -->
+      <div class="modal fade" id="postModal2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-4 border-0 bg-light">
+               <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
+                  <!-- 뒤로가기 버튼 -->
+                  <a href="#" id="closeEditModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
+                  <!-- 작성자 프로필 이미지 -->
+                  <img src="img/uploads/profile/${profileMap[sessionScope.loginUser.member_Id]}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">
+                  <!-- 수정 모달창의 제목-->
+                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">수정 페이지</h5> <!-- 작성자: ${sessionScope.loginUser.member_Id} -->
+               </div>
+               <!-- 게시글 작성 폼 -->
+               <form onsubmit="return false;" enctype="multipart/form-data" id="postUpdate">
+               <div class="modal-body p-0 mb-3">
+               	  <!-- 입력 부분 -->
+               	  <!-- 작성자 아이디 히든으로 넘김 -->
+               	  <input type="hidden" name="member_Id" value="${sessionScope.loginUser.member_Id}">
+               	  <!-- 동적 공개여부 체크박스  -->
+                  <label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부<div id="postPublicContainer"></div></label>
+               	  <!-- 게시글 내용 작성창 -->
+                  <div class="form-floating" id="postContentContainer"></div>
+                  
+                  <!-- 해시태그 입력창 -->
+                  <div>
+                  	<div id="hashtagContainer"></div>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                  	 <div></div>
+                  	    <!-- edit 폼 제출 버튼 -->
+                  	 	<div id="editButtonContainer"></div>
+                  </div>
+               </div>
+               <!-- 이미지 업로드 부분 -->
+               <div class="clearfix">
+			   	  <div class="inputFile">
+			   	    <!-- 파일을 입력할 수 있는 +버튼 -->
+			        <label for="editImgs" class="addImgBtn">+</label>
+			        <!-- 숨겨져있는 file입력창 (위 label은 이 input태그를 가리키고있다.) -->
+			        <input type="file" onchange="editFile(this);" name="uploadImgs" id="editImgs" class="upload-hidden" accept=".png, .gif" multiple="multiple" hidden="true" max="4">
+				  </div>
+				  <!-- 이미지 미리보기 컨테이너 -->
+				  <ul id="editPreview"></ul>
+			   </div>
+		  	   </form>
+            </div>
+         </div>
+      </div>
       <!-- Jquery Js -->
       <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
@@ -855,9 +931,13 @@
       <script src="js/modal.js"></script>
       <!-- People Js -->
       <script src="js/people.js"></script>
-      <!-- Search People Js -->
+      <!-- Insert Js -->
+      <script src="js/modalAction.js"></script>
+      <!-- Trending Js -->
+      <script src="js/trending.js"></script>
+      <!-- Infinite Js -->
+      <script src="js/infinite.js"></script>
+      <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
-      <!-- profile Js -->
-      <script src="js/profile.js"></script>
    </body>
 </html>

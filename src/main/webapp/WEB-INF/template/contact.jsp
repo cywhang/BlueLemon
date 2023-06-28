@@ -408,10 +408,6 @@
 								    </div>
 						         </div>
 							  </c:forEach>
-                              <!-- Show More -->
-                              <a href="follow" class="text-decoration-none">
-                                 <div class="p-3">Show More</div>
-                              </a>
                            </div>
                         </div>
                      </div>

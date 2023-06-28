@@ -10,8 +10,8 @@
 		<typeAlias type="com.blue.dto.LikeVO" alias = "like"/>
 		<typeAlias type = "com.blue.dto.FollowVO" alias = "follow"/>
 		<typeAlias type = "com.blue.dto.QnaVO" alias = "qna"/>
-		<typeAlias type = "com.blue.dto.TagVO" alias = "tag"/>
-		<typeAlias type = "com.blue.dto.AlarmVO" alias="alarm"/>
+		<typeAlias type = "com.blue.dto.TagVO" alias = "tag"/>		
+		<typeAlias type = "com.blue.dto.AlarmVO" alias = "alarm"/>
 	</typeAliases>
  
 	<!-- SQL 매핑 파일 등록 -->
