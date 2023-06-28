@@ -8,14 +8,18 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.FollowVO;
 import com.blue.dto.MemberVO;
+import com.blue.service.AlarmService;
 
 @Repository("MemberDao")
 public class MemberDAO {
 
 	@Autowired
 	private SqlSessionTemplate mybatis;
+	@Autowired
+	private AlarmService alarmService;
 
 	// 회원 ID를 조건으로 회원 조회
 	public MemberVO getMember(String member_Id) {
@@ -143,16 +147,39 @@ public class MemberDAO {
 		// System.out.println("[팔로우, 언팔로우 - 9] changeFollow()를 위해 DAO로 옴, follower = " +
 		// vo.getFollower() + ", following = " + vo.getFollowing());
 		String check = mybatis.selectOne("MemberMapper.checkFollow", vo);
-		// System.out.println("[팔로우, 언팔로우 - 10] member-mapping.xml에서 checkFollow로 팔로우
-		// 체크");
+		// System.out.println("[팔로우, 언팔로우 - 10] member-mapping.xml에서 checkFollow로 팔로우 체크");
+		
+		// 알람
+        AlarmVO alarmVO = new AlarmVO();
+        alarmVO.setKind(1);
+        alarmVO.setFrom_Mem(vo.getFollower());
+        alarmVO.setTo_Mem(vo.getFollowing());
+        alarmVO.setPost_Seq(0);
+        alarmVO.setReply_Seq(0);
+        
+        // 알람 테이블에 해당 알람 있나 확인
+        int result = alarmService.getOneAlarm_Seq(alarmVO);	
+        
 		// 팔로우 중이 아닌 경우
 		if (check == null) {
 			mybatis.update("MemberMapper.addFollow", vo);
 			// System.out.println("[팔로우, 언팔로우 - 11 - if] 팔로우 중 아니라서 팔로우 함");
+			
+			// 알람 테이블에 해당 알람 없으면 insert
+	        if(result == 0) {
+		        alarmService.insertAlarm(alarmVO);
+	        } else {
+	        }
 			// 팔로우 중인 경우
 		} else {
 			mybatis.update("MemberMapper.delFollow", vo);
 			// System.out.println("[팔로우, 언팔로우 - 11 - else] 팔로우 중이라서 팔로우 취소 함");
+			
+			// 알람 테이블에 해당 알람 있으면 delete
+	        if(result == 0) {
+	        } else {
+	        	alarmService.deleteAlarm(result);
+	        }
 		}
 	}
 

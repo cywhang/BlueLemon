@@ -66,4 +66,7 @@ public interface PostService {
 		
 	// 게시글 해시태그 수정전 삭제 처리
 	void deleteTag(int post_Seq);
+	
+	// 알람을 위해 게시글 작성자 추출
+	String getPostWriter(int post_Seq);
 }

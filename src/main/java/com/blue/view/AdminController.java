@@ -3,7 +3,6 @@ package com.blue.view;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,21 +10,20 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.dto.QnaVO;
 import com.blue.dto.ReplyVO;
 import com.blue.dto.TagVO;
+import com.blue.service.AlarmService;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
 import com.blue.service.QnaService;
@@ -44,7 +42,8 @@ public class AdminController {
 	private ReplyService replyService;
 	@Autowired
 	private QnaService qnaService;
-	
+	@Autowired
+	private AlarmService alarmService;
 	
 	// index 페이지 로드
 	@GetMapping("/admin_Index")
@@ -90,8 +89,7 @@ public class AdminController {
 			return "login";			
 		}
 		
-	}
-	
+	}	
 
 	@GetMapping("/member_Table")
 	public String member_Table(Model model, HttpSession session) throws ParseException {
@@ -172,11 +170,8 @@ public class AdminController {
 		} else {
 			model.addAttribute("message", "관리자로 로그인 해주세요");
 			return "login";			
-		}		
-		
-
+		}
 	}
-
 	
 	@GetMapping("/qna_Table")
 	public String qna_Table(Model model, HttpSession session) {
@@ -199,10 +194,17 @@ public class AdminController {
 	}
 	
 	@PostMapping("/qna_Answer")
-	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq) {
+	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq, @RequestParam("member_Id") String member_Id) {
 		QnaVO voForUpdate = qnaService.getQnaDetail(qna_Seq);
 		voForUpdate.setQna_Answer(qna_Answer);
 		qnaService.updateQnaAnswer(voForUpdate);
-		return "redirect:/qna_Detail?qna_Seq=" + qna_Seq;
+		AlarmVO alarmVO = new AlarmVO();
+		alarmVO.setKind(5);
+		alarmVO.setFrom_Mem("admin");
+		alarmVO.setTo_Mem(member_Id);
+		alarmVO.setPost_Seq(0);
+		alarmVO.setReply_Seq(0);
+		alarmService.insertAlarm(alarmVO);
+		return "redirect:qna_Detail?qna_Seq=" + qna_Seq;
 	}
 }

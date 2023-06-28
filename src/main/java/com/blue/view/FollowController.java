@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.FollowVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
+import com.blue.service.AlarmService;
 import com.blue.service.FollowService;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
@@ -37,6 +39,8 @@ public class FollowController {
 	private PostService postService;
 	@Autowired
 	private FollowService followService;
+	@Autowired
+	private AlarmService alarmService;
 	
 	@GetMapping("/follow")
 	public String getFollow(Model model, HttpSession session, @RequestParam String member_Id) {
@@ -178,6 +182,7 @@ public class FollowController {
 			//System.out.println("[팔로우, 언팔로우 - 7] FollowVO객체 vo를 가지고 changeFollow() 요청");
 			memberService.changeFollow(vo);
 			//System.out.println("[팔로우, 언팔로우 - 12] changeFollow 하고 js에 success 리턴");
+			
 			return "success";
 		} catch (Exception e) {
 			//System.out.println("[팔로우, 언팔로우 - 5 - catch] JSON 파싱 오류난 경우");

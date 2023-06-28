@@ -130,8 +130,8 @@
 	<!-- 관리자 게시글 상세보기 -->
 	<select id="selectPostDetail" resultType="post">
 		SELECT *
-		FROM post p
-		WHERE p.post_Seq = #{post_Seq}
+		FROM post
+		WHERE post_Seq = #{post_Seq}
 	</select>
 	
 	<!-- 해쉬태그 검색 기능 -->
@@ -168,4 +168,9 @@
 	<delete id="deleteTag">
 		delete from tag where post_seq = #{post_Seq}
 	</delete>
+	
+	<!-- 알람을 위해 게시글 작성자 가져오기 -->
+	<select id = "postWriter" resultType = "String">
+		SELECT member_Id FROM post WHERE post_Seq = #{post_Seq}
+	</select>
 </mapper>

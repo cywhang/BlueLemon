@@ -21,4 +21,7 @@ public interface ReplyService {
 	
 	// 댓글 인서트
 	void insertReply(ReplyVO vo);
+	
+	// DB상 가장 큰 reply_Seq 가져오기
+	int getMaxReply_Seq();
 }
