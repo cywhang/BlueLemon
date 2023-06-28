@@ -284,10 +284,16 @@ public class PostAndLikeController {
 			replyList.get(i).setReply_LikeYN(reply_LikeYN);
 		}
 		
+		// 6. 게시글의 해시태그 
+		ArrayList<TagVO> hashTag = postService.getHashtagList(post_Seq);
+		
+		
  		// 게시글 상세정보 VO
  		dataMap.put("post", postInfo);  
  		// 게시글의 댓글 리스트
  		dataMap.put("replies", replyList);
+ 		// 게시글의 해시태그
+ 		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
 		
@@ -295,7 +301,7 @@ public class PostAndLikeController {
 	}
 	
 	
-	// 게시글 상세보기 페이지 (댓글 리스트만)
+	// 게시글 상세보기 페이지 (댓글 리스트, 본글 내용)
 	@GetMapping("/replyModal")
 	@ResponseBody
 	public Map<String, Object> modalReply(@RequestParam int post_Seq, HttpSession session) {
@@ -320,6 +326,9 @@ public class PostAndLikeController {
 		LikeYN.setMember_Id(member_Id);
 		LikeYN.setPost_Seq(post_Seq);
 		
+		// 5. 게시글의 해시태그 
+		ArrayList<TagVO> hashTag = postService.getHashtagList(post_Seq);
+		
 		// 조회 결과 담음
 		String post_LikeYN = postService.getLikeYN(LikeYN);
 		postInfo.setPost_LikeYN(post_LikeYN);
@@ -341,6 +350,8 @@ public class PostAndLikeController {
  		dataMap.put("post", postInfo);  
  		// 게시글의 댓글 리스트
  		dataMap.put("replies", replyList);
+ 		// 게시글의 해시태그
+ 		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
 		
@@ -701,7 +712,6 @@ public class PostAndLikeController {
 			/* index페이지의 팔로우 부분 */
 			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
 			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-
 			//System.out.println("[멤버추천 - 2] member_Id를 가지고 memberService에 getRecommendMember 요청");		
 			List<MemberVO> recommendMember = memberService.getRecommendMember(member_Id);
 			//System.out.println("[멤버추천 - 5] DAO에서 추천 리스트를 받아와서 List에 저장하고 model에 올리고 index.jsp 호출");
@@ -712,6 +722,27 @@ public class PostAndLikeController {
 	    	//System.out.println("[인기글 - 5] DAO에서 hottestFeed 받아와서 List에 저장하고 model에 올림");
 
 
+	    	// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(member_Id);
+	    	
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		}else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		}else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
+	    	
 			/* index페이지의 뉴스피드 부분 */
 			// 자신, 팔로잉한 사람들의 게시글을 담는부분
 			ArrayList<PostVO> postlist = postService.getHashTagPost(hashTag);
@@ -793,7 +824,10 @@ public class PostAndLikeController {
 		    model.addAttribute("searchFollow", searchFollow);
 		    model.addAttribute("mostFamous", mostFamous);
 		    model.addAttribute("searchFollowSize", searchFollowSize);
-
+		    
+		    model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
+			
 			model.addAttribute("hashTag", hashTag);
 			model.addAttribute("profileMap", profilemap);
 			model.addAttribute("postList", postlist);
@@ -885,5 +919,42 @@ public class PostAndLikeController {
 
 		return ResponseEntity.ok(responseData);
 	}
+	
+	@PostMapping("/selectOnePost")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> selectOnePost(@RequestBody Map<String, Integer> requestbody, HttpSession session){
+		
+		int post_Seq = requestbody.get("post_Seq");
+		
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		
+		//게시글 
+		PostVO postVO = postService.selectPostDetail(post_Seq);
+		//댓글
+		ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+		//해쉬태그
+		ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+		
+		// 전체 회원의 이미지 Map을 세션에서 받아옴
+		HashMap<String, String> profileMap = (HashMap<String, String>) session.getAttribute("profileMap");
+		
+		Map<String, Object> responseData = new HashMap<>();
+
+		responseData.put("postVO", postVO);
+		
+		responseData.put("replylist", replylist);
+		
+		responseData.put("hash", hash);
+		
+		responseData.put("profileMap", profileMap);
+		
+		responseData.put("session_Id", member_Id);
+
+		return ResponseEntity.ok(responseData);
+		
+	}
+	
+	
+	
 	
 }

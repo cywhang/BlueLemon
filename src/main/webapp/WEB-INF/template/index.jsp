@@ -139,7 +139,7 @@
                               
                            <!-- Feeds -->
                            <!-- 뉴스피드들을 감싸는 부분 -->
-                           <div class="pt-4 feeds">                              
+                           <div class="pt-4 feeds" id="firstShowMainFeed">                              
                               <!-- Feed Item -->
                               <c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  <div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
@@ -199,7 +199,7 @@
                                                 
                                                 <!-- 해시태그 -->
                                                 <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-	                                            	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                                <a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
 	                                            </c:forEach>
                                                 <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
@@ -373,7 +373,7 @@
                            <li class="nav-item">
                               <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
                            </li>
-                           <!-- PAGES 드롭다운 항목 -->
+                           <!-- Contact Us 드롭다운 항목 -->
                            <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <span class="material-icons me-3">web</span> Contact Us
@@ -386,6 +386,31 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+									<li>
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
+											${alarmVO.message}
+										</a>
+									</li>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
+                           
                         </ul>
                      </div>
                   </div>
@@ -429,6 +454,30 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+									<li>
+										<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="#" onclick="clickAlarm(${alarmVO.kind},${alarmVO.alarm_Seq},${alarmVO.post_Seq},${alarmVO.reply_Seq},'${alarmVO.to_Mem}')" style="font-size:11px; background-color: azure;">
+											${alarmVO.message}
+										</a>
+									</li>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                           
                         </ul>
                      </div>
                   </div>
@@ -661,7 +710,7 @@
                <div class="modal-body p-0">
                   <div class="row m-0">
                   	 <!-- 모달창의 왼쪽 컬럼 -->
-                     <div class="col-sm-7 px-0 m-sm-none">
+                     <div class="col-sm-7 px-0 m-sm-none h-600">
                         <!-- 게시글의 이미지슬라이드 -->
                         <div class="image-slider" width = "100%">
                            <div id="carouselExampleIndicators" class="carousel slide" c="carousel">
@@ -702,13 +751,26 @@
                               </div>
                            </div>
                            
-                           <!-- 댓글들 리스트 div -->
-                           <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                           <div class="comments p-3" id="replyList">
-	                           <div id="replyListContainer">
-		                       </div>
-                           </div>
-						                                          
+                           <div id="replyList">
+	                            <!-- 해당 게시글의 내용을 표시하는 부분 -->
+			                    <div class="d-flex p-3">
+				                   <div class="d-flex align-items-center w-100">
+				                   <div id="imgModalContent"></div>
+				                   </div>
+			                    </div>
+		                    	<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+			                    <div class="d-flex p-3 border-bottom">
+				                    <div class="d-flex align-items-center w-100">
+				                    <div id="imgModalHashtag"></div>
+				                    </div>
+			                    </div>
+	                           <!-- 댓글들 리스트 div -->
+	                           <!-- id는 스크롤을 하기 위해서 지정해줌 -->
+	                           <div class="comments p-3">
+		                           <div id="replyListContainer">
+			                       </div>
+	                           </div>
+                           </div>      
                            <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
                            <div class="border-top p-3 mt-auto">
                               <div class="d-flex align-items-center justify-content-between mb-2">
@@ -751,7 +813,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body p-0">
-                 <div class="d-flex flex-column h-600">
+                  <div class="d-flex flex-column h-600">
                     <!-- 게시글 작성자 정보 -->
                     <div class="d-flex p-3 border-bottom">
                     	  <!-- 게시글 작성자 프로필이미지 -->
@@ -768,16 +830,32 @@
                           <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
                           <div class="small dropdown">
                              <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
-                             <!-- 임시  -->
                           </div>
                        </div>
                     </div>
                     
-                    <!-- 댓글들 리스트 div -->
-                    <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                    <div class="comments p-3" id="replyList">
-	                    <div id="replyListContainer2">
-	                  	</div>
+                    <!-- 스크롤을 위한 id 지정 -->
+                    <div  id ="replyList">
+                    	<!-- 해당 게시글의 내용을 표시하는 부분 -->
+	                    <div class="d-flex p-3">
+		                    <div class="d-flex align-items-center w-100">
+		                    <div id="modalContent"></div>
+		                    </div>
+	                    </div>
+                    
+                    	<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+	                    <div class="d-flex p-3 border-bottom">
+		                    <div class="d-flex align-items-center w-100">
+		                    <div id="modalHashtag"></div>
+		                    </div>
+	                    </div>
+                    
+	                    <!-- 댓글들 리스트 div -->
+	                    <!-- id는 스크롤을 하기 위해서 지정해줌 -->
+	                    <div class="comments p-3">
+		                    <div id="replyListContainer2">
+		                  	</div>
+	                    </div>
                     </div>
                     
                     <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
@@ -799,8 +877,7 @@
                           </div>
                        </div>
                     </div>
-                    
-                 </div>
+               </div>
                </div>
                <div class="modal-footer d-none"></div>
             </div>
@@ -827,7 +904,9 @@
       <script src="js/trending.js"></script>
       <!-- Infinite Js -->
       <script src="js/infinite.js"></script>
-      <!-- Search Peple Js -->
+      <!-- Search People Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- Alarm Js -->
+      <script src="js/alarm.js"></script>
    </body>
 </html>

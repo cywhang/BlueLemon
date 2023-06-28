@@ -15,4 +15,6 @@ public class AlarmVO {
 	private String to_Mem;
 	private int post_Seq;
 	private int reply_Seq;
+	private String message;
+	
 }
