@@ -687,7 +687,7 @@
                <div class="modal-body p-0">
                   <div class="row m-0">
                   	 <!-- 모달창의 왼쪽 컬럼 -->
-                     <div class="col-sm-7 px-0 m-sm-none">
+                     <div class="col-sm-7 px-0 m-sm-none h-600">
                         <!-- 게시글의 이미지슬라이드 -->
                         <div class="image-slider" width = "100%">
                            <div id="carouselExampleIndicators" class="carousel slide" c="carousel">
@@ -728,13 +728,26 @@
                               </div>
                            </div>
                            
-                           <!-- 댓글들 리스트 div -->
-                           <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                           <div class="comments p-3" id="replyList">
-	                           <div id="replyListContainer">
-		                       </div>
-                           </div>
-						                                          
+                           <div id="replyList">
+	                            <!-- 해당 게시글의 내용을 표시하는 부분 -->
+			                    <div class="d-flex p-3">
+				                   <div class="d-flex align-items-center w-100">
+				                   <div id="imgModalContent"></div>
+				                   </div>
+			                    </div>
+		                    	<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+			                    <div class="d-flex p-3 border-bottom">
+				                    <div class="d-flex align-items-center w-100">
+				                    <div id="imgModalHashtag"></div>
+				                    </div>
+			                    </div>
+	                           <!-- 댓글들 리스트 div -->
+	                           <!-- id는 스크롤을 하기 위해서 지정해줌 -->
+	                           <div class="comments p-3">
+		                           <div id="replyListContainer">
+			                       </div>
+	                           </div>
+                           </div>      
                            <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
                            <div class="border-top p-3 mt-auto">
                               <div class="d-flex align-items-center justify-content-between mb-2">
@@ -777,7 +790,7 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                </div>
                <div class="modal-body p-0">
-                 <div class="d-flex flex-column h-600">
+                  <div class="d-flex flex-column h-600">
                     <!-- 게시글 작성자 정보 -->
                     <div class="d-flex p-3 border-bottom">
                     	  <!-- 게시글 작성자 프로필이미지 -->
@@ -794,16 +807,32 @@
                           <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
                           <div class="small dropdown">
                              <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
-                             <!-- 임시  -->
                           </div>
                        </div>
                     </div>
                     
-                    <!-- 댓글들 리스트 div -->
-                    <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                    <div class="comments p-3" id="replyList">
-	                    <div id="replyListContainer2">
-	                  	</div>
+                    <!-- 스크롤을 위한 id 지정 -->
+                    <div  id ="replyList">
+                    	<!-- 해당 게시글의 내용을 표시하는 부분 -->
+	                    <div class="d-flex p-3">
+		                    <div class="d-flex align-items-center w-100">
+		                    <div id="modalContent"></div>
+		                    </div>
+	                    </div>
+                    
+                    	<!-- 해당 게시글의 해시태그를 표시하는 부분 -->
+	                    <div class="d-flex p-3 border-bottom">
+		                    <div class="d-flex align-items-center w-100">
+		                    <div id="modalHashtag"></div>
+		                    </div>
+	                    </div>
+                    
+	                    <!-- 댓글들 리스트 div -->
+	                    <!-- id는 스크롤을 하기 위해서 지정해줌 -->
+	                    <div class="comments p-3">
+		                    <div id="replyListContainer2">
+		                  	</div>
+	                    </div>
                     </div>
                     
                     <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
@@ -825,8 +854,7 @@
                           </div>
                        </div>
                     </div>
-                    
-                 </div>
+               </div>
                </div>
                <div class="modal-footer d-none"></div>
             </div>

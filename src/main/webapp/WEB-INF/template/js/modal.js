@@ -17,6 +17,7 @@ function modalseq(post_Seq) {
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 		    var replies = response.replies; // 댓글 리스트
+		    var hashtag = response.hashtag; // 게시글 해시태그
 		    var profileMap = response.profile; // 전체 회원의 프로필 이미지
 			
 		    // 1. 게시글 상세정보를 그려주는 컨테이너들
@@ -176,6 +177,27 @@ function modalseq(post_Seq) {
 		    }
 		    
 		    
+		    // 1-7. 게시글 내용 그려주는 컨테이너 
+		    var modalContent = $("#imgModalContent");
+		    modalContent.empty();
+		    
+		    var Content = $('<h5>').text(post.post_Content);
+		    	
+		    modalContent.append(Content);   
+		    
+		    
+		    // 1-8. 게시글 해시태그 그려주는 컨테이너
+		    var modalHashtag = $("#imgModalHashtag");
+		    modalHashtag.empty();
+
+		    for (var i = 0; i < hashtag.length; i++) {
+		      var tagContent = '#' + hashtag[i].tag_Content; // '#' 문자와 tag_Content를 합친 문자열 생성
+
+		      var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
+
+		      modalHashtag.append(hashtagElement);
+		    }
+		    
 		    // 2. 댓글 리스트를 그려주는 컨테이너 생성
 			var replyListContainer = $('#replyListContainer');
 			replyListContainer.empty(); // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
@@ -283,6 +305,7 @@ function replyModalseq(post_Seq) {
 			// response로 받은 dataMap을 사용할수있도록 vo, list 타입으로 꺼내어 준다.
 			var post = response.post; // 게시글 정보
 		    var replies = response.replies; // 댓글 리스트
+		    var hashtag = response.hashtag; // 해시태그 리스트
 		    var profileMap = response.profile; // 전체 회원의 프로필 이미지
 		   
 		    // 1. 게시글 상세정보를 그려주는 컨테이너들
@@ -359,6 +382,26 @@ function replyModalseq(post_Seq) {
 		    likebutton.append(likeimg);
 		    $('#likeImage2').append(likebutton, likeCount);
 		    
+		    // 1-6. 게시글 내용 그려주는 컨테이너 
+		    var modalContent = $("#modalContent");
+		    modalContent.empty();
+		    
+		    var Content = $('<h4>').text(post.post_Content);
+		    	
+		    modalContent.append(Content);   
+		    
+		    
+		    // 1-7. 게시글 해시태그 그려주는 컨테이너
+		    var modalHashtag = $("#modalHashtag");
+		    modalHashtag.empty();
+
+		    for (var i = 0; i < hashtag.length; i++) {
+		      var tagContent = '#' + hashtag[i].tag_Content; // '#' 문자와 tag_Content를 합친 문자열 생성
+
+		      var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
+
+		      modalHashtag.append(hashtagElement);
+		    }
 		    
 		    // 2. 댓글 리스트를 그려주는 컨테이너 생성
 			var replyListContainer = $('#replyListContainer2');
