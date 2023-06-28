@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.blue.dto.AlarmVO;
 import com.blue.dto.MemberVO;
+import com.blue.dto.PostVO;
 import com.blue.service.AlarmService;
+import com.blue.service.PostService;
 
 
 @Controller
@@ -21,6 +23,8 @@ public class HomeController {
 
 	@Autowired
 	private AlarmService alarmService;
+	@Autowired
+	private PostService postService;
 	
 	@GetMapping(value="/faq")
 	public String Faq(HttpSession session, Model model) {
@@ -78,7 +82,8 @@ public class HomeController {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
-		
+			
+		List<PostVO> hottestFeed = postService.getHottestFeed();
 		String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
 		// 알람 리스트를 담는 부분
@@ -104,7 +109,7 @@ public class HomeController {
     	
     	model.addAttribute("alarmList", alarmList);
 		model.addAttribute("alarmListSize", alarmListSize);
-		
+		model.addAttribute("hottestFeed", hottestFeed);
 		return "edit_profile";
 		
 		}

@@ -374,12 +374,10 @@
                               		</c:choose>
                                 </c:forEach>
                               </ul>
-                           </li>
-                           
+                           </li>                           
                         </ul>
                      </div>
-                  </div>
-                  
+                  </div>                  
                </aside>
                
                
@@ -406,38 +404,61 @@
                               <c:set var = "maxChar" value = "50"/>                              
                               <c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
                          	     <div class="p-3 border-bottom d-flex">
-								    <div>
-									   <div class="text-muted fw-light d-flex align-items-center">
-									      <small class="text-muted">
-										     ${postVO.member_Id}
-									      </small>
-									   </div>
-									   <c:choose>
-									      <c:when test = "${postVO.post_Image_Count == 0}">
-										     <small class="text-muted">
-											    <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
-									         </small>
-											 <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
-										  	 <small class="text-muted">
-											    ${postVO.post_Like_Count}'s Like
-										     </small>							
-									      </c:when>
-										  <c:otherwise>
-									         <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
-											    <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "120" height = "120">
-											    <br>
-											  	<small class="text-muted">
-											       <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
-											    </small>
-												<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
-										  		<small class="text-muted">
-												   ${postVO.post_Like_Count}'s Like
-											    </small>		
-									         </a>					
-									      </c:otherwise>
-									   </c:choose>	
-									   <br>	
-								    </div>
+                         	        <c:choose>
+									   <c:when test = "${postVO.post_Image_Count == 0}">
+									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+								             <div class = "d-flex">
+								                <div style = "width : 60%;">
+									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
+									               <br><br>
+									               <small class="text-muted">
+									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+									               </small>
+									               <br>
+									               <c:choose>
+									                  <c:when test="${postVO.post_Hashtag eq '' }">
+									                  </c:when>
+									                  <c:otherwise>
+									                     <small class="text-muted">
+									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+									                     </small>									                  
+									                  </c:otherwise>
+									               </c:choose>
+									            </div>
+									            <div style = "width : 40%;">	         
+									            </div>
+									         </div>
+									      </a>
+									   </c:when>
+									   <c:otherwise>
+									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+								             <div class = "d-flex">
+								                <div style = "width : 60%;">
+									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
+									               <br><br>
+									               <small class="text-muted">
+									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+									               </small>
+									               <br>
+									               <c:choose>
+									                  <c:when test="${postVO.post_Hashtag eq 'nothing' }">
+									                  </c:when>
+									                  <c:otherwise>
+									                     <small class="text-muted">
+									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+									                     </small>									                  
+									                  </c:otherwise>
+									               </c:choose>
+									            </div>
+									            <div style = "width : 40%;">								      									         
+									      	       <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
+									            </div>
+									         </div>
+									      </a>
+									   </c:otherwise>
+									</c:choose>	
 						         </div>
 							  </c:forEach>
                            </div>
@@ -522,8 +543,7 @@
 		  	   </form>
             </div>
          </div>
-      </div>
-      
+      </div>      
       
       <!-- 게시글 상세보기 모달창 1 -->
       <!-- 이미지 슬라이드, 댓글 리스트 모달창 -->
@@ -675,12 +695,10 @@
                              </div>
                           </div>
                        </div>
-                    </div>
-                    
+                    </div>                    
                  </div>
                </div>
-               <div class="modal-footer d-none"></div>
-               
+               <div class="modal-footer d-none"></div>               
             </div>
          </div>
       </div>
@@ -705,5 +723,4 @@
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
    </body>
->>>>>>> refs/remotes/origin/develop
 </html>
