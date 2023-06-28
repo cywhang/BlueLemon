@@ -818,6 +818,22 @@ public class PostAndLikeController {
 
 		    List<MemberVO> mostFamous = memberService.getMostFamousMember();
 		    //System.out.println("[PEOPLE 탭 - 7] MOST FAMOUS LIST를 받아오기 성공");
+		    
+		    List<MemberVO> followingList = memberService.getFollowings(member_Id);
+		    
+		    for(int i = 0; i < mostFamous.size(); i++) {
+				//System.out.println("팔로워 아이디");
+				//System.out.println(follower_info.get(i).getMember_Id());
+				for(int j = 0; j < followingList.size(); j++) {
+					//System.out.println("팔로잉 아이디");
+					//System.out.println(following_info.get(j).getMember_Id());
+					if(mostFamous.get(i).getMember_Id().equals(followingList.get(j).getMember_Id())) {
+						mostFamous.get(i).setBothFollow(1);
+						//System.out.println("setBoth 입력 확인 : " + follower_info.get(i).getBothFollow());
+					}
+				}
+			}
+		    
 
 		    int searchFollowSize = searchFollow.size();
 
