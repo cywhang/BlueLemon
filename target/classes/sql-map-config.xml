@@ -11,6 +11,7 @@
 		<typeAlias type = "com.blue.dto.FollowVO" alias = "follow"/>
 		<typeAlias type = "com.blue.dto.QnaVO" alias = "qna"/>
 		<typeAlias type = "com.blue.dto.TagVO" alias = "tag"/>
+		<typeAlias type = "com.blue.dto.AlarmVO" alias="alarm"/>
 	</typeAliases>
  
 	<!-- SQL 매핑 파일 등록 -->
@@ -22,6 +23,7 @@
 		<mapper resource="mappings/like-mapping.xml"/>
 		<mapper resource="mappings/follow-mapping.xml"/>
 		<mapper resource="mappings/qna-mapping.xml"/>
+		<mapper resource="mappings/alarm-mapping.xml"/>
 	</mappers>
 </configuration>
 
