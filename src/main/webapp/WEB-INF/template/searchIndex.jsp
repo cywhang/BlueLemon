@@ -381,7 +381,7 @@
                            <h6 class="mb-3 fw-bold text-body">Most Popular People</h6>
                            <div id="mostFollowPeople-cards-container" class="bg-white rounded-4 overflow-hidden mb-4 shadow-sm">
                             <c:forEach var="popular" items="${mostFamous}" begin="0" end="4">
-                           		<a href="profile" class="p-3 border-bottom d-flex text-dark text-decoration-none">
+                           		<a href="profile?member_Id=${popular.member_Id}" class="p-3 border-bottom d-flex text-dark text-decoration-none">
                                  <img src="img/uploads/profile/${popular.member_Profile_Image}" class="img-fluid rounded-circle me-3" alt="profile-img" style="height:65px; width:65px">
                                  <div>
                                      <p class="fw-bold mb-0 pe-3 d-flex align-items-center">${popular.member_Id}</p>
@@ -391,7 +391,16 @@
                                  </div>
                                  <div class="ms-auto">
                                      <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                         <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}">
+                                     	
+                                     	<c:if test="${popular.bothFollow eq 1}">
+										  <!-- 숫자 1과 동일한 경우에 실행될 내용 -->
+										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}" checked="checked">
+										</c:if>
+										<c:if test="${popular.bothFollow ne 1}">
+										  <!-- 숫자 1과 다른 경우에 실행될 내용 -->
+										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}">
+										</c:if>
+                                     
                                          <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${popular.member_Id}" onclick="changeFollow('${popular.member_Id}')">
                                              <span class="following d-none">Following</span>
                                              <span class="follow">+ Follow</span>
