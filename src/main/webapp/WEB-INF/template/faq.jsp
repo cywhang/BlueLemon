@@ -334,43 +334,12 @@
                         </div>
                         <!-- 검색 결과 리스트 -->
                         <div id="searchResults"></div>
-	                        <div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
-	                           <h6 class="fw-bold text-body p-3 mb-0 border-bottom">What's happening</h6>
-	                           <!-- Trending Item -->
-	                           <div class="p-3 border-bottom d-flex">
-	                              <div>
-	                                 <div class="text-muted fw-light d-flex align-items-center">
-	                                    <small>Trending in India</small>
-	                                 </div>
-	                                 <p class="fw-bold mb-0 pe-3 text-dark">News</p>
-	                                 <small class="text-muted">52.8k Tweets</small>
-	                              </div>
-	                              <div class="dropdown ms-auto">
-	                                 <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton6" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-	                                 <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton6">
-	                                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">sentiment_very_dissatisfied</span>Not interested in this</a></li>
-	                                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">sentiment_very_dissatisfied</span>This trend is harmful or spammy</a></li>
-	                                 </ul>
-	                              </div>
-	                           </div>
-	                           <!-- Trending Item -->
-	                           <a href="tags" class="p-3 border-bottom d-flex align-items-center text-dark text-decoration-none">
-	                              <div>
-	                                 <div class="text-muted fw-light d-flex align-items-center">
-	                                    <small>Design</small><span class="mx-1 material-icons md-3">circle</span><small>Live</small>
-	                                 </div>
-	                                 <p class="fw-bold mb-0 pe-3">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	                              </div>
-	                              <img src="img/trend1.jpg" class="img-fluid rounded-4 ms-auto" alt="trending-img">
-	                           </a>
-	                        </div>
-	                     </div>
+	                    </div>
 	                  </div>
 	               </div>
 	            </aside>
 	         </div>
-	      </div>
-      </div>
+	      </div> <!-- py-4 -->
       <div class="py-3 bg-white footer-copyright">
          <div class="container">
             <div class="row align-items-center">

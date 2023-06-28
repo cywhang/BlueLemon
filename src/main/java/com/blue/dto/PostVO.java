@@ -13,7 +13,6 @@ public class PostVO {
 	private String  member_Id;		 // 게시글 작성자
 	private String  post_Content;  		 // 게시글 내용
 	private String 	post_Date;			 // 게시글 작성일
-	private String 	post_Update; 		 // 게시글 수정일
 	private String  post_Public;		 // 게시글 공개 여부
 	private int 	post_Image_Count;    // 게시글 첨부 이미지 갯수
 	private int 	post_Like_Count;  	 // 게시글 좋아요 수

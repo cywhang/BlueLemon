@@ -121,6 +121,8 @@ ul li::marker {
 .deletebutton:active {
   background-color: lightcoral; 
 }
+
+.
 /* FAQ */
 .faq-page .accordion-button {
     font-size: 14px;
@@ -494,7 +496,7 @@ ul li::marker {
 .btn-check:not(:checked):hover + .btn-outline-primary .follow {
     display: none !important;
 }
-
+/*  	following 버튼 호버시  바뀌는 css 
 .btn-check:checked:hover + .btn-outline-primary .following {
     display: none !important;
 }
@@ -502,6 +504,7 @@ ul li::marker {
 .btn-check:checked:hover + .btn-outline-primary .follow {
     display: block !important;
 }
+*/
 /* 체크박스 hover 시 색상 변경 */
 .btn-check:not(:checked):hover + .btn-outline-primary,
 .btn-check:checked:hover + .btn-outline-primary {
@@ -509,14 +512,13 @@ ul li::marker {
     border-color: #0d6efd;
     color: #ffffff;
 }
-
-/* 체크된 상태에서 hover 시 배경이 흰색으로 변경 */
+/* 체크된 상태에서 hover 시 배경이 흰색으로 변경 
 .btn-check:checked:hover + .btn-outline-primary {
     background-color: #ffffff;
     border-color: #0d6efd;
     color: #0d6efd;
 }
-
+*/
 #email {
     /* display: none; */
 } 
