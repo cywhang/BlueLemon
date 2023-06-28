@@ -394,11 +394,11 @@
                                      	
                                      	<c:if test="${popular.bothFollow eq 1}">
 										  <!-- 숫자 1과 동일한 경우에 실행될 내용 -->
-										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}" checked="checked">
+										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}" checked="checked">
 										</c:if>
 										<c:if test="${popular.bothFollow ne 1}">
 										  <!-- 숫자 1과 다른 경우에 실행될 내용 -->
-										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${memberVO.member_Id}">
+										  <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}">
 										</c:if>
                                      
                                          <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${popular.member_Id}" onclick="changeFollow('${popular.member_Id}')">
