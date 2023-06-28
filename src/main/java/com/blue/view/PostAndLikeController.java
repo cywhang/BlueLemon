@@ -227,11 +227,9 @@ public class PostAndLikeController {
 	            for (JsonNode node : jsonNode) {
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
-	                // 사용자가 입력한 해시태그를 디비에 저장할때 '#' 문자를 조립
-	                String values = "#" + value;
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
-	                tvo.setTag_Content(values);
+	                tvo.setTag_Content(value);
 	                postService.insertTag(tvo);
 	            }
 	        } catch (JsonProcessingException e) {
@@ -254,6 +252,7 @@ public class PostAndLikeController {
 		
 		// 1. 게시글 상세페이지에서 클릭한 게시글의 정보를 출력하기 위한 PostVO 값 저장
 		PostVO postInfo = postService.getpostDetail(post_Seq);
+		postInfo.setPost_Content(postInfo.getPost_Content().replace("\n", "<br>"));
 		
 		// 2. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
 		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
@@ -675,26 +674,15 @@ public class PostAndLikeController {
 			    JsonNode jsonNode = objectMapper.readTree(hashTag);
 			
 			    for (JsonNode node : jsonNode) {
-			    	// 실제로 담을 해시태그 내용
-			    	String values;
 			    	// n번째 해시태그 내용
 			        String value = node.get("value").asText();
 			        
-			        // '#' 문자 포함 여부 확인
-			        if (value.contains("#")) {
-			            // '#' 문자를 포함하고 있는 경우
-			            values = value;
-			        } else {
-			            // '#' 문자를 포함하지 않은 경우
-			            values = "#" + value;
-			        }
-			        
 			        TagVO tvo = new TagVO();
 			        tvo.setPost_Seq(post_Seq);
-			        tvo.setTag_Content(values);
-			        System.out.println("해시태그 인서트 전");
+			        tvo.setTag_Content(value);
+			        //System.out.println("해시태그 인서트 전");
 			        postService.insertTag(tvo);
-			        System.out.println("해시태그 인서트 후");
+			        //System.out.println("해시태그 인서트 후");
 			    }
 			} catch (JsonProcessingException e) {
 			    e.printStackTrace();
@@ -744,7 +732,6 @@ public class PostAndLikeController {
 			return "login";
 		} else {
 
-
 			/* index페이지의 팔로우 부분 */
 			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
 			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
@@ -774,6 +761,7 @@ public class PostAndLikeController {
 			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
 			for(int i=0; i<postlist.size(); i++) {
 				// 자신, 팔로잉한 사람들의 게시글의 post_seq를 불러온다.
+				postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
 				int post_Seq = postlist.get(i).getPost_Seq();
 
 				// i번째 게시글의 댓글 리스트를 담음

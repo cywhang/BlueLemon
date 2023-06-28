@@ -2,42 +2,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>
-	.error-message {
-		color: red;
-	}
-	
-	.success-message {
-		color: green;
-		/* 파일 선택 버튼 옆의 파일 이름 숨김 */ input [type="file"] { width : 0.1px;
-		height: 0.1px;
-		opacity: 0;
-		overflow: hidden;
-		position: absolute;
-		z-index: -1;
-	}
-	
-	input[type="file"]+label {
-		font-size: 1.25em;
-		font-weight: 700;
-		color: white;
-		background-color: #4CAF50;
-		display: inline-block;
-		padding: 8px 12px;
-		cursor: pointer;
-		border-radius: 4px;
-	}
-	
-	input[type="file"]+label:hover {
-		background-color: #45a049;
-	}
-	
-	input[type="file"]+label:active {
-		background-color: #3e8e41;
-	}
+<style>	
+    .custom-file-upload {
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #0d6efd;
+        color: #0d6efd;
+        border-radius: 4px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #0d6efd;
+    }
+
+    .custom-file-upload input[type="file"] {
+        display: none;
+    }
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/createaccount.js"></script>
 <script>
 	// 프로필 사진 미리보기 함수	
 	function previewProfileImage(event) {
@@ -144,7 +128,7 @@
 											<label for="floatingBirth">DATE OF BIRTH</label>
 										</div>
 										<div class="d-flex align-items-center mb-3 px-0 rounded"  style="border:1px solid #dee2e6;">
-											<label style = "height : 40px; margin-top : 10px; margin-left : 10px; margin-right : 10%">GENDER</label>
+											<label style = "height : 40px; margin-top : 10px; margin-left : 10px; margin-right : 10%; color : #a4aaaf;">GENDER</label>
 											<div class="form-check"  style = "margin-left : 20%; margin-right : 10%">
 												<input class="form-check-input" type="radio" value="M" name="member_Gender" id="male">
 												<label class="form-check-label" for="male">Male</label>
@@ -161,16 +145,19 @@
 												<label for="floatingBirth">Country</label>
 											</div>
 											<div class="form-floating mb-3 d-flex align-items-center">
-												<input type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti">
+												<input  type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti">
 												<label for="floatingBirth">MBTI</label>
 											</div>
 										</div>
 										<div class="rounded"  style="border:1px solid #dee2e6; height : auto;">
-											<label style = "width : 23%; height : 40px; margin-top : 10px; margin-left : 10px;">Profile Image</label>
-											<div style = "margin-left : 5%;">
-												<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)"><br>
-												<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden; margin-left : 20%;">
-											</div>
+											<label style = "width : 23%; margin-top : 10px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
+												Profile Image
+											</label><br>
+											<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 1%; margin-top : 1%;">
+												<span style = "color : white;">Upload</span>
+												<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
+											</label>											
+											<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden; margin-left : 20%;">
 										</div>
 									</div>
 									<div>
@@ -193,5 +180,8 @@
 	<script src="js/custom.js"></script>
 	<!-- Slick Js -->
 	<script src="vendor/slick/slick/slick.min.js"></script>
+	<!-- create Js -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="js/createaccount.js"></script>
 </body>
 </html>

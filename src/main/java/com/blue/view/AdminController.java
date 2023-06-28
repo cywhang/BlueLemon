@@ -189,6 +189,12 @@ public class AdminController {
 	@GetMapping("qna_Detail")
 	public String qna_Detail(Model model, int qna_Seq) {
 		QnaVO qnaDetail = qnaService.getQnaDetail(qna_Seq);
+		qnaDetail.setQna_Message(qnaDetail.getQna_Message().replace("\n", "<br>"));
+		if(qnaDetail.getQna_Done().equals("2")) {
+			qnaDetail.setQna_Answer(qnaDetail.getQna_Answer().replace("\n", "<br>"));
+		} else {
+			
+		}
 		model.addAttribute("qnaDetail", qnaDetail);
 		return "qna_Detail";
 	}

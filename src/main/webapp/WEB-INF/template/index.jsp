@@ -154,20 +154,30 @@
                                                 </a>
                                                 <div class="d-flex align-items-center small">
                                                    <p class="text-muted mb-0">${postVO.post_Date}</p>
-                                                      <c:choose>
-                                                      	<c:when test="${member_Id == postVO.member_Id}">
-		                                                     <div class="dropdown">
-		                                                      <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-		                                                      	<ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-		                                                         <li><button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2"><span class="material-icons md-13 me-1">edit</span>Edit</button></li>
-		                                                         <!-- deletePost()는 custom.js에 있음 -->
-		                                                         <li><button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})"><span class="material-icons md-13 me-1">delete</span>Delete</button></li>
-		                                                        </ul>
-		                                                   	 </div>
-                                                      	</c:when>
-                                                      	<c:otherwise>
-                                                      	</c:otherwise>
-                                                      </c:choose>
+                                                   <c:choose>
+                                                   	  <c:when test="${member_Id == postVO.member_Id}">
+		                                                 <div class="dropdown">
+		                                                    <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
+		                                                    <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+		                                                       <li>
+		                                                          <button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2">
+		                                                             <span class="material-icons md-13 me-1">edit</span>
+		                                                         	 Edit
+		                                                          </button>
+		                                                       </li>
+		                                                       <!-- deletePost()는 custom.js에 있음 -->
+		                                                       <li>
+		                                                          <button class="dropdown-item text-muted deletebutton" onclick="deletePost(${postVO.post_Seq})">
+		                                                             <span class="material-icons md-13 me-1">delete</span>
+		                                                         	 Delete
+		                                                          </button>
+		                                                       </li>
+		                                                    </ul>
+		                                                 </div>
+                                                      </c:when>
+                                                      <c:otherwise>
+                                                      </c:otherwise>
+                                                   </c:choose>
                                                 </div>
                                              </div>
                                              <div class="my-2">
@@ -181,15 +191,16 @@
 	                                                     <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded mb-3" alt="post-img">
 	                                                  </c:otherwise>
 	                                               </c:choose>
-                                                </a>      
+                                                </a>
+                                                <br>
                                              	<!-- 게시글 내용 -->                                        
                                                 <p class="text-dark">${postVO.post_Content}</p>
                                                 <br>
                                                 
                                                 <!-- 해시태그 -->
-                                                 <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
-	                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">${hash.tag_Content}</a>&nbsp;&nbsp;
-	                                                </c:forEach>
+                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
+	                                            	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
+	                                            </c:forEach>
                                                 <hr>
                                                 <!-- 게시글 바로 아래 좋아요, 댓글 버튼 부분 -->
                                                 <div class="d-flex align-items-center justify-content-between mb-2">
