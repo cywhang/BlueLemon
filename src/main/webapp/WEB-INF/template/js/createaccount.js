@@ -29,30 +29,41 @@
 	
 	//아이디 유호성 함수
 	function isIdValid(member_Id) {
-	    var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\S]+$/;
-	    return idRegex.test(member_Id);
-	}
+		  var idRegex = /^[a-zA-Z0-9]{1,12}$/;
+	    if (!idRegex.test(member_Id)) {
+	        return false;
+	    }
+		 return true; // 유호성 통과
+		}
 	//패스워드 유호성 함수
 	function isPasswordValid(password) {
-	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?\S])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
+		var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_a-zA-Z])[\S]{8,12}$/;
 	    return passwordRegex.test(password);
 	}
 	//이름 유호성 함수	
 	function isKoreanNameValid(name) {
-		var koreanRegex = /^[가-힣\S]+$/;
-		
-		return koreanRegex.test(name);
+		var koreanRegex = /^[가-힣]+$/;
+		if (!koreanRegex.test(name)) {
+			return false; // 유호성 위반
+	}
+			return true; // 유호성 통과
 	}
 	//이메일 아이디 유호성 함수	
 	function isEmailIdValid(emailId) {
-		var emailIdRegex = /^[a-zA-Z0-9\S]+$/;
-		return emailIdRegex.test(emailId);
+		var emailIdRegex = /^[a-zA-Z0-9]+$/;
+		if (!emailIdRegex.test(emailId)){
+			return false; // 유호성 위반
+		}
+			return true; // 유호성 통과
 	}
 	//이메일 주소 유호성 함수
 	function isValidEmailAdd(emailAdd) {
 		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
-		var regex = /^[a-zA-Z.\S]+$/;
-		return regex.test(emailAdd);
+		var regex = /^[a-zA-Z.]+$/;
+		 if(!regex.test(emailAdd)){
+		return false;
+	}
+		 return true; // 유호성 통과
 	}
 	//전화번호 유호성 함수
 	function isPhoneNumberValid(phoneNumber) {
@@ -76,7 +87,7 @@
 		var memberId = memberIdInput.val();
 		
 		if (!isIdValid(memberId)) {
-			idMessage.text("공백 없이 영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.");
+			idMessage.text("12자 이하로 공백 없이 영문숫자로만 이루어진 아이디를 입력해주세요.");
 			idMessage.css("color", "red");
 	        return false;
 	    } else {
@@ -183,7 +194,7 @@
 		  
 		
 		 if (!isValidEmailAdd(emailadd)) {
-		    emailMessage.text('공백은 사용불가능합니다.정확한 이메일 주소를 입력해주세요.');
+		    emailMessage.text('공백,한글,특수문자 사용불가.정확한 이메일 주소를 입력해주세요.');
 		    emailMessage.css( "color", "red");
 		    isEmailadd = false;
 		} else {
@@ -269,8 +280,5 @@
 	    document.getElementById("createAccount").action ="create_form";
 	    document.getElementById("createAccount").submit();
 	}
-	
- 	
-	
 
 
