@@ -198,34 +198,6 @@ public class MemberController {
 		return "redirect:edit_profile";
 	}
 
-	// 회원정보 수정 불러오기
-	@GetMapping("/edit_profile")
-	public String userProfile(MemberVO vo, HttpSession session, Model model) {
-		// System.out.println("edit_profile getmapping해서 컨트롤러로 옴");
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
-
-		// 이메일 주소를 @ 기준으로 분리하여 메일 아이디와 메일 도메인으로 설정
-		String email = loginUser.getMember_Email();
-		int atIndex = email.indexOf("@");
-		String email_Id = email.substring(0, atIndex);
-		String email_add = email.substring(atIndex + 1);
-		model.addAttribute("member_Email", email_Id);
-		model.addAttribute("email_add", email_add);
-		// 화면 우측 Hottest Feed
-		List<PostVO> hottestFeed = postService.getHottestFeed();
-		model.addAttribute("hottestFeed", hottestFeed);
-
-		if (loginUser != null) {
-			// 유저 정보를 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
-			model.addAttribute("loginUser", loginUser);
-
-			return "edit_profile";
-		} else {
-			// 로그인되지 않은 경우 처리
-			return "redirect:/login";
-		}
-
-	}
 
 	// 회원 탈퇴 post
 	@PostMapping(value = "/memberDelete")
