@@ -247,7 +247,7 @@ function modalseq(post_Seq) {
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -259,25 +259,33 @@ function modalseq(post_Seq) {
 			  replyContentWrapper.append(p);
 			  
 			  // 띄어쓰기
-			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);	
+			  replyContentWrapper.append(nbsp);	
+			  replyContentWrapper.append(nbsp);	
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  
 			  replyContentWrapper.append(timestamp);
 			  
-			  replyItem.append(replyContentWrapper);
+			  replyContentWrapper.append(nbsp);
 			  
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+				    	replyDelte(post_Seq, reply_Seq)
+				  });
+			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}
-			
 			// 3. 댓글 작성 완료 버튼 컨테이너
 			var postButton = $('#postButton');
 			postButton.empty();
 			// 버튼 생성
 			var timestamp = $('<button>').addClass('bg-white border-0 text-primary ps-2 text-decoration-none').text('Post').attr('onclick', 'insertReply(' + post.post_Seq + ')');
 			postButton.append(timestamp);
-
 		},
 		error : function(request,status,error){
 	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -468,11 +476,16 @@ function replyModalseq(post_Seq) {
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
-			  
 			  replyContentWrapper.append(timestamp);
 			  
-			  replyItem.append(replyContentWrapper);
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+					  replyDelete2(post_Seq, reply_Seq)
+				  });
 			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}
 
@@ -483,7 +496,6 @@ function replyModalseq(post_Seq) {
 			// 버튼 생성
 			var timestamp = $('<button>').addClass('bg-white border-0 text-primary ps-2 text-decoration-none').text('Post').attr('onclick', 'insertReply2(' + post.post_Seq + ')');
 			postButton.append(timestamp);
-			
 		},
 		error : function(request,status,error){
 	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -588,11 +600,16 @@ function insertReply(post_Seq){
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
-			  
 			  replyContentWrapper.append(timestamp);
 			  
-			  replyItem.append(replyContentWrapper);
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+				    	replyDelte(post_Seq, reply_Seq)
+				  });
 			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}
 			
@@ -710,11 +727,16 @@ function insertReply2(post_Seq){
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
-			  
 			  replyContentWrapper.append(timestamp);
 			  
-			  replyItem.append(replyContentWrapper);
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+				    	replyDelte(post_Seq, reply_Seq)
+				  });
 			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
 			  replyListContainer2.append(replyItem);
 
 			}

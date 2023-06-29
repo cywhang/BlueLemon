@@ -971,6 +971,76 @@ public class PostAndLikeController {
 	}
 	
 	
+	@PostMapping("deleteReply")
+	@ResponseBody
+	public Map<String, Object>  deleteReply(@RequestParam(value="post_Seq") int post_Seq,
+											@RequestParam(value="reply_Seq") int reply_Seq, HttpSession session){
+		
+		// 0. ajax요청에 대한 response값 전달을 위한 Map 변수 선언
+		Map<String, Object> dataMap = new HashMap<>();
+		
+		// 1. session 아이디값 받아오기
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+
+		// 2. delete 쿼리문에 전달할 vo 객체 생성 주입
+		ReplyVO rep = new ReplyVO();
+		rep.setReply_Seq(reply_Seq);
+		rep.setPost_Seq(post_Seq);
+		
+		// 3. delete쿼리문 실행
+		replyService.deleteReply(rep);
+		
+		// - 좋아요 삭제 처리
+		replyService.deleteReplyLike(rep);
+		
+		// 4. 글 작성자 받아오기
+		String postWriter = postService.getPostWriter(post_Seq);
+		
+		// - 알람 삭제 처리
+		AlarmVO aVO = new AlarmVO();
+		aVO.setKind(3);
+		aVO.setFrom_Mem(member_Id);
+		aVO.setTo_Mem(postWriter);
+		aVO.setPost_Seq(post_Seq);
+		aVO.setReply_Seq(reply_Seq);
+		int alarm_Seq = alarmService.getOneAlarm_Seq(aVO);
+		
+		if(alarm_Seq > 0) {
+			alarmService.deleteAlarm(alarm_Seq);
+		}
+		
+		
+		// 5. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
+		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
+		
+		// 6. 전체 회원의 이미지 Map을 세션에서 받아옴
+		HashMap<String, String> profileMap = (HashMap<String, String>) session.getAttribute("profileMap");
+		
+		// 7. 해당 게시글의 상세정보를 조회해서 가져옴(게시글의 댓글 카운트 변경을 위함)
+		PostVO postInfo = postService.getpostDetail(post_Seq);
+		
+		// 8. 게시글 댓글의 좋아요 여부 체크
+		for(int i=0; i<replyList.size(); i++) {
+
+			// 조회를 위한 객체 생성
+			ReplyVO replyLikeYN = new ReplyVO();
+			replyLikeYN.setMember_Id(member_Id);
+			replyLikeYN.setPost_Seq(post_Seq);
+			replyLikeYN.setReply_Seq(replyList.get(i).getReply_Seq());
+			
+			// 조회 결과 담음
+			String reply_LikeYN = replyService.getCheckReplyLike(replyLikeYN);
+			replyList.get(i).setReply_LikeYN(reply_LikeYN);
+		}
+		
+		// 8. ajax의 응답성공(success)의 response로 들어갈 값들 매핑
+		dataMap.put("postInfo", postInfo);
+		dataMap.put("replies", replyList);
+		dataMap.put("profile", profileMap);
+		
+		return dataMap;
+	}
+	
 	
 	
 }

@@ -143,4 +143,14 @@ public class ReplyDAO {
 	public int getMaxReply_Seq() {
 		return mybatis.selectOne("ReplyMapper.getMaxReply_Seq");
 	}
+	
+	// 댓글 삭제
+	public void deleteReply(ReplyVO vo) {
+		mybatis.delete("ReplyMapper.deleteReply", vo);
+	}
+	
+	// 댓글 삭제시 댓글에대한 좋아요 전체 삭제
+	public void deleteReplyLike(ReplyVO vo) {
+		mybatis.delete("LikeMapper.replyDelete", vo);
+	}
 }
