@@ -69,7 +69,7 @@
 			<div class="row position-relative">
 				<!-- Main Content -->
 				<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12" style = "margin : auto;">
-					<form id="create_form" method="post" action="create_form"	enctype="multipart/form-data">
+					<form id="createAccount" method="post" action="create_form" enctype="multipart/form-data">
 						<div class="main-content">
 							<div class="mb-5">
 								<header class="profile d-flex align-items-center">
@@ -98,7 +98,7 @@
 											<label for="floatingssName">ID</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password" >
+											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password">
 											<span id="password_message"	class="error-message"></span>
 											<label for="floatingssName">PASSWORD</label>
 										</div>
@@ -124,7 +124,7 @@
 											<label for="floatingEmail">PHONE</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-center">
-											<input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth">
+											<input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" onclick="handleDateClick()">
 											<label for="floatingBirth">DATE OF BIRTH</label>
 										</div>
 										<div class="d-flex align-items-center mb-3 px-0 rounded"  style="border:1px solid #dee2e6;">
@@ -153,7 +153,7 @@
 											<label style = "width : 23%; margin-top : 10px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
 												Profile Image
 											</label><br>
-											<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 1%; margin-top : 1%;">
+											<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 2%; margin-top : 1%;">
 												<span style = "color : white;">Upload</span>
 												<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
 											</label>											
@@ -161,7 +161,7 @@
 										</div>
 									</div>
 									<div>
-										<button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick="go_save()">SAVE</button>
+										<button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick="go_save(event)">SAVE</button>
 									</div>
 								</div>
 							</div>
