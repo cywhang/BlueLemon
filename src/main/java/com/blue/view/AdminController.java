@@ -256,7 +256,7 @@ public class AdminController {
 		} else {
 			qnaService.deleteQna(qna_Seq);
 			
-			return "redirect:qna_Table";
+			return "qna_Table";
 		}
 	}
 }
