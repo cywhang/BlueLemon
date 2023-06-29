@@ -32,6 +32,23 @@
 		}
 		
     </style>
+    <script>
+    	function deleteQna_ByAdmin(qna_Seq) {
+        	if (confirm('삭제 하시겠습니까?')) {
+       			var xhr = new XMLHttpRequest();
+          		xhr.open('GET', '/blue/deleteQna_ByAdmin?qna_Seq=' + qna_Seq, true);
+          		xhr.onreadystatechange = function() {
+          	        if (xhr.readyState === 4) {
+          	          if (xhr.status === 200) {
+          	            window.location.href = "/blue/qna_Table";
+          	          } else {
+          	          }
+          	        }
+          	      };
+          		xhr.send();
+        	}
+      }
+	</script>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
@@ -115,8 +132,9 @@
 	                                    			<input type = "hidden" name = "qna_Seq" value = "${qnaDetail.qna_Seq}">
 	                                    			<input type = "hidden" name = "member_Id" value = "${qnaDetail.member_Id}">
 	                                    			<div align = "right">
-		                                    			<button type="reset" style = "width : 15%">Reset</button>
-		                                    			<button type = "submit" style = "width : 15%">Send</button>
+		                                    			<button type="reset" style = "width : 10%">Reset</button>
+		                                    			<button type = "submit" style = "width : 10%; margin-left : 2%; margin-right : 2%;">Send</button>
+		                                    			<button type="button" style="width: 10%" onclick="deleteQna_ByAdmin('${qnaDetail.qna_Seq}')">Delete</button>
 	                                    			</div>
 	                                    		</form>
 	                                    	</td>
@@ -124,6 +142,11 @@
                                     	<c:otherwise>
                                     		<th colspan = "2">Answer</th>
 	                                    	<td colspan = "4">${qnaDetail.qna_Answer}</td>
+	                                    	<tr>
+	                                    		<td colspan = "6">
+	                                    			<button type="button" style="width: 10%" onclick="deleteQna_ByAdmin('${qnaDetail.qna_Seq}')">Delete</button>
+	                                    		</td>
+	                                    	</tr>
                                     	</c:otherwise>
                                     </c:choose>
                                 </table>
