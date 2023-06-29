@@ -34,7 +34,7 @@
 		// 이미지 파일 이름은 출력하지 않음
 		var fileName = event.target.files[0].name;
 		document.getElementById('photo_file_name').textContent = "";
-	}
+	} 
 </script>
 <!-- Required meta tags -->
 <meta charset="utf-8">
