@@ -32,13 +32,13 @@
              <input type="checkbox" name="post_Public" value="y" checked="checked">
           	  <!-- 게시글 내용 작성창 -->
              <div class="form-floating">
-                <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
+                <textarea maxlength="300" class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                 <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
              </div>
              
              <!-- 해시태그 입력창 -->
              <div>
-                <textarea name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
+                <textarea maxlength="20" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
                 <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
              </div>
              <div class="d-flex justify-content-between">
@@ -122,7 +122,7 @@
        <div class="modal-content rounded-4 overflow-hidden border-0">
           <div class="modal-header d-none">
              <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             <button type="button" class="btn-close modalClose" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-0">
              <div class="row m-0">
@@ -162,7 +162,7 @@
                             </a>
                             <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
                             <div class="small dropdown">
-                               <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
+                               <a href="#" class="modalClose text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
                                <!-- 임시  -->
                             </div>
                          </div>
@@ -205,7 +205,7 @@
                          <div class="d-flex align-items-center">
                             <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
                             <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                               <input type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+                               <input maxlength="300" type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
                                <div id="postButton">
                                </div>
                             </div>
@@ -227,7 +227,7 @@
        <div class="modal-content rounded-4 overflow-hidden border-0">
           <div class="modal-header d-none">
              <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
-             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+             <button type="button" class="modalClose btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body p-0">
              <div class="d-flex flex-column h-600">
@@ -246,7 +246,7 @@
                      </a>
                      <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
                      <div class="small dropdown">
-                        <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
+                        <a href="#" class="modalClose text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
                      </div>
                   </div>
                </div>
@@ -265,7 +265,7 @@
                  <div class="d-flex align-items-center w-100">
                  <div id="modalHashtag"></div>
                  </div>
-                </div>
+                </div> 
                
                 <!-- 댓글들 리스트 div -->
                 <!-- id는 스크롤을 하기 위해서 지정해줌 -->
@@ -280,15 +280,15 @@
                   <div class="d-flex align-items-center justify-content-between mb-2">
                     <!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
                   	  <div class="like-group" role="group">
-                      <div id = "likeImage2">
+                      <div id = "likeImage2">  
                       </div>
                      </div>
                      <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer2"></div></div>
-                  </div>
+                  </div> 
                   <div class="d-flex align-items-center">
                      <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
                      <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                        <input type="text" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+                        <input type="text" maxlength="300" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
                         <div id="postButton2">
                         </div>
                      </div>

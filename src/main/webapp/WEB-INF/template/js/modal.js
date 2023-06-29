@@ -196,6 +196,11 @@ function modalseq(post_Seq) {
 		      var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
 
 		      modalHashtag.append(hashtagElement);
+		      
+		      // 띄어쓰기
+		      var nbsp = '&nbsp;';
+		      modalHashtag.append(nbsp);
+
 		    }
 		    
 		    // 2. 댓글 리스트를 그려주는 컨테이너 생성
@@ -409,6 +414,10 @@ function replyModalseq(post_Seq) {
 		      var hashtagElement = $('<span>').text(tagContent).css('color', 'blue'); // span 태그로 감싸고 파란색으로 스타일링
 
 		      modalHashtag.append(hashtagElement);
+		      // 띄어쓰기
+		      var nbsp = '&nbsp;';
+		      modalHashtag.append(nbsp);
+
 		    }
 		    
 		    // 2. 댓글 리스트를 그려주는 컨테이너 생성
@@ -460,8 +469,9 @@ function replyModalseq(post_Seq) {
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
+
 			  
 			  
 			  // 좋아요 카운트
@@ -473,10 +483,13 @@ function replyModalseq(post_Seq) {
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
@@ -584,7 +597,7 @@ function insertReply(post_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -597,10 +610,13 @@ function insertReply(post_Seq){
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
@@ -712,7 +728,7 @@ function insertReply2(post_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 좋아요 카운트
@@ -724,15 +740,18 @@ function insertReply2(post_Seq){
 
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
+					  replyDelete2(post_Seq, reply_Seq)
 				  });
 			  
 			  replyContentWrapper.append(deleteButton);
@@ -816,6 +835,7 @@ function postEditView(post_Seq){
 			     placeholder: 'Leave a comment here',
 			     id: 'floatingTextarea2',
 			     style: 'height: 200px',
+			     maxlength: '300',
 			}).text(post.post_Content);
 			
 			var label = $('<label>').attr('for', 'floatingTextarea2')
@@ -830,13 +850,13 @@ function postEditView(post_Seq){
 			tagifyScript.src = 'https://unpkg.com/@yaireo/tagify';
 			tagifyScript.onload = function() {
 			  var hashtagContainer = document.getElementById('hashtagContainer');
-
-			  if (hashtagContainer) {
+ 
+			  if (hashtagContainer) {  
 			    // 기존에 생성된 입력 필드 및 플러그인 인스턴스 제거
 			    var existingInput = hashtagContainer.querySelector('input');
 			    if (existingInput) {
 			      hashtagContainer.removeChild(existingInput);
-			    }
+			    } 
 
 			    // 새로운 입력 필드 생성 및 초기화
 			    var input = document.createElement('input');
@@ -845,6 +865,7 @@ function postEditView(post_Seq){
 			    input.setAttribute('placeholder', '해시태그: #없이 입력');
 			    input.setAttribute('id', 'floatingTextarea2');
 			    input.setAttribute('style', 'height: 50px');
+			    input.setAttribute('maxlength', '20');
 			    input.value = hashtags.join(',');
 
 			    hashtagContainer.appendChild(input);

@@ -79,25 +79,35 @@ $(function() {
 	});
   
   // 글 수정 모달창 뒤로가기 버튼시 내용 초기화
-  $('#closeEditModal').on('click', function() {
-	    // form 태그 초기화
+  $('#closeEditModal').on('click', function() { 
+	    // form 태그 초기화 
 	    $('#postUpdate')[0].reset();
 	    console.log("postUpdate.reset");
-	    // 이미지 컨테이너 초기화
+	    // 이미지 컨테이너 초기화 
 	    $('#editPreview').empty();
 	    console.log("editPreview.reset");
-	    
-	    
 	    // 실제 이미지 배열 초기화
 	    editFilesArr = [];
 	    console.log("editFileArr 비우기 ");
-	});
+	}); 
   
   // 초기화 버튼 클릭시 내용 초기화
   $('#resetB').on('click', function() {
 	    // 이미지 컨테이너 초기화
 	    $('#Preview').empty();
 	});
+  
+  // 상세보기 모달창닫을때 댓글 입력창 초기화
+  $('.modalClose').on('click', function() {
+	  
+	    $('#inputContent').val('');
+	    console.log("inputContent.reset");
+	    
+	    $('#inputContent2').val('');
+	    console.log("inputContent2.reset");
+	});
+  
+  
   
   
 });
@@ -489,7 +499,7 @@ function replyDelte(post_Seq, reply_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -502,10 +512,13 @@ function replyDelte(post_Seq, reply_Seq){
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
@@ -607,7 +620,7 @@ function replyDelete2(post_Seq, reply_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -620,10 +633,13 @@ function replyDelete2(post_Seq, reply_Seq){
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
