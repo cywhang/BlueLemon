@@ -72,4 +72,12 @@
 	<select id = "getMaxReply_Seq" resultType = "int">
 		SELECT MAX(reply_Seq) FROM reply
 	</select>
+	
+	<!-- 댓글 삭제 처리 -->
+	<delete id="deleteReply">
+		delete from reply 
+		      where post_seq = #{post_Seq}
+		        and reply_seq = #{reply_Seq} 
+	</delete>
+	
 </mapper>

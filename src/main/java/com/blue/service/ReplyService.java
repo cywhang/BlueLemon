@@ -24,4 +24,10 @@ public interface ReplyService {
 	
 	// DB상 가장 큰 reply_Seq 가져오기
 	int getMaxReply_Seq();
+	
+	// 댓글 삭제
+	void deleteReply(ReplyVO vo);
+	
+	// 댓글 삭제시 댓글에대한 좋아요 전체 삭제
+	void deleteReplyLike(ReplyVO vo);
 }

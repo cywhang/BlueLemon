@@ -417,11 +417,237 @@ function postEditAction(post_Seq){
     });
 }
  
+
+// 댓글삭제 기능 
+function replyDelte(post_Seq, reply_Seq){
+	
+	var data = {
+			post_Seq : post_Seq,
+			reply_Seq : reply_Seq
+	};
+	
+	$.ajax({
+		url : "deleteReply",
+		type : "POST",
+		dataType: "json",
+		data : data, // post_Seq, reply_Seq 를 보냄
+		
+		
+		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
+		success : function(response) {
+			console.log("딜리트 ajax응답 성공");
+			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
+			var post = response.postInfo;
+			var replies = response.replies;
+			var profileMap = response.profile;
+			
+			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
+			var replyListContainer = $('#replyListContainer');
+			replyListContainer.empty();  // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
+			for (var i = 0; i < replies.length; i++) {
+			  var replyItem = $('<div>').addClass('d-flex mb-2');
+			  
+			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  replyItem.append(profileImg);                         
+			  
+			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
+			  
+			  var chatText = $('<div>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
+			  
+			  var memberName = $('<p>').addClass('fw-500 mb-0').text(replies[i].member_Id);
+			  var replyContent = $('<span>').addClass('text-muted').text(replies[i].reply_Content);
+			  
+			  chatText.append(memberName);
+			  chatText.append(replyContent);
+			  
+			  replyContentWrapper.append(chatText);
+			  
+			  // 댓글 좋아요 버튼, 좋아요 카운트, 댓글 작성일 
+			  let post_Seq = replies[i].post_Seq;
+			  let reply_Seq = replies[i].reply_Seq;
+			  
+			  let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
+			  	.addClass('thumbs')
+			    .on('click', function() {
+			    	toggleReplyLike(post_Seq, reply_Seq);
+			    });
+			  
+			  if(replies[i].reply_LikeYN === 'N'){
+				  var replyLikeImage = $('<img>').attr({
+					  class: 'likeReplyImage_' + replies[i].reply_Seq,
+					  src: 'img/like.png',
+					  'data-liked': 'false'
+					});
+			  } else {
+				  var replyLikeImage = $('<img>').attr({
+					  class: 'likeReplyImage_' + replies[i].reply_Seq,
+					  src: 'img/unlike.png',
+					  'data-liked': 'true'
+					});
+			  }
+			  likeLink.append(replyLikeImage);
+			  replyContentWrapper.append(likeLink);
+			  
+			  // 띄어쓰기
+			  var nbsp = $('<span>').html('&nbsp;');
+			  replyContentWrapper.append(nbsp);
+			  
+			  
+			  // 좋아요 카운트
+			  var p = $('<p>')
+				.attr('class', 'reply_Like_Count_' + replies[i].reply_Seq)
+				.css({ display: 'inline', 'margin-left': '1px', 'font-size': '10px' })
+				.text(replies[i].reply_Like_Count);
+			  replyContentWrapper.append(p);
+			  
+			  // 띄어쓰기
+			  replyContentWrapper.append(nbsp);
+			  
+			  // 댓글 작성일
+			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
+			  replyContentWrapper.append(timestamp);
+			  
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+				    	replyDelte(post_Seq, reply_Seq)
+				  });
+			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
+			  replyListContainer.append(replyItem);
+			}
+			
+			// 3. 댓글 작성 완료 후 댓글 카운트 추가
+			var replyCountContainer = $('#replyContainer');
+			replyCountContainer.empty();
+			var replycount = $('<div>').text(post.post_Reply_Count);
+			$('#replyContainer').append(replycount);
+			
+			// 4. 댓글 작성 완료 후 입력 창 비우기
+			var input = document.getElementById("inputContent");
+			input.value = "";
+			
+		},error : function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
   
   
   
-  
-  
+function replyDelete2(post_Seq, reply_Seq){
+	
+	var data = {
+			post_Seq : post_Seq,
+			reply_Seq : reply_Seq
+	};
+	
+	$.ajax({
+		url : "deleteReply",
+		type : "POST",
+		dataType: "json",
+		data : data, // post_Seq, reply_Seq 를 보냄
+		
+		
+		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
+		success : function(response) {
+			console.log("딜리트 ajax응답 성공");
+			// 1. 컨트롤러에서 넘겨받은 댓글 리스트(replylist) 꺼내기
+			var post = response.postInfo;
+			var replies = response.replies;
+			var profileMap = response.profile;
+			
+			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
+			var replyListContainer = $('#replyListContainer2');
+			replyListContainer.empty();  // 기존에 그렸던 댓글 리스트들을 비워내주는 작업
+			for (var i = 0; i < replies.length; i++) {
+			  var replyItem = $('<div>').addClass('d-flex mb-2');
+			  
+			  var profileImg = $('<img>').attr('src', 'img/uploads/profile/' + profileMap[replies[i].member_Id]).addClass('img-fluid rounded-circle').attr('alt', 'profile-img');
+			  var imgLink = $('<a>').attr('href', 'profile?member_Id=' + replies[i].member_Id).css('text-decoration', 'none').append(profileImg);
+			  replyItem.append(imgLink);                         
+			  
+			  var replyContentWrapper = $('<div>').addClass('ms-2 small');
+			  
+			  var chatText = $('<div>').addClass('bg-light px-3 py-2 rounded-4 mb-1 chat-text');
+			  
+			  var memberName = $('<p>').addClass('fw-500 mb-0').text(replies[i].member_Id);
+			  var replyContent = $('<span>').addClass('text-muted').text(replies[i].reply_Content);
+			  
+			  chatText.append(memberName);
+			  chatText.append(replyContent);
+			  
+			  replyContentWrapper.append(chatText);
+			  
+			  // 댓글 좋아요 버튼, 좋아요 카운트, 댓글 작성일 
+			  let post_Seq = replies[i].post_Seq;
+			  let reply_Seq = replies[i].reply_Seq;
+			  
+			  let likeLink = $('<button>').attr('type', 'button').css({ border: 'none', 'background-color': 'white'})
+			  	.addClass('thumbs')
+			    .on('click', function() {
+			    	toggleReplyLike(post_Seq, reply_Seq);
+			    });
+			  
+			  if(replies[i].reply_LikeYN === 'N'){
+				  var replyLikeImage = $('<img>').attr({
+					  class: 'likeReplyImage_' + replies[i].reply_Seq,
+					  src: 'img/like.png',
+					  'data-liked': 'false'
+					});
+			  } else {
+				  var replyLikeImage = $('<img>').attr({
+					  class: 'likeReplyImage_' + replies[i].reply_Seq,
+					  src: 'img/unlike.png',
+					  'data-liked': 'true'
+					});
+			  }
+			  likeLink.append(replyLikeImage);
+			  replyContentWrapper.append(likeLink);
+			  
+			  // 띄어쓰기
+			  var nbsp = $('<span>').html('&nbsp;');
+			  replyContentWrapper.append(nbsp);
+			  
+			  
+			  // 좋아요 카운트
+			  var p = $('<p>')
+				.attr('class', 'reply_Like_Count_' + replies[i].reply_Seq)
+				.css({ display: 'inline', 'margin-left': '1px', 'font-size': '10px' })
+				.text(replies[i].reply_Like_Count);
+			  replyContentWrapper.append(p);
+			  
+			  // 띄어쓰기
+			  replyContentWrapper.append(nbsp);
+			  
+			  // 댓글 작성일
+			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
+			  replyContentWrapper.append(timestamp);
+			  
+			  // 댓글 삭제 버튼
+			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
+				  .on('click', function() {
+					  replyDelete2(post_Seq, reply_Seq)
+				  });
+			  
+			  replyContentWrapper.append(deleteButton);
+			  replyItem.append(replyContentWrapper);
+			  replyListContainer.append(replyItem);
+			}
+			
+			// 3. 댓글 작성 완료 후 댓글 카운트 추가
+			var replyCountContainer = $('#replyContainer2');
+			replyCountContainer.empty();
+			var replycount = $('<div>').text(post.post_Reply_Count);
+			$('#replyContainer2').append(replycount);
+			
+			
+		},error : function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
   
   
   
