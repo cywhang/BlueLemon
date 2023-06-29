@@ -681,7 +681,7 @@ public class PostAndLikeController {
 		postService.deleteTag(post_Seq);
 		System.out.println("해시태그 삭제");
 		
-		// 4. 해시태그 처리 부분
+		// 4. 해시태그 처리 부분 
 		String hashTag = vo.getPost_Hashtag();
 		if (hashTag != null && !hashTag.isEmpty()) {
 			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업

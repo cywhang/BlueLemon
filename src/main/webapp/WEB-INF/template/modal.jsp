@@ -14,7 +14,7 @@
     <div class="modal-dialog modal-dialog-centered">
        <div class="modal-content rounded-4 p-4 border-0 bg-light">
           <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
-             <!-- 뒤로가기 버튼 -->
+             <!-- 뒤로가기 버튼 --> 
              <a href="#" id="closeModal" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
              <!-- 작성자 프로필 이미지 -->
              <img src="img/uploads/profile/${profileMap[sessionScope.loginUser.member_Id]}"  class="img-fluid rounded-circle user-img" id = "wirter" alt="profile-img">

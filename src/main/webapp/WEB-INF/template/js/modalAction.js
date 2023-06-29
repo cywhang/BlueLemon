@@ -4,7 +4,7 @@
 // 해시태그
 const input = document.querySelector('textarea[name=post_Hashtag]');
 
-let tagify = new Tagify(input); // initialize Tagify
+let tagify = new Tagify(input); // initialize Tagify 
 
 // 태그가 추가되면 이벤트 발생
 tagify.on('add', function() {

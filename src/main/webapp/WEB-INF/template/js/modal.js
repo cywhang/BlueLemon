@@ -2,7 +2,7 @@
 // 게시글 상세보기 모달창 1
 function modalseq(post_Seq) {
 	// 요청 바디에 전송할 데이터 설정
-	var data = {
+	var data = { 
 		post_Seq : post_Seq
 	};
 	$.ajax({
