@@ -416,7 +416,7 @@ function postEditAction(post_Seq){
         }
     });
 }
- 
+  
 
 // 댓글삭제 기능 
 function replyDelete(post_Seq, reply_Seq){

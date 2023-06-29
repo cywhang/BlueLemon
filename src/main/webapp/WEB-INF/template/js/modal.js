@@ -482,7 +482,7 @@ function replyModalseq(post_Seq) {
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
 					  replyDelete2(post_Seq, reply_Seq)
-				  });
+				  }); 
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
