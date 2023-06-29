@@ -265,7 +265,7 @@
                  <div class="d-flex align-items-center w-100">
                  <div id="modalHashtag"></div>
                  </div>
-                </div>
+                </div> 
                
                 <!-- 댓글들 리스트 div -->
                 <!-- id는 스크롤을 하기 위해서 지정해줌 -->

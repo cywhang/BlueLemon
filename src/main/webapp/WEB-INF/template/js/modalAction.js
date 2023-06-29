@@ -83,7 +83,7 @@ $(function() {
 	    // form 태그 초기화 
 	    $('#postUpdate')[0].reset();
 	    console.log("postUpdate.reset");
-	    // 이미지 컨테이너 초기화
+	    // 이미지 컨테이너 초기화 
 	    $('#editPreview').empty();
 	    console.log("editPreview.reset");
 	    // 실제 이미지 배열 초기화
