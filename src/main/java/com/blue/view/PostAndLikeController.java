@@ -225,8 +225,12 @@ public class PostAndLikeController {
 	            JsonNode jsonNode = objectMapper.readTree(hashTag);
 	
 	            for (JsonNode node : jsonNode) {
+	            	
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
+	                // 특수문자 변환
+	                value = value.replace("<", "《").replace(">", "》").replace("#", "");
+
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
 	                tvo.setTag_Content(value);
@@ -687,7 +691,9 @@ public class PostAndLikeController {
 			    for (JsonNode node : jsonNode) {
 			    	// n번째 해시태그 내용
 			        String value = node.get("value").asText();
-			        
+			        // 특수문자 변환
+		            value = value.replace("<", "《").replace(">", "》").replace("#", "");
+
 			        TagVO tvo = new TagVO();
 			        tvo.setPost_Seq(post_Seq);
 			        tvo.setTag_Content(value);

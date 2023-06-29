@@ -32,13 +32,13 @@
              <input type="checkbox" name="post_Public" value="y" checked="checked">
           	  <!-- 게시글 내용 작성창 -->
              <div class="form-floating">
-                <textarea maxlength="300" class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
+                <textarea maxlength="300" onkeypress="characterCheck(this)" class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
                 <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
              </div>
              
              <!-- 해시태그 입력창 -->
-             <div>
-                <textarea maxlength="20" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
+             <div onkeypress="characterCheck(event)">
+                <textarea maxlength="20" onkeyup="characterCheck(this)" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="해시태그: #없이 입력" id="floatingTextarea2" style="height: 50px"></textarea>
                 <!-- <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label> -->
              </div>
              <div class="d-flex justify-content-between">
@@ -205,7 +205,7 @@
                          <div class="d-flex align-items-center">
                             <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
                             <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                               <input maxlength="300" type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+                               <input maxlength="300" onkeypress="characterCheck(this)" type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
                                <div id="postButton">
                                </div>
                             </div>
@@ -288,7 +288,7 @@
                   <div class="d-flex align-items-center">
                      <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
                      <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                        <input type="text" maxlength="300" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
+                        <input type="text" onkeypress="characterCheck(this)" maxlength="300" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
                         <div id="postButton2">
                         </div>
                      </div>

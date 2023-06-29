@@ -111,15 +111,15 @@ $(function() {
   
   
 });
-	//특수문자 입력 방지            %%%%%% 아직 안됨 %%%%%%%%%ㄴ
-	function characterCheck(obj) {
-	  var regExp = /[<>'#]/g; // 허용하지 않을 특수문자 패턴 설정
-	  if (regExp.test(obj.value)) {
-	    alert("#, <, > 문자는 입력하실 수 없습니다.");
-	    obj.value = obj.value.replace(regExp, ''); // 특수문자 제거
-	  }
-	}
 
+	// 특수문자 입력 방지
+	function characterCheck(obj){
+	    var regExp = /[<>#]/gi;
+	    if(regExp.test(obj.value)){
+	        alert("<, >, # 는 입력할 수 없습니다.");
+	        obj.value = obj.value.substring( 0 , obj.value.length - 1 );
+	    }
+	}
   
   // 게시글 인서트
   /* 첨부파일 추가 */
@@ -428,7 +428,7 @@ function postEditAction(post_Seq){
 }
  
 
-// 댓글삭제 기능 
+// 댓글삭제 기능 (모달창1)
 function replyDelte(post_Seq, reply_Seq){
 	
 	var data = {
@@ -548,7 +548,7 @@ function replyDelte(post_Seq, reply_Seq){
 }
   
   
-  
+// 댓글 삭제 기능 (모달창2)
 function replyDelete2(post_Seq, reply_Seq){
 	
 	var data = {

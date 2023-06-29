@@ -789,7 +789,7 @@ $('#closeModal').on('hidden.bs.modal', function () {
 	});
 
 
-//edit view
+// edit view
 function postEditView(post_Seq){
 	
 	var data = {
@@ -836,6 +836,7 @@ function postEditView(post_Seq){
 			     id: 'floatingTextarea2',
 			     style: 'height: 200px',
 			     maxlength: '300',
+			     onkeypress : 'characterCheck(this)'
 			}).text(post.post_Content);
 			
 			var label = $('<label>').attr('for', 'floatingTextarea2')
@@ -866,6 +867,7 @@ function postEditView(post_Seq){
 			    input.setAttribute('id', 'floatingTextarea2');
 			    input.setAttribute('style', 'height: 50px');
 			    input.setAttribute('maxlength', '20');
+			    input.setAttribute('onkeypress', 'characterCheck(this)');
 			    input.value = hashtags.join(',');
 
 			    hashtagContainer.appendChild(input);
