@@ -1,7 +1,7 @@
 package com.blue.service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.List; 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.blue.dao.PostDAO;
 import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
+import com.blue.dto.TagVO;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -75,5 +76,56 @@ public class PostServiceImpl implements PostService {
 		postDao.deletePost(post_Seq);
 	}
 
-	
+	@Override
+	public int postSeqCheck() {
+		// 게시글 인서트시 시퀀스 NEXTVAL 값 예측 연산처리
+		int Seq = postDao.postSeqCheck() + 1;
+		return Seq;
+	}
+
+	@Override
+	public void insertTag(TagVO vo) {
+		postDao.insertTag(vo);
+	}
+
+	@Override
+	public ArrayList<TagVO> getHashtagList(int post_Seq) {
+		return postDao.getHashtagList(post_Seq);
+	}
+
+	@Override
+	public void deleteOneMemsTag(String member_Id) {
+		postDao.deleteOneMemsTag(member_Id);
+	}
+
+	@Override
+	public PostVO selectPostDetail(int post_Seq) {
+		
+		return postDao.selectPostDetail(post_Seq);
+	}
+
+	@Override
+	public ArrayList<PostVO> getHashTagPost(String hashTag) {
+		return postDao.getHashTagPost(hashTag);
+	}
+
+	@Override
+	public ArrayList<TagVO> getTodaysTag() {
+		return postDao.getTodaysTag();
+	}
+
+	@Override
+	public void updatePost(PostVO vo) {
+		postDao.updatePost(vo);
+	}
+
+	@Override
+	public void deleteTag(int post_Seq) {
+		postDao.deleteTag(post_Seq);
+	}
+
+	@Override
+	public String getPostWriter(int post_Seq) {
+		return postDao.getPostWriter(post_Seq);
+	}
 }

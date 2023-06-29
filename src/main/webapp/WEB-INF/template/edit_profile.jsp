@@ -35,40 +35,25 @@
 	  <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
    </head>
  <style>
-	.error-message {
-		color: red;
-	}
 	
-	.success-message {
-		color: green;
-	
-	/* 파일 선택 버튼 옆의 파일 이름 숨김 */
-	input[type="file"] {
-	    width: 0.1px;
-	    height: 0.1px;
-	    opacity: 0;
-	    overflow: hidden;
-	    position: absolute;
-	    z-index: -1;
-	}
-	input[type="file"] + label {
-	    font-size: 1.25em;
-	    font-weight: 700;
-	    color: white;
-	    background-color: #4CAF50;
-	    display: inline-block;
-	    padding: 8px 12px;
-	    cursor: pointer;
-	    border-radius: 4px;
-	}
-	
-	input[type="file"] + label:hover {
-	    background-color: #45a049;
-	}
-	
-	input[type="file"] + label:active {
-	    background-color: #3e8e41;
-	}
+	 .custom-file-upload {
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        background-color: #0d6efd;
+        color: #0d6efd;
+        border-radius: 4px;
+        border: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #0d6efd;
+    }
+
+    .custom-file-upload input[type="file"] {
+        display: none;
+    }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/editprofile.js"></script>
@@ -192,15 +177,19 @@
                                     <label for="floatingBirth">MBTI</label>
                                  </div>
 	                          </div>
-	                          <div>
-							     <label>Profile</label>
-								 <input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
-								 <img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden;">
-							     <p id="photo_file_name"></p>
-						      </div>
-	                       </div>
-	                    </div>
-	                    <div class="d-grid">
+	                          <div class="rounded"  style="border:1px solid #dee2e6; height : auto; width: 96%;">
+								<label style = "width : 23%; margin-top : 12px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
+									Profile Image
+								</label><br>
+								<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 3%; margin-top : 2%;">
+									<span style = "color : white;">Upload</span>
+									<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
+								</label>											
+								<img id="profile_image_preview" src="#" alt="" style="max-width: 200px; max-height: 200px; border-radius: 50%; overflow: hidden; margin-left : 20%;">
+							</div>
+	                   	 </div>
+	                   	 <br>
+	                    <div>
 	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update()">SAVE</button>
 	                    </div>
 	                 </div>
@@ -266,11 +255,47 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
-                           <!-- 
-                           <li class="nav-item">
-                              <a href="tags" class="nav-link"><span class="material-icons me-3">local_fire_department</span> <span>Trending</span></a>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
                            </li>
-                            -->
+                           
                         </ul>
                      </div>
                   </div>
@@ -310,11 +335,47 @@
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                            </li>
-                           <!-- 
-                           <li class="nav-item">
-                              <a href="tags" class="nav-link"><span class="material-icons me-3">local_fire_department</span> <span>Trending</span></a>
+                           
+                           <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
                            </li>
-                            -->
+                           
                         </ul>
                      </div>
                   </div>
@@ -330,9 +391,13 @@
                         <div class="sticky-sidebar2 mb-3">
                            <!-- 우측 상단의 검색탭 -->
                            <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
-                              <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-                              <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People">
-                           </div>
+                           <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
+                           <form action="/blue/search_HashTag" method="get">
+                           		<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
+                           </form>
+                        </div>
+                        <!-- 검색 결과 리스트 -->
+                        <div id="searchResults"></div>
                            <div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
                               <!-- 실시간 인기 급상승 게시글 -->
                               <h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
@@ -341,44 +406,63 @@
                               <c:set var = "maxChar" value = "50"/>                              
                               <c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
                          	     <div class="p-3 border-bottom d-flex">
-								    <div>
-									   <div class="text-muted fw-light d-flex align-items-center">
-									      <small class="text-muted">
-										     ${postVO.member_Id}
-									      </small>
-									   </div>
-									   <c:choose>
-									      <c:when test = "${postVO.post_Image_Count == 0}">
-										     <small class="text-muted">
-											    <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
-									         </small>
-											 <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
-										  	 <small class="text-muted">
-											    ${postVO.post_Like_Count}'s Like
-										     </small>							
-									      </c:when>
-										  <c:otherwise>
-									         <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
-											    <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "120" height = "120">
-											    <br>
-											  	<small class="text-muted">
-											       <c:out value = "${fn:substring(postVO.post_Content, 0, maxChar)}"/>
-											    </small>
-												<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Hashtag}</p>
-										  		<small class="text-muted">
-												   ${postVO.post_Like_Count}'s Like
-											    </small>		
-									         </a>					
-									      </c:otherwise>
-									   </c:choose>	
-									   <br>	
-								    </div>
+                         	        <c:choose>
+									   <c:when test = "${postVO.post_Image_Count == 0}">
+									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+								             <div class = "d-flex">
+								                <div style = "width : 60%;">
+									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
+									               <br><br>
+									               <small class="text-muted">
+									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+									               </small>
+									               <br>
+									               <c:choose>
+									                  <c:when test="${postVO.post_Hashtag eq '' }">
+									                  </c:when>
+									                  <c:otherwise>
+									                     <small class="text-muted">
+									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+									                     </small>									                  
+									                  </c:otherwise>
+									               </c:choose>
+									            </div>
+									            <div style = "width : 40%;">	         
+									            </div>
+									         </div>
+									      </a>
+									   </c:when>
+									   <c:otherwise>
+									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+								             <div class = "d-flex">
+								                <div style = "width : 60%;">
+									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
+									               <br><br>
+									               <small class="text-muted">
+									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+									               </small>
+									               <br>
+									               <c:choose>
+									                  <c:when test="${postVO.post_Hashtag eq 'nothing' }">
+									                  </c:when>
+									                  <c:otherwise>
+									                     <small class="text-muted">
+									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+									                     </small>									                  
+									                  </c:otherwise>
+									               </c:choose>
+									            </div>
+									            <div style = "width : 40%;">								      									         
+									      	       <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
+									            </div>
+									         </div>
+									      </a>
+									   </c:otherwise>
+									</c:choose>	
 						         </div>
 							  </c:forEach>
-                              <!-- Show More -->
-                              <a href="follow" class="text-decoration-none">
-                                 <div class="p-3">Show More</div>
-                              </a>
                            </div>
                         </div>
                      </div>
@@ -387,9 +471,6 @@
             </div> <!-- class="row position-relative" -->
          </div> <!-- class="container" -->
       </div> <!-- class="py-4" -->
-      
-      
-      
       <!-- left footer -->
       <!-- 좌측 하단 부분 -->
       <div class="py-3 bg-white footer-copyright">
@@ -408,221 +489,9 @@
             </div>
          </div>
       </div>
+      
+      <%@ include file="modal.jsp" %>
  
-            <!-- 이 아래부터는 모달창에 관한 코드 -->
-      <!-- Post Modal -->
-      <!-- 글 작성 모달창 -->
-      <div class="modal fade" id="postModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 p-4 border-0 bg-light">
-               <div class="modal-header d-flex align-items-center justify-content-start border-0 p-0 mb-3">
-                  <!-- 뒤로가기 버튼 -->
-                  <a href="#" class="text-muted text-decoration-none material-icons" data-bs-dismiss="modal">arrow_back_ios_new</a>
-                  <!-- 기본 사람모양 아이콘 -->
-                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel"><span class="material-icons md-32">account_circle</span></h5>
-                  <!-- 작성자 아이디 표시 -->
-                  <h5 class="modal-title text-muted ms-3 ln-0" id="staticBackdropLabel">작성자: ${sessionScope.loginUser.member_Id}</h5>
-               </div>
-               
-               <!-- 게시글 작성 폼 -->
-               <form action="insertPost" method="POST" enctype="multipart/form-data">
-               <div class="modal-body p-0 mb-3">
-               	  <!-- 입력 부분 -->
-               	  <!-- 작성자 아이디 -->
-               	  <input type="hidden" name="member_Id" value="${sessionScope.loginUser.member_Id}">
-               	  <!-- 공개 여부 체크박스 -->
-                  <label for="post_Public" class="h6 text-muted mb-0">게시글 공개 여부</label>
-                  <input type="checkbox" name="post_Public" value="y" checked="checked">
-               	  <!-- 게시글 내용 작성창 -->
-                  <div class="form-floating">
-                     <textarea class="form-control rounded-5 border-0 shadow-sm" name="post_Content" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 200px"></textarea>
-                     <label for="floatingTextarea2" class="h6 text-muted mb-0">게시글 내용</label>
-                  </div>
-                  <!-- 해시태그 입력창 -->
-                  <div class="form-floating">
-                     <input type="text" name="post_Hashtag" class="form-control rounded-5 border-0 shadow-sm" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 50px"></input>
-                     <label for="floatingTextarea2" class="h6 text-muted mb-0">해시 태그</label>
-                  </div>
-                  <div class="d-flex justify-content-between">
-                	 <button type="reset" class="btn btn-secondary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center">
-  				 	 	<span class="material-icons me-2 md-16">refresh</span>초기화
-					 </button>
-                  	 <button type="submit" data-bs-dismiss="modal" class="btn btn-primary rounded-5 fw-bold px-3 py-2 fs-6 mb-0 d-flex align-items-center"><span class="material-icons me-2 md-16">send</span>Post</button>
-                  </div>
-               </div>
-               <!-- 이미지 업로드 부분 -->
-               <div class="uploaderContainer">
-			       <label class="uploaderLabel" id="uploaderLabel" for="uploaderInput">
-			      		<div class="uploaderInner" id="inner">드래그하거나 클릭해서 업로드</div>
-			       </label>
-				   <input id="uploaderInput" class="input" name="uploadImgs" accept="image/png" type="file" multiple="multiple" hidden="true" max="4">
-			       <div class="preview" id="preview"></div>
-		       </div>
-		  	   </form>
-            </div>
-         </div>
-      </div>
-      
-      
-      <!-- 게시글 상세보기 모달창 1 -->
-      <!-- 이미지 슬라이드, 댓글 리스트 모달창 -->
-      <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 overflow-hidden border-0">
-               <div class="modal-header d-none">
-                  <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body p-0">
-                  <div class="row m-0">
-                  	 <!-- 모달창의 왼쪽 컬럼 -->
-                     <div class="col-sm-7 px-0 m-sm-none">
-                        <!-- 게시글의 이미지슬라이드 -->
-                        <div class="image-slider" width = "100%">
-                           <div id="carouselExampleIndicators" class="carousel slide" c="carousel">
-                           	  <!-- 이미지 슬라이드 하단의 인덱스 버튼 -->
-                              <div class="carousel-indicators">
-                              </div>
-                              <!-- 게시글의 이미지 출력부분 -->
-                              <div class="carousel-inner">
-                              </div>
-                              <!-- 전, 후  이미지 이동 버튼 -->
-                              <div class="arrow-button">
-	                          </div>
-                           </div>
-                        </div> <!-- 이미지 슬라이드 -->
-                     </div>
-                     
-                     <!-- 모달창의 오른쪽 컬럼 -->
-                     <div class="col-sm-5 content-body px-web-0">
-                        <div class="d-flex flex-column h-600">
-                           <!-- 게시글 작성자 정보 -->
-                           <div class="d-flex p-3 border-bottom">
-                           	  <!-- 게시글 작성자 프로필이미지 -->
-                              <div id="profileImgContainer"></div>
-                              <div class="d-flex align-items-center justify-content-between w-100">
-                                 <a href="profile" class="text-decoration-none ms-3">
-                                    <div class="d-flex align-items-center">
-                                       <!-- 작성자 아이디 -->
-                                       <div id="writerContainer"></div>                                     
-                                    </div>
-                                    <!-- 작성자 아이디(@아이디) -->
-                                    <div id="smallWriterContainer"></div>
-                                 </a>
-                                 <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
-                                 <div class="small dropdown">
-                                    <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
-                                    <!-- 임시  -->
-                                 </div>
-                              </div>
-                           </div>
-                           
-                           <!-- 댓글들 리스트 div -->
-                           <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                           <div class="comments p-3" id="replyList">
-	                           <div id="replyListContainer">
-		                       </div>
-                           </div>
-						                                          
-                           <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
-                           <div class="border-top p-3 mt-auto">
-                              <div class="d-flex align-items-center justify-content-between mb-2">
-                                 <!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
-                              	 <div class="like-group" role="group">
-	                                 <div id = "likeImage">
-	                                 </div>
-                                 </div>
-                                 <!-- 해당 게시글의 총 댓글 수 표시 -->
-                                 <div>
-                                    <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer"></div></div>
-                                 </div>
-                              </div>
-                              
-                              <div class="d-flex align-items-center">
-                                 <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
-                                 <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                                    <input type="text" id="inputContent" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
-                                    <div id="postButton">
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div> 
-                  </div>
-               </div>
-               <div class="modal-footer d-none"></div>
-            </div>
-         </div>
-      </div>
-      
-      <!-- 게시글 상세보기 모달창 2 -->
-      <!-- 댓글 리스트 모달창 -->
-      <div class="modal fade" id="commentModal2" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 overflow-hidden border-0">
-               <div class="modal-header d-none">
-                  <h5 class="modal-title" id="exampleModalLabel2">Modal title</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body p-0">
-                 <div class="d-flex flex-column h-600">
-                    <!-- 게시글 작성자 정보 -->
-                    <div class="d-flex p-3 border-bottom">
-                    	  <!-- 게시글 작성자 프로필이미지 -->
-                       <div id="profileImgContainer2" style="width: 15%; height: auto;"></div>
-                       <div class="d-flex align-items-center justify-content-between w-100">
-                          <a href="profile" class="text-decoration-none ms-3">
-                             <div class="d-flex align-items-center">
-                                <!-- 작성자 아이디 -->
-                                <div id="writerContainer2"></div>
-                             </div>
-                             <!-- 작성자 아이디(@아이디) -->
-                             <div id="smallWriterContainer2"></div>
-                          </a>
-                          <!-- 모달창 닫기 버튼 (x모양 아이콘) -->
-                          <div class="small dropdown">
-                             <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-" data-bs-dismiss="modal">close</a>
-                             <!-- 임시  -->
-                          </div>
-                       </div>
-                    </div>
-                    
-                    <!-- 댓글들 리스트 div -->
-                    <!-- id는 스크롤을 하기 위해서 지정해줌 -->
-                    <div class="comments p-3" id="replyList">
-	                    <div id="replyListContainer2">
-	                  	</div>
-                    </div>
-                    
-                    
-                    <!-- 모달창 우측 하단의 좋아요 수,댓글 수, 댓글입력창, post버튼 -->
-                    <div class="border-top p-3 mt-auto">
-                       <div class="d-flex align-items-center justify-content-between mb-2">
-                         <!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
-                       	  <div class="like-group" role="group">
-	                          <div id = "likeImage2">
-	                          </div>
-                          </div>
-                          <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer2"></div></div>
-                       </div>
-                       <div class="d-flex align-items-center">
-                          <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
-                          <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
-                             <input type="text" id="inputContent2" class="form-control form-control-sm p-0 rounded-3 fw-light border-0" placeholder="Write Your comment">
-                             <div id="postButton2">
-                             </div>
-                          </div>
-                       </div>
-                    </div>
-                    
-                 </div>
-               </div>
-               <div class="modal-footer d-none"></div>
-               
-            </div>
-         </div>
-      </div>
       <!-- Jquery Js -->
       <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
@@ -641,5 +510,8 @@
       <script src="js/people.js"></script>
       <!-- Insert Js -->
       <script src="js/insert.js"></script>
+      <!-- Search Peple Js -->
+      <script src="js/searchpeople.js"></script>
    </body>
+>>>>>>> refs/remotes/origin/develop
 </html>

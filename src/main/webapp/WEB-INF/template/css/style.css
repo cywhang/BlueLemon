@@ -11,7 +11,7 @@ Version: 1.2
 -- FAQ
 -- Slider
 -- Basic
--- Material icons
+-- Material icons 
 -- Modal
 -- Sidebar
 -- Index
@@ -36,71 +36,97 @@ body {
     font-family: 'Gilroy', sans-serif;
 }
 
-/* 이미지 업로더 css */
-:root {
-  --hoverBg: #dee2e6;
-  --text: #0d6efd;
+/* 이미지 업로드 */
+.inputFile,
+#Preview,
+#Preview li{
+    float:left
+}
+#Preview{
+    margin-left: -2	px;
+    width: 650px;
+}
+#Preview li{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 1px solid #ececec;
+    cursor:move
 }
 
-.uploaderContainer {
-  width: clamp(0px, 100%, 512px);
-  margin: 32px auto;
-  text-align: center;
+#editPreview,
+#editPreview li{
+    float:left
+}
+#editPreview{
+    margin-left: -2	px;
+    width: 650px;
+}
+#editPreview li{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border: 1px solid #ececec;
+    cursor:move
+}
+.inputFile{
+    margin-bottom: 10px;
+}
+.addImgBtn{
+    width: 451px !important;
+    height: 80px !important;
+    line-height: 71px !important;
+    background-color: #fff !important;
+    color: #b7b7b7 !important;
+    border: 2px solid #b7b7b7;
+    font-size: 35px !important;
+    padding-left: 46%;
 }
 
-.uploaderLabel {
-  width: 100%;
-  height: 100%;
-  margin: 0px auto;
-  cursor: pointer;
+.delBtn{
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 13px;
+    background-color: #dc3545;
+    color: #fff;
+    width: 18px;
+    height: 18px;
+    line-height: 16px;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
 }
-.cancel-button {
-    border: none;
-    background-color: transparent;
-  }
-.uploaderInner {
-  width: 100%;
-  height: 128px
-  margin: 64px auto;
-  border-radius: 8px;
-  font-size: 16px;
-  line-height: 128px;
-  color: var(--text);
+ul li::marker {
+  color: rgba(0, 0, 0, .05);
+}
+/* 이미지 업로드 */
+
+#wirter{
+	width:      36px;
+	height:     36px;
+	min-width:  36px;
+	min-height: 36px;
+}
+.update-button{
+	background-color: #ffc107;
+}
+.update-button:hover {
+  background-color: #ffc107; 
 }
 
-@media (any-hover: hover){
-  .uploaderInner:hover{
-    background-color: var(--hoverBg);
-  }
+.editbutton:active {
+  background-color: orange; 
+}
+.deletebutton:active {
+  background-color: lightcoral; 
+}
+.replyDelete{
+	background-color: #dc3545;
+    color: #fff;
 }
 
-.label--hover{
-  background-color: var(--hoverBg);
-}
-
-.preview-title{
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.preview {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  padding: 16px;
-  border-radius: 8px;
-  align-items: center;
-}
-
-.embed-img{
-  width: 100%;
-  height: 128px;
-  object-position: center;
-  object-fit: cover;
-  border-radius: 8px;
-}
-/* 이미지 업로더  */
-
+.
 /* FAQ */
 .faq-page .accordion-button {
     font-size: 14px;
@@ -474,7 +500,7 @@ body {
 .btn-check:not(:checked):hover + .btn-outline-primary .follow {
     display: none !important;
 }
-
+/*  	following 버튼 호버시  바뀌는 css 
 .btn-check:checked:hover + .btn-outline-primary .following {
     display: none !important;
 }
@@ -482,6 +508,7 @@ body {
 .btn-check:checked:hover + .btn-outline-primary .follow {
     display: block !important;
 }
+*/
 /* 체크박스 hover 시 색상 변경 */
 .btn-check:not(:checked):hover + .btn-outline-primary,
 .btn-check:checked:hover + .btn-outline-primary {
@@ -489,14 +516,13 @@ body {
     border-color: #0d6efd;
     color: #ffffff;
 }
-
-/* 체크된 상태에서 hover 시 배경이 흰색으로 변경 */
+/* 체크된 상태에서 hover 시 배경이 흰색으로 변경 
 .btn-check:checked:hover + .btn-outline-primary {
     background-color: #ffffff;
     border-color: #0d6efd;
     color: #0d6efd;
 }
-
+*/
 #email {
     /* display: none; */
 } 

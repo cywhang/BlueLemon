@@ -52,6 +52,30 @@
       <filter-name>characterEncoding</filter-name>
       <url-pattern>/*</url-pattern>
   </filter-mapping>
-
-
+	
+	<error-page>
+	<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
+	
+	<error-page>
+	<error-code>503</error-code>
+		<location>/503</location>
+	</error-page>
+	
+	<error-page>
+	<error-code>403</error-code>
+		<location>/403</location>
+	</error-page>
+	
+	<error-page>
+	<error-code>400</error-code>
+		<location>/400</location>
+	</error-page>
+	
+	<error-page>
+	<error-code>429</error-code>
+		<location>/429</location>
+	</error-page>
+	
 </web-app>

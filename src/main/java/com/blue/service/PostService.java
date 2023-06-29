@@ -2,9 +2,11 @@ package com.blue.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
+ 
 import com.blue.dto.LikeVO;
 import com.blue.dto.PostVO;
+import com.blue.dto.TagVO;
+
 
 public interface PostService {
 
@@ -37,4 +39,34 @@ public interface PostService {
 
 	// 게시글 삭제
 	void deletePost(int post_Seq);
+	
+	// 게시글 추가 시 필요한 가장높은 시퀀스 조회
+	int postSeqCheck();
+	
+	// 게시글 추가의 해시태그 인서트
+	void insertTag(TagVO vo);
+	
+	// 게시글 해시태그 조회
+	ArrayList<TagVO> getHashtagList(int post_Seq);
+	
+	// 한 회원의 전체 해시태그 삭제
+	void deleteOneMemsTag(String member_Id);
+	
+	// 관리자 게시글 상세정보
+	PostVO selectPostDetail(int post_Seq);
+	
+	// 해쉬 태그 검색 기능
+	ArrayList<PostVO> getHashTagPost(String hashTag);
+	
+	// 관리자 페이지 오늘의 해시태그
+	ArrayList<TagVO> getTodaysTag();
+	
+	// 게시글 수정 처리
+	void updatePost(PostVO vo);
+		
+	// 게시글 해시태그 수정전 삭제 처리
+	void deleteTag(int post_Seq);
+	
+	// 알람을 위해 게시글 작성자 추출
+	String getPostWriter(int post_Seq);
 }

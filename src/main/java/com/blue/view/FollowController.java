@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.blue.dto.AlarmVO;
 import com.blue.dto.FollowVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
+import com.blue.service.AlarmService;
 import com.blue.service.FollowService;
 import com.blue.service.MemberService;
 import com.blue.service.PostService;
@@ -37,6 +39,8 @@ public class FollowController {
 	private PostService postService;
 	@Autowired
 	private FollowService followService;
+	@Autowired
+	private AlarmService alarmService;
 	
 	@GetMapping("/follow")
 	public String getFollow(Model model, HttpSession session, @RequestParam String member_Id) {
@@ -48,6 +52,29 @@ public class FollowController {
 			
 			return "login";			
 		} else {
+			
+			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			
+			// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
+	    	
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		}else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		}else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
 			
 			//System.out.println("세션값 존재");			
 			List<FollowVO> following_Id = followService.getFollowing(member_Id);			
@@ -131,9 +158,6 @@ public class FollowController {
 				}
 			}
 			
-			//System.out.println("팔로잉 출력 행 수 : " + followingLoadRow);
-			//System.out.println("팔로워 출력 행 수 : " + followerLoadRow);
-
 			model.addAttribute("following", following_info);
 			model.addAttribute("followingLoadRow", followingLoadRow);
 			model.addAttribute("followingTotalPageNum", followingTotalPageNum);
@@ -148,8 +172,8 @@ public class FollowController {
 			List<PostVO> hottestFeed = postService.getHottestFeed();
 			model.addAttribute("hottestFeed", hottestFeed);	
 			
-			//model.addAttribute("following_Id", following_Id);
-			//model.addAttribute("following_size", following_Id.size());
+			model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
 			
 			return "follow";
 		
@@ -178,6 +202,7 @@ public class FollowController {
 			//System.out.println("[팔로우, 언팔로우 - 7] FollowVO객체 vo를 가지고 changeFollow() 요청");
 			memberService.changeFollow(vo);
 			//System.out.println("[팔로우, 언팔로우 - 12] changeFollow 하고 js에 success 리턴");
+			
 			return "success";
 		} catch (Exception e) {
 			//System.out.println("[팔로우, 언팔로우 - 5 - catch] JSON 파싱 오류난 경우");
@@ -343,4 +368,148 @@ public class FollowController {
 
 		return dataMap;
 	}
+	
+	@GetMapping("/alarmFollow")
+	public String alarmFollow(Model model, HttpSession session, @RequestParam String member_Id, @RequestParam int alarm_Seq) {
+		
+		if(session.getAttribute("loginUser") == null) {
+			
+			//System.out.println("세션값 없음");			
+			model.addAttribute("message", "로그인을 해주세요");			
+			
+			return "login";			
+		} else {
+			
+			//알람 삭제
+			alarmService.deleteAlarm(alarm_Seq);
+			
+			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			
+			// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
+	    	
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		}else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		}else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
+			
+			//System.out.println("세션값 존재");			
+			List<FollowVO> following_Id = followService.getFollowing(member_Id);			
+			List<FollowVO> follower_Id = followService.getFollower(member_Id);			
+			List<MemberVO> following_info = new ArrayList<MemberVO>();			
+			List<MemberVO> follower_info = new ArrayList<MemberVO>();
+			
+			for(FollowVO id : following_Id) {
+				
+				MemberVO following_member = memberService.getMemberInfo(id.getFollowing());				
+				if(following_member == null) {
+					
+					//System.out.println("팔로잉 멤버 빈 칸");
+				} else {
+					
+					following_info.add(following_member);
+					//System.out.println("팔로잉 멤버 : " + following_member);
+				}
+			}
+			
+			for(FollowVO id : follower_Id) {
+				
+				MemberVO follower_member = memberService.getMemberInfo(id.getFollower());
+				
+				if(follower_member == null) {
+					// System.out.println("팔로워 멤버 빈 칸");
+				} else {
+					follower_info.add(follower_member);
+					//System.out.println("팔로워 멤버 : " + follower_member);
+				}
+			}
+			
+			//System.out.println("팔로잉 수 : " + following_info.size());
+			//System.out.println("팔로워 수 : " + follower_info.size());
+			
+			int followingTotalPageNum = 1;
+			
+			if(following_info.size() % 10 != 0 && following_info.size() > 10) {
+				followingTotalPageNum = following_info.size() / 10 + 1;
+			} else if(following_info.size() % 10 != 0 && following_info.size() < 10) {
+				followingTotalPageNum = 1;
+			} else if(following_info.size() % 10 == 0) {
+				followingTotalPageNum = following_info.size() / 10;
+			}
+			
+			int followerTotalPageNum = 1;
+			
+			if(follower_info.size() % 10 != 0 && follower_info.size() > 10) {
+				followerTotalPageNum = follower_info.size() / 10 + 1;
+			} else if(follower_info.size() % 10 != 0 && follower_info.size() < 10) {
+				followerTotalPageNum = 1;
+			} else if(follower_info.size() % 10 == 0) {
+				followerTotalPageNum = follower_info.size() / 10;
+			}
+			
+			//System.out.println("팔로잉 페이지 수 : " + followingTotalPageNum);
+			//System.out.println("팔로워 페이지 수 : " + followerTotalPageNum);			
+			
+			int followingLoadRow = 10;
+			
+			if(following_info.size() <= 10) {
+				followingLoadRow = following_info.size();
+			}
+			
+			int followerLoadRow = 10;
+			
+			if(follower_info.size() <= 10) {
+				followerLoadRow = follower_info.size();
+			}
+			
+			for(int i = 0; i < followerLoadRow; i++) {
+				//System.out.println("팔로워 아이디");
+				//System.out.println(follower_info.get(i).getMember_Id());
+				for(int j = 0; j < followingLoadRow; j++) {
+					//System.out.println("팔로잉 아이디");
+					//System.out.println(following_info.get(j).getMember_Id());
+					if(follower_info.get(i).getMember_Id().equals(following_info.get(j).getMember_Id())) {
+						follower_info.get(i).setBothFollow(1);
+						//System.out.println("setBoth 입력 확인 : " + follower_info.get(i).getBothFollow());
+					}
+				}
+			}
+			
+			//System.out.println("팔로잉 출력 행 수 : " + followingLoadRow);
+			//System.out.println("팔로워 출력 행 수 : " + followerLoadRow);
+
+			model.addAttribute("following", following_info);
+			model.addAttribute("followingLoadRow", followingLoadRow);
+			model.addAttribute("followingTotalPageNum", followingTotalPageNum);
+			model.addAttribute("followingPageNum", 1);
+			
+			model.addAttribute("follower", follower_info);
+			model.addAttribute("followerLoadRow", followerLoadRow);
+			model.addAttribute("followerTotalPageNum", followerTotalPageNum);
+			model.addAttribute("followerPageNum", 1);
+			
+			// 화면 우측 Hottest Feed
+			List<PostVO> hottestFeed = postService.getHottestFeed();
+			model.addAttribute("hottestFeed", hottestFeed);
+			
+			model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
+			
+			return "follow";
+		
+		}
+	}	
 }

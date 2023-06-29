@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="icon" type="image/png" href="img/logo.png">
-      <title>Vogel - Social Network & Community HTML Template</title>
+      <title>BlueLemon</title>
       <meta name="description" content="Vogel - Social Network & Community HTML Template">
       <meta name="keywords" content="bootstrap5, e-learning, forum, games, online course, Social Community, social events, social feed, social media, social media template, social network html, social sharing, twitter">
       <!-- Bootstrap CSS -->
@@ -612,11 +612,14 @@
                <div class="fix-sidebar">
                   <div class="side-trend lg-none">
                      <!-- Search Tab -->
-                     <div class="sticky-sidebar2 mb-3">
-                        <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
+                     <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
                            <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-                           <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search Vogel">
+                           <form action="/blue/search_HashTag" method="get">
+                           		<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
+                           </form>
                         </div>
+                        <!-- 검색 결과 리스트 -->
+                        <div id="searchResults"></div>
                         <div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
                            <h6 class="fw-bold text-body p-3 mb-0 border-bottom">What's happening</h6>
                            <!-- Trending Item -->
@@ -685,10 +688,6 @@
                                  <p class="fw-bold mb-0 pe-3">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                               </div>
                               <img src="img/trend1.jpg" class="img-fluid rounded-4 ms-auto" alt="trending-img">
-                           </a>
-                           <!-- Show More -->
-                           <a href="explore" class="text-decoration-none">
-                              <div class="p-3">Show More</div>
                            </a>
                         </div>
                         <div class="bg-white rounded-4 overflow-hidden shadow-sm account-follow mb-4">
@@ -1184,5 +1183,7 @@
       <script src="js/custom.js"></script>
       <!-- Slick Js -->
       <script src="vendor/slick/slick/slick.min.js"></script>
+      <!-- Search Peple Js -->
+      <script src="js/searchpeople.js"></script>
    </body>
 </html>

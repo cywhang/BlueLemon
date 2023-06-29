@@ -27,7 +27,7 @@ $(document).ready(function() {
 	        memberIdInput.focus();
 		} else if (!isIdValid(memberId)) {
 			console.log("숫자로만 입력")
-	        setIdErrorMessage("숫자로만 아이디 생성이 불가능합니다.영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.", false);
+	        setIdErrorMessage("아이디 생성이 불가능합니다.영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.", false);
 	        
 	    } else {
 	    	console.log("아이디 중복 요청 실행")
@@ -86,7 +86,7 @@ $(document).ready(function() {
 	});
 
 	function isPasswordValid(password) {
-	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%*?&]{8,}$/;
+	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
 	    return passwordRegex.test(password);
 	}
 		
@@ -142,7 +142,7 @@ $(document).ready(function() {
 				"font-weight": "bold"
 			});
 		} else if (!isEmailIdValid(email))  {
-			emailMessage.text('한글은 입력할수 없습니다.');
+			emailMessage.text('한글 및 특수문자는 입력할수 없습니다.');
 			emailMessage.css({
 				"color": "red",
 				"font-weight": "bold"
@@ -202,7 +202,7 @@ $(document).ready(function() {
 			phoneMessage.text('폰번호를 입력해주세요.');
 			phoneMessage.css("color", "red");
 		} else if (!isPhoneNumberValid(phoneNumber)) {
-			phoneMessage.text('숫자만 입력해주세요.');
+			phoneMessage.text('13자의 숫자만 입력해주세요.');
 			phoneMessage.css("color", "red");
 			memberPhoneInput.focus();
 		} else {
@@ -216,65 +216,96 @@ $(document).ready(function() {
 		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
 		return phoneNumberRegex.test(phoneNumber);
 	}
-		  
-	// JavaScript 코드
-	document.addEventListener('DOMContentLoaded', function() {
-		var birthdayInput = document.getElementById('birthday');
-		var today = new Date();
-	    
-	    // 입력된 날짜 변경 시 이벤트 리스너 추가
-	    birthdayInput.addEventListener('change', function() {
-	    	var selectedDate = new Date(birthdayInput.value);
-	      
-	        // 현재 날짜와 비교하여 이후 날짜인지 확인
-	        if (selectedDate > today) {
-	        	birthdayInput.value = ''; // 선택된 날짜를 초기화
-	        	alert('미래 날짜는 선택할 수 없습니다.');
-	        }
-	    });
-    
-	    // 현재 날짜 이후의 날짜 비활성화 함수
-	    function disableFutureDates() {
-	    	var maxDate = today.toISOString().split('T')[0]; // 현재 날짜를 ISO 8601 형식으로 변환
-	    	birthdayInput.setAttribute('max', maxDate); // max 속성 설정
-	    }
-	    
-	    disableFutureDates(); // 함수 실행하여 현재 날짜 이후의 날짜 비활성화
-	});
-	  
-});
-	
-	
-//회원가입 폼 제출 이벤트
-function go_save() {
-  // 아이디, 비밀번호, 비밀번호 확인, 전화번호를 가져옵니다.
-  var memberId = document.getElementById("member_Id").value;
-  var password = document.getElementById("member_Password").value;
-  var memberName = document.getElementById("member_Name").value;
-  var phoneNumber = document.getElementById("member_Phone").value;
-  
-
-  // 필수 항목인지 확인합니다.
-  if (memberId === "") {
-    alert("아이디를 입력해주세요.");
-    return;
-  }
-
-  if (password === "") {
-    alert("비밀번호를 입력해주세요.");
-    return;
-  }
-
-  if (phoneNumber === "") {
-    alert("전화번호를 입력해주세요.");
-    return;
-  }
-
-  // 모든 필수 항목이 입력되었으므로 회원가입을 진행합니다.
-  alert("회원가입이 완료되었습니다.");
-  document.getElementById("createAccount").action = "createAccount"; // 회원가입 요청 URL
-  document.getElementById("createAccount").submit();
+});	  
+//생년월일 오늘 일자 기준 이후 날짜 선택불가
+function handleDateClick() {
+    var birthInput = document.getElementById("member_Birth");
+    var nowUtc = Date.now();
+    var timeOffset = new Date().getTimezoneOffset() * 60000;
+    var today = new Date(nowUtc - timeOffset).toISOString().split("T")[0];
+    birthInput.max = today;
 }
 
 
+	
+	
+	// 회원가입 폼 제출 이벤트
+	function go_save() {
+	  var memberId = document.getElementById("member_Id").value;
+	  var password = document.getElementById("member_Password").value;
+	  var name = document.getElementById("member_Name").value;
+	  var phoneNumber = document.getElementById("member_Phone").value;
+	  var emailId = document.getElementById("member_Email").value;
+	  var emailAdd = document.getElementById("email_add").value;
 
+	  var errorMessage = ""; // 오류 메시지를 저장하는 변수
+
+	  if (!isIdValid(memberId)) {
+	    errorMessage += "유효하지 않은 아이디입니다.\n";
+	  }
+
+	  if (!isPasswordValid(password)) {
+	    errorMessage += "유효하지 않은 비밀번호입니다.\n";
+	  }
+
+	  if (!isKoreanNameValid(name)) {
+	    errorMessage += "유효하지 않은 이름입니다.\n";
+	  }
+
+	  if (!isEmailIdValid(emailId)) {
+	    errorMessage += "유효하지 않은 이메일ID입니다.\n";
+	  }
+
+	  if (!isValidEmailAdd(emailAdd)) {
+	    errorMessage += "유효하지 않은 이메일주소입니다.\n";
+	  }
+
+	  if (!isPhoneNumberValid(phoneNumber)) {
+	    errorMessage += "유효하지 않은 전화번호입니다.\n";
+	  }
+
+	  if (errorMessage !== "") {
+	    alert(errorMessage);
+	    return false;
+	  }
+
+	  // 모든 필수 항목이 입력되었으므로 회원가입을 진행합니다.
+	  alert("회원가입이 완료되었습니다.");
+	  document.getElementById("createAccount").action = "createAccount";
+	  document.getElementById("createAccount").submit();
+	}
+
+   // 아이디 유호성 함수
+   function isIdValid(member_Id) {
+	   var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+	   return idRegex.test(member_Id);
+	  }
+
+   // 패스워드 유호성 함수
+   function isPasswordValid(password) {
+        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
+        return passwordRegex.test(password);
+	 }
+
+   // 이름 유호성 함수	
+	 function isKoreanNameValid(name) {
+	 	var koreanRegex = /^[가-힣]+$/;
+	    return koreanRegex.test(name);
+	}
+	// 이메일 아이디 유호성 함수
+	  function isEmailIdValid(emailId) {
+		var emailIdRegex = /^[a-zA-Z0-9]+$/;
+		return emailIdRegex.test(emailId);
+		}
+	// email_add 유호성 함수
+	  function isValidEmailAdd(emailAdd) {
+		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
+		var regex = /^[a-zA-Z.]+$/;
+		return regex.test(emailAdd);
+	  }
+	// 전화번호 유호성 함수
+	function isPhoneNumberValid(phoneNumber) {
+		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
+		return phoneNumberRegex.test(phoneNumber);
+	}
+		

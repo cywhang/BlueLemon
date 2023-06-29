@@ -19,14 +19,28 @@ public class QnaDAO {
 	}
 
 	public List<QnaVO> getMyQna(String member_Id) {
-		System.out.println(member_Id);
-		System.out.println("DAO ¿È");
 		List<QnaVO> result = mybatis.selectList("QnaMapper.getMyQna", member_Id);
-		System.out.println("mapping ´Ù³à¿È");
-		System.out.println(result);
-		for(QnaVO abc : result) {
-			System.out.println(abc);
-		}
 		return mybatis.selectList("QnaMapper.getMyQna", member_Id);
+	}
+	
+	public int checkMaxSeq() {
+		int max_Qna_Seq = mybatis.selectOne("QnaMapper.checkMaxSeq");
+		return max_Qna_Seq;
+	}
+	
+	public List<QnaVO> getAllQna() {
+		return mybatis.selectList("QnaMapper.getAllQna");
+	}
+	
+	public QnaVO getQnaDetail(int qna_Seq) {
+		return mybatis.selectOne("QnaMapper.getQnaDetail", qna_Seq);
+	}
+	
+	public void updateQnaAnswer(QnaVO vo) {
+		mybatis.update("QnaMapper.updateQnaAnswer", vo);
+	}
+
+	public void deleteQna(int qna_Seq) {
+		mybatis.delete("QnaMapper.deleteQna", qna_Seq);
 	}
 }

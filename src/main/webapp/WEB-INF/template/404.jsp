@@ -37,7 +37,7 @@
          <img src="img/404.svg" class="img-fluid col-md-4" alt="osahan">
          <div class="text-center pb-5">
             <h2 class="fw-bold text-black mt-4">Oh no! Where did you go?</h2>
-            <p class="mb-4">We canât seem to find the page you were looking for.</p>
+            <p class="mb-4">We cant seem to find the page you were looking for.</p>
             <a href="index" class="btn btn-primary rounded-pill py-3 px-4 shadow-sm">
             <span class="px-3">
             Go back to safety

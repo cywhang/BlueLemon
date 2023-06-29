@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -78,7 +80,7 @@
 	                                       <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 	                                          <div class="accordion-body">
 	                                          	  프로필의 변경은 로그인 후 좌측 사이드메뉴에서 Profile을 들어가신 후<br> Edit-Profile을 통해 변경할 수 있습니다.
-	                                             <strong>프로필 이미지는 JPG 확장자만 사용 가능합니다.</strong><br>
+	                                             <strong>프로필 이미지는 PNG 확장자만 사용 가능합니다.</strong><br>
 	                                             		폭력적이거나 선정적인 이미지는 제거되거나 계정 사용이 정지될 수 있습니다.
 	                                          </div>
 	                                       </div>
@@ -198,6 +200,47 @@
                             <li class="nav-item">
                                <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                             </li>
+                            
+                            <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                            
                          </ul>
 	                  </div>
 	               </div>
@@ -233,6 +276,47 @@
                             <li class="nav-item">
                                <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
                             </li>
+                            
+                            <li class="nav-item dropdown">
+                              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              	<c:choose>
+                              		<c:when test="${alarmListSize==0}">
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications</span></span> Notification
+                              		</c:when>
+                              		<c:otherwise>
+                              		<span class="material-icons me-3"><span class="material-symbols-outlined">notifications_active</span></span> Notification  +${alarmListSize}
+                              		</c:otherwise>
+                              	</c:choose>
+                              </a>
+                              <ul class="dropdown-menu px-2 py-1 mb-2">
+                              	<c:forEach var="alarmVO" items="${alarmList}" begin="0" end="10">
+                              		<c:choose>
+                              			<c:when test="${alarmVO.kind==1}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmFollow?member_Id=${alarmVO.to_Mem}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 			
+                              			</c:when>
+                              			<c:when test="${alarmVO.kind==5}">
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmContact?alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li> 
+                              			</c:when>
+                              			<c:otherwise>
+                              				<li>
+												<a class="dropdown-item rounded-3 px-2 py-1 my-1" href="/blue/alarmIndex?post_Seq=${alarmVO.post_Seq}&alarm_Seq=${alarmVO.alarm_Seq}" style="font-size:11px; background-color: azure;">
+													${alarmVO.message}
+												</a>
+											</li>   
+                              			</c:otherwise>
+                              		</c:choose>
+                                </c:forEach>
+                              </ul>
+                           </li>
+                            
                          </ul>
                       </div>
 	               </div>
@@ -242,52 +326,20 @@
 	               <div class="fix-sidebar">
 	                  <div class="side-trend lg-none">
 	                     <!-- Search Tab -->
-	                     <div class="sticky-sidebar2 mb-3">
-	                        <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
-	                           <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
-	                           <input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search Vogel">
-	                        </div>
-	                        <div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
-	                           <h6 class="fw-bold text-body p-3 mb-0 border-bottom">What's happening</h6>
-	                           <!-- Trending Item -->
-	                           <div class="p-3 border-bottom d-flex">
-	                              <div>
-	                                 <div class="text-muted fw-light d-flex align-items-center">
-	                                    <small>Trending in India</small>
-	                                 </div>
-	                                 <p class="fw-bold mb-0 pe-3 text-dark">News</p>
-	                                 <small class="text-muted">52.8k Tweets</small>
-	                              </div>
-	                              <div class="dropdown ms-auto">
-	                                 <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton6" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>
-	                                 <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton6">
-	                                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">sentiment_very_dissatisfied</span>Not interested in this</a></li>
-	                                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">sentiment_very_dissatisfied</span>This trend is harmful or spammy</a></li>
-	                                 </ul>
-	                              </div>
-	                           </div>
-	                           <!-- Trending Item -->
-	                           <a href="tags" class="p-3 border-bottom d-flex align-items-center text-dark text-decoration-none">
-	                              <div>
-	                                 <div class="text-muted fw-light d-flex align-items-center">
-	                                    <small>Design</small><span class="mx-1 material-icons md-3">circle</span><small>Live</small>
-	                                 </div>
-	                                 <p class="fw-bold mb-0 pe-3">Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-	                              </div>
-	                              <img src="img/trend1.jpg" class="img-fluid rounded-4 ms-auto" alt="trending-img">
-	                           </a>
-	                           <!-- Show More -->
-	                           <a href="explore" class="text-decoration-none">
-	                              <div class="p-3">Show More</div>
-	                           </a>
-	                        </div>
-	                     </div>
+	                     <div class="input-group mb-4 shadow-sm rounded-4 overflow-hidden py-2 bg-white">
+                           <span class="input-group-text material-icons border-0 bg-white text-primary">search</span>
+                           <form action="/blue/search_HashTag" method="get">
+                           		<input type="text" class="form-control border-0 fw-light ps-1" placeholder="Search People" id="keyword" name="tag_Content" onkeyup="searchMembers()">
+                           </form>
+                        </div>
+                        <!-- 검색 결과 리스트 -->
+                        <div id="searchResults"></div>
+	                    </div>
 	                  </div>
 	               </div>
 	            </aside>
 	         </div>
-	      </div>
-      </div>
+	      </div> <!-- py-4 -->
       <div class="py-3 bg-white footer-copyright">
          <div class="container">
             <div class="row align-items-center">
@@ -518,5 +570,7 @@
       <script src="js/custom.js"></script>
       <!-- Slick Js -->
       <script src="vendor/slick/slick/slick.min.js"></script>
+      <!-- Search Peple Js -->
+      <script src="js/searchpeople.js"></script>
    </body>
 </html>

@@ -4,12 +4,33 @@
 
 	<insert id = "insertQna">
 		INSERT INTO qna(qna_seq, member_Id, qna_Title, qna_Message)
-		VALUES(qna_seq.nextval, #{member_Id}, #{qna_Title}, #{qna_Message})
+		VALUES(#{qna_Seq}, #{member_Id}, #{qna_Title}, #{qna_Message})
 	</insert>
 	
 	<select id = "getMyQna" resultType = "qna">
 		SELECT * FROM qna WHERE member_Id = #{member_Id}
 		ORDER BY qna_Done DESC, qna_Seq DESC
 	</select>
+	
+	<select id = "checkMaxSeq" resultType = "int">
+		SELECT MAX(qna_Seq) FROM qna
+	</select>
+	
+	<select id = "getAllQna" resultType = "qna">
+		SELECT * FROM qna ORDER BY qna_Done, qna_Seq
+	</select>
 
+	<select id = "getQnaDetail" resultType = "qna">
+		SELECT * FROM qna WHERE qna_Seq = #{qna_Seq}
+	</select>
+	
+	<update id = "updateQnaAnswer">
+		UPDATE qna SET qna_Answer = #{qna_Answer}, qna_Done = 2
+		WHERE qna_Seq = #{qna_Seq}
+	</update>
+	
+	<delete id = "deleteQna">
+		DELETE FROM qna
+		WHERE qna_Seq = #{qna_Seq}
+	</delete>
 </mapper>

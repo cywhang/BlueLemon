@@ -25,4 +25,6 @@ public class MemberVO {
 	private String member_Follow_Count;
 	private String member_Following_Count;	
 	private int bothFollow;
+	private String member_Join_Date_String;
+	private String follow_Check;
 }

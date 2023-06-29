@@ -42,6 +42,21 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void insertReply(ReplyVO vo) {
 		replyDao.insertReply(vo);
+	}
+
+	@Override
+	public int getMaxReply_Seq() {
+		return replyDao.getMaxReply_Seq();
+	}
+
+	@Override
+	public void deleteReply(ReplyVO vo) {
+		replyDao.deleteReply(vo);
+	}
+
+	@Override
+	public void deleteReplyLike(ReplyVO vo) {
+		replyDao.deleteReplyLike(vo);
 	}	
 
 }
