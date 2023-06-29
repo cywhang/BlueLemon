@@ -23,7 +23,7 @@ $(document).ready(function() {
 			    passwordMessage.text('비밀번호를 입력해 주세요.');
 			    passwordMessage.css("color", "red");
 			  } else if (!isPasswordValid(password)) {
-			    passwordMessage.text("비밀번호는 최소 8자 이상이어야 하며, 영문 대소문자와 숫자를 포함해야 합니다.");
+			    passwordMessage.text("비밀번호는 최소 8자 이상이어야 하며,<br> 영문 대소문자와 숫자를 포함해야 합니다.");
 			    passwordMessage.css("color", "red");
 			  } else {
 			    passwordMessage.text("사용 가능한 패스워드입니다.");

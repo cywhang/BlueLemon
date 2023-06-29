@@ -80,14 +80,14 @@
                                  
                                  <!-- Phone number input-->
                                  <div class="form-floating mb-3">
-                                    <input class="form-control rounded-5" id="qna_Title" name = "qna_Title" type="text" data-sb-validations="required">
+                                    <input class="form-control rounded-5" id="qna_Title" name = "qna_Title" type="text" data-sb-validations="required" maxlength="80">
                                     <label for="qna_Title">Title</label>
                                     <div class="invalid-feedback" data-sb-feedback="qna_Title:required">A Title is required.</div>
                                  </div>
                                  
                                  <!-- Message input-->
                                  <div class="form-floating mb-3">
-                                    <textarea class="form-control rounded-5" id="qna_Message" name = "qna_Message" style="height: 10rem" data-sb-validations="required"></textarea>
+                                    <textarea class="form-control rounded-5" id="qna_Message" name = "qna_Message" style="height: 10rem" data-sb-validations="required" maxlength="900"></textarea>
                                     <label for="qna_Message">Message</label>
                                     <div class="invalid-feedback" data-sb-feedback="qna_Message:required">A Message is required.</div>
                                  </div>
@@ -127,11 +127,11 @@
 												    	<c:choose>
 												    		<c:when test = "${qna.qna_Done eq '2'}">
 												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Answered ]</p> ${qna.qna_Date}</div>
-												    			<div style="font-size : 15px; text-align : left; margin-top : 5px; width : 100%; color : #0975e0;">[ Title ] ${qna.qna_Title}</div>										
+												    			<div style="font-size : 15px; text-align : left; margin-top : 5px; width : 87%; color : #0975e0; overflow: hidden;">[ Title ] ${qna.qna_Title}</div>										
 												    		</c:when>
 												    		<c:otherwise>
 												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Not Answered ]</p> ${qna.qna_Date}</div>
-												    			<div style="font-size: 15px; text-align: left; margin-top : 5px; width : 100%">[ Title ] ${qna.qna_Title}</div>										
+												    			<div style="font-size: 15px; text-align: left; margin-top : 5px; width : %; overflow: hidden;">[ Title ] ${qna.qna_Title}</div>										
 												    		</c:otherwise>
 												    	</c:choose>			       
 												    </div>
@@ -139,14 +139,14 @@
 		                                      </h3>
 		                                      <div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
 		                                         <div class="accordion-body" style = "padding : 10px;">
-		                                            <div class = "qnaDiv d-flex">
+		                                            <div class = "qnaDiv d-flex" style = "width : 100%;">
 		                                               <div style = "width : 10%; margin-right : 2%;">
 		                                         	      <label style="display: flex; align-items: center; justify-content: center; height: 100%;">
 		                                         	         Message
 		                                         	      </label>
 		                                               </div>
-		                                         	   <div style = "width : 80%; border-left : 1px solid #d4d4d9;">
-		                                         	      <div style = "margin-left : 2%;">${qna.qna_Message}</div>		
+		                                         	   <div style = "width : 78%; border-left : 1px solid #d4d4d9; overflow: hidden;">
+		                                         	      <div style = "margin-left : 2%; width : 100%;">${qna.qna_Message}</div>		
 		                                         	   </div>
 		                                         	   <div style = "width : 8%; border-left : 1px solid #d4d4d9;">
 		                                         	      <a href = "deleteQna?qna_Seq=${qna.qna_Seq}" style = "margin-left : 27%;">
