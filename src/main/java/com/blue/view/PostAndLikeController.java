@@ -225,8 +225,12 @@ public class PostAndLikeController {
 	            JsonNode jsonNode = objectMapper.readTree(hashTag);
 	
 	            for (JsonNode node : jsonNode) {
+	            	
 	            	// n번째 해시태그 내용 
 	                String value = node.get("value").asText();
+	                // 특수문자 변환
+	                value = value.replace("<", "《").replace(">", "》").replace("#", "");
+
 	                TagVO tvo = new TagVO();
 	                tvo.setPost_Seq(nextSeq);
 	                tvo.setTag_Content(value);
@@ -677,7 +681,7 @@ public class PostAndLikeController {
 		postService.deleteTag(post_Seq);
 		System.out.println("해시태그 삭제");
 		
-		// 4. 해시태그 처리 부분
+		// 4. 해시태그 처리 부분 
 		String hashTag = vo.getPost_Hashtag();
 		if (hashTag != null && !hashTag.isEmpty()) {
 			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
@@ -687,7 +691,9 @@ public class PostAndLikeController {
 			    for (JsonNode node : jsonNode) {
 			    	// n번째 해시태그 내용
 			        String value = node.get("value").asText();
-			        
+			        // 특수문자 변환
+		            value = value.replace("<", "《").replace(">", "》").replace("#", "");
+
 			        TagVO tvo = new TagVO();
 			        tvo.setPost_Seq(post_Seq);
 			        tvo.setTag_Content(value);

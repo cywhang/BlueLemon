@@ -2,7 +2,7 @@
 // 게시글 상세보기 모달창 1
 function modalseq(post_Seq) {
 	// 요청 바디에 전송할 데이터 설정
-	var data = {
+	var data = { 
 		post_Seq : post_Seq
 	};
 	$.ajax({
@@ -789,7 +789,7 @@ $('#closeModal').on('hidden.bs.modal', function () {
 	});
 
 
-//edit view
+// edit view
 function postEditView(post_Seq){
 	
 	var data = {
@@ -836,6 +836,7 @@ function postEditView(post_Seq){
 			     id: 'floatingTextarea2',
 			     style: 'height: 200px',
 			     maxlength: '300',
+			     onkeypress : 'characterCheck(this)'
 			}).text(post.post_Content);
 			
 			var label = $('<label>').attr('for', 'floatingTextarea2')
@@ -866,6 +867,7 @@ function postEditView(post_Seq){
 			    input.setAttribute('id', 'floatingTextarea2');
 			    input.setAttribute('style', 'height: 50px');
 			    input.setAttribute('maxlength', '20');
+			    input.setAttribute('onkeypress', 'characterCheck(this)');
 			    input.value = hashtags.join(',');
 
 			    hashtagContainer.appendChild(input);
