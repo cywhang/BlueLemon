@@ -851,7 +851,7 @@ function postEditView(post_Seq){
 			tagifyScript.onload = function() {
 			  var hashtagContainer = document.getElementById('hashtagContainer');
 
-			  if (hashtagContainer) {
+			  if (hashtagContainer) { 
 			    // 기존에 생성된 입력 필드 및 플러그인 인스턴스 제거
 			    var existingInput = hashtagContainer.querySelector('input');
 			    if (existingInput) {

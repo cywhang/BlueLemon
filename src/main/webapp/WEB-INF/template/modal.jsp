@@ -284,7 +284,7 @@
                       </div>
                      </div>
                      <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer2"></div></div>
-                  </div>
+                  </div> 
                   <div class="d-flex align-items-center">
                      <span class="material-icons bg-white border-0 text-primary pe-2 md-36">account_circle</span>
                      <div class="d-flex align-items-center border rounded-4 px-3 py-1 w-100">
