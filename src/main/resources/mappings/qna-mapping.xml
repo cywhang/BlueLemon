@@ -28,4 +28,9 @@
 		UPDATE qna SET qna_Answer = #{qna_Answer}, qna_Done = 2
 		WHERE qna_Seq = #{qna_Seq}
 	</update>
+	
+	<delete id = "deleteQna">
+		DELETE FROM qna
+		WHERE qna_Seq = #{qna_Seq}
+	</delete>
 </mapper>

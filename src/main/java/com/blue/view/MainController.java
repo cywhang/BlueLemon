@@ -847,4 +847,17 @@ public class MainController {
 	
 	}
 	
+	@GetMapping("/deleteQna")
+	public String deleteQna(@RequestParam("qna_Seq") int qna_Seq, HttpSession session, Model model) {
+		if(session.getAttribute("loginUser") == null) {
+			//System.out.println("세션값 없음");
+			model.addAttribute("message", "로그인을 해주세요");
+			return "login";
+		} else {
+			qnaService.deleteQna(qna_Seq);
+			
+			return "redirect:contact";
+		}
+	}
+	
 }

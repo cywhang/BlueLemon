@@ -139,24 +139,44 @@
 		                                      </h3>
 		                                      <div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
 		                                         <div class="accordion-body" style = "padding : 10px;">
-		                                            <div class = "qnaDiv">
-		                                         	   <label>Message</label>
-		                                         	   <hr>
-		                                         	   <div>${qna.qna_Message}</div>		                                         		
+		                                            <div class = "qnaDiv d-flex">
+		                                               <div style = "width : 10%; margin-right : 2%;">
+		                                         	      <label style="display: flex; align-items: center; justify-content: center; height: 100%;">
+		                                         	         Message
+		                                         	      </label>
+		                                               </div>
+		                                         	   <div style = "width : 80%; border-left : 1px solid #d4d4d9;">
+		                                         	      <div style = "margin-left : 2%;">${qna.qna_Message}</div>		
+		                                         	   </div>
+		                                         	   <div style = "width : 8%; border-left : 1px solid #d4d4d9;">
+		                                         	      <a href = "deleteQna?qna_Seq=${qna.qna_Seq}" style = "margin-left : 27%;">
+		                                         	         <img src = "img/delete.png">
+		                                         	      </a>
+		                                         	   </div>
 		                                         	</div>
 		                                         	<c:choose>
 		                                         	   <c:when test = "${qna.qna_Done eq '2'}">
-		                                         	      <div class = "qnaDiv" style = "margin-top : 5px;">
-		                                         		     <label>Answer</label>
-		                                         		     <hr>
-		                                         		     <div>${qna.qna_Answer}</div>		                                         		
+		                                         	      <div class = "qnaDiv d-flex" style = "margin-top : 5px;">
+		                                                     <div style = "width : 10%; margin-right : 2%;">
+		                                         		        <label style="display: flex; align-items: center; justify-content: center; height: 100%;">
+		                                         		           Answer
+		                                         		        </label>
+		                                         		     </div>
+		                                         		     <div style = "width : 88%; border-left : 1px solid #d4d4d9;">
+		                                         		        <div style = "margin-left : 2%;">${qna.qna_Answer}</div>
+		                                         		     </div>  		                                         		
 		                                         	      </div>
 		                                         	   </c:when>
 		                                         	   <c:otherwise>
-		                                         	      <div class = "qnaDiv" style = "margin-top : 5px;">
-		                                         		     <label>Answer</label>
-		                                         		     <hr>
-		                                         		     <div>Sorry, Now We Are Checking Your Question</div>		                                         		
+		                                         	      <div class = "qnaDiv d-flex" style = "margin-top : 5px;">
+		                                                     <div style = "width : 10%; margin-right : 2%;">
+		                                         		        <label style="display: flex; align-items: center; justify-content: center; height: 100%;">
+		                                         		           Answer
+		                                         		        </label>
+		                                         		     </div>
+		                                         		     <div style = "width : 88%; border-left : 1px solid #d4d4d9;">
+		                                         		        <div style = "margin-left : 2%;">Sorry, Now We Are Checking Your Question</div>
+		                                         		     </div>                                         		
 		                                         	      </div>
 		                                         	   </c:otherwise> 
 		                                         	</c:choose>

@@ -17,4 +17,6 @@ public interface QnaService {
 	QnaVO getQnaDetail(int qna_Seq);
 	
 	void updateQnaAnswer(QnaVO vo);
+	
+	void deleteQna(int qna_Seq);
 }

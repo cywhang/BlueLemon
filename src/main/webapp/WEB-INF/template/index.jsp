@@ -409,8 +409,6 @@
                                 </c:forEach>
                               </ul>
                            </li>
-                           
-                           
                         </ul>
                      </div>
                   </div>
