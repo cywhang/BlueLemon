@@ -856,7 +856,7 @@ function postEditView(post_Seq){
 			    var existingInput = hashtagContainer.querySelector('input');
 			    if (existingInput) {
 			      hashtagContainer.removeChild(existingInput);
-			    }
+			    } 
 
 			    // 새로운 입력 필드 생성 및 초기화
 			    var input = document.createElement('input');

@@ -89,7 +89,7 @@ $(function() {
 	    // 실제 이미지 배열 초기화
 	    editFilesArr = [];
 	    console.log("editFileArr 비우기 ");
-	});
+	}); 
   
   // 초기화 버튼 클릭시 내용 초기화
   $('#resetB').on('click', function() {

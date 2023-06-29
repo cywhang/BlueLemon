@@ -280,7 +280,7 @@
                   <div class="d-flex align-items-center justify-content-between mb-2">
                     <!-- 좋아요 버튼 이미지, 좋아요 카운트를 출력해줌 -->
                   	  <div class="like-group" role="group">
-                      <div id = "likeImage2"> 
+                      <div id = "likeImage2">  
                       </div>
                      </div>
                      <div class="text-muted text-decoration-none d-flex align-items-start fw-light"><span class="material-icons md-20 me-2">chat_bubble_outline</span><div id="replyContainer2"></div></div>
