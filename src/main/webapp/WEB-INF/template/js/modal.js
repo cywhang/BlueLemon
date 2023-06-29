@@ -273,7 +273,7 @@ function modalseq(post_Seq) {
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
+					  replyDelete(post_Seq, reply_Seq)
 				  });
 			  
 			  replyContentWrapper.append(deleteButton);
@@ -605,7 +605,7 @@ function insertReply(post_Seq){
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
+				    	replyDelete(post_Seq, reply_Seq)
 				  });
 			  
 			  replyContentWrapper.append(deleteButton);
@@ -732,7 +732,7 @@ function insertReply2(post_Seq){
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
+				    	replyDelete2(post_Seq, reply_Seq)
 				  });
 			  
 			  replyContentWrapper.append(deleteButton);

@@ -419,7 +419,7 @@ function postEditAction(post_Seq){
  
 
 // 댓글삭제 기능 
-function replyDelte(post_Seq, reply_Seq){
+function replyDelete(post_Seq, reply_Seq){
 	
 	var data = {
 			post_Seq : post_Seq,
@@ -510,7 +510,7 @@ function replyDelte(post_Seq, reply_Seq){
 			  // 댓글 삭제 버튼
 			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
 				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
+				    	replyDelete(post_Seq, reply_Seq)
 				  });
 			  
 			  replyContentWrapper.append(deleteButton);
