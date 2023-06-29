@@ -17,7 +17,6 @@ import com.blue.dto.PostVO;
 import com.blue.service.AlarmService;
 import com.blue.service.PostService;
 
-
 @Controller
 @SessionAttributes("loginUser")
 public class HomeController {
