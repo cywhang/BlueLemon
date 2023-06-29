@@ -29,7 +29,7 @@
 	
 	//아이디 유호성 함수
 	function isIdValid(member_Id) {
-	    var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+	    var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9\S]+$/;
 	    return idRegex.test(member_Id);
 	}
 	//패스워드 유호성 함수
@@ -39,18 +39,19 @@
 	}
 	//이름 유호성 함수	
 	function isKoreanNameValid(name) {
-		var koreanRegex = /^[가-힣]+$/;
+		var koreanRegex = /^[가-힣\S]+$/;
+		
 		return koreanRegex.test(name);
 	}
 	//이메일 아이디 유호성 함수	
 	function isEmailIdValid(emailId) {
-		var emailIdRegex = /^[a-zA-Z0-9]+$/;
+		var emailIdRegex = /^[a-zA-Z0-9\S]+$/;
 		return emailIdRegex.test(emailId);
 	}
 	//이메일 주소 유호성 함수
 	function isValidEmailAdd(emailAdd) {
 		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
-		var regex = /^[a-zA-Z.]+$/;
+		var regex = /^[a-zA-Z.\S]+$/;
 		return regex.test(emailAdd);
 	}
 	//전화번호 유호성 함수
@@ -75,7 +76,7 @@
 		var memberId = memberIdInput.val();
 		
 		if (!isIdValid(memberId)) {
-			idMessage.text("아이디 생성이 불가능합니다.영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.");
+			idMessage.text("공백 없이 영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.");
 			idMessage.css("color", "red");
 	        return false;
 	    } else {
@@ -148,7 +149,7 @@
 		
 	
 		if (!isKoreanNameValid(name)) {
-			nameMessage.text('한글만 입력 가능합니다.');
+			nameMessage.text('공백없이 한글만 입력 가능합니다.');
 			nameMessage.css("color", "red");
 			isName = false;
 		} else {
@@ -165,7 +166,7 @@
 		var email = memberEmailInput.val();
 		
 		 if (!isEmailIdValid(email))  {
-			emailMessage.text('한글 및 특수문자는 입력할수 없습니다.');
+			emailMessage.text('공백,한글,특수문자는 입력할수 없습니다.');
 			emailMessage.css("color", "red");
 			isEmail = false;
 		} else {
@@ -182,7 +183,7 @@
 		  
 		
 		 if (!isValidEmailAdd(emailadd)) {
-		    emailMessage.text('정확한 이메일 주소를 입력해주세요.');
+		    emailMessage.text('공백은 사용불가능합니다.정확한 이메일 주소를 입력해주세요.');
 		    emailMessage.css( "color", "red");
 		    isEmailadd = false;
 		} else {
