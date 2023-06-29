@@ -254,8 +254,7 @@ public class AdminController {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
-			qnaService.deleteQna(qna_Seq);
-			
+			qnaService.deleteQna(qna_Seq);			
 			return "qna_Table";
 		}
 	}
