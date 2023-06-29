@@ -195,7 +195,7 @@ public class MemberController {
 		model.addAttribute("member_Email", email_Id);
 		model.addAttribute("email_add", email_add);
 
-		return "redirect:edit_profile";
+		return "redirect:index";
 	}
 
 
