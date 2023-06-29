@@ -1,6 +1,7 @@
-$(document).ready(function() {
+
+
 	var memberIdInput = $('#member_Id');
-	var idErrorMessage = $('#id_error_message');
+	var idMessage = $('#id_error_message');
 	var duplicateResult = $('#duplicate_result');
 	var memberPasswordInput = $('#member_Password');
 	var passwordMessage = $('#password_message');
@@ -13,24 +14,71 @@ $(document).ready(function() {
 	var emailaddInput = $('#email_add')
 	var memberPhoneInput = $('#member_Phone');
 	var phoneMessage = $('#phone_error_message');
-	var isIdChecked = false;
+	var male = document.getElementById("male");
+	var female = document.getElementById("female");
 	var prevPassword = '';
+	
+	var isIdChecked = false;
+	var isPassword = false;
+	var isConfirm = false;
+	var isName = false;
+	var isEmail = false;
+	var isEmailadd = false;
+	var isPhone = false;
+	
+	
+	//아이디 유호성 함수
+	function isIdValid(member_Id) {
+	    var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
+	    return idRegex.test(member_Id);
+	}
+	//패스워드 유호성 함수
+	function isPasswordValid(password) {
+	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?\S])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
+	    return passwordRegex.test(password);
+	}
+	//이름 유호성 함수	
+	function isKoreanNameValid(name) {
+		var koreanRegex = /^[가-힣]+$/;
+		return koreanRegex.test(name);
+	}
+	//이메일 아이디 유호성 함수	
+	function isEmailIdValid(emailId) {
+		var emailIdRegex = /^[a-zA-Z0-9]+$/;
+		return emailIdRegex.test(emailId);
+	}
+	//이메일 주소 유호성 함수
+	function isValidEmailAdd(emailAdd) {
+		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
+		var regex = /^[a-zA-Z.]+$/;
+		return regex.test(emailAdd);
+	}
+	//전화번호 유호성 함수
+	function isPhoneNumberValid(phoneNumber) {
+		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
+		return phoneNumberRegex.test(phoneNumber);
+	}
+	//생년월일 오늘 일자 기준 이후 날짜 선택불가
+	function handleDateClick() {
+	    var birthInput = document.getElementById("member_Birth");
+	    var nowUtc = Date.now();
+	    var timeOffset = new Date().getTimezoneOffset() * 60000;
+	    var today = new Date(nowUtc - timeOffset).toISOString().split("T")[0];
+	    birthInput.max = today;
+	}
 
+
+	
 	// 중복 체크 버튼 클릭 이벤트
 	$('#check_duplicate_button').click(function() {
 		
 		var memberId = memberIdInput.val();
-
-		if (memberId === "") {
-			console.log("아이디가 빈칸")
-	        setIdErrorMessage("아이디를 입력해주세요.", false);
-	        memberIdInput.focus();
-		} else if (!isIdValid(memberId)) {
-			console.log("숫자로만 입력")
-	        setIdErrorMessage("아이디 생성이 불가능합니다.영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.", false);
-	        
+		
+		if (!isIdValid(memberId)) {
+			idMessage.text("아이디 생성이 불가능합니다.영문또는 영문숫자로만 이루어진 아이디를 입력해주세요.");
+			idMessage.css("color", "red");
+	        return false;
 	    } else {
-	    	console.log("아이디 중복 요청 실행")
 	        // 중복 체크를 위한 AJAX 요청
 	        $.ajax({
 	            url: "checkDuplicate",
@@ -38,274 +86,190 @@ $(document).ready(function() {
 	            data: { member_Id: memberId },
 	            success: function(response) {
 	                if (response === "duplicate") {
-	                    setIdErrorMessage("이미 사용 중인 아이디입니다.", false);
+	                	idMessage.text("사용 중인 아이디입니다.");
+	                	idMessage.css("color", "red");
+	                    return false;
 	                } else if (response === "not-duplicate") {
-	                	setIdErrorMessage("사용 가능한 아이디입니다.", true);
-	                    isIdChecked = true;
+	                	idMessage.text("사용 가능한 아이디입니다.");
+	                	idMessage.css("color", "green");
+	                	isIdChecked = true
+	                  
 	                }
 	            },
-	            error: function() {
-	                setIdErrorMessage("중복 체크에 실패했습니다.", false);
+	            	error: function() {
+	                IdMessage.text("중복 체크에 실패했습니다.");
+	                IdMessage.css("color", "red");
 	                isIdChecked = false;
 	            }
 	        });	    
 	    }
 	});
 		
-	// 아이디 유호성 함수
-	function isIdValid(member_Id) {
-	    var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
-	    return idRegex.test(member_Id);
-	}
-
-	function setIdErrorMessage(message, isValid) {
-	    idErrorMessage.text(message);
-
-	    if (isValid) {
-	        idErrorMessage.css("color", "green");
-	    } else {
-	        idErrorMessage.css("color", "red");
-	    }
-	}
+	
 
 	// 패스워드 입력칸 포커스 아웃 이벤트
 	memberPasswordInput.blur(function() {
 		var password = memberPasswordInput.val();
 		
-		if (password === "") {
-			passwordMessage.text('비밀번호를 입력해 주세요.');
+		
+		 if (!isPasswordValid(password)) {
+			passwordMessage.text("비밀번호는 최소 8자 이상이어야 하며,공백없이 영문 대문자,소문자,숫자,특수문자 를 포함해야 합니다.");
 			passwordMessage.css("color", "red");
-		} else if (!isPasswordValid(password)) {
-			passwordMessage.text("비밀번호는 최소 8자 이상이어야 하며, 영문 대소문자와 숫자를 포함해야 합니다.");
-			passwordMessage.css("color", "red");
+			isPassword = false;
 		} else {
 			passwordMessage.text("사용 가능한 패스워드입니다.");
 			passwordMessage.css("color", "green");
+			isPassword = true;
 			prevPassword = password;
 		}
 	});
 
-	function isPasswordValid(password) {
-	    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
-	    return passwordRegex.test(password);
-	}
-		
+	
 
-	// Repassword 입력칸 포커스 아웃 이벤트
+	// 패스워드 확인 입력칸 포커스 아웃 이벤트
 	confirmPasswordInput.blur(function() {
 	    var password = memberPasswordInput.val();
 	    var confirmPassword = confirmPasswordInput.val();
 
-	    if (password === "") {
-	        confirmPasswordMessage.text("먼저 비밀번호를 입력해주세요.");
-	        confirmPasswordMessage.css("color", "red");
-	        memberPasswordInput.focus();
-	    } else if (password !== confirmPassword) {
+	    if (password !== confirmPassword) {
 	        confirmPasswordMessage.text("입력한 비밀번호와 일치하지 않습니다.");
 	        confirmPasswordMessage.css("color", "red");
+	        isConfirm = false;
 	    } else {
-	        confirmPasswordMessage.text("입력한 비밀번호와 일치합니다.");
+	        confirmPasswordMessage.text("비밀번호가 일치합니다.");
 	        confirmPasswordMessage.css("color", "green");
+	        isConfirm = true;
 	    }
 	});
-		
+	
+	// 이름 입력칸 포커스 아웃 이벤트
 	memberNameInput.blur(function() {
 		var name = memberNameInput.val();
 		
-		if (name === "") {
-			nameMessage.text('이름을 입력해 주세요.');
-			nameMessage.css("color", "red");
-		} else if (!isKoreanNameValid(name)) {
+	
+		if (!isKoreanNameValid(name)) {
 			nameMessage.text('한글만 입력 가능합니다.');
 			nameMessage.css("color", "red");
+			isName = false;
 		} else {
 			nameMessage.text('이름이 입력되었습니다.');
 			nameMessage.css("color", "green");
+			isName = true;
 		}
-	});
+	}); //memberNameInput.blur
 
-	// 이름 유호성 함수	
-	function isKoreanNameValid(name) {
-		var koreanRegex = /^[가-힣]+$/;
-		return koreanRegex.test(name);
-	}
+	
 		
 	// 이메일 입력칸 포커스 아웃 이벤트
 	memberEmailInput.blur(function() {
 		var email = memberEmailInput.val();
-		var emailadd = emailaddInput.val();
-	  
-		if (email === "") {
-			emailMessage.text('이메일ID를 입력해 주세요.');
-			emailMessage.css({
-				"color": "red",
-				"font-weight": "bold"
-			});
-		} else if (!isEmailIdValid(email))  {
+		
+		 if (!isEmailIdValid(email))  {
 			emailMessage.text('한글 및 특수문자는 입력할수 없습니다.');
-			emailMessage.css({
-				"color": "red",
-				"font-weight": "bold"
-			});
+			emailMessage.css("color", "red");
+			isEmail = false;
 		} else {
-			emailMessage.text('정상적으로 입력되었습니다.');
-			emailMessage.css({
-				"color": "green",
-				"font-weight": "normal"
-			});
+			emailMessage.text('사용가능한 이메일 아이디 입니다.');
+			emailMessage.css("color", "green");
+			isEmail = true;
 		}
-				
-	});
+	}); //memberEmailInput.blur
 	
-	function isEmailIdValid(emailId) {
-		var emailIdRegex = /^[a-zA-Z0-9]+$/;
-		return emailIdRegex.test(emailId);
-	}
 		
 	// 이메일 주소 입력칸 아웃 포커스
 	emailaddInput.blur(function() {
 		var emailadd = emailaddInput.val();
 		  
-		if (emailadd === "") {
-			emailMessage.text('이메일 주소를 입력해주세요.');
-		    emailMessage.css({
-		      "color": "red",
-		      "font-weight": "bold"
-		    });
-		} else if (!isValidEmailAdd(emailadd)) {
+		
+		 if (!isValidEmailAdd(emailadd)) {
 		    emailMessage.text('정확한 이메일 주소를 입력해주세요.');
-		    emailMessage.css({
-		      "color": "red",
-		      "font-weight": "bold"
-		    });
+		    emailMessage.css( "color", "red");
+		    isEmailadd = false;
 		} else {
 		    emailMessage.text('정상적으로 입력되었습니다.');
-		    emailMessage.css({
-		      "color": "green",
-		      "font-weight": "normal"
-		    });
+		    emailMessage.css("color", "green");
+		    isEmailadd = true;
 		}
 	});
-		
-	// email_add 유호성 함수
-	function isValidEmailAdd(emailAdd) {
-		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
-		var regex = /^[a-zA-Z.]+$/;
-		return regex.test(emailAdd);
-	}
+	
 		
 	// 전화번호 입력칸 아웃 포커스
 	memberPhoneInput.blur(function() {
 		var phoneNumber = memberPhoneInput.val();
-	
-		if (phoneNumber === "") {
-			phoneMessage.text('폰번호를 입력해주세요.');
+		
+		if (!isPhoneNumberValid(phoneNumber)) {
+			phoneMessage.text('13자리 숫자만 입력해주세요.');
 			phoneMessage.css("color", "red");
-		} else if (!isPhoneNumberValid(phoneNumber)) {
-			phoneMessage.text('13자의 숫자만 입력해주세요.');
-			phoneMessage.css("color", "red");
-			memberPhoneInput.focus();
+			isPhone = false;
 		} else {
 			phoneMessage.text('폰번호가 입력되었습니다.');
 			phoneMessage.css("color", "green");
+			isPhone = true;		
 		}
 	});
-
-	// 전화번호 유호성 함수
-	function isPhoneNumberValid(phoneNumber) {
-		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
-		return phoneNumberRegex.test(phoneNumber);
-	}
-});	  
-//생년월일 오늘 일자 기준 이후 날짜 선택불가
-function handleDateClick() {
-    var birthInput = document.getElementById("member_Birth");
-    var nowUtc = Date.now();
-    var timeOffset = new Date().getTimezoneOffset() * 60000;
-    var today = new Date(nowUtc - timeOffset).toISOString().split("T")[0];
-    birthInput.max = today;
-}
-
-
 	
 	
-	// 회원가입 폼 제출 이벤트
-	function go_save() {
-	  var memberId = document.getElementById("member_Id").value;
-	  var password = document.getElementById("member_Password").value;
-	  var name = document.getElementById("member_Name").value;
-	  var phoneNumber = document.getElementById("member_Phone").value;
-	  var emailId = document.getElementById("member_Email").value;
-	  var emailAdd = document.getElementById("email_add").value;
+	
 
-	  var errorMessage = ""; // 오류 메시지를 저장하는 변수
-
-	  if (!isIdValid(memberId)) {
-	    errorMessage += "유효하지 않은 아이디입니다.\n";
-	  }
-
-	  if (!isPasswordValid(password)) {
-	    errorMessage += "유효하지 않은 비밀번호입니다.\n";
-	  }
-
-	  if (!isKoreanNameValid(name)) {
-	    errorMessage += "유효하지 않은 이름입니다.\n";
-	  }
-
-	  if (!isEmailIdValid(emailId)) {
-	    errorMessage += "유효하지 않은 이메일ID입니다.\n";
-	  }
-
-	  if (!isValidEmailAdd(emailAdd)) {
-	    errorMessage += "유효하지 않은 이메일주소입니다.\n";
-	  }
-
-	  if (!isPhoneNumberValid(phoneNumber)) {
-	    errorMessage += "유효하지 않은 전화번호입니다.\n";
-	  }
-
-	  if (errorMessage !== "") {
-	    alert(errorMessage);
-	    return false;
-	  }
-
-	  // 모든 필수 항목이 입력되었으므로 회원가입을 진행합니다.
-	  alert("회원가입이 완료되었습니다.");
-	  document.getElementById("createAccount").action = "createAccount";
-	  document.getElementById("createAccount").submit();
-	}
-
-   // 아이디 유호성 함수
-   function isIdValid(member_Id) {
-	   var idRegex = /^(?=.*[a-zA-Z])[a-zA-Z0-9]+$/;
-	   return idRegex.test(member_Id);
-	  }
-
-   // 패스워드 유호성 함수
-   function isPasswordValid(password) {
-        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!#%*?^~&]{8,}$/;
-        return passwordRegex.test(password);
-	 }
-
-   // 이름 유호성 함수	
-	 function isKoreanNameValid(name) {
-	 	var koreanRegex = /^[가-힣]+$/;
-	    return koreanRegex.test(name);
-	}
-	// 이메일 아이디 유호성 함수
-	  function isEmailIdValid(emailId) {
-		var emailIdRegex = /^[a-zA-Z0-9]+$/;
-		return emailIdRegex.test(emailId);
-		}
-	// email_add 유호성 함수
-	  function isValidEmailAdd(emailAdd) {
-		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
-		var regex = /^[a-zA-Z.]+$/;
-		return regex.test(emailAdd);
-	  }
-	// 전화번호 유호성 함수
-	function isPhoneNumberValid(phoneNumber) {
-		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
-		return phoneNumberRegex.test(phoneNumber);
-	}
+	//회원가입 폼 제출 이벤트
+	function go_save(event) { 
+		event.preventDefault();
+		var input = $('#member_Birth');
+		var birth = input.val();
 		
+	    if (!isIdChecked) {
+			alert("중복체크를 확인해주세요");
+	        return;
+		}
+		
+		if (!isPassword) {
+			alert("패스워드를 확인해주세요");
+			return;
+		}
+		
+		if (!isConfirm) {
+		    alert("패스워드가 일치하지 않습니다.");
+		    return;
+		}
+		
+	    if (!isName) {
+			alert("이름은 확인해 주세요.");  
+			return;
+	    }
+	    
+		if (!isEmail)  {
+			alert("이메일 아이디를 확인해주세요.");	
+			return;
+		}
+		
+		if (!isEmailadd) {
+		    alert("이메일 주소를 확인해 주세요.");
+		    return;
+		}
+		
+	    if (!isPhone) {
+			alert("폰번호를 확인해 주세요."); 
+			return;
+	    } 
+   
+	    if (birth === ""){
+	    	alert("생년월일을 입력해주세요");
+	    	return;
+	    }
+	    
+	    if (!male.checked && !female.checked) {
+	    	alert("성별을 선택해 주세요.");
+	    	return;
+	    }
+	    
+	    // 모든 확인 작업을 통과하면 양식을 제출합니다.
+	    alert("회원가입이 완료되었습니다.");
+	    console.log("폼 제출")
+	    document.getElementById("createAccount").action ="create_form";
+	    document.getElementById("createAccount").submit();
+	}
+	
+ 	
+	
+
+
