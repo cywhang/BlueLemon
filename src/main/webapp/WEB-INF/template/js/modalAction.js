@@ -80,7 +80,7 @@ $(function() {
   
   // 글 수정 모달창 뒤로가기 버튼시 내용 초기화
   $('#closeEditModal').on('click', function() { 
-	    // form 태그 초기화
+	    // form 태그 초기화 
 	    $('#postUpdate')[0].reset();
 	    console.log("postUpdate.reset");
 	    // 이미지 컨테이너 초기화
