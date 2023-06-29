@@ -46,4 +46,9 @@ public class QnaServiceImpl implements QnaService {
 		
 	}
 
+	@Override
+	public void deleteQna(int qna_Seq) {
+		qnaDao.deleteQna(qna_Seq);
+	}
+
 }
