@@ -256,7 +256,6 @@ public class PostAndLikeController {
 		
 		// 1. 게시글 상세페이지에서 클릭한 게시글의 정보를 출력하기 위한 PostVO 값 저장
 		PostVO postInfo = postService.getpostDetail(post_Seq);
-		postInfo.setPost_Content(postInfo.getPost_Content().replace("\n", "<br>"));
 		
 		// 2. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
 		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);

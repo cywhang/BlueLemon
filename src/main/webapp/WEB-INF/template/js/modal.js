@@ -181,7 +181,7 @@ function modalseq(post_Seq) {
 		    var modalContent = $("#imgModalContent");
 		    modalContent.empty();
 		    
-		    var Content = $('<h5>').text(post.post_Content);
+		    var Content = $('<h5>').html(post.post_Content.replace(/\n/g, "<br>"));
 		    	
 		    modalContent.append(Content);   
 		    
@@ -399,7 +399,7 @@ function replyModalseq(post_Seq) {
 		    var modalContent = $("#modalContent");
 		    modalContent.empty();
 		    
-		    var Content = $('<h4>').text(post.post_Content);
+		    var Content = $('<h4>').html(post.post_Content.replace(/\n/g, "<br>"));
 		    	
 		    modalContent.append(Content);   
 		    

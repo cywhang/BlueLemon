@@ -113,10 +113,15 @@ public class AdminController {
 	}
 	
 	@GetMapping("/member_Delete_By_Admin")
-	public String member_Delete_By_Admin(String member_Id) {
-		postService.deleteOneMemsTag(member_Id);
-		memberService.deleteMember(member_Id);
-		return "redirect:member_Table";
+	public String member_Delete_By_Admin(String member_Id, HttpSession session, Model model) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			postService.deleteOneMemsTag(member_Id);
+			memberService.deleteMember(member_Id);
+			return "redirect:member_Table";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}		
 	}
 	
 	@GetMapping("/post_Table")
@@ -175,35 +180,43 @@ public class AdminController {
 	
 	// 관리자 페이지에서 게시글 상세보기
 	@GetMapping("/post_Detail")
-	public String post_detail(Model model, int post_Seq) {
-		//System.out.println("폼에서 넘겨 받은 post_Seq 값 :" + post_Seq);
-				
-		// PostVO 에 post_seq에 대한 게시글을 담는다.
-		PostVO postDetail = postService.selectPostDetail(post_Seq);
-		postDetail.setPost_Content(postDetail.getPost_Content().replace("\n", "<br>"));
-		//System.out.println("해당 시퀀스의 게시글 :" + PostDetail);
-		// ReplyVO 에 post_seq에 대한 댓글 담는다.
-		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
-		//System.out.println("해당 시퀀스의 댓글 : " + replyList);
-		// TagVO 에 post_seq에 대한 해시태그를 담는다.
-		ArrayList<TagVO> hash = postService.getHashtagList(post_Seq); 
-		//System.out.println("해당 시퀀스의 해시태그 : " + hash);
-		
-		model.addAttribute("post", postDetail);
-		model.addAttribute("reply", replyList);
-		model.addAttribute("hash", hash);
-		
-		
-		return "post_Detail";
+	public String post_detail(Model model, int post_Seq, HttpSession session) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			//System.out.println("폼에서 넘겨 받은 post_Seq 값 :" + post_Seq);
+					
+			// PostVO 에 post_seq에 대한 게시글을 담는다.
+			PostVO postDetail = postService.selectPostDetail(post_Seq);
+			postDetail.setPost_Content(postDetail.getPost_Content().replace("\n", "<br>"));
+			//System.out.println("해당 시퀀스의 게시글 :" + PostDetail);
+			// ReplyVO 에 post_seq에 대한 댓글 담는다.
+			ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
+			//System.out.println("해당 시퀀스의 댓글 : " + replyList);
+			// TagVO 에 post_seq에 대한 해시태그를 담는다.
+			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq); 
+			//System.out.println("해당 시퀀스의 해시태그 : " + hash);
+			
+			model.addAttribute("post", postDetail);
+			model.addAttribute("reply", replyList);
+			model.addAttribute("hash", hash);			
+			
+			return "post_Detail";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}		
 	}
 	
 	// 게시글 삭제 (관리자용 -> 삭제 후 관리자 페이지에 머뭄)
 	@GetMapping("/deletePost")
-	public String deletePost(@RequestParam(value="post_Seq") int post_Seq) {
-		
-		postService.deletePost(post_Seq);
-		
-		return "redirect:post_Table";
+	public String deletePost(@RequestParam(value="post_Seq") int post_Seq, HttpSession session, Model model) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			postService.deletePost(post_Seq);
+			
+			return "redirect:post_Table";
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}		
 	}
 	
 	@GetMapping("/qna_Table")
@@ -220,31 +233,43 @@ public class AdminController {
 	}
 	
 	@GetMapping("qna_Detail")
-	public String qna_Detail(Model model, int qna_Seq) {
-		QnaVO qnaDetail = qnaService.getQnaDetail(qna_Seq);
-		qnaDetail.setQna_Message(qnaDetail.getQna_Message().replace("\n", "<br>"));
-		if(qnaDetail.getQna_Done().equals("2")) {
-			qnaDetail.setQna_Answer(qnaDetail.getQna_Answer().replace("\n", "<br>"));
+	public String qna_Detail(Model model, int qna_Seq, HttpSession session) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			QnaVO qnaDetail = qnaService.getQnaDetail(qna_Seq);
+			qnaDetail.setQna_Message(qnaDetail.getQna_Message().replace("\n", "<br>"));
+			if(qnaDetail.getQna_Done().equals("2")) {
+				qnaDetail.setQna_Answer(qnaDetail.getQna_Answer().replace("\n", "<br>"));
+			} else {
+				
+			}
+			model.addAttribute("qnaDetail", qnaDetail);
+			return "qna_Detail";
 		} else {
-			
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
 		}
-		model.addAttribute("qnaDetail", qnaDetail);
-		return "qna_Detail";
 	}
 	
 	@PostMapping("/qna_Answer")
-	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer, @RequestParam("qna_Seq") Integer qna_Seq, @RequestParam("member_Id") String member_Id) {
-		QnaVO voForUpdate = qnaService.getQnaDetail(qna_Seq);
-		voForUpdate.setQna_Answer(qna_Answer);
-		qnaService.updateQnaAnswer(voForUpdate);
-		AlarmVO alarmVO = new AlarmVO();
-		alarmVO.setKind(5);
-		alarmVO.setFrom_Mem("admin");
-		alarmVO.setTo_Mem(member_Id);
-		alarmVO.setPost_Seq(0);
-		alarmVO.setReply_Seq(0);
-		alarmService.insertAlarm(alarmVO);
-		return "redirect:qna_Detail?qna_Seq=" + qna_Seq;
+	public String qnaAnswer(@RequestParam("qna_Answer") String qna_Answer,
+							@RequestParam("qna_Seq") Integer qna_Seq,
+							@RequestParam("member_Id") String member_Id, HttpSession session, Model model) {
+		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
+			QnaVO voForUpdate = qnaService.getQnaDetail(qna_Seq);
+			voForUpdate.setQna_Answer(qna_Answer);
+			qnaService.updateQnaAnswer(voForUpdate);
+			AlarmVO alarmVO = new AlarmVO();
+			alarmVO.setKind(5);
+			alarmVO.setFrom_Mem("admin");
+			alarmVO.setTo_Mem(member_Id);
+			alarmVO.setPost_Seq(0);
+			alarmVO.setReply_Seq(0);
+			alarmService.insertAlarm(alarmVO);
+			return "redirect:qna_Detail?qna_Seq=" + qna_Seq;
+		} else {
+			model.addAttribute("message", "관리자로 로그인 해주세요");
+			return "login";			
+		}
 	}
 	
 	@GetMapping("/deleteQna_ByAdmin")
