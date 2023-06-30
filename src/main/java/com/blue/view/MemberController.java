@@ -123,7 +123,7 @@ public class MemberController {
 
 			try {
 				profilePhoto.transferTo(new File(image_Path + fileName));
-				// System.out.println("profilePhoto 값 = " + profilePhoto);
+				System.out.println("profilePhoto 값 = " + profilePhoto);
 				// 저장된 파일의 경로를 MemberVO에 설정합니다.
 				vo.setMember_Profile_Image(fileName);
 			} catch (IOException e) {

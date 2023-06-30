@@ -153,8 +153,7 @@
 									        <option value="Russia">Russia</option>
 									        <option value="Germany">Germany</option>
 									        <option value="Italy">Italy</option>
-									        <option value="Spain">Spain</option>
-									       
+									        <option value="Spain">Spain</option>									       
 									    </select>
 									    <label for="member_Country">Country</label>
 									</div>

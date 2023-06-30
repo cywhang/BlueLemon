@@ -131,7 +131,9 @@ public class PostDAO {
 	
 	// 게시글 추가 시 필요한 가장높은 시퀀스 조회
 	public int postSeqCheck() {
-		return mybatis.selectOne("PostMapper.postSeqCheck");
+		int result = mybatis.selectOne("PostMapper.postSeqCheck");
+		System.out.println(result);
+		return result;
 	}
 	
 	// 게시글 추가의 해시태그 인서트
