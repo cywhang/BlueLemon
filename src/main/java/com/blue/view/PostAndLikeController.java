@@ -207,12 +207,13 @@ public class PostAndLikeController {
 				}
 			}
 		}
-		
+		System.out.println(vo.getPost_Public());
 		// 2. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
-		if (vo.getPost_Public() == "") {
+		if (vo.getPost_Public() == null) {
 			vo.setPost_Public("n");
-		}
+			System.out.println(vo.getPost_Public());
 		
+		}
 		// 3. 인서트 처리
 		postService.insertPost(vo);
 		

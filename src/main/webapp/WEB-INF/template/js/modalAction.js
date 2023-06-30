@@ -31,6 +31,8 @@ var alreadyFileArr = new Array();
 // 실시간으로 업로드된 이미지 갯수
 var currentEditFileNo = 0;
 
+
+
 // 추가이미지 현황을 유지하기 위한 전역변수 변경
 function editVariable(neweditFileArr, neweditFileNo){
 	editFileNo = neweditFileNo;
