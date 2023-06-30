@@ -32,7 +32,7 @@ public interface PostService {
 	ArrayList<PostVO> getMyPost(String member_Id);
 	
 	// 프로필의 개인 포스트들
-	ArrayList<PostVO> getMemberPost(String member_Id);
+	ArrayList<PostVO> getMemberPost(PostVO vo);
 	
 	// 게시글 좋아요 조회
 	int getPost_Like_Count(int post_Seq);

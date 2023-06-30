@@ -13,4 +13,5 @@ public class TagVO {
 	private int    post_Seq;
 	private String tag_Content;
 	private double tag_Count;
+	private String session_Id;
 }

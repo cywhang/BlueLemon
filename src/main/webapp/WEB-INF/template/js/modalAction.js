@@ -31,6 +31,8 @@ var alreadyFileArr = new Array();
 // 실시간으로 업로드된 이미지 갯수
 var currentEditFileNo = 0;
 
+
+
 // 추가이미지 현황을 유지하기 위한 전역변수 변경
 function editVariable(neweditFileArr, neweditFileNo){
 	editFileNo = neweditFileNo;
@@ -450,6 +452,7 @@ function replyDelete(post_Seq, reply_Seq){
 			var post = response.postInfo;
 			var replies = response.replies;
 			var profileMap = response.profile;
+			var member_Id = response.member_Id; // 세션아이디
 			
 			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
 			var replyListContainer = $('#replyListContainer');
@@ -520,14 +523,17 @@ function replyDelete(post_Seq, reply_Seq){
 			  replyContentWrapper.append(timestamp);
 			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제 버튼
-			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
-			    .css('cursor', 'pointer')
-			    .on('click', function() {
-			        replyDelete(post_Seq, reply_Seq);
-			    });
 			  
-			  replyContentWrapper.append(deleteButton);
+			  // 댓글 삭제버튼
+			  if(replies[i].member_Id === member_Id){
+				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				        replyDelete(post_Seq, reply_Seq);
+				    });
+				  replyContentWrapper.append(deleteButton);
+			  }
+			  
 			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}
@@ -571,6 +577,7 @@ function replyDelete2(post_Seq, reply_Seq){
 			var post = response.postInfo;
 			var replies = response.replies;
 			var profileMap = response.profile;
+			var member_Id = response.member_Id; // 세션아이디
 			
 			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
 			var replyListContainer = $('#replyListContainer2');
@@ -642,14 +649,16 @@ function replyDelete2(post_Seq, reply_Seq){
 			  replyContentWrapper.append(timestamp);
 			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제 버튼
-			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
-			    .css('cursor', 'pointer')
-			    .on('click', function() {
-			        replyDelete(post_Seq, reply_Seq);
-			    });
+			  // 댓글 삭제버튼
+			  if(replies[i].member_Id === member_Id){
+				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				        replyDelete2(post_Seq, reply_Seq);
+				    });
+				  replyContentWrapper.append(deleteButton);
+			  }
 			  
-			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}

@@ -19,4 +19,5 @@ public class PostVO {
 	private int 	post_Reply_Count;	 // 게시글 댓글 수
 	private String  post_Hashtag;		 // 게시글 해시태그
 	private String	post_LikeYN;		 // 게시글 좋아요 여부 N = 좋아요 안누른 상태 Y = 좋아요 누른 상태
+	private String  session_Id;          // 세션아이디
 }
