@@ -77,6 +77,8 @@
 		alert("BLUE LEMON 탈퇴가 완료되었습니다.\n 그동안 이용해주셔서 감사합니다.")
 	}
 	
+	$('#member_Country').val("${loginUser.member_Country}").prop("selected", true);
+	console.log($('#member_Country'));
 </script>	  
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
@@ -111,7 +113,7 @@
                <!-- Main Content -->
                <!-- index페이지의 센터 column -->
                <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-             <form id="update_form" method="post" action="update_form" enctype="multipart/form-data">
+             <form id="edit_profile" method="post" action="update_form" enctype="multipart/form-data">
                	  <div class="main-content">
 	                 <div class="mb-5">
 	                    <header class="profile d-flex align-items-center">
@@ -135,13 +137,13 @@
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" class="form-control rounded-5" id="member_Password" 
-                                    name="member_Password" value="${loginUser.member_Password}">
+                                    name="member_Password" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="password_message" class="error-message"></span>
                                     <label for="floatingssName">PASSWORD</label>
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" name="repassowrd" class="form-control rounded-5" id="repassword" 
-                                    placeholder="#" value="${loginUser.member_Password}">
+                                    placeholder="#" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="confirm_password_message" class="error-message"></span>
                                     <label for="floatingssName">REPASSWORD</label>
                                  </div>
@@ -168,14 +170,44 @@
                                     <input type="text" class="form-control rounded-5" id="member_Birthday" name="member_Birthday" value="${loginUser.member_Birthday}" readonly>
                                     <label for="floatingBirth">DATE OF BIRTH</label>
                                  </div>
-                                 <div class="form-floating mb-3 d-flex align-items-center">
-	                                <input type="text" name="member_Country" class="form-control rounded-5" name="member_Country" id="member_Country" value="${loginUser.member_Country}">
-	                                <label for="floatingBirth">Country</label>
-	                             </div>
-	                             <div class="form-floating mb-3 d-flex align-items-center">
-                                    <input type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti" value="${loginUser.member_Mbti}">
-                                    <label for="floatingBirth">MBTI</label>
-                                 </div>
+                                 <label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
+										<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Country" class="form-control rounded-5" id="member_Country">
+									        <option value=""></option>
+									        <option value="Korea">Korea</option>
+									        <option value="Japan">Japan</option>
+									        <option value="China">China</option>
+									        <option value="America">America</option>
+									        <option value="Russia">Russia</option>
+									        <option value="Germany">Germany</option>
+									        <option value="Italy">Italy</option>
+									        <option value="Spain">Spain</option>
+									       
+									    </select>
+									    <label for="member_Country">Country</label>
+									</div>
+									<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
+									        <option value=""></option>
+									        <option value="INFJ">INFJ</option>
+									        <option value="INFP">INFP</option>
+									        <option value="ISFJ">ISFJ</option>
+									        <option value="ISFP">ISFP</option>
+									        <option value="ISTP">ISTP</option>
+									        <option value="ISTJ">ISTJ</option>
+									        <option value="INTP">INTP</option>
+									        <option value="INTJ">INTJ</option>
+									        <option value="ENTP">ENTP</option>
+									        <option value="ESTJ">ESTJ</option>
+									        <option value="ESTP">ESTP</option>
+									        <option value="ENFP">ENFP</option>
+									        <option value="ESFJ">ESFJ</option>
+									        <option value="ENTJ">ENTJ</option>
+									        <option value="ENFJ">ENFJ</option>
+									        <option value="ESFP">ESFP</option>
+									    </select>
+										    <label for="member_Mbti">MBTI</label>
+										</div>
 	                          </div>
 	                          <div class="rounded"  style="border:1px solid #dee2e6; height : auto; width: 96%;">
 								<label style = "width : 23%; margin-top : 12px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
@@ -190,7 +222,7 @@
 	                   	 </div>
 	                   	 <br>
 	                    <div>
-	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update()">SAVE</button>
+	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update(event)">SAVE</button>
 	                    </div>
 	                 </div>
                	  </div>
@@ -492,8 +524,6 @@
       
       <%@ include file="modal.jsp" %>
  
-      <!-- Jquery Js -->
-      <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Custom Js -->

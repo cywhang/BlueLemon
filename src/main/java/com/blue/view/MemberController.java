@@ -105,10 +105,10 @@ public class MemberController {
 	// 회원가입 처리
 	@PostMapping("create_form")
 	public String joinAction(MemberVO vo, @RequestParam(value = "profile_Image") MultipartFile profilePhoto,
-			@RequestParam(value = "email_add") String email_add) {
+			@RequestParam(value = "email_add") String email_add, HttpSession session) {
 		if (!profilePhoto.isEmpty()) {
 			// 프로필 사진을 저장할 경로를 결정합니다.
-			String image_Path = "C:/spring-workspace/BlueLemon/src/main/webapp/WEB-INF/template/img/uploads/profile/";
+			String image_Path = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
 			// System.out.println("저장할 경로 설정 = " + image_Path);
 			// 저장할 파일명을 생성합니다. 파일명에는 member_Id와 확장자명을 포함합니다.
 			String fileName = vo.getMember_Id() + ".png";
@@ -151,7 +151,7 @@ public class MemberController {
 			@RequestParam(value = "email_add") String emailAdd) {
 
 		// 기존 프로필 사진을 삭제합니다.
-		String existingImagePath = "C:/spring-workspace/BlueLemon/src/main/webapp/WEB-INF/template/img/uploads/profile/"
+		String existingImagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/")
 				+ vo.getMember_Profile_Image();
 		File existingImage = new File(existingImagePath);
 		if (existingImage.exists()) {
@@ -160,7 +160,7 @@ public class MemberController {
 
 		// 새로운 프로필 사진을 저장합니다.
 		if (!profilePhoto.isEmpty()) {
-			String imagePath = "C:/spring-workspace/BlueLemon/src/main/webapp/WEB-INF/template/img/uploads/profile/";
+			String imagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
 			String fileName = vo.getMember_Id() + ".png";
 			try {
 				profilePhoto.transferTo(new File(imagePath + fileName));
