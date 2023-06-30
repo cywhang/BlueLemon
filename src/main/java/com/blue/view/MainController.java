@@ -280,9 +280,14 @@ public class MainController {
 	    		}
 	    	}
 			
+	    	ArrayList<PostVO> postlist = new ArrayList<PostVO>();
 			// 내가 쓴 글을 postlist에 담음
-			ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
-			//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");	
+	    	if(member_Id.equals(session_Id)) {
+	    		postlist = postService.getMyPost(member_Id);
+	    	} else {
+				postlist = postService.getMemberPost(member_Id);
+				//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");	
+	    	}
 			
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
 			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();

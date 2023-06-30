@@ -104,6 +104,13 @@ public class PostDAO {
 		return mybatis.selectOne("PostMapper.postDetail", post_Seq);
 	}
 
+	// 내 profile에서 보여줄 게시글목록
+	public ArrayList<PostVO> getMyPost(String member_Id) {
+		List<PostVO> result =  mybatis.selectList("PostMapper.myPost", member_Id);
+		ArrayList<PostVO> myPostList = new ArrayList<PostVO>(result);
+		return myPostList;
+	}
+	
 	// 개인 페이지용 게시글 목록
 	public ArrayList<PostVO> getMemberPost(String member_Id) {
 		List<PostVO> result =  mybatis.selectList("PostMapper.memberPost", member_Id);
@@ -176,4 +183,5 @@ public class PostDAO {
 	public String getPostWriter(int post_Seq) {
 		return mybatis.selectOne("PostMapper.postWriter", post_Seq);
 	}
+
 }
