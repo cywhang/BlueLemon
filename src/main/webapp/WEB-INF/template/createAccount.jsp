@@ -92,18 +92,19 @@
 										<label class="mb-2 text-muted small" style = "margin-left : 5px;">필수 입력 항목</label>
 										<div class="form-floating mb-3 d-flex align-items-end">
 											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id">
-											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" id="check_duplicate_button">중복 체크</button>
+											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" 
+											id="check_duplicate_button" >중복 체크</button>
 											<span id="id_error_message" class="error-message"></span>
 											<span id="duplicate_result"></span>
 											<label for="floatingssName">ID</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password">
+											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password" maxlength="12">
 											<span id="password_message"	class="error-message"></span>
 											<label for="floatingssName">PASSWORD</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="password" name="repassowrd" class="form-control rounded-5" id="repassword">
+											<input type="password" name="repassowrd" class="form-control rounded-5" id="repassword" maxlength="12">
 											<span id="confirm_password_message"	class="error-message"></span>
 											<label for="floatingssName">REPASSWORD</label>
 										</div>

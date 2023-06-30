@@ -111,7 +111,7 @@
                <!-- Main Content -->
                <!-- index페이지의 센터 column -->
                <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-             <form id="update_form" method="post" action="update_form" enctype="multipart/form-data">
+             <form id="edit_profile" method="post" action="update_form" enctype="multipart/form-data">
                	  <div class="main-content">
 	                 <div class="mb-5">
 	                    <header class="profile d-flex align-items-center">
@@ -135,13 +135,13 @@
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" class="form-control rounded-5" id="member_Password" 
-                                    name="member_Password" value="${loginUser.member_Password}">
+                                    name="member_Password" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="password_message" class="error-message"></span>
                                     <label for="floatingssName">PASSWORD</label>
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" name="repassowrd" class="form-control rounded-5" id="repassword" 
-                                    placeholder="#" value="${loginUser.member_Password}">
+                                    placeholder="#" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="confirm_password_message" class="error-message"></span>
                                     <label for="floatingssName">REPASSWORD</label>
                                  </div>
@@ -190,7 +190,7 @@
 	                   	 </div>
 	                   	 <br>
 	                    <div>
-	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update()">SAVE</button>
+	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update(event)">SAVE</button>
 	                    </div>
 	                 </div>
                	  </div>

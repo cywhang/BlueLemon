@@ -17,7 +17,6 @@ import com.blue.dto.PostVO;
 import com.blue.service.AlarmService;
 import com.blue.service.PostService;
 
-
 @Controller
 @SessionAttributes("loginUser")
 public class HomeController {
@@ -113,9 +112,20 @@ public class HomeController {
     		}
     	}
     	
+    	MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+    	
+    	String email = loginUser.getMember_Email();
+		int atIndex = email.indexOf("@");
+		String email_Id = email.substring(0, atIndex);
+		String email_add = email.substring(atIndex + 1);
+		
+		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("member_Email", email_Id);
+		model.addAttribute("email_add", email_add);
     	model.addAttribute("alarmList", alarmList);
 		model.addAttribute("alarmListSize", alarmListSize);
 		model.addAttribute("hottestFeed", hottestFeed);
+		
 		return "edit_profile";
 		
 		}
