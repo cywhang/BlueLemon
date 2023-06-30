@@ -77,6 +77,8 @@
 		alert("BLUE LEMON 탈퇴가 완료되었습니다.\n 그동안 이용해주셔서 감사합니다.")
 	}
 	
+	$('#member_Country').val("${loginUser.member_Country}").prop("selected", true);
+	console.log($('#member_Country'));
 </script>	  
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
@@ -521,8 +523,6 @@
       
       <%@ include file="modal.jsp" %>
  
-      <!-- Jquery Js -->
-      <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Custom Js -->
@@ -542,5 +542,4 @@
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
    </body>
->>>>>>> refs/remotes/origin/develop
 </html>
