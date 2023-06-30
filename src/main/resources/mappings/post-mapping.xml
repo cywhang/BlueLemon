@@ -20,7 +20,7 @@
 		                    WHERE follower = #{member_Id})
 		       AND post_Public = 'y')
 		OR (member_id = #{member_Id})
-		ORDER BY post_Seq DESC 
+		ORDER BY post_Date desc, post_Seq DESC 
 	</select> 
 	
 	<!-- 게시글 상세조회(모달창) -->

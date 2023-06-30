@@ -56,7 +56,6 @@
     }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/editprofile.js"></script>
 <script>
 	// 프로필 사진 미리보기 함수	
 	function previewProfileImage(event) {
@@ -544,5 +543,7 @@
       <script src="js/insert.js"></script>
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- editprofile JS -->
+      <script src="js/editprofile.js"></script>
    </body>
 </html>

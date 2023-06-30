@@ -29,15 +29,6 @@
 		var phoneNumberRegex = /^[0-9]{11}$/; // 하이픈 없이 숫자만 11자리 입력되어야 함
 		return phoneNumberRegex.test(phoneNumber);
 			}
-	  
-	var isPassword = false;
-	var isConfirm = false;
-	var isName = false;
-	var isEmail = false;
-	var isEmailadd = false;
-	var isPhone = false; 
-	  
-	  
 	
 
 	var memberPasswordInput = $('#member_Password');
@@ -152,8 +143,6 @@
 	});		
 	
 
-
-	
 	// 회원 정보 수정;
 	function go_update(event) {
 		event.preventDefault();
