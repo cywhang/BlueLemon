@@ -209,7 +209,7 @@ public class PostAndLikeController {
 		}
 		
 		// 2. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
-		if (vo.getPost_Public() == "") {
+		if (vo.getPost_Public() == null) {
 			vo.setPost_Public("n");
 		}
 		
@@ -670,7 +670,7 @@ public class PostAndLikeController {
 			}
 		}
 		
-		if (vo.getPost_Public() == "") {
+		if (vo.getPost_Public() == null) {
 		vo.setPost_Public("n");
 		}
 		// 2. 수정 처리
