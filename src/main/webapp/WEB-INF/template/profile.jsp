@@ -33,7 +33,10 @@
 	  <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
    </head>
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox">

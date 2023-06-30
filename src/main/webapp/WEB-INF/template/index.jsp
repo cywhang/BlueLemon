@@ -41,15 +41,20 @@
    
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
-   <body class="bg-light">
+   <body class="bg-light" style="display: flex; flex-direction: column;">
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
    	  <!-- 페이지 우측 하단에 고정되어있는 테마 변경 스위치  -->
       <div class="theme-switch-wrapper ms-3">
-         <label class="theme-switch" for="checkbox">
-            <input type="checkbox" id="checkbox">
-            <span class="slider round"></span>
-            <i class="icofont-ui-brightness"></i>
-         </label>
-         <em>Enable Dark Mode!</em>
+         <div>
+	        <label class="theme-switch" for="checkbox">
+	           <input type="checkbox" id="checkbox">
+	           <span class="slider round"></span>
+	           <i class="icofont-ui-brightness"></i>
+	        </label>
+	        <em>Enable Dark Mode!</em>
+         </div>
       </div>
       
       <!-- 브라우저 창의 크기가 줄어들때 오른쪽 위에 출력되는 메뉴펼치기 버튼 -->
@@ -329,13 +334,13 @@
                            <div class="feeds">
                               <!-- Feed Item -->                              
                               <div id="trending_feed"></div>
-                              	<div id="trendingFeedInfinite"></div>
-                              	<div id="trendingFeedStop"></div>
-                              	<div class="text-center mt-4" id="trendFeedLoading">
-				                    <div class="ms-auto" align="center">
-		                               <span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="handleTrendInfinity()">+ 더보기</span>
-		                            </div>
-                              	</div>
+                              <div id="trendingFeedInfinite"></div>
+                              <div id="trendingFeedStop"></div>
+                              <div class="text-center mt-4" id="trendFeedLoading">
+				                 <div class="ms-auto" align="center">
+		                            <span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="handleTrendInfinity()">+ 더보기</span>
+		                         </div>
+                              </div>
                            </div><!-- class="trending" -->                        
                         </div> <!-- class="feed" -->
                      </div>
