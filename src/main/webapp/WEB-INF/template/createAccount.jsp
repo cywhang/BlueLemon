@@ -55,7 +55,10 @@
 <!-- Custom Css -->
 <link href="css/style.css" rel="stylesheet">
 <!-- Material Icons -->
-<body class="bg-light">
+<body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
 	<div class="theme-switch-wrapper ms-3">
 		<label class="theme-switch" for="checkbox">
 			<input	type="checkbox" id="checkbox">
@@ -150,8 +153,7 @@
 									        <option value="Russia">Russia</option>
 									        <option value="Germany">Germany</option>
 									        <option value="Italy">Italy</option>
-									        <option value="Spain">Spain</option>
-									       
+									        <option value="Spain">Spain</option>									       
 									    </select>
 									    <label for="member_Country">Country</label>
 									</div>

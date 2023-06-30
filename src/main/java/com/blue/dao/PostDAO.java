@@ -104,6 +104,13 @@ public class PostDAO {
 		return mybatis.selectOne("PostMapper.postDetail", post_Seq);
 	}
 
+	// 내 profile에서 보여줄 게시글목록
+	public ArrayList<PostVO> getMyPost(String member_Id) {
+		List<PostVO> result =  mybatis.selectList("PostMapper.myPost", member_Id);
+		ArrayList<PostVO> myPostList = new ArrayList<PostVO>(result);
+		return myPostList;
+	}
+	
 	// 개인 페이지용 게시글 목록
 	public ArrayList<PostVO> getMemberPost(PostVO vo) {
 		List<PostVO> result =  mybatis.selectList("PostMapper.memberPost", vo);
@@ -124,7 +131,9 @@ public class PostDAO {
 	
 	// 게시글 추가 시 필요한 가장높은 시퀀스 조회
 	public int postSeqCheck() {
-		return mybatis.selectOne("PostMapper.postSeqCheck");
+		int result = mybatis.selectOne("PostMapper.postSeqCheck");
+		System.out.println(result);
+		return result;
 	}
 	
 	// 게시글 추가의 해시태그 인서트
@@ -176,4 +185,5 @@ public class PostDAO {
 	public String getPostWriter(int post_Seq) {
 		return mybatis.selectOne("PostMapper.postWriter", post_Seq);
 	}
+
 }

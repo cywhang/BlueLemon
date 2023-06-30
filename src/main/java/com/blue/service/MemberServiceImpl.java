@@ -117,6 +117,12 @@ public class MemberServiceImpl implements MemberService {
 		memberDao.updatePassword(vo);
 		
 	}
+	
+	@Override
+	public void updateMember2(MemberVO vo) {
+		memberDao.updateMember2(vo);
+		
+	}
 
 	@Override
 	public boolean checkPassword(String member_Id, String member_Password) {
@@ -143,4 +149,6 @@ public class MemberServiceImpl implements MemberService {
 	public List<Integer> getMemberTendency() {
 		return memberDao.getMemberTendency();
 	}
+
+	
 }

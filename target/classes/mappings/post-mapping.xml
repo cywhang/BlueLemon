@@ -15,11 +15,11 @@
 		            FROM reply
 		            GROUP BY post_seq)
 		USING (post_seq)
-		WHERE member_id IN (SELECT FOLLOWING
+		WHERE (member_id IN (SELECT FOLLOWING
 		                    FROM follow
 		                    WHERE follower = #{member_Id}) and post_public = 'y'
 		OR member_id = #{member_Id}
-		ORDER BY post_Seq DESC 
+		ORDER BY post_Date desc, post_Seq DESC 
 	</select> 
 	
 	<!-- 게시글 상세조회(모달창) -->
@@ -102,7 +102,7 @@
 	
 	<!-- 가장 최근에 생성된 시퀀스 번호 조회 (이미지 저장위해서 조회) -->
 	<select id="postSeqCheck" resultType = "int">
-		select MAX(post_Seq)
+		select NVL(MAX(post_Seq), 1)
 		  from post
 	</select>
 	

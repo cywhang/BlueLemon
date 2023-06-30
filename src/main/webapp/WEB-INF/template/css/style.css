@@ -649,6 +649,19 @@ ul li::marker {
     }
 }
 
+.goToTop {
+    bottom: 60px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: fixed;
+    z-index: 99999;	
+}
 /* Dark */
 .theme-switch-wrapper {
     bottom: 12px;

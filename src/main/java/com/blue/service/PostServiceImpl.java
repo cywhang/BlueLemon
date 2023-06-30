@@ -55,6 +55,12 @@ public class PostServiceImpl implements PostService {
 		return postDao.postDetail(post_Seq);
 	}
 
+	// 내 profile에서 보여줄 게시글목록
+	@Override
+	public ArrayList<PostVO> getMyPost(String member_Id) {
+		return postDao.getMyPost(member_Id);
+	}
+	
 	@Override
 	public ArrayList<PostVO> getMemberPost(PostVO vo) {		
 		return postDao.getMemberPost(vo);
@@ -128,4 +134,5 @@ public class PostServiceImpl implements PostService {
 	public String getPostWriter(int post_Seq) {
 		return postDao.getPostWriter(post_Seq);
 	}
+
 }

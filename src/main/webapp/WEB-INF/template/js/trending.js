@@ -76,7 +76,7 @@ function trending_List() {
                     html += '               </div>';
                     html += '            </div>';
                     html += '            <div class="my-2">';
-                    html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+                    
                     
                     
                     html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
@@ -91,7 +91,7 @@ function trending_List() {
                     
                     html += '               </a>';
                     html += '               <br>';
-                    
+                    html += '               <p class="text-dark">' + PostVO.post_Content.replace('\n', '<br>') + '</p>';
                     var hash = hashMap[PostVO.post_Seq];
 
 		             if(hash == null){

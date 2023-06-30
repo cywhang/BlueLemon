@@ -15,6 +15,7 @@ import com.blue.dto.AlarmVO;
 import com.blue.dto.MemberVO;
 import com.blue.dto.PostVO;
 import com.blue.service.AlarmService;
+import com.blue.service.MemberService;
 import com.blue.service.PostService;
 
 @Controller
@@ -25,6 +26,8 @@ public class HomeController {
 	private AlarmService alarmService;
 	@Autowired
 	private PostService postService;
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping(value="/faq")
 	public String Faq(HttpSession session, Model model) {
@@ -36,7 +39,9 @@ public class HomeController {
 		} else {
 		
 		String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-
+		
+		String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
+		
 		// 알람 리스트를 담는 부분
     	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
     	
@@ -58,6 +63,7 @@ public class HomeController {
     		}
     	}
     	
+    	model.addAttribute("profileImage", profileImage);
     	model.addAttribute("alarmList", alarmList);
 		model.addAttribute("alarmListSize", alarmListSize);
 		

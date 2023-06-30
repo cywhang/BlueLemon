@@ -25,7 +25,10 @@
       <!-- Material Icons -->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    </head>
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox">
@@ -182,7 +185,7 @@
                                <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                             </li>
                             <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                             </li>
                             <li class="nav-item">
                                <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -259,7 +262,7 @@
                                <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                             </li>
                             <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                             </li>
                             <li class="nav-item">
                                <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>

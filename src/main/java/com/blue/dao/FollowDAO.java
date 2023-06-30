@@ -14,7 +14,6 @@ public class FollowDAO {
 	
 	@Autowired
 	private SqlSessionTemplate mybatis;
-	
 	public List<FollowVO> getFollowing(String member_Id) {
 		return mybatis.selectList("FollowMapper.getFollowing", member_Id);
 	}

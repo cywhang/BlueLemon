@@ -33,7 +33,10 @@
 	  <script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	  <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
    </head>
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
             <input type="checkbox" id="checkbox">
@@ -383,12 +386,12 @@
 				           <c:choose>
 						      <c:when test="${loginUser.member_Id == member.member_Id}">
 						         <li class="nav-item">
-                              	    <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link active"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              	    <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link active"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 			                     </li>
 						      </c:when>
 						      <c:otherwise>
 						       	 <li class="nav-item">
-                              	    <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              	    <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 			                     </li>
 						      </c:otherwise>
 						   </c:choose>      
@@ -478,12 +481,12 @@
                            <c:choose>
 						        <c:when test="${loginUser.member_Id == member.member_Id}">
 						            <li class="nav-item">
-                              			<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link active"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              			<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link active"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 			                        </li>
 						        </c:when>
 						        <c:otherwise>
 						        	<li class="nav-item">
-                              			<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              			<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 			                        </li>
 						        </c:otherwise>
 						   </c:choose>                           <c:choose>

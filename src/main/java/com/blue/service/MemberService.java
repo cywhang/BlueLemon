@@ -28,6 +28,9 @@ public interface MemberService {
 
 	// 회원정보 수정
 	void updateMember(MemberVO vo);
+	
+	// 회원정보 수정2
+	void updateMember2(MemberVO vo);
 
 	// 아이디 중복체크
 	boolean checkDuplicate(String member_Id);

@@ -56,7 +56,6 @@
     }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/editprofile.js"></script>
 <script>
 	// 프로필 사진 미리보기 함수	
 	function previewProfileImage(event) {
@@ -82,7 +81,10 @@
 </script>	  
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
    	  <!-- 페이지 우측 하단에 고정되어있는 테마 변경 스위치  -->
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
@@ -264,7 +266,7 @@
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
                            <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
                            <li class="nav-item">
                               <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -345,7 +347,7 @@
                               <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
                            <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
                            <li class="nav-item">
 			                  <a href="edit_profile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
@@ -541,5 +543,7 @@
       <script src="js/insert.js"></script>
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- editprofile JS -->
+      <script src="js/editprofile.js"></script>
    </body>
 </html>
