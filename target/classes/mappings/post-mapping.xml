@@ -103,7 +103,7 @@
 	
 	<!-- 가장 최근에 생성된 시퀀스 번호 조회 (이미지 저장위해서 조회) -->
 	<select id="postSeqCheck" resultType = "int">
-		select MAX(post_Seq)
+		select NVL(MAX(post_Seq), 1)
 		  from post
 	</select>
 	
