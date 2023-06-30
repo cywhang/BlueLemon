@@ -29,16 +29,16 @@
 	
 	//아이디 유호성 함수
 	function isIdValid(member_Id) {
-		var idRegex = /^[a-zA-Z0-9]{1,12}$/;
-	    if (!idRegex.test(member_Id)) {
-	        return false; // 유호성 위반
+		 var idRegex = /^[a-zA-Z0-9]+$/;
+		if (!idRegex.test(member_Id)) {
+		return false; // 유호성 위반
 	}
-		 return true; // 유호성 통과
+		return true; // 유호성 통과
 	}
 	
 	//패스워드 유호성 함수
 	function isPasswordValid(password) {
-		var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_a-zA-Z])[\S]{8,12}$/;
+		var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_])\S{8,12}$/;;
 	    return passwordRegex.test(password);
 	}
 	
@@ -63,8 +63,8 @@
 	//이메일 주소 유호성 함수
 	function isValidEmailAdd(emailAdd) {
 		// 입력된 값이 영어와 마침표로만 구성되어 있는지 확인
-		var regex = /^[a-zA-Z.]+$/;
-		 if(!regex.test(emailAdd)){
+		var regex = /^[a-zA-Z]+(\.[a-zA-Z]+)*$/;
+		if (!regex.test(emailAdd) || (emailAdd.split('.').length - 1) > 1) {
 		return false; // 유호성 위반
 	}
 		 return true; // 유호성 통과
@@ -229,7 +229,7 @@
 		
 		//전화번호가 유호성 함수에 적합하지 않는 값이면 false를 변수에 저장
 		if (!isPhoneNumberValid(phoneNumber)) {
-			phoneMessage.text('13자리 숫자만 입력해주세요.');
+			phoneMessage.text('11자리 숫자만 입력해주세요.');
 			phoneMessage.css("color", "red");
 			isPhone = false;
 			

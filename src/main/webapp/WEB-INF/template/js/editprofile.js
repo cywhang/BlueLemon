@@ -1,7 +1,7 @@
 	
 	//패스워드 유호성 함수
 	function isPasswordValid(password) {
-		var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_a-zA-Z])[\S]{8,12}$/;
+		var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_])\S{8,12}$/;;
 	    return passwordRegex.test(password);
 	}
 

@@ -91,7 +91,7 @@
 									<div class="col-lg-12" style = "margin-bottom : 5%;">
 										<label class="mb-2 text-muted small" style = "margin-left : 5px;">필수 입력 항목</label>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id">
+											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id" maxlength="12">
 											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" 
 											id="check_duplicate_button" >중복 체크</button>
 											<span id="id_error_message" class="error-message"></span>
@@ -140,15 +140,42 @@
 											</div>
 										</div>
 										<label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
-										<div>
-											<div class="form-floating mb-3 d-flex align-items-center">
-												<input type="text" name="member_Country" class="form-control rounded-5" name="member_Country" id="member_Country">
-												<label for="floatingBirth">Country</label>
-											</div>
-											<div class="form-floating mb-3 d-flex align-items-center">
-												<input  type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti">
-												<label for="floatingBirth">MBTI</label>
-											</div>
+										<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Country" class="form-control rounded-5" id="member_Country">
+									        <option value=""></option>
+									        <option value="Korea">Korea</option>
+									        <option value="Japan">Japan</option>
+									        <option value="China">China</option>
+									        <option value="America">America</option>
+									        <option value="Russia">Russia</option>
+									        <option value="Germany">Germany</option>
+									        <option value="Italy">Italy</option>
+									        <option value="Spain">Spain</option>
+									       
+									    </select>
+									    <label for="member_Country">Country</label>
+									</div>
+									<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
+									        <option value=""></option>
+									        <option value="INFJ">INFJ</option>
+									        <option value="INFP">INFP</option>
+									        <option value="ISFJ">ISFJ</option>
+									        <option value="ISFP">ISFP</option>
+									        <option value="ISTP">ISTP</option>
+									        <option value="ISTJ">ISTJ</option>
+									        <option value="INTP">INTP</option>
+									        <option value="INTJ">INTJ</option>
+									        <option value="ENTP">ENTP</option>
+									        <option value="ESTJ">ESTJ</option>
+									        <option value="ESTP">ESTP</option>
+									        <option value="ENFP">ENFP</option>
+									        <option value="ESFJ">ESFJ</option>
+									        <option value="ENTJ">ENTJ</option>
+									        <option value="ENFJ">ENFJ</option>
+									        <option value="ESFP">ESFP</option>
+									    </select>
+										    <label for="member_Mbti">MBTI</label>
 										</div>
 										<div class="rounded"  style="border:1px solid #dee2e6; height : auto;">
 											<label style = "width : 23%; margin-top : 10px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
