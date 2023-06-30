@@ -99,6 +99,8 @@ public class MainController {
 			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
 			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 			
+			String profileImage = memberService.getMemberInfo(member_Id).getMember_Profile_Image();
+			
 			//System.out.println("[멤버추천 - 2] member_Id를 가지고 memberService에 getRecommendMember 요청");		
 			List<MemberVO> recommendMember = memberService.getRecommendMember(member_Id);
 			//System.out.println("[멤버추천 - 5] DAO에서 추천 리스트를 받아와서 List에 저장하고 model에 올리고 index.jsp 호출");
@@ -189,6 +191,9 @@ public class MainController {
 			HashMap<String, String> profilemap = memberService.getMemberProfile();
 			//System.out.println("전체 회원 프로필: " + profilemap);
 			
+			System.out.println("============================================================================================="+profileImage);
+			
+			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
 			model.addAttribute("profileMap", profilemap);
@@ -198,6 +203,7 @@ public class MainController {
 			model.addAttribute("hottestFeed", hottestFeed);	
 			model.addAttribute("member_Id", member_Id);
 			model.addAttribute("hashMap", hashmap);
+			
 			return "index";
 		}
 	}
@@ -240,6 +246,7 @@ public class MainController {
 			//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
 			MemberVO member = memberService.getMember(member_Id);
 			String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			
 			FollowVO checkVo = new FollowVO();
 			checkVo.setFollower(loginUser_Id);
 			checkVo.setFollowing(member_Id);
@@ -258,6 +265,8 @@ public class MainController {
 			
 			
 		    String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		    
+		    String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
 	
 			// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
@@ -345,6 +354,7 @@ public class MainController {
 			// 화면 우측 Hottest Feed
 			List<PostVO> hottestFeed = postService.getHottestFeed();
 			
+			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("loginUser_Id", loginUser_Id);
 			model.addAttribute("member", member);
 			model.addAttribute("member_Id", member_Id);
@@ -528,7 +538,9 @@ public class MainController {
 		} else {
 			
 			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-
+			
+			String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
+			
 			// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
 	    	
@@ -566,6 +578,7 @@ public class MainController {
 				}
 			}
 			
+			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("qnaList", qnaList);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);

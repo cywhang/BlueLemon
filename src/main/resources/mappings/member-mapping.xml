@@ -64,6 +64,19 @@
 
 	</update>
 	
+	<!-- 회원 정보 수정(사진수정이 없을시) : updateMember -->
+	<update id="memberUpdate2">
+	UPDATE member
+	SET member_Email = #{member_Email},
+					    member_Password = #{member_Password},
+					    member_Phone = #{member_Phone},
+					    member_Country = #{member_Country},
+					    member_Mbti = #{member_Mbti}
+	WHERE member_Id = #{member_Id}
+
+	</update>
+	
+	
 	<!-- 로그인시 아이디와 비밀번호 확인 -->
 	<select id="loginUser" resultType="member">
 		select * from member

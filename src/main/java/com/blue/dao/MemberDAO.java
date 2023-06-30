@@ -83,6 +83,12 @@ public class MemberDAO {
 	public void updateMember(MemberVO vo) {
 		mybatis.selectOne("MemberMapper.memberUpdate", vo);
 	}
+	
+	// 회원정보 수정2
+   	public void updateMember2(MemberVO vo) {
+      mybatis.selectOne("MemberMapper.memberUpdate2", vo);
+    }
+
 
 	
 	// 패스워드 확인
