@@ -37,7 +37,10 @@
    
    
    <!-- body부분의 class : light모드, dark모드 버튼 -->
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
    	  <!-- 페이지 우측 하단에 고정되어있는 테마 변경 스위치  -->
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
