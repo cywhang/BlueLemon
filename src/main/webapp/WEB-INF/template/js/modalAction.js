@@ -429,7 +429,7 @@ function postEditAction(post_Seq){
  
 
 // 댓글삭제 기능 (모달창1)
-function replyDelte(post_Seq, reply_Seq){
+function replyDelete(post_Seq, reply_Seq){
 	
 	var data = {
 			post_Seq : post_Seq,
@@ -521,10 +521,11 @@ function replyDelte(post_Seq, reply_Seq){
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
@@ -642,10 +643,11 @@ function replyDelete2(post_Seq, reply_Seq){
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-					  replyDelete2(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);

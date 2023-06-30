@@ -67,7 +67,7 @@ function modalseq(post_Seq) {
 			    .attr({
 			      class: 'likeImage_' + post.post_Seq,
 			      src: 'img/like.png',
-			      width: '14px',
+			      width: '20px',
 			      height: '20px',
 			      'data-liked': 'false'
 			    });
@@ -77,7 +77,7 @@ function modalseq(post_Seq) {
 			    .attr({
 			      class: 'likeImage_' + post.post_Seq,
 			      src: 'img/unlike.png',
-			      width: '14px',
+			      width: '20px',
 			      height: '20px',
 			      'data-liked': 'true'
 			    });
@@ -275,11 +275,11 @@ function modalseq(post_Seq) {
 			  
 			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
@@ -492,10 +492,11 @@ function replyModalseq(post_Seq) {
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-					  replyDelete2(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
@@ -619,10 +620,11 @@ function insertReply(post_Seq){
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-				    	replyDelte(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
@@ -749,10 +751,11 @@ function insertReply2(post_Seq){
 			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-					  replyDelete2(post_Seq, reply_Seq)
-				  });
+			  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+			    .css('cursor', 'pointer')
+			    .on('click', function() {
+			        replyDelete(post_Seq, reply_Seq);
+			    });
 			  
 			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);

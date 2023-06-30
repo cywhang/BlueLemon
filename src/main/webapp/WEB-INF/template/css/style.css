@@ -121,9 +121,10 @@ ul li::marker {
 .deletebutton:active {
   background-color: lightcoral; 
 }
-.replyDelete{
-	background-color: #dc3545;
-    color: #fff;
+.comments .replyDelete {
+  min-width: 17px;
+  width: 17px;
+  height: 17px;
 }
 
 .
