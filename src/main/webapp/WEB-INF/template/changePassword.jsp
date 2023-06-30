@@ -145,6 +145,7 @@
 			    	<label class="font-weight-bold text-white" for="inputConfirmPw" style = "margin-right : 46%">Password Check</label>
 			    	<div style = "margin-top : 3px;">
 			      		<input type="password" class="form-control" id="checkPassword" name="checkPassword" placeholder="패스워드를 다시 입력하세요">
+			    		<br>
 			    		<span id="confirm_password_message" class="error-message"></span>
 			    	</div>
 			  	</div>

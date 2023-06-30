@@ -232,121 +232,127 @@ public class MainController {
 	// Profile 이동
 	@GetMapping("/profile")
 	public String makeProfile(@RequestParam("member_Id") String member_Id, Model model, HttpSession session) {
-		//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
-		MemberVO member = memberService.getMember(member_Id);
-		String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		FollowVO checkVo = new FollowVO();
-		checkVo.setFollower(loginUser_Id);
-		checkVo.setFollowing(member_Id);
-		String followCheck = memberService.checkFollow(checkVo);
-		member.setFollow_Check(followCheck);
-		
-		// 팔로워 팔로우 숫자 밑에 작은 동그라미 이미지들 채울 용도
-		List<MemberVO> followers = memberService.getFollowers(member_Id);
-		int followers_Size = followers.size();
-		List<MemberVO> followings = memberService.getFollowings(member_Id);
-		int followings_Size = followings.size();
-		model.addAttribute("followers", followers);
-		model.addAttribute("followers_Size", followers_Size);
-		model.addAttribute("followings", followings);
-		model.addAttribute("followings_Size", followings_Size);
-		
-		
-	    String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-
-		// 알람 리스트를 담는 부분
-    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
-    	
-    	int alarmListSize = alarmList.size();
-    	
-    	// 알람의 종류를 파악하는 부분
-    	for(int j=0; j<alarmList.size(); j++) {
-    		int kind = alarmList.get(j).getKind();
-    		if(kind == 1) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-    		}else if(kind == 2) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-    		}else if(kind == 3) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-    		}else if(kind == 4) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-    		}else if(kind == 5) {
-    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
-    		}
-    	}
-		
-		// 내가 쓴 글을 postlist에 담음
-		ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
-		//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");	
-		
-		// 각 post_seq에 대한 댓글들을 매핑할 공간.
-		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
-		
-		// 각 post_seq에 대한 해시태그들을 매핑할 공간.
-		Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
+		if(session.getAttribute("loginUser") == null) {
+			//System.out.println("세션값 없음");
+			model.addAttribute("message", "로그인을 해주세요");
+			return "login";
+		} else {
+			//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
+			MemberVO member = memberService.getMember(member_Id);
+			String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			FollowVO checkVo = new FollowVO();
+			checkVo.setFollower(loginUser_Id);
+			checkVo.setFollowing(member_Id);
+			String followCheck = memberService.checkFollow(checkVo);
+			member.setFollow_Check(followCheck);
+			
+			// 팔로워 팔로우 숫자 밑에 작은 동그라미 이미지들 채울 용도
+			List<MemberVO> followers = memberService.getFollowers(member_Id);
+			int followers_Size = followers.size();
+			List<MemberVO> followings = memberService.getFollowings(member_Id);
+			int followings_Size = followings.size();
+			model.addAttribute("followers", followers);
+			model.addAttribute("followers_Size", followers_Size);
+			model.addAttribute("followings", followings);
+			model.addAttribute("followings_Size", followings_Size);
+			
+			
+		    String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+	
+			// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
+	    	
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		}else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		}else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		}else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
+			
+			// 내가 쓴 글을 postlist에 담음
+			ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
+			//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");	
+			
+			// 각 post_seq에 대한 댓글들을 매핑할 공간.
+			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
+			
+			// 각 post_seq에 대한 해시태그들을 매핑할 공간.
+			Map<Integer, ArrayList<TagVO>> hashmap = new HashMap<>();
+					
+			// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
+			// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
+			for(int i = 0; i < postlist.size(); i++) {
 				
-		// 정렬된 postlist의 인덱스 순으로 댓글 리스트를 매핑함.
-		// 동시에 각 게시글의 좋아요 카운트와 댓글 카운트를 저장.
-		for(int i = 0; i < postlist.size(); i++) {
-			
-			postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
-			
-			int post_Seq = postlist.get(i).getPost_Seq();
-			
-			// i번째 게시글의 댓글 리스트를 담음
-			ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-			// i번째 게시글의 댓글 좋아요 여부 체크
-			for(int k = 0; k < replylist.size(); k++) {
-				ReplyVO voForReplyCheck = replylist.get(k);
-				String realReply_Member_Id = replylist.get(k).getMember_Id();
-				voForReplyCheck.setMember_Id(loginUser_Id);		
-				String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
-				replylist.get(k).setReply_LikeYN(reply_LikeYN);
-				replylist.get(k).setMember_Id(realReply_Member_Id);
-
-				//System.out.println("[프로필 페이지 - 3] 해당 댓글 좋아요 눌렀나 체크됨");
+				postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
+				
+				int post_Seq = postlist.get(i).getPost_Seq();
+				
+				// i번째 게시글의 댓글 리스트를 담음
+				ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
+				// i번째 게시글의 댓글 좋아요 여부 체크
+				for(int k = 0; k < replylist.size(); k++) {
+					ReplyVO voForReplyCheck = replylist.get(k);
+					String realReply_Member_Id = replylist.get(k).getMember_Id();
+					voForReplyCheck.setMember_Id(loginUser_Id);		
+					String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
+					replylist.get(k).setReply_LikeYN(reply_LikeYN);
+					replylist.get(k).setMember_Id(realReply_Member_Id);
+	
+					//System.out.println("[프로필 페이지 - 3] 해당 댓글 좋아요 눌렀나 체크됨");
+				}
+				
+				// i번째의 게시글의 댓글을 map에 매핑하는 작업
+				replymap.put(i, replylist);
+				//System.out.println("[프로필 페이지 - 4] 게시글 별 댓글을 매핑함");		
+				
+				// i번째 게시글의 좋아요 여부 체크
+				PostVO voForLikeYN = new PostVO();
+				voForLikeYN.setMember_Id(loginUser_Id);
+				voForLikeYN.setPost_Seq(post_Seq);
+				String post_LikeYN = postService.getLikeYN(voForLikeYN);
+				int post_Like_Count = postService.getPost_Like_Count(post_Seq);
+				postlist.get(i).setPost_Like_Count(post_Like_Count);
+				postlist.get(i).setPost_LikeYN(post_LikeYN);
+				//System.out.println("[프로필 페이지 - 5] " + i + "번째 게시글 좋아요 눌렀나 체크됨 : " + post_LikeYN);
+				
+				// i번째 게시글의 해시태그 체크    hashmap
+				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
+				hashmap.put(post_Seq, hash);
+				
 			}
 			
-			// i번째의 게시글의 댓글을 map에 매핑하는 작업
-			replymap.put(i, replylist);
-			//System.out.println("[프로필 페이지 - 4] 게시글 별 댓글을 매핑함");		
+			// 전체 회원 프로필 이미지 조회
+			HashMap<String, String> profilemap = memberService.getMemberProfile();
+			//System.out.println("전체 회원 프로필: " + profilemap);		
+			//System.out.println("[프로필 페이지 - 6] 출력준비를 위한 postvo 준비");
 			
-			// i번째 게시글의 좋아요 여부 체크
-			PostVO voForLikeYN = new PostVO();
-			voForLikeYN.setMember_Id(loginUser_Id);
-			voForLikeYN.setPost_Seq(post_Seq);
-			String post_LikeYN = postService.getLikeYN(voForLikeYN);
-			int post_Like_Count = postService.getPost_Like_Count(post_Seq);
-			postlist.get(i).setPost_Like_Count(post_Like_Count);
-			postlist.get(i).setPost_LikeYN(post_LikeYN);
-			//System.out.println("[프로필 페이지 - 5] " + i + "번째 게시글 좋아요 눌렀나 체크됨 : " + post_LikeYN);
+			// 화면 우측 Hottest Feed
+			List<PostVO> hottestFeed = postService.getHottestFeed();
 			
-			// i번째 게시글의 해시태그 체크    hashmap
-			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
-			hashmap.put(post_Seq, hash);
+			model.addAttribute("loginUser_Id", loginUser_Id);
+			model.addAttribute("member", member);
+			model.addAttribute("member_Id", member_Id);
+			model.addAttribute("postlist", postlist);
+			model.addAttribute("profileMap", profilemap);
+			model.addAttribute("replyMap", replymap);
+			model.addAttribute("hottestFeed", hottestFeed);
+			model.addAttribute("hashMap", hashmap);
+			model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
 			
+			return "profile";
 		}
-		
-		// 전체 회원 프로필 이미지 조회
-		HashMap<String, String> profilemap = memberService.getMemberProfile();
-		//System.out.println("전체 회원 프로필: " + profilemap);		
-		//System.out.println("[프로필 페이지 - 6] 출력준비를 위한 postvo 준비");
-		
-		// 화면 우측 Hottest Feed
-		List<PostVO> hottestFeed = postService.getHottestFeed();
-		
-		model.addAttribute("loginUser_Id", loginUser_Id);
-		model.addAttribute("member", member);
-		model.addAttribute("member_Id", member_Id);
-		model.addAttribute("postlist", postlist);
-		model.addAttribute("profileMap", profilemap);
-		model.addAttribute("replyMap", replymap);
-		model.addAttribute("hottestFeed", hottestFeed);
-		model.addAttribute("hashMap", hashmap);
-		model.addAttribute("alarmList", alarmList);
-		model.addAttribute("alarmListSize", alarmListSize);
-		
-		return "profile";
 	} 
 	
 	
@@ -616,19 +622,28 @@ public class MainController {
 		}
 	
 	@PostMapping("/qna")
-	public String qnaSending(@ModelAttribute("contactForm") QnaVO vo, HttpSession session, Model model) {
+	public String qnaSending(@RequestParam("member_Id") String member_Id,
+            				 @RequestParam("qna_Title") String qna_Title,
+            				 @RequestParam("qna_Message") String qna_Message, HttpSession session, Model model) {
 		
 		if(session.getAttribute("loginUser") == null) {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
+			QnaVO vo = new QnaVO();
 			int qna_Seq = qnaService.checkMaxSeq() + 1;
 			vo.setQna_Seq(qna_Seq);
+			vo.setMember_Id(member_Id);
+			
+			vo.setQna_Title(qna_Title.replace("<", "{"));
+			vo.setQna_Message(qna_Message.replace("<", "{"));
+			System.out.println("/qna 잡아옴 qnaVO : " + vo);
 			qnaService.insertQna(vo);
 			
 			return "redirect:contact";
 		}
 	}
+	
 	// index 페이지 로드
 	@GetMapping("/feedInfinite")
 	@ResponseBody

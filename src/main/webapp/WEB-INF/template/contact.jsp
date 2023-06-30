@@ -33,6 +33,41 @@
    			color : #555568;
    		}
    </style>
+	<script>
+		function submitForm() {
+        	// 입력 필드 값 가져오기
+	        var member_Id = document.getElementById('member_Id').value;
+	        var qna_Title = document.getElementById('qna_Title').value;
+	        var qna_Message = document.getElementById('qna_Message').value;
+	        
+	        // 유효성 검사
+	        if (member_Id.trim() === '' || qna_Title.trim() === '' || qna_Message.trim() === '') {
+	            // 빈칸이 존재하면 알림 메시지 표시
+	            alert('입력 필드를 모두 작성해주세요.');
+	        } else {
+	            // AJAX 요청 보내기
+	            var xhr = new XMLHttpRequest();
+	            xhr.open('POST', 'qna', true);
+	            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	            xhr.onreadystatechange = function() {
+	                if (xhr.readyState === 4) {
+	                    if (xhr.status === 200) {
+	                        // 응답 처리
+	                        alert('문의사항 제출이 성공적으로 처리되었습니다.');
+	                        window.location.href = 'contact';
+	                    } else {
+	                        alert('문의사항 제출 중 오류가 발생했습니다.');
+	                    }
+	                }
+	            };
+	            // 데이터 전송
+	            var params = 'member_Id=' + encodeURIComponent(member_Id) +
+	                         '&qna_Title=' + encodeURIComponent(qna_Title) +
+	                         '&qna_Message=' + encodeURIComponent(qna_Message);
+	            xhr.send(params);
+	        }
+	    }
+	</script>
    <body class="bg-light">
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
@@ -71,23 +106,23 @@
                         <div class="row justify-content-center">
                            <div class="col-lg-12">
                            	  <!-- action으로 폼 데이터 처리 해야함. -->
-                              <form class="form-floating-space" id="contactForm" data-sb-form-api-token="API_TOKEN" action="qna" method = "post">                              
+                              <form class="form-floating-space" id="contactForm" data-sb-form-api-token="API_TOKEN" method = "post">                              
                                  <!-- Name input-->
                                  <div class="form-floating mb-3">
                                     <input class="form-control rounded-5" id="member_Id" name = "member_Id" type="text" value = "${sessionScope.loginUser.member_Id}" readonly>
                                     <label for="member_Id">Member ID</label>
                                  </div>
                                  
-                                 <!-- Phone number input-->
+                                 <!-- Title input-->
                                  <div class="form-floating mb-3">
-                                    <input class="form-control rounded-5" id="qna_Title" name = "qna_Title" type="text" data-sb-validations="required">
+                                    <input class="form-control rounded-5" id="qna_Title" name = "qna_Title" type="text" data-sb-validations="required" maxlength="60">
                                     <label for="qna_Title">Title</label>
                                     <div class="invalid-feedback" data-sb-feedback="qna_Title:required">A Title is required.</div>
                                  </div>
                                  
                                  <!-- Message input-->
                                  <div class="form-floating mb-3">
-                                    <textarea class="form-control rounded-5" id="qna_Message" name = "qna_Message" style="height: 10rem" data-sb-validations="required"></textarea>
+                                    <textarea class="form-control rounded-5" id="qna_Message" name = "qna_Message" style="height: 10rem" data-sb-validations="required" maxlength="900"></textarea>
                                     <label for="qna_Message">Message</label>
                                     <div class="invalid-feedback" data-sb-feedback="qna_Message:required">A Message is required.</div>
                                  </div>
@@ -104,8 +139,8 @@
                                  
                                  <!-- Submit Button-->
                                  <div class="d-grid">
-                                 	<button class="btn btn-primary w-100 rounded-5 text-decoration-none py-3 fw-bold text-uppercase m-0" id="submitButton" type="submit">문의하기</button>
-                                 </div>
+							        <button class="btn btn-primary w-100 rounded-5 text-decoration-none py-3 fw-bold text-uppercase m-0" id="submitButton" type="button" onclick="submitForm()">문의하기</button>
+							     </div>
                               </form>
                            </div>
                         </div>
@@ -122,16 +157,30 @@
 									    <c:forEach items = "${qnaList}" var = "qna">
 		                                   <div class="accordion-item">
 		                                      <h3 class="accordion-header" id="heading_${qna.qna_Seq}">		                                      	 
-		                                         <button class ="accordion-button collapsed fw-bold" style = "padding : 10px;"type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
+		                                         <button class ="accordion-button collapsed fw-bold" style = "padding : 10px; width : 100%;"type="button" data-bs-toggle="collapse" data-bs-target="#collapse_${qna.qna_Seq}" aria-expanded="false" aria-controls="collapse_${qna.qna_Seq}">
 												    <div style = "color : #555568; display: flex; flex-direction: column;">	
 												    	<c:choose>
 												    		<c:when test = "${qna.qna_Done eq '2'}">
-												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Answered ]</p> ${qna.qna_Date}</div>
-												    			<div style="font-size : 15px; text-align : left; margin-top : 5px; width : 100%; color : #0975e0;">[ Title ] ${qna.qna_Title}</div>										
+												    			<div style = "font-size : 5px;">
+												    				<p style = "display : inline;">[ Answered ]</p>&nbsp; ${qna.qna_Date}
+												    			</div>
+												    			<div style="font-size : 15px; text-align : left; margin-top : 5px; color : #0975e0;">
+												    				[ Title ]
+												    				<div style = "display : inline; overflow : hidden;">
+												    					${qna.qna_Title}
+												    				</div>
+												    			</div>										
 												    		</c:when>
 												    		<c:otherwise>
-												    			<div style = "font-size : 5px; align : right;"><p style = "display : inline; margin-right : 5px;">[ Not Answered ]</p> ${qna.qna_Date}</div>
-												    			<div style="font-size: 15px; text-align: left; margin-top : 5px; width : 100%">[ Title ] ${qna.qna_Title}</div>										
+												    			<div style = "font-size : 5px;">
+												    				<p style = "display : inline;">[ Not Answered ]</p>&nbsp; ${qna.qna_Date}
+												    			</div>
+												    			<div style="font-size: 15px; text-align: left; margin-top : 5px;">
+												    				[ Title ]
+												    				<div style = "display : inline; overflow : hidden;">
+												    					${qna.qna_Title}
+												    				</div>
+												    			</div>										
 												    		</c:otherwise>
 												    	</c:choose>			       
 												    </div>
@@ -139,17 +188,17 @@
 		                                      </h3>
 		                                      <div class="accordion-collapse collapse" id="collapse_${qna.qna_Seq}" aria-labelledby="heading_${qna.qna_Seq}" data-bs-parent="#accordionExample">
 		                                         <div class="accordion-body" style = "padding : 10px;">
-		                                            <div class = "qnaDiv d-flex">
+		                                            <div class = "qnaDiv d-flex" style = "width : 100%;">
 		                                               <div style = "width : 10%; margin-right : 2%;">
 		                                         	      <label style="display: flex; align-items: center; justify-content: center; height: 100%;">
 		                                         	         Message
 		                                         	      </label>
 		                                               </div>
-		                                         	   <div style = "width : 80%; border-left : 1px solid #d4d4d9;">
-		                                         	      <div style = "margin-left : 2%;">${qna.qna_Message}</div>		
+		                                         	   <div style = "width : 76%; border-left : 1px solid #d4d4d9;">
+		                                         	      <div style = "margin-left : 2%; width : 100%; word-wrap: break-word;">${qna.qna_Message}</div>		
 		                                         	   </div>
-		                                         	   <div style = "width : 8%; border-left : 1px solid #d4d4d9;">
-		                                         	      <a href = "deleteQna?qna_Seq=${qna.qna_Seq}" style = "margin-left : 27%;">
+		                                         	   <div style = "width : 8%; margin-left : 2%; border-left : 1px solid #d4d4d9;">
+		                                         	      <a href = "deleteQna?qna_Seq=${qna.qna_Seq}" style = "margin-left : 29%;">
 		                                         	         <img src = "img/delete.png">
 		                                         	      </a>
 		                                         	   </div>
@@ -321,12 +370,10 @@
                                  <li><a class="dropdown-item rounded-3 px-2 py-1 my-1 active" href="contact">Contact</a></li>
                                  <li><a class="dropdown-item rounded-3 px-2 py-1 my-1" href="faq">FAQ</a></li>
                               </ul>
-                           </li>
-                           
+                           </li>                           
                            <li class="nav-item">
                               <a href="logout" class="nav-link"><span class="material-icons me-3">logout</span> <span>Logout</span></a>
-                           </li>
-                           
+                           </li>                           
                            <li class="nav-item dropdown">
                               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               	<c:choose>
@@ -494,8 +541,6 @@
       <script src="js/modal.js"></script>
       <!-- People Js -->
       <script src="js/people.js"></script>
-      <!-- Insert Js -->
-      <script src="js/insert.js"></script>
       <!-- Trending Js -->
       <script src="js/trending.js"></script>
       <!-- Search Peple Js -->

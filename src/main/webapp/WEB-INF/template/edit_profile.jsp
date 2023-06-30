@@ -171,43 +171,42 @@
                                     <label for="floatingBirth">DATE OF BIRTH</label>
                                  </div>
                                  <label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
-										<div class="form-floating mb-3 d-flex align-items-center">
-									    <select name="member_Country" class="form-control rounded-5" id="member_Country">
-									        <option value=""></option>
-									        <option value="Korea">Korea</option>
-									        <option value="Japan">Japan</option>
-									        <option value="China">China</option>
-									        <option value="America">America</option>
-									        <option value="Russia">Russia</option>
-									        <option value="Germany">Germany</option>
-									        <option value="Italy">Italy</option>
-									        <option value="Spain">Spain</option>
-									       
-									    </select>
-									    <label for="member_Country">Country</label>
-									</div>
-									<div class="form-floating mb-3 d-flex align-items-center">
-									    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
-									        <option value=""></option>
-									        <option value="INFJ">INFJ</option>
-									        <option value="INFP">INFP</option>
-									        <option value="ISFJ">ISFJ</option>
-									        <option value="ISFP">ISFP</option>
-									        <option value="ISTP">ISTP</option>
-									        <option value="ISTJ">ISTJ</option>
-									        <option value="INTP">INTP</option>
-									        <option value="INTJ">INTJ</option>
-									        <option value="ENTP">ENTP</option>
-									        <option value="ESTJ">ESTJ</option>
-									        <option value="ESTP">ESTP</option>
-									        <option value="ENFP">ENFP</option>
-									        <option value="ESFJ">ESFJ</option>
-									        <option value="ENTJ">ENTJ</option>
-									        <option value="ENFJ">ENFJ</option>
-									        <option value="ESFP">ESFP</option>
-									    </select>
-										    <label for="member_Mbti">MBTI</label>
-										</div>
+								 <div class="form-floating mb-3 d-flex align-items-center">
+								    <select name="member_Country" class="form-control rounded-5" id="member_Country">
+								       <option value=""></option>
+								       <option value="Korea" <c:if test="${loginUser.member_Country eq 'Korea'}">selected</c:if>>Korea</option>
+								       <option value="Japan" <c:if test="${loginUser.member_Country eq 'Japan'}">selected</c:if>>Japan</option>
+								       <option value="China" <c:if test="${loginUser.member_Country eq 'China'}">selected</c:if>>China</option>
+								       <option value="America" <c:if test="${loginUser.member_Country eq 'America'}">selected</c:if>>America</option>
+								       <option value="Russia" <c:if test="${loginUser.member_Country eq 'Russia'}">selected</c:if>>Russia</option>
+								       <option value="Germany" <c:if test="${loginUser.member_Country eq 'Germany'}">selected</c:if>>Germany</option>
+								       <option value="Italy" <c:if test="${loginUser.member_Country eq 'Italy'}">selected</c:if>>Italy</option>
+								       <option value="Spain" <c:if test="${loginUser.member_Country eq 'Spain'}">selected</c:if>>Spain</option>
+									</select>
+                                    <label for="member_Country">Country</label>
+								 </div>
+								 <div class="form-floating mb-3 d-flex align-items-center">
+								    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
+								       <option value=""></option>
+								       <option value="INFJ" <c:if test="${loginUser.member_Mbti eq 'INFJ'}">selected</c:if>>INFJ</option>
+								       <option value="INFP" <c:if test="${loginUser.member_Mbti eq 'INFP'}">selected</c:if>>INFP</option>
+								       <option value="ISFJ" <c:if test="${loginUser.member_Mbti eq 'ISFJ'}">selected</c:if>>ISFJ</option>
+								       <option value="ISFP" <c:if test="${loginUser.member_Mbti eq 'ISFP'}">selected</c:if>>ISFP</option>
+								       <option value="ISTP" <c:if test="${loginUser.member_Mbti eq 'ISTP'}">selected</c:if>>ISTP</option>
+								       <option value="ISTJ" <c:if test="${loginUser.member_Mbti eq 'ISTJ'}">selected</c:if>>ISTJ</option>
+								       <option value="INTP" <c:if test="${loginUser.member_Mbti eq 'INTP'}">selected</c:if>>INTP</option>
+								       <option value="INTJ" <c:if test="${loginUser.member_Mbti eq 'INTJ'}">selected</c:if>>INTJ</option>
+								       <option value="ENTP" <c:if test="${loginUser.member_Mbti eq 'ENTP'}">selected</c:if>>ENTP</option>
+								       <option value="ESTJ" <c:if test="${loginUser.member_Mbti eq 'ESTJ'}">selected</c:if>>ESTJ</option>
+								       <option value="ESTP" <c:if test="${loginUser.member_Mbti eq 'ESTP'}">selected</c:if>>ESTP</option>
+								       <option value="ENFP" <c:if test="${loginUser.member_Mbti eq 'ENFP'}">selected</c:if>>ENFP</option>
+								       <option value="ESFJ" <c:if test="${loginUser.member_Mbti eq 'ESFJ'}">selected</c:if>>ESFJ</option>
+								       <option value="ENTJ" <c:if test="${loginUser.member_Mbti eq 'ENTJ'}">selected</c:if>>ENTJ</option>
+								       <option value="ENFJ" <c:if test="${loginUser.member_Mbti eq 'ENFJ'}">selected</c:if>>ENFJ</option>
+								       <option value="ESFP" <c:if test="${loginUser.member_Mbti eq 'ESFP'}">selected</c:if>>ESFP</option>
+								    </select>
+								    <label for="member_Mbti">MBTI</label>
+								 </div>
 	                          </div>
 	                          <div class="rounded"  style="border:1px solid #dee2e6; height : auto; width: 96%;">
 								<label style = "width : 23%; margin-top : 12px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
@@ -543,5 +542,4 @@
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
    </body>
->>>>>>> refs/remotes/origin/develop
 </html>
