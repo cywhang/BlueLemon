@@ -111,7 +111,8 @@ public class PostAndLikeController {
 		System.out.println("==================================게시글 작성=====================================");
 		
 		// MAX(post_Seq) + 1
-		int nextSeq = postService.postSeqCheck();
+		int nextSeq = 0;
+		nextSeq = postService.postSeqCheck();
 		// nextval을 사용하지않고 강제로 시퀀스를 주입하기위한 postVO에 set해준다
 		vo.setPost_Seq(nextSeq);
 		
@@ -378,7 +379,8 @@ public class PostAndLikeController {
 
 		// 2. insert쿼리문에 파라미터 객체로 보낼 변수선언
 		// 알림 등록을 동시에 진행하기 위해 reply_Seq도 nextVal에서 강제주입으로 변경
-		int next_Reply_Seq = replyService.getMaxReply_Seq() + 1;
+		int next_Reply_Seq = 0;
+		next_Reply_Seq = replyService.getMaxReply_Seq() + 1;
 		
 		ReplyVO rep = new ReplyVO();
 		rep.setReply_Seq(next_Reply_Seq);
