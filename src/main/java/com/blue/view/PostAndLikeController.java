@@ -111,8 +111,10 @@ public class PostAndLikeController {
 		System.out.println("==================================게시글 작성=====================================");
 		
 		// MAX(post_Seq) + 1
-		int nextSeq = 0;
-		nextSeq = postService.postSeqCheck();
+		int nextSeq = postService.postSeqCheck();
+		if(nextSeq == 0) {
+			nextSeq = 1;
+		}
 		// nextval을 사용하지않고 강제로 시퀀스를 주입하기위한 postVO에 set해준다
 		vo.setPost_Seq(nextSeq);
 		
