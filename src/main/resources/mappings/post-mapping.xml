@@ -15,10 +15,11 @@
 		            FROM reply
 		            GROUP BY post_seq)
 		USING (post_seq)
-		WHERE member_id IN (SELECT FOLLOWING
+		WHERE (member_id IN (SELECT FOLLOWING
 		                    FROM follow
 		                    WHERE follower = #{member_Id})
-		OR member_id = #{member_Id}
+		       AND post_Public = 'y')
+		OR (member_id = #{member_Id})
 		ORDER BY post_Seq DESC 
 	</select> 
 	
@@ -80,10 +81,17 @@
 		WHERE member_Id = #{member_Id} AND post_Seq = #{post_Seq} AND reply_Seq = 0
 	</delete>
 	
+	<!-- 나의 Profile 페이지 용 게시글 조회 -->
+	<select id = "myPost" resultType = "post">
+		SELECT * FROM post
+		WHERE member_Id = #{member_Id}
+		ORDER BY post_Seq DESC
+	</select>
+	
 	<!-- 개인 페이지 용 게시글 조회 -->
 	<select id = "memberPost" resultType = "post">
 		SELECT * FROM post
-		WHERE member_Id = #{member_Id}
+		WHERE member_Id = #{member_Id} AND post_Public = 'y'
 		ORDER BY post_Seq DESC
 	</select>
 	
