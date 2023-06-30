@@ -119,6 +119,7 @@ public class HomeController {
 		String email_Id = email.substring(0, atIndex);
 		String email_add = email.substring(atIndex + 1);
 		
+		
 		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("member_Email", email_Id);
 		model.addAttribute("email_add", email_add);
