@@ -280,8 +280,14 @@ public class MainController {
 	    		}
 	    	}
 			
-			// 내가 쓴 글을 postlist에 담음
-			ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
+	    	
+			// 1. 이동한 프로필 페이지가 세션아이디와 같다면 public여부 상관없이 전체 조회
+	    	// 2. 이동한 프로필 페이지가 세션아이디와 다르다면 public = 'y' 게시글만 조회
+	    	PostVO pvo = new PostVO();
+	    	pvo.setMember_Id(member_Id);
+	    	pvo.setSession_Id(session_Id);
+	    	
+			ArrayList<PostVO> postlist = postService.getMemberPost(pvo);
 			//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");	
 			
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
@@ -363,13 +369,15 @@ public class MainController {
 		
 		String member_Id = requestBody.get("member_Id");
 		
-		//System.out.println("[프로필 페이지 - 1] GET MAPPING으로 MainController로 옴. 프로필 대상 : " + member_Id);
-		MemberVO member = memberService.getMember(member_Id);
-		
 		String loginUser_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 		
-		// 내가 쓴 글을 postlist에 담음
-		ArrayList<PostVO> postlist = postService.getMemberPost(member_Id);
+		// 1. 이동한 프로필 페이지가 세션아이디와 같다면 public여부 상관없이 전체 조회
+    	// 2. 이동한 프로필 페이지가 세션아이디와 다르다면 public = 'y' 게시글만 조회
+		PostVO pvo = new PostVO();
+    	pvo.setMember_Id(member_Id);
+    	pvo.setSession_Id(loginUser_Id);
+    	
+		ArrayList<PostVO> postlist = postService.getMemberPost(pvo);
 		//System.out.println("[프로필 페이지 - 2] 해당 멤버의 정보와 작성한 포스트들을 담아옴");		
 		
 		// 각 post_seq에 대한 댓글들을 매핑할 공간.
@@ -421,9 +429,6 @@ public class MainController {
 		HashMap<String, String> profilemap = memberService.getMemberProfile();
 		//System.out.println("전체 회원 프로필: " + profilemap);		
 		//System.out.println("[프로필 페이지 - 6] 출력준비를 위한 postvo 준비");
-		
-		// 화면 우측 Hottest Feed
-		List<PostVO> hottestFeed = postService.getHottestFeed();
 		
 		Map<String, Object> responseData = new HashMap<>();
 		

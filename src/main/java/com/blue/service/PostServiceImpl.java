@@ -56,8 +56,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public ArrayList<PostVO> getMemberPost(String member_Id) {		
-		return postDao.getMemberPost(member_Id);
+	public ArrayList<PostVO> getMemberPost(PostVO vo) {		
+		return postDao.getMemberPost(vo);
 	}
 
 	@Override

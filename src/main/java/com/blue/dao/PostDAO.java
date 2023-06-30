@@ -105,8 +105,8 @@ public class PostDAO {
 	}
 
 	// 개인 페이지용 게시글 목록
-	public ArrayList<PostVO> getMemberPost(String member_Id) {
-		List<PostVO> result =  mybatis.selectList("PostMapper.memberPost", member_Id);
+	public ArrayList<PostVO> getMemberPost(PostVO vo) {
+		List<PostVO> result =  mybatis.selectList("PostMapper.memberPost", vo);
 		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
 		return memberPostList;
 	}

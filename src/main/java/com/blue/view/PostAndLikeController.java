@@ -300,6 +300,8 @@ public class PostAndLikeController {
  		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
+ 		// 로그인되어있는 아이디
+ 		dataMap.put("member_Id", member_Id);
 		
 		return dataMap;
 	}
@@ -358,7 +360,9 @@ public class PostAndLikeController {
  		dataMap.put("hashtag", hashTag);
  		// 전체 회원의 프로필 이미지
  		dataMap.put("profile", profileMap);
-		
+ 		// 로그인되어있는 아이디
+ 	 	dataMap.put("member_Id", member_Id);
+ 	 	
 		return dataMap;
 	}
 	
@@ -430,6 +434,7 @@ public class PostAndLikeController {
 		dataMap.put("postInfo", postInfo);
 		dataMap.put("replies", replyList);
 		dataMap.put("profile", profileMap);
+		dataMap.put("member_Id", member_Id);
 		
 		return dataMap;
 	}
@@ -671,9 +676,11 @@ public class PostAndLikeController {
 			}
 		}
 		
-		if (vo.getPost_Public() == "") {
-		vo.setPost_Public("n");
+		// 2. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
+		if (vo.getPost_Public() == null) {
+			vo.setPost_Public("n");
 		}
+		
 		// 2. 수정 처리
 		postService.updatePost(vo);
 		System.out.println("해시태그 삭제 전");
@@ -1043,6 +1050,7 @@ public class PostAndLikeController {
 		dataMap.put("postInfo", postInfo);
 		dataMap.put("replies", replyList);
 		dataMap.put("profile", profileMap);
+		dataMap.put("member_Id", member_Id);
 		
 		return dataMap;
 	}

@@ -17,7 +17,7 @@
 		USING (post_seq)
 		WHERE member_id IN (SELECT FOLLOWING
 		                    FROM follow
-		                    WHERE follower = #{member_Id})
+		                    WHERE follower = #{member_Id}) and post_public = 'y'
 		OR member_id = #{member_Id}
 		ORDER BY post_Seq DESC 
 	</select> 
@@ -47,6 +47,7 @@
 					 FROM likes
 					 GROUP BY post_seq)
 		USING (post_seq)
+		WHERE post_public = 'y'
 		ORDER BY post_Like_Count DESC
 	</select>             
   
@@ -80,12 +81,18 @@
 		WHERE member_Id = #{member_Id} AND post_Seq = #{post_Seq} AND reply_Seq = 0
 	</delete>
 	
-	<!-- 개인 페이지 용 게시글 조회 -->
-	<select id = "memberPost" resultType = "post">
-		SELECT * FROM post
-		WHERE member_Id = #{member_Id}
-		ORDER BY post_Seq DESC
+	<!-- 사용자 별 프로필 페이지 게시글 리스트 -->
+	<select id="memberPost" resultType="post">
+	  SELECT *
+	  FROM post
+	  WHERE member_Id = #{member_Id}
+		  <if test="!member_Id.equalsIgnoreCase(session_Id)">
+		    AND post_public = 'y'
+		  </if>
+	  ORDER BY post_Seq DESC
 	</select>
+
+	
 	
 	<!-- 관리자 전체 게시글 조회 -->
 	<select id = "getAllPost" resultType = "post">
@@ -119,14 +126,6 @@
                    		   WHERE member_Id = #{member_Id})
 	</delete>
 
-	<!-- 해시태그 관련 게시글 검색 -->
-	<select id="selectHashtag" resultType="tag">
-		select * from post
-		where post_Seq in(select post_Seq
-		from tag
-		where tag_content LIKE #{tag_content})
-	</select>
-
 	<!-- 관리자 게시글 상세보기 -->
 	<select id="selectPostDetail" resultType="post">
 		SELECT *
@@ -139,6 +138,7 @@
 		select *
 		from post
 		where post_seq in (select post_seq from tag where tag_content like <![CDATA[#{tag_content}]]>)
+		  and post_public = 'y'
 	</select>
 	
 	<!-- 관리자 페이지 오늘의 해시태그 -->
