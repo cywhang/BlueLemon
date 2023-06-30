@@ -6,9 +6,9 @@
 	}
 
 	//이메일 아이디 유호성 함수	
-	function isEmailIdValid(emailId) {
+	function isEmailIdValid(email) {
 		var emailIdRegex = /^[a-zA-Z0-9]+$/;
-		if (!emailIdRegex.test(emailId)){
+		if (!emailIdRegex.test(email)){
 			return false; // 유호성 위반
 		}
 			return true; // 유호성 통과
@@ -38,7 +38,7 @@
 	var isPhone = false; 
 	  
 	  
-	$(document).ready(function() {
+	
 
 	var memberPasswordInput = $('#member_Password');
 	var passwordMessage = $('#password_message');
@@ -54,8 +54,9 @@
 	var isIdChecked = false;
 	var prevPassword = '';
 
+
 	
-	
+	$(document).ready(function() {
 
 	// 패스워드 입력칸 포커스 아웃 이벤트
 	memberPasswordInput.blur(function() {
@@ -76,7 +77,8 @@
 
 
 
-		
+
+
 
 	// 패스워드 확인 입력칸 포커스 아웃 이벤트
 	confirmPasswordInput.blur(function() {
@@ -136,8 +138,7 @@
 		var phoneNumber = memberPhoneInput.val();
 		
 		if (!isPhoneNumberValid(phoneNumber)) {
-			
-			phoneMessage.text('13자리 숫자만 입력해주세요.');
+			phoneMessage.text('11자리 숫자만 입력해주세요.');
 			phoneMessage.css("color", "red");
 			isPhone = false;
 		} else {
@@ -149,38 +150,51 @@
 	});
 	
 	});		
-	// 회원 정보 수정
+	
+
+
+	
+	// 회원 정보 수정;
 	function go_update(event) {
 		event.preventDefault();
-	   
-		var newPassword  = document.getElementById("member_Password").value;
-		var newEmail  = document.getElementById("member_Email").value;
-		var newEamiladd  = document.getElementById("email_add").value;
-		var newPhone  = document.getElementById("member_Phone").value;
-		var newPassword  = document.getElementById("member_Password").value;
 		
-		if (!isPassword) {
+		var memberPasswordInput2 = $('#member_Password');
+		var confirmPasswordInput2 = $('#repassword');
+		var memberEmailInput2 = $('#member_Email');
+		var emailaddInput2 = $('#email_add');
+		var memberPhoneInput2 = $('#member_Phone');
+		
+	   
+		  var password = memberPasswordInput2.val();
+		  var confirmPassword = confirmPasswordInput2.val();
+		  var email = memberEmailInput2.val();
+		  var emailadd = emailaddInput2.val();
+		  var phoneNumber = memberPhoneInput2.val();
+		
+		  
+		 if (!isPasswordValid(password)) {
 			alert("패스워드를 확인해주세요");
 			return;
 		}
 		
-		if (!isConfirm) {
-		    alert("패스워드가 일치하지 않습니다.");
+
+		 if (password !== confirmPassword) {
+			alert("패스워드가 일치하지 않습니다.");
 		    return;
 		}
 		
 	    
-		if (!isEmail)  {
+		 if (!isEmailIdValid(email))  {
 			alert("이메일 아이디를 확인해주세요.");	
 			return;
 		}
 		
-		if (!isEmailadd) {
+		 if (!isValidEmailAdd(emailadd)) {
 		    alert("이메일 주소를 확인해 주세요.");
 		    return;
 		}
 		
-	    if (!isPhone) {
+		 if (!isPhoneNumberValid(phoneNumber)) {
 			alert("폰번호를 확인해 주세요."); 
 			return;
 	    } 

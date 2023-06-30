@@ -225,9 +225,9 @@ public class MemberController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			// 이미지 업로드가 없을 시 기본 이미지를 사용합니다.
-			vo.setMember_Profile_Image("default.png");
+		} else if (vo.getMember_Profile_Image() == null || vo.getMember_Profile_Image().isEmpty()) {
+		    // 이미지 업로드가 없고 이전 기본 이미지도 없을 시 기본 이미지를 사용합니다.
+		    vo.setMember_Profile_Image("default.png");
 		}
 
 		// 이메일 주소를 설정합니다.
