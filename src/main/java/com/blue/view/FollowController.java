@@ -392,6 +392,8 @@ public class FollowController {
 			
 			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 			
+			String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
+			
 			// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
 	    	
@@ -512,6 +514,7 @@ public class FollowController {
 			List<PostVO> hottestFeed = postService.getHottestFeed();
 			model.addAttribute("hottestFeed", hottestFeed);
 			
+			model.addAttribute("profileImage", profileImage);
 			model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
 			
