@@ -294,8 +294,20 @@ $.ajax({
                html += '               </div>';
                html += '            </div>';
                html += '            <div class="my-2">';
-               html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+               html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
                html += '               <br>';
+               html += '<script>';
+               html += 'autolink(\'postContent\''+PostVO.post_Seq+');';
+               html += '</script>';
+               
+               html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
+
+
+               if(PostVO.post_Image_Count == 0){
+               	html += '                        <br>';
+               }else{
+               	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
+               }
                
                var hash = hashMap[PostVO.post_Seq];
 
@@ -308,16 +320,6 @@ $.ajax({
 	             		html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
 	          	  }
 	             }
-
-               html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
-
-
-               if(PostVO.post_Image_Count == 0){
-               	html += '                        <br>';
-               }else{
-               	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
-               }
-
 
                html += '               </a>';
                html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
@@ -698,4 +700,3 @@ $.ajax({
     }
 });
 }
-
