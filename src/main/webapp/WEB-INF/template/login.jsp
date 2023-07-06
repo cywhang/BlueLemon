@@ -112,7 +112,7 @@
 	}
 	
 </style>
-	<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Overpass+Mono" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Overpass+Mono" rel="stylesheet">
 </head>
 <body>	
 	<div id="wrapper">
@@ -143,10 +143,10 @@
 		</div>
 		<div class="sub-content">
 			<div class="s-part" style = "text-align : left;">
-				Don't have an account?<a href="join_view" style = "margin-left : 20px;">Sign Up</a>
+				Don't have an account ?<a href="join_view" style = "margin-left : 15px;">Sign Up</a>
 			</div>
 			<div class="s-part" style = "text-align : left;">
-				Forgot ID/Password?<a href="find_info" style = "margin-left : 28px;">Find ID/PW</a>
+				Forgot ID/Password ?<a href="find_info" style = "margin-left : 23px;">Find ID/PW</a>
 			</div>
 		</div>
 	</div>

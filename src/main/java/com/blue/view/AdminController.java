@@ -65,30 +65,31 @@ public class AdminController {
 			List<String> todaysTagContent = new ArrayList<String>();
 			List<String> todaysTagPercent = new ArrayList<String>();
 			double totalCount = 0;
+			
 			for(int i = 0; i < todaysTag.size(); i++) {
 				totalCount += todaysTag.get(i).getTag_Count();
-			}		
+			}
+			
 			for(int i = 0; i < todaysTag.size(); i++) {
+				// todaysTag.get(i).getTag_Content()을 "todaysTag.get(i).getTag_Content()"로 만들기
 				String temp = "\"" + todaysTag.get(i).getTag_Content() + "\"";
 				todaysTagContent.add(temp);
 				double div = (todaysTag.get(i).getTag_Count() / totalCount) * 100;
 				String divResult = String.format("%.2f", div);
 				todaysTagPercent.add(divResult);
 			}
+			
 			model.addAttribute("memberTendency", memberTendency);
 			model.addAttribute("todaysTagContent",todaysTagContent);
 			model.addAttribute("todaysTagPercent", todaysTagPercent);
-
-			System.out.println("todaysTagContent" + todaysTagContent);
-			System.out.println("todaysTagPercent" + todaysTagPercent);
+			
 			return "admin_Index";
 		} else {
 			
 			model.addAttribute("message", "관리자로 로그인 해주세요");
 			
 			return "login";			
-		}
-		
+		}		
 	}	
 
 	@GetMapping("/member_Table")
@@ -97,6 +98,7 @@ public class AdminController {
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
 
 			List<MemberVO> allMember = memberService.getAllMember();
+			
 			for(int i = 0; i < allMember.size(); i++) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				String joinDate = sdf.format(allMember.get(i).getMember_Join_Date());
@@ -107,7 +109,9 @@ public class AdminController {
 			
 			return "member_Table";
 		} else {
+			
 			model.addAttribute("message", "관리자로 로그인 해주세요");
+			
 			return "login";			
 		}		
 	}
@@ -129,7 +133,6 @@ public class AdminController {
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
 			// 모든 회원의 게시글을 담는부분
 			ArrayList<PostVO> postlist = postService.getAllPost();
-			//System.out.println("게시글 " + postlist.size() + "개 불러옴");
 			
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
 			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
@@ -145,15 +148,9 @@ public class AdminController {
 				
 				// i번째 게시글의 댓글 리스트를 담음
 				ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-				//System.out.println("replylist로 담음");
-				//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
-				//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
-				
 				
 				// i번째의 게시글의 댓글을 map에 매핑하는 작업
 				replymap.put(i, replylist);
-				//System.out.println(i + "번째 게시글 댓글 여부" + replymap.get(i));			
-				
 				
 				// i번째 게시글의 해시태그 체크    hashmap
 				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
@@ -162,7 +159,6 @@ public class AdminController {
 			
 			// 전체 회원 프로필 이미지 조회
 			HashMap<String, String> profilemap = memberService.getMemberProfile();
-			//System.out.println("전체 회원 프로필: " + profilemap);
 			
 			int postListSize = postlist.size();
 			
@@ -182,18 +178,16 @@ public class AdminController {
 	@GetMapping("/post_Detail")
 	public String post_detail(Model model, int post_Seq, HttpSession session) {
 		if(((MemberVO) session.getAttribute("loginUser")).getMember_Id().equals("admin")) {
-			//System.out.println("폼에서 넘겨 받은 post_Seq 값 :" + post_Seq);
 					
 			// PostVO 에 post_seq에 대한 게시글을 담는다.
 			PostVO postDetail = postService.selectPostDetail(post_Seq);
 			postDetail.setPost_Content(postDetail.getPost_Content().replace("\n", "<br>"));
-			//System.out.println("해당 시퀀스의 게시글 :" + PostDetail);
+			
 			// ReplyVO 에 post_seq에 대한 댓글 담는다.
 			ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
-			//System.out.println("해당 시퀀스의 댓글 : " + replyList);
+			
 			// TagVO 에 post_seq에 대한 해시태그를 담는다.
 			ArrayList<TagVO> hash = postService.getHashtagList(post_Seq); 
-			//System.out.println("해당 시퀀스의 해시태그 : " + hash);
 			
 			model.addAttribute("post", postDetail);
 			model.addAttribute("reply", replyList);
@@ -275,7 +269,6 @@ public class AdminController {
 	@GetMapping("/deleteQna_ByAdmin")
 	public String deleteQna_ByAdmin(@RequestParam("qna_Seq") int qna_Seq, HttpSession session, Model model) {
 		if(session.getAttribute("loginUser") == null) {
-			//System.out.println("세션값 없음");
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {

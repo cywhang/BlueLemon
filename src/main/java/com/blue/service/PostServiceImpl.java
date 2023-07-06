@@ -27,7 +27,6 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public String getLikeYN(PostVO voForLikeYN) {
 		return postDao.getLikeYN(voForLikeYN);
-		
 	}
 
 	// 게시글 좋아요 처리
@@ -39,7 +38,6 @@ public class PostServiceImpl implements PostService {
 	// 인기글 조회
 	@Override
 	public List<PostVO> getHottestFeed() {
-		//System.out.println("[인기글 - 3] getHottestFeed()를 위해 postService를 통해 postServiceImpl로 옴");
 		return postDao.getHottestFeed();
 	}
 

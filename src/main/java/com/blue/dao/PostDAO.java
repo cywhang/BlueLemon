@@ -33,19 +33,17 @@ public class PostDAO {
 	// 게시글 좋아요 여부 체크
 	public String getLikeYN(PostVO voForLikeYN) {
 		String check = mybatis.selectOne("PostMapper.checkLike", voForLikeYN);;
-		//System.out.println("[좋아요 여부 확인 - 2]DAO - getLikeYN : " + check);
+		
 		if (check == null) {
 			check = "N";
 		} else {
 			check = "Y";
 		}
-		//System.out.println("[좋아요 여부 확인 - 3] DAO에서 리턴 : " + check);
 		return check;
 	}
 	
 	// 게시글 좋아요 처리
 	public void changeLike(LikeVO vo) {
-		//System.out.println("[게시글 좋아요 - 6] changeLike()를 위해 DAO로 옴 member_Id = " + vo.getMember_Id() + "post_Seq = " + vo.getPost_Seq());
 		String check = mybatis.selectOne("PostMapper.checkLike", vo);
 		
 		// 알람
@@ -60,10 +58,8 @@ public class PostDAO {
 		// 알람 테이블에 해당 알람 있나 확인
         int alarmResult = alarmService.getOneAlarm_Seq(alarmVO);	
         
-		//System.out.println("[게시글 좋아요 - 7] post-mapping.xml에서 checkLike로 좋아요 체크");
 		if(check == null) {
 			mybatis.update("PostMapper.addLike", vo);
-			//System.out.println("[게시글 좋아요 - 8 - if] 좋아요 중 아니라서 좋아요 함");
 			
 			if(alarmResult == 0) {
 				alarmService.insertAlarm(alarmVO);
@@ -71,7 +67,6 @@ public class PostDAO {
 			
 		} else {
 			mybatis.update("PostMapper.delLike", vo);
-			//System.out.println("[게시글 좋아요 - 8 - else] 좋아요 중이라서 좋아요 취소 함");
 			
 			if(alarmResult == 0) {
 			} else {
@@ -80,13 +75,11 @@ public class PostDAO {
 		}
 	}
 	public List<PostVO> getHottestFeed() {
-		//System.out.println("[인기글 - 4] getHottestFeed()를 위해 postDAO로 오고 post-mapping.xml에 가서 받아옴");
 		return mybatis.selectList("PostMapper.getHottestFeed");
 	}
 	
 	public void insertPost(PostVO vo) {		
 		int result = mybatis.insert("PostMapper.insertPost", vo);
-		//System.out.println("게시글 작성 결과 " + result);
 	}
 	
 	// 게시글 좋아요 카운트
@@ -163,12 +156,14 @@ public class PostDAO {
 	public ArrayList<PostVO> getHashTagPost(String hashTag){
 		List<PostVO> result = mybatis.selectList("PostMapper.getHashTagPost", hashTag);
 		ArrayList<PostVO> memberPostList = new ArrayList<PostVO>(result);
+		
 		return memberPostList;
 	}
 
 	public ArrayList<TagVO> getTodaysTag() {
 		List<TagVO> result = mybatis.selectList("PostMapper.getTodaysTag");
 		ArrayList<TagVO> todaysTag = new ArrayList<TagVO>(result);
+		
 		return todaysTag;
 	}
 	

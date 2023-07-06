@@ -53,22 +53,17 @@ public class PostAndLikeController {
 	@PostMapping("/changeLike")
 	@ResponseBody
 	public String changeLike(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
-		//System.out.println("[게시글 좋아요 - 3] PostMapping으로 /changeLike 를 Map 형식으로 잡아옴.");
 	    int post_Seq = requestBody.get("post_Seq");
 	    PostVO postVO = postService.getpostDetail(post_Seq);
 	    String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-	    //System.out.println("[게시글 좋아요 - 4] 세션에서 로그인 유저 아이디 받아옴 member_Id = " + member_Id);
 	    try {
 	        LikeVO vo = new LikeVO();
 	        vo.setMember_Id(member_Id);
 	        vo.setPost_Seq(post_Seq);
 
-	        // System.out.println("[게시글 좋아요 - 5] LikeVO객체 vo를 가지고 changeLike() 요청 시작");	        
 	        postService.changeLike(vo);
-	        // System.out.println("[게시글 좋아요 - 9] changeLike 하고 js에 success 리턴");
 	        return "success";
 	    } catch (Exception e) {
-	    	// System.out.println("[좋아요 - 5 - catch] JSON 파싱 오류난 경우");
 	        // JSON 파싱 오류 처리
 	        e.printStackTrace();
 	        return "error";
@@ -79,23 +74,18 @@ public class PostAndLikeController {
 	@PostMapping("/changeReplyLike")
 	@ResponseBody
 	public String changeReplyLike(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
-		//System.out.println("[미리보기 댓글 좋아요 - 3] PostMapping으로 /changeReplyLike 를 Map 형식으로 잡아옴.");
 	    int post_Seq = requestBody.get("post_Seq");
 	    int reply_Seq = requestBody.get("reply_Seq");
 	    String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-	    //System.out.println("[미리보기 댓글 좋아요 - 4] 세션에서 로그인 유저 아이디 받아옴 member_Id = " + member_Id);
 	    try {
 	        LikeVO vo = new LikeVO();
 	        vo.setMember_Id(member_Id);
 	        vo.setPost_Seq(post_Seq);
 	        vo.setReply_Seq(reply_Seq);
 	        
-	        //System.out.println("[게시글 좋아요 - 5] LikeVO객체 vo를 가지고 changeLike() 요청 시작");
 	        replyService.changeReplyLike(vo);
-	        //System.out.println("[게시글 좋아요 - 9] changeLike 하고 js에 success 리턴");
 	        return "success";
 	    } catch (Exception e) {
-	    	//System.out.println("[좋아요 - 5 - catch] JSON 파싱 오류난 경우");
 	        // JSON 파싱 오류 처리
 	        e.printStackTrace();
 	        return "error";
@@ -123,106 +113,78 @@ public class PostAndLikeController {
 		
 		// 1. 사용자가 이미지를 첨부했을 때 
 		if (attach_file != null && attach_file.length > 0) {
-			//System.out.println("insertPost file길이 : " + attach_file.length);
 			
 			// 1. 이미지 업로드 처리 부분
 			String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
-			System.out.println(folderPath);
 			// 1. 업로드할 이미지 개수 vo 객체에 저장
 			int imgCount = attach_file.length;
 			vo.setPost_Image_Count(imgCount);
 			
 			if(imgCount == 0) { // 이미지를 업로드 하지 않았을때
-				System.out.println("이미지 없음");
 				
 			} else if (imgCount == 1 ){ // 1개의 이미지를 업로드 했을때
-				//System.out.println("이미지 " + imgCount + " 개");
 				MultipartFile file = attach_file[0];
 				String fileName = nextSeq + "-" + 1 + ".png";
-				//System.out.println(fileName);
-				//System.out.println("File Name: " + file.getOriginalFilename());
 				try {
 		            // 파일을 지정된 경로에 저장
 		            file.transferTo(new File(folderPath + fileName));
-		            //System.out.println("파일 저장 성공");
 		        } catch (IOException e) {
 		            e.printStackTrace();
-		            //System.out.println("파일 저장 실패");
 		        }
 				
 			} else { // 2개 이상의 이미지를 업로드 했을때
-				//System.out.println("이미지 " + imgCount + " 개 이상");
 				
 				if(fileList != null) { // 이미지 순서 변경이 있을 경우
-					//System.out.println("fileList.length : " + fileList.length);
 					for(int k=0; k < fileList.length; k++) {
-						//System.out.println("fileList처리중");
 						String file = fileList[k];
 				        int aa = Integer.parseInt(file.substring(4));
 				        index.put(k+1 , aa);
-				        //System.out.println("인덱스에담긴 순서 : " + index.get(k+1));
 				    }
-					//System.out.println("인덱스Map사이즈 : " + index.size());
 					
 					for(int i=1; i < (imgCount+1); i++) {
-						//System.out.println("이미지 " + imgCount + " 개");
 						int real = index.get(i);
-						//System.out.println("real : " + real);
 						MultipartFile file = attach_file[real];
 						String fileName = nextSeq + "-" + i + ".png";
-						//System.out.println(fileName);
-						//System.out.println("File Name: " + file.getOriginalFilename());
 						
 						try {
 				            // 파일을 지정된 경로에 저장
 				            file.transferTo(new File(folderPath + fileName));
-				           //System.out.println("파일 저장 성공");
 				        } catch (IOException e) {
 				            e.printStackTrace();
-				            //System.out.println("파일 저장 실패");
 				        }
 					}
 				} else {  // 이미지 순서 변경이 없을 경우
 					for(int j=1; j<imgCount+1; j++) {
 						index.put(j, j);
-						//System.out.println("인덱스에담긴 순서 : " + index.get(j));
 					}
-					//System.out.println("인덱스Map사이즈 : " + index.size());
 					
 					for(int i=1; i < (imgCount+1); i++) {
-						//System.out.println("이미지 " + imgCount + " 개");
 						int real = (index.get(i)-1);
-						//System.out.println("real : " + real);
 						MultipartFile file = attach_file[real];
 						String fileName = nextSeq + "-" + i + ".png";
-						//System.out.println(fileName);
-						//System.out.println("File Name: " + file.getOriginalFilename());
 						
 						try {
 				            // 파일을 지정된 경로에 저장
 				            file.transferTo(new File(folderPath + fileName));
-				            //System.out.println("파일 저장 성공");
 				        } catch (IOException e) {
 				            e.printStackTrace();
-				            //System.out.println("파일 저장 실패");
 				        }
 					}
 				}
 			}
 		}
-		System.out.println(vo.getPost_Public());
+		
 		// 2. 게시글의 공개여부를 체크하지 않았다면 n값으로 set
 		if (vo.getPost_Public() == null) {
 			vo.setPost_Public("n");
-			System.out.println(vo.getPost_Public());
-		
 		}
+		
 		// 3. 인서트 처리
 		postService.insertPost(vo);
 		
+		// 4. 해시태그 처리 부분
 		String hashTag = vo.getPost_Hashtag();
 		if (hashTag != null && !hashTag.isEmpty()) {
-			// 4. 해시태그 처리 부분
 			
 			try { // 2-1. 사용자가 입력한 해시태그들을 json형태로 받아와서 사용할 수 있게 파싱하는 작업
 	            ObjectMapper objectMapper = new ObjectMapper();
@@ -266,7 +228,6 @@ public class PostAndLikeController {
 		
         // 3. 전체 회원 프로필 이미지 조회
 		HashMap<String, String> profileMap = (HashMap<String, String>) session.getAttribute("profileMap");
-		//System.out.println("세션객체에 profileMap값 불러옴 : " + profileMap);
 	
 		// 4. 게시글의 좋아요 여부 체크
 		// 조회를 위한 객체 생성
@@ -293,7 +254,6 @@ public class PostAndLikeController {
 		
 		// 6. 게시글의 해시태그 
 		ArrayList<TagVO> hashTag = postService.getHashtagList(post_Seq);
-		
 		
  		// 게시글 상세정보 VO
  		dataMap.put("post", postInfo);  
@@ -374,15 +334,12 @@ public class PostAndLikeController {
 	@ResponseBody
 	public Map<String, Object> insertReply(@RequestParam("post_Seq") int post_Seq, 
 						   @RequestParam("reply_Content") String reply_Content, HttpSession session) {
-		// ajax에서 받은 값들.
-		//System.out.println("컨트롤러의 포스트 시퀀스: " + post_Seq + ", 컨트롤러의 리플라이 컨텐츠: " + reply_Content);
 		
 		// 0. ajax요청에 대한 response값 전달을 위한 Map 변수 선언
 		Map<String, Object> dataMap = new HashMap<>();
 		
 		// 1. 세션객체인 'loginUfser'객체를 MemberVO 객체로 강제 파싱해서 getter 메소드인 getMember_Id를 호출해 아이디를 가져온다.
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		//System.out.println("세션 아이디: " + member_Id);
 
 		// 2. insert쿼리문에 파라미터 객체로 보낼 변수선언
 		// 알림 등록을 동시에 진행하기 위해 reply_Seq도 nextVal에서 강제주입으로 변경
@@ -394,7 +351,6 @@ public class PostAndLikeController {
 		rep.setMember_Id(member_Id);
 		rep.setPost_Seq(post_Seq);
 		rep.setReply_Content(reply_Content);
-		//System.out.println("인서트 쿼리문에 보낼 객체 내용물: " + rep);
 		
 		// 3. insert쿼리문 실행
 		replyService.insertReply(rep);
@@ -448,7 +404,6 @@ public class PostAndLikeController {
 	public String postDelete(@RequestParam(value="post_Seq") int post_Seq, HttpSession session) {
 		
 		postService.deletePost(post_Seq);
-		//System.out.println("포스트 시퀀스 : " + post_Seq);
 		// 1. 이미지 업로드 실제경로
 		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
 		// 절대경로의 이미지 전체를 folder에 저장한다
@@ -469,15 +424,13 @@ public class PostAndLikeController {
 		            // 파일을 삭제합니다.
 		            if (file.delete()) {
 		                // 파일 삭제가 성공한 경우, 성공 메시지를 출력합니다.
-		                System.out.println("파일 삭제: " + fileName);
 		            } else {
 		                // 파일 삭제가 실패한 경우, 실패 메시지를 출력합니다.
-		                System.out.println("파일 삭제 실패: " + fileName);
 		            }
 		        }
 		    }
 	    } else {
-	        System.out.println("기존 이미지 없음");
+	        // 기존 이미지 없음
 	    }
 		return "redirect:/index";
 	}
@@ -513,20 +466,20 @@ public class PostAndLikeController {
 	// 게시글 수정 Action
 	@PostMapping("postEditAction")
 	public String postEditAction(PostVO vo, @RequestParam(value="editAttach_file", required = false) MultipartFile[] attach_file,
-								@RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,	
-								@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
-								@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
-								HttpSession session, int post_Seq) {
+											@RequestParam(value = "deletedStrings", required = false) String[] deletedStrings,	
+											@RequestParam(value = "alreadyFileNo", required = false) int alreadyFileNo,
+											@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
+											HttpSession session, int post_Seq) {
 
-		System.out.println("==================================게시글 수정=====================================");
-		System.out.println("insertPost vo : " + vo);
+//		System.out.println("==================================게시글 수정=====================================");
+//		System.out.println("insertPost vo : " + vo);
 		vo.setPost_Seq(post_Seq);
 		
-		System.out.println("attach_file : " + attach_file.length);
-		System.out.println("deletedStrings : " + deletedStrings.length);
+//		System.out.println("attach_file : " + attach_file.length);
+//		System.out.println("deletedStrings : " + deletedStrings.length);
 		int deleteStrings = deletedStrings.length;
-		System.out.println("alreadyFileNo : " + alreadyFileNo);
-		System.out.println("currentEditFileNo : " + currentEditFileNo);
+//		System.out.println("alreadyFileNo : " + alreadyFileNo);
+//		System.out.println("currentEditFileNo : " + currentEditFileNo);
 		
 		
 		
@@ -536,12 +489,12 @@ public class PostAndLikeController {
 		String imagePath = "img/uploads/post/";
 		
 		int imgCount = attach_file.length;
-		System.out.println("imgCount : " + imgCount);
+//		System.out.println("imgCount : " + imgCount);
 		vo.setPost_Image_Count(currentEditFileNo);
 		
 		
 		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
-			System.out.println("이미지 없음");
+//			System.out.println("이미지 없음");
 			
 			// 기존 파일 삭제
 			// 절대경로의 이미지 전체를 folder에 저장한다
@@ -556,7 +509,7 @@ public class PostAndLikeController {
 			        String absoluteFilePath = folderPath + fileName;
 			        File fileToDelete = new File(absoluteFilePath);
 			        if (fileToDelete.delete()) {
-			            System.out.println("파일 삭제: " + fileName);
+//			            System.out.println("파일 삭제: " + fileName);
 			            
 			            // 삭제된 파일 이후의 파일들 이름 변경
 			            int deletedIndex = Integer.parseInt(fileName.split("-")[1].split("\\.")[0]);
@@ -566,25 +519,25 @@ public class PostAndLikeController {
 			                File originalFile = new File(originalFilePath);
 			                File newFile = new File(newFilePath);
 			                if (originalFile.renameTo(newFile)) {
-			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
 			                } else {
-			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
 			                }
 			            }
 			        } else {
-			            System.out.println("파일 삭제 실패: " + fileName);
+//			            System.out.println("파일 삭제 실패: " + fileName);
 			        }
 			    }
-			}else {
-				System.out.println("기존 이미지 없음");
+			} else {
+//				System.out.println("기존 이미지 없음");
 			}
 			
 		} else if (imgCount == 1 ){ // 수정폼 제출시 이미지가 1개 일때
 			// 실제 파일  설정 부분
 			MultipartFile file = attach_file[0];
 			String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+1) + ".png";
-			System.out.println(fileName);
-			System.out.println("File Name: " + file.getOriginalFilename());
+//			System.out.println(fileName);
+//			System.out.println("File Name: " + file.getOriginalFilename());
 			
 			// 기존파일 삭제 유무 체크후 처리
 			File folder = new File(folderPath);
@@ -595,7 +548,7 @@ public class PostAndLikeController {
 			        String absoluteFilePath = folderPath + alreadyFileName;
 			        File fileToDelete = new File(absoluteFilePath);
 			        if (fileToDelete.delete()) {
-			            System.out.println("파일 삭제: " + alreadyFileName);
+//			            System.out.println("파일 삭제: " + alreadyFileName);
 			            
 			            // 삭제된 파일 이후의 파일들 이름 변경
 			            int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
@@ -605,30 +558,30 @@ public class PostAndLikeController {
 			                File originalFile = new File(originalFilePath);
 			                File newFile = new File(newFilePath);
 			                if (originalFile.renameTo(newFile)) {
-			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
 			                } else {
-			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
 			                }
 			            }
 			            
 			        } else {
-			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+//			            System.out.println("파일 삭제 실패: " + alreadyFileName);
 			        }
 			    }
-			}else {
-				System.out.println("기존 이미지 없음");
+			} else {
+//				System.out.println("기존 이미지 없음");
 			}
 			try {
 		        // 실제 파일 저장 처리 부분
 		        file.transferTo(new File(folderPath + fileName));
-		        System.out.println("파일 저장 성공");
+//		        System.out.println("파일 저장 성공");
 		    } catch (IOException e) {
 		        e.printStackTrace();
-		        System.out.println("파일 저장 실패");
+//		        System.out.println("파일 저장 실패");
 		    }
 			
 		} else { // 수정폼 제출시 이미지가 2개 이상일때
-			System.out.println("이미지 " + imgCount + " 개 ");
+//			System.out.println("이미지 " + imgCount + " 개 ");
 			
 			// 기존파일 삭제 유무 체크후 처리
 			File folder = new File(folderPath);
@@ -639,7 +592,7 @@ public class PostAndLikeController {
 			        String absoluteFilePath = folderPath + alreadyFileName;
 			        File fileToDelete = new File(absoluteFilePath);
 			        if (fileToDelete.delete()) {
-			            System.out.println("파일 삭제: " + alreadyFileName);
+//			            System.out.println("파일 삭제: " + alreadyFileName);
 			            
 			            // 삭제된 파일 이후의 파일들 이름 변경
 			            int deletedIndex = Integer.parseInt(alreadyFileName.split("-")[1].split("\\.")[0]);
@@ -649,33 +602,33 @@ public class PostAndLikeController {
 			                File originalFile = new File(originalFilePath);
 			                File newFile = new File(newFilePath);
 			                if (originalFile.renameTo(newFile)) {
-			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
+//			                    System.out.println("파일 이름 변경: " + originalFilePath + " -> " + newFilePath);
 			                } else {
-			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
+//			                    System.out.println("파일 이름 변경 실패: " + originalFilePath);
 			                }
 			            }
 			        } else {
-			            System.out.println("파일 삭제 실패: " + alreadyFileName);
+//			            System.out.println("파일 삭제 실패: " + alreadyFileName);
 			        }
 			    }
-			}else {
-				System.out.println("기존 이미지 없음");
+			} else {
+//				System.out.println("기존 이미지 없음");
 			}
 			// 실제 파일 저장 처리 부분
 			for(int i=0; i<attach_file.length; i++) {
-				System.out.println("추가된 이미지 " + imgCount + " 개");
+//				System.out.println("추가된 이미지 " + imgCount + " 개");
 				MultipartFile file = attach_file[i];     
 				String fileName = post_Seq + "-" + (alreadyFileNo-deleteStrings+(i+1)) + ".png";
-				System.out.println(fileName);
-				System.out.println("File Name: " + file.getOriginalFilename());
+//				System.out.println(fileName);
+//				System.out.println("File Name: " + file.getOriginalFilename());
 				
 				try {
 		            // 파일을 지정된 경로에 저장
 		            file.transferTo(new File(folderPath + fileName));
-		            System.out.println("파일 저장 성공");
+//		            System.out.println("파일 저장 성공");
 		        } catch (IOException e) {
 		            e.printStackTrace();
-		            System.out.println("파일 저장 실패");
+//		            System.out.println("파일 저장 실패");
 		        }
 			}
 		}
@@ -686,10 +639,9 @@ public class PostAndLikeController {
 		
 		// 2. 수정 처리
 		postService.updatePost(vo);
-		System.out.println("해시태그 삭제 전");
+		
 		// 3. 해시태그 수정 전 삭제 처리
 		postService.deleteTag(post_Seq);
-		System.out.println("해시태그 삭제");
 		
 		// 4. 해시태그 처리 부분 
 		String hashTag = vo.getPost_Hashtag();
@@ -720,23 +672,15 @@ public class PostAndLikeController {
 	public String search_HashTag(@RequestParam(value="tag_Content") String hashTag, HttpSession session, Model model){
 
 		if(session.getAttribute("loginUser") == null) {
-			//System.out.println("세션값 없음");
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
 
 			/* index페이지의 팔로우 부분 */
-			//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
 			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-			//System.out.println("[멤버추천 - 2] member_Id를 가지고 memberService에 getRecommendMember 요청");		
 			List<MemberVO> recommendMember = memberService.getRecommendMember(member_Id);
-			//System.out.println("[멤버추천 - 5] DAO에서 추천 리스트를 받아와서 List에 저장하고 model에 올리고 index.jsp 호출");
 
-			//System.out.println("[인기글 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아옴");
-			//System.out.println("[인기글 - 2] postService에 getHottestFeed 요청");
 	    	List<PostVO> hottestFeed = postService.getHottestFeed();
-	    	//System.out.println("[인기글 - 5] DAO에서 hottestFeed 받아와서 List에 저장하고 model에 올림");
-
 
 	    	// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(member_Id);
@@ -748,13 +692,13 @@ public class PostAndLikeController {
 	    		int kind = alarmList.get(j).getKind();
 	    		if(kind == 1) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-	    		}else if(kind == 2) {
+	    		} else if(kind == 2) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-	    		}else if(kind == 3) {
+	    		} else if(kind == 3) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-	    		}else if(kind == 4) {
+	    		} else if(kind == 4) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-	    		}else if(kind == 5) {
+	    		} else if(kind == 5) {
 	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
 	    		}
 	    	}
@@ -762,7 +706,6 @@ public class PostAndLikeController {
 			/* index페이지의 뉴스피드 부분 */
 			// 자신, 팔로잉한 사람들의 게시글을 담는부분
 			ArrayList<PostVO> postlist = postService.getHashTagPost(hashTag);
-			//System.out.println("게시글 " + postlist.size() + "개 불러옴");
 
 			// 각 post_seq에 대한 댓글들을 매핑할 공간.
 			Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
@@ -779,34 +722,25 @@ public class PostAndLikeController {
 
 				// i번째 게시글의 댓글 리스트를 담음
 				ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-				//System.out.println("replylist로 담음");
-				//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
-				//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
 				// i번째 게시글의 댓글 좋아요 여부 체크
 				for(int k = 0; k < replylist.size(); k++) {
 					ReplyVO voForReplyCheck = replylist.get(k);
 					String realReply_Member_Id = replylist.get(k).getMember_Id();
 					voForReplyCheck.setMember_Id(member_Id);
-					//System.out.println("[미리보기 댓글 - 2] 댓글 좋아요 눌렀나 확인하러 보냄");				
 					String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
 					replylist.get(k).setReply_LikeYN(reply_LikeYN);
-					//System.out.println("[미리보기 댓글 - 5] DAO에서 리턴받아서 set해줌. 해당 댓글 좋아요 누름 ? " + replylist.get(k).getReply_LikeYN());
 					replylist.get(k).setMember_Id(realReply_Member_Id);
 				}
 
 				// i번째의 게시글의 댓글을 map에 매핑하는 작업
 				replymap.put(i, replylist);
-				//System.out.println(i + "번째 게시글 댓글 여부" + replymap.get(i));			
 
 				// i번째 게시글의 좋아요 여부 체크
 				PostVO voForLikeYN = new PostVO();
 				voForLikeYN.setMember_Id(member_Id);
 				voForLikeYN.setPost_Seq(post_Seq);
-				//System.out.println("[좋아요 여부 확인 - 0] 게시글 번호 : " + post_Seq);
-				//System.out.println("[좋아요 여부 확인 - 1] Setting 전 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
 				String post_LikeYN = postService.getLikeYN(voForLikeYN);
 				postlist.get(i).setPost_LikeYN(post_LikeYN);
-				//System.out.println("[좋아요 여부 확인 - 4] Setting 후 post_LikeYN = " + postlist.get(i).getPost_LikeYN());
 
 				// i번째 게시글의 해시태그 체크    hashmap
 				ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
@@ -817,10 +751,8 @@ public class PostAndLikeController {
 
 			// 전체 회원 프로필 이미지 조회
 			HashMap<String, String> profilemap = memberService.getMemberProfile();
-			//System.out.println("전체 회원 프로필: " + profilemap);
 
 			List<MemberVO> searchFollow = memberService.searchMembers(hashTag);
-		    //System.out.println("[PEOPLE 탭 - 4] SEARCH PEOPLE LIST를 받아오기 성공");
 
 			List<MemberVO> myFollowing = memberService.getFollowings(member_Id);
 
@@ -833,33 +765,24 @@ public class PostAndLikeController {
 			}
 
 		    List<MemberVO> mostFamous = memberService.getMostFamousMember();
-		    //System.out.println("[PEOPLE 탭 - 7] MOST FAMOUS LIST를 받아오기 성공");
 		    
 		    List<MemberVO> followingList = memberService.getFollowings(member_Id);
 		    
 		    for(int i = 0; i < mostFamous.size(); i++) {
-				//System.out.println("팔로워 아이디");
-				//System.out.println(follower_info.get(i).getMember_Id());
 				for(int j = 0; j < followingList.size(); j++) {
-					//System.out.println("팔로잉 아이디");
-					//System.out.println(following_info.get(j).getMember_Id());
 					if(mostFamous.get(i).getMember_Id().equals(followingList.get(j).getMember_Id())) {
 						mostFamous.get(i).setBothFollow(1);
-						//System.out.println("setBoth 입력 확인 : " + follower_info.get(i).getBothFollow());
 					}
 				}
 			}
 		    
-
 		    int searchFollowSize = searchFollow.size();
 
 		    model.addAttribute("searchFollow", searchFollow);
 		    model.addAttribute("mostFamous", mostFamous);
 		    model.addAttribute("searchFollowSize", searchFollowSize);
-		    
 		    model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);
-			
 			model.addAttribute("hashTag", hashTag);
 			model.addAttribute("profileMap", profilemap);
 			model.addAttribute("postList", postlist);
@@ -879,7 +802,6 @@ public class PostAndLikeController {
 	@ResponseBody
 	public ResponseEntity<Map<String, Object>> getMoreSearchHashTag(@RequestBody Map<String, String> requestbody, HttpSession session, Model model){
 
-		//System.out.println("[멤버추천 - 1] 로그인 후 index 요청하면 GetMapping으로 잡아오고 세션의 loginUser에서 Id 뽑아서 member_Id에 저장");
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
 		String hashTag = requestbody.get("hashTag");
@@ -887,7 +809,6 @@ public class PostAndLikeController {
 		/* index페이지의 뉴스피드 부분 */
 		// 자신, 팔로잉한 사람들의 게시글을 담는부분
 		ArrayList<PostVO> postlist = postService.getHashTagPost(hashTag);
-		//System.out.println("게시글 " + postlist.size() + "개 불러옴");
 
 		// 각 post_seq에 대한 댓글들을 매핑할 공간.
 		Map<Integer, ArrayList<ReplyVO>> replymap = new HashMap<>();
@@ -901,20 +822,17 @@ public class PostAndLikeController {
 			// 자신, 팔로잉한 사람들의 게시글의 post_seq를 불러온다.
 			int post_Seq = postlist.get(i).getPost_Seq();
 			postlist.get(i).setPost_Content(postlist.get(i).getPost_Content().replace("\n", "<br>"));
+			
 			// i번째 게시글의 댓글 리스트를 담음
 			ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-			//System.out.println("replylist로 담음");
-			//System.out.println("[미리보기 댓글 - 1] replylist에 해당 게시글의 댓글 3개를 가져옴 / 아직 해당 댓글 좋아요 눌렀나 체크는 안됨");
-			//System.out.println("[미리보기 댓글 - 1.5] replylist size : " + replylist.size());
+			
 			// i번째 게시글의 댓글 좋아요 여부 체크
 			for(int k = 0; k < replylist.size(); k++) {
 				ReplyVO voForReplyCheck = replylist.get(k);
 				String realReply_Member_Id = replylist.get(k).getMember_Id();
 				voForReplyCheck.setMember_Id(member_Id);
-				//System.out.println("[미리보기 댓글 - 2] 댓글 좋아요 눌렀나 확인하러 보냄");				
 				String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
 				replylist.get(k).setReply_LikeYN(reply_LikeYN);
-				//System.out.println("[미리보기 댓글 - 5] DAO에서 리턴받아서 set해줌. 해당 댓글 좋아요 누름 ? " + replylist.get(k).getReply_LikeYN());
 				replylist.get(k).setMember_Id(realReply_Member_Id);
 			}
 
@@ -939,7 +857,6 @@ public class PostAndLikeController {
 
 		// 전체 회원 프로필 이미지 조회
 		HashMap<String, String> profilemap = memberService.getMemberProfile();
-		//System.out.println("전체 회원 프로필: " + profilemap);
 
 		Map<String, Object> responseData = new HashMap<>();
 
@@ -973,19 +890,14 @@ public class PostAndLikeController {
 		Map<String, Object> responseData = new HashMap<>();
 
 		responseData.put("postVO", postVO);
-		
 		responseData.put("replylist", replylist);
-		
 		responseData.put("hash", hash);
-		
 		responseData.put("profileMap", profileMap);
-		
 		responseData.put("session_Id", member_Id);
 
 		return ResponseEntity.ok(responseData);
 		
 	}
-	
 	
 	@PostMapping("deleteReply")
 	@ResponseBody
@@ -1025,7 +937,6 @@ public class PostAndLikeController {
 			alarmService.deleteAlarm(alarm_Seq);
 		}
 		
-		
 		// 5. 게시글의 댓글리스트를 출력하기 위한 ArrayList<ReplyVO> 값 저장
 		ArrayList<ReplyVO> replyList = replyService.getListReply(post_Seq);
 		
@@ -1057,7 +968,5 @@ public class PostAndLikeController {
 		
 		return dataMap;
 	}
-	
-	
 	
 }

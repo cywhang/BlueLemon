@@ -6,34 +6,39 @@
 	<!-- 1. 좋아요 수, 2. 작성순 으로 정렬 -->
 	<select id="listReply" resultType="reply">
 		<![CDATA[
-		select * 
-		  from reply 
-		  left outer JOIN (SELECT reply_seq, count(*) reply_Like_Count
-		                    FROM likes
-		                    GROUP BY reply_seq)
-		  USING (reply_seq)
-		  where post_seq = #{post_Seq}
-		  order by reply_Like_Count DESC NULLS LAST, reply_Seq DESC
+			SELECT *
+		  	FROM reply 
+		  	LEFT OUTER JOIN (SELECT reply_seq, count(*) reply_Like_Count
+		                     FROM likes
+		                     GROUP BY reply_seq)
+		  	USING (reply_seq)
+		  	WHERE post_seq = #{post_Seq}
+		  	ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC
 		]]>
 	</select>
 	
 	<!-- 댓글 좋아요 여부 확인 -->
 	<select id = "checkReplyLike" resultType = "String">
-		SELECT member_Id FROM likes
-		WHERE member_Id = #{member_Id} AND post_Seq = #{post_Seq} AND reply_Seq = #{reply_Seq}
+		SELECT member_Id
+		FROM likes
+		WHERE member_Id = #{member_Id}
+		  AND post_Seq = #{post_Seq}
+		  AND reply_Seq = #{reply_Seq}
 	</select>
 	
 	<!-- 댓글 리스트 3개만 -->
 	<select id="replyPreview" resultType="reply">
 		 <![CDATA[	  
-		 	SELECT * FROM (SELECT * FROM reply	    
-						   LEFT OUTER JOIN (SELECT reply_Seq, count(*) reply_Like_Count
-						                 	FROM likes
-						                	WHERE reply_Seq != 0
-						                	GROUP BY reply_Seq)
-						   USING (reply_Seq)
-						   WHERE post_Seq = #{post_Seq}
-						   ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC)
+		 	SELECT *
+		 	FROM (SELECT *
+		 		  FROM reply	    
+				  LEFT OUTER JOIN (SELECT reply_Seq, count(*) reply_Like_Count
+						    	   FROM likes
+								   WHERE reply_Seq != 0
+								   GROUP BY reply_Seq)
+				  USING (reply_Seq)
+				  WHERE post_Seq = #{post_Seq}
+				  ORDER BY reply_Like_Count DESC NULLS LAST, reply_Seq DESC)
 			WHERE ROWNUM <= 3
 	    ]]>
 	</select>
@@ -47,37 +52,42 @@
 	<!-- 댓글 좋아요 취소 -->
 	<delete id = "delReplyLike">
 		DELETE FROM likes
-		WHERE member_Id = #{member_Id} AND post_Seq = #{post_Seq} AND reply_Seq = #{reply_Seq}
+		WHERE member_Id = #{member_Id}
+		  AND post_Seq = #{post_Seq}
+		  AND reply_Seq = #{reply_Seq}
 	</delete>
 	
 	<!-- 게시글 댓글 카운트 -->
 	<select id="postReplyCount" resultType = "int">
-		select count(*)
-		  from reply
-		 where post_seq = #{post_Seq}
+		SELECT count(*)
+		FROM reply
+		WHERE post_seq = #{post_Seq}
 	</select>
 	
 	<!-- 댓글 인서트 -->
 	<insert id="insertReply">
-		insert into reply(reply_Seq, post_Seq, member_Id, reply_Content) 
-		values(#{reply_Seq}, #{post_Seq}, #{member_Id}, #{reply_Content})
+		INSERT INTO reply(reply_Seq, post_Seq, member_Id, reply_Content) 
+		VALUES(#{reply_Seq}, #{post_Seq}, #{member_Id}, #{reply_Content})
 	</insert>
 	
 	<!-- 알람용 reply 작성자 -->
 	<select id = "replyWriter" resultType = "String">
-		SELECT member_Id FROM reply WHERE reply_Seq = #{reply_Seq}
+		SELECT member_Id
+		FROM reply
+		WHERE reply_Seq = #{reply_Seq}
 	</select>
 	
 	<!-- 현재 가장 큰 reply_Seq 추출 -->
 	<select id = "getMaxReply_Seq" resultType = "int">
-		SELECT NVL(MAX(reply_Seq), 1) FROM reply
+		SELECT NVL(MAX(reply_Seq), 1)
+		FROM reply
 	</select>
 	
 	<!-- 댓글 삭제 처리 -->
 	<delete id="deleteReply">
-		delete from reply 
-		      where post_seq = #{post_Seq}
-		        and reply_seq = #{reply_Seq} 
+		DELETE FROM reply 
+		WHERE post_seq = #{post_Seq}
+		  AND reply_seq = #{reply_Seq} 
 	</delete>
 	
 </mapper>

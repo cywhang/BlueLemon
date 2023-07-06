@@ -22,20 +22,6 @@
         display: none;
     }
 </style>
-<script>
-	// 프로필 사진 미리보기 함수	
-	function previewProfileImage(event) {
-		var reader = new FileReader();
-		reader.onload = function() {
-			var output = document.getElementById('profile_image_preview');
-			output.src = reader.result;
-		};
-		reader.readAsDataURL(event.target.files[0]);
-		// 이미지 파일 이름은 출력하지 않음
-		var fileName = event.target.files[0].name;
-		document.getElementById('photo_file_name').textContent = "";
-	} 
-</script>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,11 +40,24 @@
 <link href="vendor/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
 <!-- Custom Css -->
 <link href="css/style.css" rel="stylesheet">
-<!-- Material Icons -->
+<script>
+	// 프로필 사진 미리보기 함수	
+	function previewProfileImage(event) {
+		var reader = new FileReader();
+		reader.onload = function() {
+			var output = document.getElementById('profile_image_preview');
+			output.src = reader.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);
+		// 이미지 파일 이름은 출력하지 않음
+		var fileName = event.target.files[0].name;
+		document.getElementById('photo_file_name').textContent = "";
+	} 
+</script>
 <body class="bg-light">   
-      <div class = "goToTop">
- 	     <a href = "#"><img src = "img/goToTop.png"></a>
-      </div>
+	<div class = "goToTop">
+		<a href = "#"><img src = "img/goToTop.png"></a>
+	</div>
 	<div class="theme-switch-wrapper ms-3">
 		<label class="theme-switch" for="checkbox">
 			<input	type="checkbox" id="checkbox">

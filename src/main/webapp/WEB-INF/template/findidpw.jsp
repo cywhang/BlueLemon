@@ -79,8 +79,7 @@
         .form-control {
             font-size: 14px;
         }
-    }
- 
+    } 
 </style>
 </head>
 <body>

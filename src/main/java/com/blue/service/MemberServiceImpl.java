@@ -18,7 +18,6 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Override
 	public MemberVO getMember(String member_id) {		
-		//System.out.println("[·Î±×ÀÎ - 7 - if - 2] getMember()¸¦ À§ÇØ MemberService¸¦ ÅëÇØ MemberServiceImpl·Î ¿È");
 		return memberDao.getMember(member_id);
 	}
 
@@ -39,22 +38,19 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int doLogin(MemberVO vo) {
-		//System.out.println("[·Î±×ÀÎ - 3] doLogin()À» À§ÇØ MemberService¸¦ ÅëÇØ MemberServiceImpl·Î ¿È");
 		return memberDao.doLogin(vo);
 	}
 
 	@Override
 	public List<MemberVO> getRecommendMember(String member_Id) {
-		//System.out.println("[¸â¹öÃßÃµ - 3] getRecommendMember()¸¦ À§ÇØ MemberService¸¦ ÅëÇØ MemberServiceImpl·Î ¿È");
 		return memberDao.getRecommendMember(member_Id);
 	}
 
 	@Override
 	public void changeFollow(FollowVO vo) {
-		System.out.println("[ÆÈ·Î¿ì, ¾ðÆÈ·Î¿ì - 8] changeFollow()¸¦ À§ÇØ MemberService¸¦ ÅëÇØ MemberServiceImpl·Î ¿È");
-		//System.out.println("Impl : ÆÈ·Î¿ö : " + vo.getFollower() + ", ÆÈ·ÎÀ× : " + vo.getFollowing());
 		memberDao.changeFollow(vo);
 	}
+	
 	@Override
 	public void updateMember(MemberVO vo) {
 		memberDao.updateMember(vo);
@@ -67,7 +63,6 @@ public class MemberServiceImpl implements MemberService {
 		return result == 1;
 	}
 	
-	
 	@Override
 	public HashMap<String, String> getMemberProfile() {
 		
@@ -79,7 +74,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.getMostFamousMember();
 	}
 
-	 //È¸¿ø Å»Åð
+	//È¸¿ø Å»Åð
 	@Override
 	public void deleteMember(String member_Id) {
 		memberDao.deleteMember(member_Id);
@@ -149,6 +144,4 @@ public class MemberServiceImpl implements MemberService {
 	public List<Integer> getMemberTendency() {
 		return memberDao.getMemberTendency();
 	}
-
-	
 }

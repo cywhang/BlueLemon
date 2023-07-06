@@ -47,7 +47,6 @@ public class FollowController {
 		
 		if(session.getAttribute("loginUser") == null) {
 			
-			//System.out.println("세션값 없음");			
 			model.addAttribute("message", "로그인을 해주세요");			
 			
 			return "login";			
@@ -57,8 +56,6 @@ public class FollowController {
 			
 			String profileImage = memberService.getMemberInfo(member_Id).getMember_Profile_Image();
 
-
-			
 			// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
 	    	
@@ -80,7 +77,6 @@ public class FollowController {
 	    		}
 	    	}
 			
-			//System.out.println("세션값 존재");			
 			List<FollowVO> following_Id = followService.getFollowing(member_Id);			
 			List<FollowVO> follower_Id = followService.getFollower(member_Id);			
 			List<MemberVO> following_info = new ArrayList<MemberVO>();			
@@ -90,12 +86,8 @@ public class FollowController {
 				
 				MemberVO following_member = memberService.getMemberInfo(id.getFollowing());				
 				if(following_member == null) {
-					
-					//System.out.println("팔로잉 멤버 빈 칸");
-				} else {
-					
+				} else {					
 					following_info.add(following_member);
-					//System.out.println("팔로잉 멤버 : " + following_member);
 				}
 			}
 			
@@ -104,15 +96,10 @@ public class FollowController {
 				MemberVO follower_member = memberService.getMemberInfo(id.getFollower());
 				
 				if(follower_member == null) {
-					// System.out.println("팔로워 멤버 빈 칸");
 				} else {
 					follower_info.add(follower_member);
-					//System.out.println("팔로워 멤버 : " + follower_member);
 				}
 			}
-			
-			//System.out.println("팔로잉 수 : " + following_info.size());
-			//System.out.println("팔로워 수 : " + follower_info.size());
 			
 			int followingTotalPageNum = 1;
 			
@@ -134,9 +121,6 @@ public class FollowController {
 				followerTotalPageNum = follower_info.size() / 10;
 			}
 			
-			//System.out.println("팔로잉 페이지 수 : " + followingTotalPageNum);
-			//System.out.println("팔로워 페이지 수 : " + followerTotalPageNum);			
-			
 			int followingLoadRow = 10;
 			
 			if(following_info.size() <= 10) {
@@ -150,14 +134,9 @@ public class FollowController {
 			}
 			
 			for(int i = 0; i < followerLoadRow; i++) {
-				//System.out.println("팔로워 아이디");
-				//System.out.println(follower_info.get(i).getMember_Id());
 				for(int j = 0; j < followingLoadRow; j++) {
-					//System.out.println("팔로잉 아이디");
-					//System.out.println(following_info.get(j).getMember_Id());
 					if(follower_info.get(i).getMember_Id().equals(following_info.get(j).getMember_Id())) {
 						follower_info.get(i).setBothFollow(1);
-						//System.out.println("setBoth 입력 확인 : " + follower_info.get(i).getBothFollow());
 					}
 				}
 			}
@@ -191,28 +170,21 @@ public class FollowController {
 	@PostMapping("/changeFollow")
 	@ResponseBody   
 	public String changeFollow(@RequestBody String member_Id, HttpSession session) {
-		//System.out.println("[팔로우, 언팔로우 - 3] PostMapping으로 /changeFollow 잡아옴, 대상유저 아이디 : " + member_Id);
 		String follower = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		//System.out.println("[팔로우, 언팔로우 - 4] 세션에서 로그인 유저 아이디 받아와서 follower에 담음 : " + follower);
 		try {
-			//System.out.println("[팔로우, 언팔로우 - 5 - try] js에서 data에 넣은게 {member_Id: 아이디} 이런 식이니까 거기서 꺼내는 과정이 필요");
 			ObjectMapper objectMapper = new ObjectMapper();
 			JsonNode jsonNode = objectMapper.readTree(member_Id);
 			  
 			String following = jsonNode.get("member_Id").asText();
 			
-			//System.out.println("[팔로우, 언팔로우 - 6] 꺼내서 following에 담고 follower와 following을 FollowVO 객체에 담아줌");
 			FollowVO vo = new FollowVO();
 			vo.setFollower(follower);
 			vo.setFollowing(following);
 		
-			//System.out.println("[팔로우, 언팔로우 - 7] FollowVO객체 vo를 가지고 changeFollow() 요청");
 			memberService.changeFollow(vo);
-			//System.out.println("[팔로우, 언팔로우 - 12] changeFollow 하고 js에 success 리턴");
 			
 			return "success";
 		} catch (Exception e) {
-			//System.out.println("[팔로우, 언팔로우 - 5 - catch] JSON 파싱 오류난 경우");
 			// JSON 파싱 오류 처리
 			e.printStackTrace();
 			return "error";
@@ -223,7 +195,6 @@ public class FollowController {
 	@ResponseBody
 	public Map<String, Object> moreLoadFollwing(@RequestBody Map<String, Integer> requestBody, HttpSession session) {
 		
-
 		// 0. ajax요청에 대한 response값 전달을 위한 Map 변수 선언
 		Map<String, Object> dataMap = new HashMap<>();
 		
@@ -231,12 +202,7 @@ public class FollowController {
 		int followingTotalPageNum = requestBody.get("followingTotalPageNum");
 	    int followingPageNum = requestBody.get("followingPageNum");
 		
-		
-	    //[팔로우, 언팔로우 - 3] PostMapping으로 /moreLoadFollwing 잡아옴, 총 페이지 수 : followerTotalPageNum
 		String sessionId = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		
-		//System.out.println("if이전 현재 페이지 넘버 : "+ followingPageNum);
-		//System.out.println("if이전 전체 페이지 수 : " + followingTotalPageNum);
 		
 		int LocalPageFirstNum = followingPageNum*10+1;
 		int LocalPageLastNum = followingPageNum*10+10;
@@ -244,23 +210,15 @@ public class FollowController {
 		if(followingPageNum < followingTotalPageNum) {
 			followingPageNum++;
 		} else {
-			//System.out.println("현재 페이지 넘버와 전체 페이지 넘버와 같거나 커서 스탑");
 			dataMap.put("message", "불러올 데이터가 존재하지 않습니다1");
 			return dataMap;
 		}
-		
-		//System.out.println("if이후 : " + followingPageNum);
 		
 		FollowVO followVo = new FollowVO();
 		
 		followVo.setFollower(sessionId);
 		followVo.setFollowingLocalPageFirstNum(LocalPageFirstNum);
 		followVo.setFollowingLocalPageLastNum(LocalPageLastNum);
-		
-		//System.out.println("첫번째 행 : " + LocalPageFirstNum);
-		//System.out.println("마지막 행 : " + LocalPageLastNum);
-		
-		//System.out.println(sessionId);
 		
 		// 팔로워 추가 로드하기(행~행 조건으로 조회)
 		List<FollowVO> following_Id  = followService.getMoreFollowing(followVo);
@@ -280,10 +238,8 @@ public class FollowController {
 			MemberVO following_member = memberService.getMemberInfo(id.getFollowing());
 			
 			if(following_member == null) {
-				//System.out.println("팔로잉 멤버 빈 칸");
 			}else {
 				following_info.add(following_member);
-				//System.out.println("팔로잉 멤버 : " + following_member);
 			}
 		}
 		
@@ -307,14 +263,7 @@ public class FollowController {
 		int followerTotalPageNum = requestBody.get("followerTotalPageNum");
 	    int followerPageNum = requestBody.get("followerPageNum");
 	    
-	    //System.out.println("토탈 페이지 넘버 : " + followerTotalPageNum);
-	    //System.out.println("현재 페이지 넘버 : " + followerPageNum);
-				
-	    //[팔로우, 언팔로우 - 3] PostMapping으로 /moreLoadFollwing 잡아옴, 총 페이지 수 : followerTotalPageNum
 		String sessionId = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		
-		//System.out.println("if이전 현재 페이지 넘버 : "+ followerPageNum);
-		//System.out.println("if이전 전체 페이지 수 : " + followerTotalPageNum);
 		
 		int LocalPageFirstNum = followerPageNum*10+1;
 		int LocalPageLastNum = followerPageNum*10+10;
@@ -322,21 +271,15 @@ public class FollowController {
 		if(followerPageNum < followerTotalPageNum) {
 			followerPageNum++;
 		} else {
-			//System.out.println("현재 페이지 넘버와 전체 페이지 넘버와 같거나 커서 스탑");
 			dataMap.put("message", "불러올 데이터가 존재하지 않습니다1");
 			return dataMap;
 		}
-		
-		//System.out.println("if이후 현재 페이지 넘버 : " + followerPageNum);
 		
 		FollowVO followVo = new FollowVO();
 		
 		followVo.setFollowing(sessionId);
 		followVo.setFollowerLocalPageFirstNum(LocalPageFirstNum);
 		followVo.setFollowerLocalPageLastNum(LocalPageLastNum);
-		
-		//System.out.println("첫번째 행 : " + LocalPageFirstNum);
-		//System.out.println("마지막 행 : " + LocalPageLastNum);
 		
 		// 팔로워 추가 로드하기(행~행 조건으로 조회)
 		List<FollowVO> follower_Id  = followService.getMoreFollower(followVo);
@@ -356,10 +299,8 @@ public class FollowController {
 			MemberVO follower_member = memberService.getMemberInfo(id.getFollower());
 			
 			if(follower_member == null) {
-				//System.out.println("팔로워 멤버 빈 칸");
 			} else {
 				follower_info.add(follower_member);
-				//System.out.println("팔로워 멤버 : " + follower_member);
 			}
 		}
 		
@@ -381,7 +322,6 @@ public class FollowController {
 		
 		if(session.getAttribute("loginUser") == null) {
 			
-			//System.out.println("세션값 없음");			
 			model.addAttribute("message", "로그인을 해주세요");			
 			
 			return "login";			
@@ -402,18 +342,17 @@ public class FollowController {
 	    		int kind = alarmList.get(j).getKind();
 	    		if(kind == 1) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-	    		}else if(kind == 2) {
+	    		} else if(kind == 2) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-	    		}else if(kind == 3) {
+	    		} else if(kind == 3) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-	    		}else if(kind == 4) {
+	    		} else if(kind == 4) {
 	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-	    		}else if(kind == 5) {
+	    		} else if(kind == 5) {
 	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
 	    		}
 	    	}
 			
-			//System.out.println("세션값 존재");			
 			List<FollowVO> following_Id = followService.getFollowing(member_Id);			
 			List<FollowVO> follower_Id = followService.getFollower(member_Id);			
 			List<MemberVO> following_info = new ArrayList<MemberVO>();			
@@ -423,12 +362,8 @@ public class FollowController {
 				
 				MemberVO following_member = memberService.getMemberInfo(id.getFollowing());				
 				if(following_member == null) {
-					
-					//System.out.println("팔로잉 멤버 빈 칸");
 				} else {
-					
 					following_info.add(following_member);
-					//System.out.println("팔로잉 멤버 : " + following_member);
 				}
 			}
 			
@@ -437,15 +372,10 @@ public class FollowController {
 				MemberVO follower_member = memberService.getMemberInfo(id.getFollower());
 				
 				if(follower_member == null) {
-					// System.out.println("팔로워 멤버 빈 칸");
 				} else {
 					follower_info.add(follower_member);
-					//System.out.println("팔로워 멤버 : " + follower_member);
 				}
 			}
-			
-			//System.out.println("팔로잉 수 : " + following_info.size());
-			//System.out.println("팔로워 수 : " + follower_info.size());
 			
 			int followingTotalPageNum = 1;
 			
@@ -467,9 +397,6 @@ public class FollowController {
 				followerTotalPageNum = follower_info.size() / 10;
 			}
 			
-			//System.out.println("팔로잉 페이지 수 : " + followingTotalPageNum);
-			//System.out.println("팔로워 페이지 수 : " + followerTotalPageNum);			
-			
 			int followingLoadRow = 10;
 			
 			if(following_info.size() <= 10) {
@@ -483,20 +410,12 @@ public class FollowController {
 			}
 			
 			for(int i = 0; i < followerLoadRow; i++) {
-				//System.out.println("팔로워 아이디");
-				//System.out.println(follower_info.get(i).getMember_Id());
 				for(int j = 0; j < followingLoadRow; j++) {
-					//System.out.println("팔로잉 아이디");
-					//System.out.println(following_info.get(j).getMember_Id());
 					if(follower_info.get(i).getMember_Id().equals(following_info.get(j).getMember_Id())) {
 						follower_info.get(i).setBothFollow(1);
-						//System.out.println("setBoth 입력 확인 : " + follower_info.get(i).getBothFollow());
 					}
 				}
 			}
-			
-			//System.out.println("팔로잉 출력 행 수 : " + followingLoadRow);
-			//System.out.println("팔로워 출력 행 수 : " + followerLoadRow);
 
 			model.addAttribute("following", following_info);
 			model.addAttribute("followingLoadRow", followingLoadRow);

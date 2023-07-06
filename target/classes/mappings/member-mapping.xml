@@ -4,92 +4,93 @@
 
 	<!-- 회원 ID를 조건으로 회원 조회 : getMember -->
 	<select id = "getMember" resultType = "member">
-		SELECT a.*, b.member_Follow_Count member_Follow_Count, c.member_Following_Count member_Following_Count FROM member a
-		LEFT OUTER JOIN(
-		SELECT following, COUNT(*) member_Follow_Count FROM FOLLOW GROUP BY following
-		) b
+		SELECT a.*, b.member_Follow_Count member_Follow_Count, c.member_Following_Count member_Following_Count
+		FROM member a
+		LEFT OUTER JOIN(SELECT following, COUNT(*) member_Follow_Count
+						FROM FOLLOW
+						GROUP BY following) b
 		ON a.member_Id = b.following
-		LEFT OUTER JOIN(
-		SELECT follower, COUNT(*) member_Following_Count FROM follow GROUP BY follower
-		) c
+		LEFT OUTER JOIN(SELECT follower, COUNT(*) member_Following_Count
+						FROM follow
+						GROUP BY follower) c
 		ON a.member_Id = c.follower
 		WHERE a.member_Id = #{member_Id}
 	</select>
 	
 	<!-- 회원 ID를 조건으로 회원 조회 : getMemberInfo -->
 	<select id="getMemberInfo" resultType="member">
-		SELECT * FROM member WHERE
-		member_Id = #{member_Id}
+		SELECT *
+		FROM member
+		WHERE member_Id = #{member_Id}
 	</select>
 	
 	<!-- 회원 존재 여부 조회 : confirmID -->
 	<select id = "confirmID" resultType = "String">
-		SELECT member_Password FROM member where member_Id = #{member_Id}
+		SELECT member_Password
+		FROM member
+		WHERE member_Id = #{member_Id}
 	</select>
 	
 	<!-- 회원정보조회 -->
-	<select id="selectMember" parameterType="String"
-		resultType="member">
-		select * from member where
-		member_Email = #{member_Email}
+	<select id="selectMember" parameterType="String" resultType="member">
+		SELECT *
+		FROM member 
+		WHERE member_Email = #{member_Email}
 	</select>
 	
 	<!-- 패스워드변경 -->
 	<update id="updatePassword" parameterType="member">
-		update member set member_Password=#{member_Password}
-		where member_Id= #{member_Id}
+		UPDATE member
+		SET member_Password = #{member_Password}
+		WHERE member_Id= #{member_Id}
 	</update>
 	
 	<!-- 회원 등록 : insertMember -->
 	<insert id = "insertMember">
-		insert into member 
-		values
-		(#{member_Id},#{member_Name}, #{member_Email}, #{member_Password},  
-		#{member_Phone}, sysdate,
-		to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
-		#{member_Profile_Image, jdbcType=VARCHAR}, #{member_Country,jdbcType=VARCHAR}, 
-		#{member_Mbti, jdbcType=CHAR})
+		INSERT INTO member 
+		VALUES (#{member_Id},#{member_Name}, #{member_Email}, #{member_Password}, 
+				#{member_Phone}, sysdate, to_Date(#{member_Birthday}, 'yyyy-mm-dd'), #{member_Gender}, 
+			 	#{member_Profile_Image, jdbcType=VARCHAR}, #{member_Country,jdbcType=VARCHAR}, 
+			 	#{member_Mbti, jdbcType=CHAR})
 	</insert>
 	
 	<!-- 회원 정보 수정 : updateMember -->
 	<update id="memberUpdate">
-	UPDATE member
-	SET member_Email = #{member_Email},
-					    member_Password = #{member_Password},
-					    member_Phone = #{member_Phone},
-					    member_Profile_Image = #{member_Profile_Image},
-					    member_Country = #{member_Country},
-					    member_Mbti = #{member_Mbti}
-	WHERE member_Id = #{member_Id}
-
+		UPDATE member
+		SET member_Email = #{member_Email},
+			member_Password = #{member_Password},
+			member_Phone = #{member_Phone},
+			member_Profile_Image = #{member_Profile_Image},
+			member_Country = #{member_Country},
+			member_Mbti = #{member_Mbti}
+		WHERE member_Id = #{member_Id}
 	</update>
 	
 	<!-- 회원 정보 수정(사진수정이 없을시) : updateMember -->
 	<update id="memberUpdate2">
-	UPDATE member
-	SET member_Email = #{member_Email},
-					    member_Password = #{member_Password},
-					    member_Phone = #{member_Phone},
-					    member_Country = #{member_Country},
-					    member_Mbti = #{member_Mbti}
-	WHERE member_Id = #{member_Id}
-
-	</update>
-	
+		UPDATE member
+		SET member_Email = #{member_Email},
+			member_Password = #{member_Password},
+			member_Phone = #{member_Phone},
+			member_Country = #{member_Country},
+			member_Mbti = #{member_Mbti}
+		WHERE member_Id = #{member_Id}
+	</update>	
 	
 	<!-- 로그인시 아이디와 비밀번호 확인 -->
 	<select id="loginUser" resultType="member">
-		select * from member
-		where member_Id=#{member_Id}
-		and member_Password=#{member_Password}
+		SELECT *
+		FROM member
+		WHERE member_Id = #{member_Id}
+		  AND member_Password = #{member_Password}
 	</select>
 	
 	<!-- 아이디 찾기 -->
 	<select id="searchId" resultType="String">
-		select NVL(member_Id, 0) from
-		member
-		where member_Name = #{member_Name}
-		and member_Phone = #{member_Phone}
+		SELECT NVL(member_Id, 0)
+		FROM member
+		WHERE member_Name = #{member_Name}
+		  AND member_Phone = #{member_Phone}
 	</select>
 
 	<!-- 패스워드 찾기 -->
@@ -97,27 +98,33 @@
 		SELECT member_Password
 		FROM member
 		WHERE member_Id = #{member_Id}
-		AND member_Email = #{member_Email}
+		  AND member_Email = #{member_Email}
 	</select>
 	
 	<!-- 회원 탈퇴 : memberDelete -->
 	<delete id="memberDelete">
-			DELETE FROM member WHERE member_Id = #{member_Id}
+		DELETE FROM member
+		WHERE member_Id = #{member_Id}
 	</delete>
 	
 	<!-- 친구 추천 : recommendMember -->
 	<!-- 나를 팔로우하는데 내가 팔로우하지 않는 사람 추천 -->
 	<select id = "getRecommendMember" resultType = "member">
-		SELECT * FROM member
-		WHERE member_Id in (SELECT follower from follow
-							WHERE following = #{member_Id} AND follower not in (SELECT following FROM follow
-																				WHERE follower = #{member_Id}))	
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT follower
+							FROM follow
+							WHERE following = #{member_Id}
+							  AND follower NOT IN (SELECT following
+								  				   FROM follow
+												   WHERE follower = #{member_Id}))	
 	</select>
 	
 	<!-- 팔로우 체크 -->	
 	<select id = "checkFollow" resultType = "String">
 		SELECT follower FROM follow
-		WHERE follower = #{follower} AND following = #{following}
+		WHERE follower = #{follower}
+		  AND following = #{following}
 	</select>			
 	
 	<!-- 팔로우 추가 -->		
@@ -129,7 +136,8 @@
 	<!-- 팔로우 취소 -->	
 	<delete id = "delFollow">
 		DELETE FROM follow
-		WHERE follower = #{follower} AND following = #{following}
+		WHERE follower = #{follower}
+		  AND following = #{following}
 	</delete>			
 	
 	<!-- 전체 멤버 프로필 이미지 조회 -->
@@ -139,15 +147,18 @@
 	</resultMap>
 	
 	<select id="memberProfile" resultMap="memberProfileResultMap">
-		select member_Id, member_Profile_Image 
-		  from member 
+		SELECT member_Id, member_Profile_Image 
+		FROM member 
 	</select>
 	
 	<!-- 팔로워가 가장 많은 멤버 조회 -->
 	<select id = "MostFamous" resultType = "member">
 		<![CDATA[
 			SELECT a.member_Follow_Count member_Follow_Count, b.*
-			FROM (SELECT following, COUNT(*) member_Follow_Count FROM follow GROUP BY following ORDER BY member_Follow_Count DESC) a
+			FROM (SELECT following, COUNT(*) member_Follow_Count
+				  FROM follow
+				  GROUP BY following
+				  ORDER BY member_Follow_Count DESC) a
 			LEFT OUTER JOIN member b
 			ON a.following = b.member_Id
 			WHERE ROWNUM <= 5
@@ -156,38 +167,42 @@
 	
 	<!-- 나를 팔로우한 사람 -->
 	<select id = "getFollowers" resultType = "member">
-		SELECT * FROM member
-		WHERE member_Id IN (SELECT follower FROM follow
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT follower
+							FROM follow
 							WHERE following = #{member_Id})
 	</select>
 	
 	<!-- 내가 팔로우한 사람 -->
 	<select id = "getFollowings" resultType = "member">
-		SELECT * FROM member
-		WHERE member_Id IN (SELECT following FROM follow
+		SELECT *
+		FROM member
+		WHERE member_Id IN (SELECT following
+							FROM follow
 							WHERE follower = #{member_Id})	
 	</select>
 	
 	<!-- 관리자 : 전체 멤버 조회 -->
 	<select id = "getAllMember" resultType = "member">
-		SELECT * FROM member
+		SELECT *
+		FROM member
 		WHERE member_Id != 'admin'
 	</select>
 	
 	<!-- 검색어를 기반으로 회원을 검색하는 쿼리 -->
 	<select id="searchMembers" resultType="member">
-		SELECT * FROM member
+		SELECT *
+		FROM member
 		WHERE member_Id LIKE #{keyword}||'%'
 	</select>
 	
 	<!-- 관리자 페이지 회원수 그래프 -->
 	<select id = "getMemberTendency" resultType = "Integer">
 		<![CDATA[
-			WITH date_range AS (
-				SELECT TRUNC(SYSDATE) - LEVEL + 1 AS join_date
-				FROM dual
-				CONNECT BY LEVEL <= 10
-			)
+			WITH date_range AS (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS join_date
+								FROM dual
+								CONNECT BY LEVEL <= 10)
 			SELECT NVL(memCount, 0)
 			FROM date_range
 			LEFT OUTER JOIN (SELECT TRUNC(member_Join_Date) member_Join_Date, Count(*) memCount
