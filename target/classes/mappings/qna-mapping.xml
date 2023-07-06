@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id = "checkMaxSeq" resultType = "int">
-		SELECT MAX(qna_Seq)
+		SELECT NVL(MAX(qna_Seq), 1)
 		FROM qna
 	</select>
 	

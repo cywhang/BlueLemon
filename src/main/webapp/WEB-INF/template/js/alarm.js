@@ -124,14 +124,19 @@ $.ajax({
            html += '               </a>';
            html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
            html += '                  <div class="like-group" role="group">';
-
+           
+           
            if(PostVO.post_LikeYN == "Y"){
+        	   
+        	   
                html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
                html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/unlike.png" width="20px" height="20px" data-liked = "true">';
                html += '                           </button>';
                html += '                              <p class ="post_Like_Count_' + PostVO.post_Seq + '" style="display: inline; margin-left: 3px; font-size : 13px;">' + PostVO.post_Like_Count + '</p>';
 
            }else{
+        	   
+        	   
                html += '                           <button type="button" style = "border : none; background-color : white;" onclick="toggleLike(' + PostVO.post_Seq + ')">';
                html += '                              <img class="likeImage_' + PostVO.post_Seq + '" src="img/like.png" width="20px" height="20px" data-liked = "false">';
                html += '                           </button>';
@@ -157,8 +162,8 @@ $.ajax({
 
            var reply
 
-           for(j=0; j<=2; j++){
-				var replyVO = reply[j];
+           for(l=0; l<=2; l++){
+				var replyVO = reply[l];
 
 
            if(replyVO == null){
@@ -182,12 +187,13 @@ $.ajax({
 
            //html += '												<c:set var="replySeq" value="' + reply.reply_Seq + '"/>';
 
-           if(replyVO.reply_LikeYN == 'N'){
-           	html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
+           if(replyVO.reply_LikeYN == 'Y'){
+        	   html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
                html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/unlike.png" data-liked="false">';
                html += '														</button>';
                html += '														<p class="reply_Like_Count_' + replyVO.reply_Seq + '" style="display: inline; margin-left: 1px; font-size: 10px;">' + replyVO.reply_Like_Count + '</p>';
            }else{
+        	   console.log("YN : "+replyVO.reply_LikeYN);
                html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';
                html += '														<img class="likeReplyImage_' + replyVO.reply_Seq + '" src="img/like.png" data-liked="true">';
                html += '														</button>';
