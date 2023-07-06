@@ -530,55 +530,55 @@ public class MainController {
 	}
 	
 	// Contact Form
-		@GetMapping("/alarmContact")
-		public String alarmContact(HttpSession session, Model model, @RequestParam("alarm_Seq") int alarm_Seq) {
+	@GetMapping("/alarmContact")
+	public String alarmContact(HttpSession session, Model model, @RequestParam("alarm_Seq") int alarm_Seq) {
+		
+		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+		
+		if(session.getAttribute("loginUser") == null) {
+			model.addAttribute("message", "로그인을 해주세요");
+			return "login";
+		} else {
 			
-			String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			alarmService.deleteAlarm(alarm_Seq);
 			
-			if(session.getAttribute("loginUser") == null) {
-				model.addAttribute("message", "로그인을 해주세요");
-				return "login";
-			} else {
-				
-				alarmService.deleteAlarm(alarm_Seq);
-				
-				String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
+			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 
-				// 알람 리스트를 담는 부분
-		    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
-		    	
-		    	int alarmListSize = alarmList.size();
-		    	
-		    	// 알람의 종류를 파악하는 부분
-		    	for(int j=0; j<alarmList.size(); j++) {
-		    		int kind = alarmList.get(j).getKind();
-		    		if(kind == 1) {
-		    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-		    		} else if(kind == 2) {
-		    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-		    		} else if(kind == 3) {
-		    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-		    		} else if(kind == 4) {
-		    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-		    		} else if(kind == 5) {
-		    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
-		    		}
-		    	}
-				
-		    	model.addAttribute("alarmList", alarmList);
-				model.addAttribute("alarmListSize", alarmListSize);
-		    	
-				// 우측 Hottest Feed
-				List<PostVO> hottestFeed = postService.getHottestFeed();
-				model.addAttribute("hottestFeed", hottestFeed);
-			    // 내가 작성한 qna
-				List<QnaVO> qnaList = qnaService.getMyQna(member_Id);
-				model.addAttribute("qnaList", qnaList);
-				
-				
-				return "contact";
-			}
+			// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
+	    	
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		} else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		} else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		} else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		} else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
+			
+	    	model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
+	    	
+			// 우측 Hottest Feed
+			List<PostVO> hottestFeed = postService.getHottestFeed();
+			model.addAttribute("hottestFeed", hottestFeed);
+		    // 내가 작성한 qna
+			List<QnaVO> qnaList = qnaService.getMyQna(member_Id);
+			model.addAttribute("qnaList", qnaList);
+			
+			
+			return "contact";
 		}
+	}
 	
 	@PostMapping("/qna")
 	public String qnaSending(@RequestParam("member_Id") String member_Id,

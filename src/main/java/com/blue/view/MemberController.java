@@ -142,113 +142,108 @@ public class MemberController {
 			model.addAttribute("message", "로그인을 해주세요");
 			return "login";
 		} else {
+			List<PostVO> hottestFeed = postService.getHottestFeed();
+			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 			
-		List<PostVO> hottestFeed = postService.getHottestFeed();
-		String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
-		
-		String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
-
-		// 알람 리스트를 담는 부분
-    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
-    	
-    	int alarmListSize = alarmList.size();
-    	
-    	// 알람의 종류를 파악하는 부분
-    	for(int j=0; j<alarmList.size(); j++) {
-    		int kind = alarmList.get(j).getKind();
-    		if(kind == 1) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
-    		} else if(kind == 2) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
-    		} else if(kind == 3) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
-    		} else if(kind == 4) {
-    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
-    		} else if(kind == 5) {
-    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
-    		}
-    	}
-    	
-    	MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
-    	
-    	String email = loginUser.getMember_Email();
-		int atIndex = email.indexOf("@");
-		String email_Id = email.substring(0, atIndex);
-		String email_add = email.substring(atIndex + 1);
-		
-		model.addAttribute("profileImage", profileImage);
-		model.addAttribute("loginUser", loginUser);
-		model.addAttribute("member_Email", email_Id);
-		model.addAttribute("email_add", email_add);
-    	model.addAttribute("alarmList", alarmList);
-		model.addAttribute("alarmListSize", alarmListSize);
-		model.addAttribute("hottestFeed", hottestFeed);
-		
-		return "edit_profile";
+			String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
+			// 알람 리스트를 담는 부분
+	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
+	    	int alarmListSize = alarmList.size();
+	    	
+	    	// 알람의 종류를 파악하는 부분
+	    	for(int j=0; j<alarmList.size(); j++) {
+	    		int kind = alarmList.get(j).getKind();
+	    		if(kind == 1) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님을 팔로우 <br>하였습니다.");
+	    		} else if(kind == 2) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>좋아요를 눌렀습니다.");
+	    		} else if(kind == 3) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 게시글에 <br>댓글을 달았습니다.");
+	    		} else if(kind == 4) {
+	    			alarmList.get(j).setMessage(alarmList.get(j).getFrom_Mem() + "님께서 회원님의 댓글에 <br>좋아요를 눌렀습니다.");
+	    		} else if(kind == 5) {
+	    			alarmList.get(j).setMessage("회원님께서 문의하신 질문에 <br>답글이 달렸습니다.");
+	    		}
+	    	}
+	    	MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+	    	String email = loginUser.getMember_Email();
+			int atIndex = email.indexOf("@");
+			String email_Id = email.substring(0, atIndex);
+			String email_add = email.substring(atIndex + 1);
+			model.addAttribute("profileImage", profileImage);
+			model.addAttribute("loginUser", loginUser);
+			model.addAttribute("member_Email", email_Id);
+			model.addAttribute("email_add", email_add);
+	    	model.addAttribute("alarmList", alarmList);
+			model.addAttribute("alarmListSize", alarmListSize);
+			model.addAttribute("hottestFeed", hottestFeed);
+			
+			return "edit_profile";
 		
 		}
 	}
 
 	// 회원정보 수정
-		@PostMapping("update_form")
-		public String updateMember(MemberVO vo, HttpSession session, Model model,
-				@RequestParam(value = "profile_Image") MultipartFile profilePhoto,
-				@RequestParam(value = "email_add") String emailAdd) {
+	@PostMapping("update_form")
+	public String updateMember(MemberVO vo, HttpSession session, Model model,
+			@RequestParam(value = "profile_Image") MultipartFile profilePhoto,
+			@RequestParam(value = "email_add") String emailAdd) {
+		
+		// 새로운 프로필 사진을 저장합니다.
+		if (!profilePhoto.isEmpty()) {
 			
-			// 새로운 프로필 사진을 저장합니다.
-			if (!profilePhoto.isEmpty()) {
-				
-				// 기존 프로필 사진을 삭제합니다.
-				String existingImagePath = "/WEB-INF/template/img/uploads/profile/"
-						+ vo.getMember_Profile_Image();
-				File existingImage = new File(existingImagePath);
-				if (existingImage.exists()) {
-					existingImage.delete();
-				}
-				
-				String imagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
-				String fileName = vo.getMember_Id() + ".png";
-				try {
-					profilePhoto.transferTo(new File(imagePath + fileName));
-					vo.setMember_Profile_Image(fileName);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				// 이메일 주소를 설정합니다.
-				String email = vo.getMember_Email() + "@" + emailAdd;
-				vo.setMember_Email(email);
-				
-				memberService.updateMember(vo);
-				
-			} else {
-				// 이메일 주소를 설정합니다.
-				String email = vo.getMember_Email() + "@" + emailAdd;
-				vo.setMember_Email(email);
-
-				memberService.updateMember2(vo);
+			// 기존 프로필 사진을 삭제합니다.
+			String existingImagePath = "/WEB-INF/template/img/uploads/profile/"
+					+ vo.getMember_Profile_Image();
+			File existingImage = new File(existingImagePath);
+			if (existingImage.exists()) {
+				existingImage.delete();
 			}
-
 			
+			String imagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
+			String fileName = vo.getMember_Id() + ".png";
+			try {
+				profilePhoto.transferTo(new File(imagePath + fileName));
+				vo.setMember_Profile_Image(fileName);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			// 이메일 주소를 설정합니다.
+			String email = vo.getMember_Email() + "@" + emailAdd;
+			vo.setMember_Email(email);
+			
+			memberService.updateMember(vo);
+			
+		} else {
+			// 이메일 주소를 설정합니다.
+			String email = vo.getMember_Email() + "@" + emailAdd;
+			vo.setMember_Email(email);
 
-			// 세션의 로그인 회원 정보를 업데이트합니다.
-			session.setAttribute("loginUser", vo);
-
-			// 수정된 회원 정보를 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
-			model.addAttribute("loginUser", vo);
-
-			// 이메일 아이디와 이메일 주소를 분리하여 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
-			MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
-
-			String email = loginUser.getMember_Email();
-			int atIndex = email.indexOf("@");
-			String email_Id = email.substring(0, atIndex);
-			String email_add = email.substring(atIndex + 1);
-			model.addAttribute("member_Email", email_Id);
-			model.addAttribute("email_add", email_add);
-
-			return "redirect:index";
+			memberService.updateMember2(vo);
 		}
+
+		MemberVO refreshUser = new MemberVO();
+		refreshUser = memberService.getMemberInfo(vo.getMember_Id());
+		
+		// 세션의 로그인 회원 정보를 업데이트합니다.
+		session.setAttribute("loginUser", refreshUser);
+
+		// 수정된 회원 정보를 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
+		model.addAttribute("loginUser", refreshUser);
+
+		// 이메일 아이디와 이메일 주소를 분리하여 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+
+		String email = loginUser.getMember_Email();
+		int atIndex = email.indexOf("@");
+		String email_Id = email.substring(0, atIndex);
+		String email_add = email.substring(atIndex + 1);
+		model.addAttribute("member_Email", email_Id);
+		model.addAttribute("email_add", email_add);
+
+		return "redirect:index";
+	}
 
 
 	// 회원 탈퇴 post

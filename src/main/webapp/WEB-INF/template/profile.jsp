@@ -315,7 +315,7 @@
 					<div id="profileLoadingStop"></div>
 					<c:choose>
 						<c:when test="${fn:length(postlist)<10}">
-		                  	<div id="profileFeedEnd">
+	                  		<div id="profileFeedEnd">
 	    	              		<br>
 	        	          			<h5 align="center">No Post To Show</h5>
 	            	      		<br>
@@ -330,8 +330,8 @@
 								   <p class="mb-0 mt-2">Loading</p>
 								</div>
 							</div>
-	     				</c:otherwise>
-          			</c:choose>
+	                  	</c:otherwise>
+					</c:choose>
 				</main>
 				<aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">
 					<div class="p-2 bg-light offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample">
@@ -620,7 +620,6 @@
 	</div>
       
 	<%@ include file="modal.jsp" %>
-      
     <!-- Jquery Js -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <!-- Bootstrap Bundle Js -->
@@ -641,9 +640,9 @@
     <script src="js/modalAction.js"></script>
     <!-- Trending Js -->
     <script src="js/trending.js"></script>
-    <!-- Infinite Js -->
-    <script src="js/infinite.js"></script>
-    <!-- Search Peple Js -->
+    <!-- Profile Js -->
+    <script src="js/profile.js"></script>
+    <!-- Search People Js -->
     <script src="js/searchpeople.js"></script>
 </body>
 </html>

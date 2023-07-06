@@ -104,7 +104,9 @@
 			                         	</c:when>
 			                         	<c:otherwise>
 							                <div class="ms-auto" align="center">
-		                                    	<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="followingload(${followingTotalPageNum}, ${followingPageNum})">+ 더보기</span>
+		                                 		<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followingload" onclick="followingload('${followingTotalPageNum}', '${followingPageNum}', '${member_Id}')">
+		                                 			+ 더보기
+		                                 		</span>
 		                                	</div>
 			                         	</c:otherwise>
 									</c:choose>
@@ -151,7 +153,9 @@
 		                         	</c:when>
 		                         	<c:otherwise>
 			                     		<div class="ms-auto" align="center">
-	                                 		<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followerload" onclick="followerload(${followerTotalPageNum}, ${followerPageNum})">+ 더보기</span>
+	                                 		<span class="btn btn-outline-primary btn-sm px-3 rounded-pill" id="followerload" onclick="followerload('${followerTotalPageNum}', '${followerPageNum}', '${member_Id}')">
+	                                 			+ 더보기
+	                                 		</span>
 	                                	</div>
 		                         	</c:otherwise>
 		               			</c:choose>	
@@ -175,7 +179,7 @@
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
                            		<li class="nav-item">
-                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 	                           	</li>
 	                           	<li class="nav-item">
                               		<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link active"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -249,7 +253,7 @@
                               		<a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            		</li>
                            		<li class="nav-item">
-                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              		<a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
 	                           	</li>
 	                           	<li class="nav-item">
 	                           	   	<a href="follow?member_Id=${loginUser.member_Id}" class="nav-link active"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
