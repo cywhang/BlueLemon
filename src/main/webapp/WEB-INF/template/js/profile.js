@@ -150,13 +150,16 @@ $.ajax({
 
              html += '               </a>';
              
-             if(PostVO.post_Hashtag == null){
+             var hash = hashMap[PostVO.post_Seq];
+
+             if(hash == null){
 
              }else{
-          	  var hash = hashMap[PostVO.post_Seq];
-          	  for(var i=0; i<hash.length(); i++){
-             		html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
-          	  }
+
+               for(var j=0; j<hash.length; j++){
+                  var Tag = hash[j]
+                   html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+               }
              }
              
              
