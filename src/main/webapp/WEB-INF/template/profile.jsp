@@ -33,6 +33,22 @@
 	<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 	<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 </head>
+<!-- 링크 인식기 -->
+<script>		
+	function autolink(id) {
+	
+	        var container = document.getElementById(id);
+	
+	        var doc = container.innerHTML;
+	
+	        var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
+	
+	        var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
+	
+	        container.innerHTML = doc.replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>").replace(regEmail,"<a href='mailto:$1'>$1</a>");
+	
+	}
+</script>
 <body class="bg-light">   
 	<div class = "goToTop">
 		<a href = "#"><img src = "img/goToTop.png"></a>
@@ -216,7 +232,11 @@
                                              					<!-- 게시글 내용 -->                                        
                                                 				<p class="text-dark">${postVO.post_Content}</p>
                                                 				<br>
-	                                                
+				                                                <script type="text/javascript">
+					                                                var postseq = "${postVO.post_Seq}";
+					                                                autolink('postContent'+postseq);
+				                                                </script>      
+		                                                
 	                                         					<!-- 해시태그 -->
 				                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
 				                                                	<a id="hash" href="search_HashTag?tag_Content=${hash.tag_Content}" class="mb-3 text-primary">#${hash.tag_Content}</a>&nbsp;&nbsp;
@@ -536,32 +556,44 @@
                   				<!-- 트랜딩 아이템 -->
                       			<!-- 표시할 최대 문자 수 -->
                   				<c:set var = "maxChar" value = "50"/>                              
-                				<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
-                  					<div class="p-3 border-bottom d-flex">
-                      					<c:choose>
-											<c:when test = "${postVO.post_Image_Count == 0}">
-												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-													<div class = "d-flex">
-														<div style = "width : 60%;">
-															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-									               			<small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               			<br><br>
-									               			<small class="text-muted">
-									                  			<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-									               			</small>
-									               			<br>
-									               			<c:choose>
-									                  			<c:when test="${postVO.post_Hashtag eq '' }">
-									                  			</c:when>
-									                  			<c:otherwise>
-									                     			<small class="text-muted">
-									                        			<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-									                     			</small>									                  
-									                  			</c:otherwise>
-									               			</c:choose>
-									            		</div>
-									            		<div style = "width : 40%;">	         
-									            		</div>
+                           		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+                      	     		<div class="p-3 border-bottom d-flex">
+                       	        		<c:choose>
+								   			<c:when test = "${postVO.post_Image_Count == 0}">
+								      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+							            	 		<div class = "d-flex">
+							                			<div>
+								               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+								               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
+								               				<br><div style = "height : 5%;"></div>
+											               	<small class="text-muted">
+											               		<c:choose>
+											               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
+											               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
+											               			</c:when>
+											               			<c:otherwise>
+											               				${postVO.post_Content}
+											               			</c:otherwise>
+											               		</c:choose>
+											               	</small>
+								               				<br><div style = "height : 5%;"></div>
+								               				<c:choose>
+											                  	<c:when test="${postVO.post_Hashtag eq null }">
+											                  	</c:when>
+								                  				<c:otherwise>
+								                     				<small class="text-muted">
+													               		<c:choose>
+													               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+													               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+													               			</c:when>
+													               			<c:otherwise>
+													               				${postVO.post_Hashtag}
+													               			</c:otherwise>
+													               		</c:choose>
+								                     				</small>									                  
+								                  				</c:otherwise>
+								               				</c:choose>
+								            			</div>
 													</div>
 												</a>
 											</c:when>
@@ -571,13 +603,13 @@
 														<div style = "width : 60%;">
 															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 															<small class="text-muted">Posted by ${postVO.member_Id}</small>
-															<br><br>
-									               			<small class="text-muted">
-									                  			<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-									               			</small>
-									               			<br>
-									               			<c:choose>
-																<c:when test="${postVO.post_Hashtag eq 'nothing' }">
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<c:choose>
+																<c:when test="${postVO.post_Hashtag eq null }">
 																</c:when>
 																<c:otherwise>
 																	<small class="text-muted">

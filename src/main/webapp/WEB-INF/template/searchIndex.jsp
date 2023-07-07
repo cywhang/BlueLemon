@@ -537,26 +537,38 @@
 									   			<c:when test = "${postVO.post_Image_Count == 0}">
 									      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
 								            	 		<div class = "d-flex">
-								                			<div style = "width : 60%;">
+								                			<div>
 									               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 									               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               				<br><br>
+									               				<br><div style = "height : 5%;"></div>
 												               	<small class="text-muted">
-																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+												               		<c:choose>
+												               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
+												               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
+												               			</c:when>
+												               			<c:otherwise>
+												               				${postVO.post_Content}
+												               			</c:otherwise>
+												               		</c:choose>
 												               	</small>
-									               				<br>
+									               				<br><div style = "height : 5%;"></div>
 									               				<c:choose>
-												                  	<c:when test="${postVO.post_Hashtag eq '' }">
+												                  	<c:when test="${postVO.post_Hashtag eq null }">
 												                  	</c:when>
 									                  				<c:otherwise>
 									                     				<small class="text-muted">
-									                        				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+														               		<c:choose>
+														               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+														               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+														               			</c:when>
+														               			<c:otherwise>
+														               				${postVO.post_Hashtag}
+														               			</c:otherwise>
+														               		</c:choose>
 									                     				</small>									                  
 									                  				</c:otherwise>
 									               				</c:choose>
 									            			</div>
-															<div style = "width : 40%;">	         
-															</div>
 														</div>
 													</a>
 												</c:when>
@@ -566,13 +578,13 @@
 															<div style = "width : 60%;">
 																<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 																<small class="text-muted">Posted by ${postVO.member_Id}</small>
-																<br><br>
+																<br><div style = "height : 5%;"></div>
 																<small class="text-muted">
 																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
 																</small>
-																<br>
+																<br><div style = "height : 5%;"></div>
 																<c:choose>
-																	<c:when test="${postVO.post_Hashtag eq 'nothing' }">
+																	<c:when test="${postVO.post_Hashtag eq null }">
 																	</c:when>
 																	<c:otherwise>
 																		<small class="text-muted">

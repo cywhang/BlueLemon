@@ -338,60 +338,72 @@
                        	        		<c:choose>
 								   			<c:when test = "${postVO.post_Image_Count == 0}">
 								      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-							             			<div class = "d-flex">
-							                			<div style = "width : 60%;">
+							            	 		<div class = "d-flex">
+							                			<div>
 								               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 								               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-								               				<br><br>
-								               				<small class="text-muted">
-								                  				<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-								               				</small>
-								               				<br>
+								               				<br><div style = "height : 5%;"></div>
+											               	<small class="text-muted">
+											               		<c:choose>
+											               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
+											               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
+											               			</c:when>
+											               			<c:otherwise>
+											               				${postVO.post_Content}
+											               			</c:otherwise>
+											               		</c:choose>
+											               	</small>
+								               				<br><div style = "height : 5%;"></div>
 								               				<c:choose>
-								                  				<c:when test="${postVO.post_Hashtag eq '' }">
-								                  				</c:when>
+											                  	<c:when test="${postVO.post_Hashtag eq null }">
+											                  	</c:when>
 								                  				<c:otherwise>
 								                     				<small class="text-muted">
-								                        				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+													               		<c:choose>
+													               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+													               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+													               			</c:when>
+													               			<c:otherwise>
+													               				${postVO.post_Hashtag}
+													               			</c:otherwise>
+													               		</c:choose>
 								                     				</small>									                  
 								                  				</c:otherwise>
-								              			 	</c:choose>
+								               				</c:choose>
 								            			</div>
-								            			<div style = "width : 40%;">	         
-								            			</div>
-								         			</div>
-								      			</a>
-								   			</c:when>
-								   			<c:otherwise>
-								      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
-							             			<div class = "d-flex">
-							                			<div style = "width : 60%;">
-								               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-								               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-								               				<br><br>
-								               				<small class="text-muted">
-								                  				<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-								               				</small>
-								               				<br>
-										               		<c:choose>
-										                  		<c:when test="${postVO.post_Hashtag eq 'nothing' }">
-										                  		</c:when>
-										                  		<c:otherwise>
-										                     		<small class="text-muted">
-										                        		<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-										                     		</small>									                  
-										                  		</c:otherwise>
-										               		</c:choose>
-								            			</div>
-								            			<div style = "width : 40%;">								      									         
-								      	       				<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
-								            			</div>
-								         			</div>
-								      			</a>
-								   			</c:otherwise>
+													</div>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+													<div class = "d-flex">
+														<div style = "width : 60%;">
+															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+															<small class="text-muted">Posted by ${postVO.member_Id}</small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<c:choose>
+																<c:when test="${postVO.post_Hashtag eq null }">
+																</c:when>
+																<c:otherwise>
+																	<small class="text-muted">
+																		<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+																	</small>									                  
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div style = "width : 40%;">								      									         
+															<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
+														</div>
+													</div>
+												</a>
+											</c:otherwise>
 										</c:choose>	
-			         				</div>
-				  				</c:forEach>
+									</div>
+								</c:forEach>
          					</div>
           				</div>
     				</div>

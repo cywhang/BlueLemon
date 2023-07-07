@@ -162,9 +162,9 @@
                             					<!-- 작성자의 프로필사진 -->
                              					<img src="img/uploads/profile/${profileMap[postVO.member_Id]}"  class="img-fluid rounded-circle user-img" alt="profile-img">
                                        			<div class="d-flex ms-3 align-items-start w-100">
-                                          			<div class="w-100">
+                                          			<div class="w-100" >
 	                                             		<div class="d-flex align-items-center justify-content-between">
-	                                                		<a href = "profile?member_Id=${postVO.member_Id}" class="text-decoration-none" >
+	                                                		<a href = "profile?member_Id=${postVO.member_Id}" class="text-decoration-none">
 	                                                   			<h6 class="fw-bold mb-0 text-body" style="font-size: 26px;">${postVO.member_Id}</h6>
 	                                                		</a>
 	                                                		<div class="d-flex align-items-center small">
@@ -195,7 +195,7 @@
 	                                                   			</c:choose>
 	                                                		</div>
 	                              						</div>
-			                               				<div class="my-2">
+			                               				<div class="my-2" >
 			                                                <!-- 게시글의 사진 (클릭시 게시글 상세보기 모달창 출력) -->
 			                                     			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})">
 				                                   				<c:choose>
@@ -208,8 +208,8 @@
 				                                 				</c:choose>
 			                                                </a>
 			                                                <br>
-			                                             	<!-- 게시글 내용 -->                                        
-			                                                <p class="text-dark" id="postContent${postVO.post_Seq}">${postVO.post_Content}</p>
+			                                             	<!-- 게시글 내용 -->
+			                                             	<p class="text-dark w-100" id="postContent${postVO.post_Seq}" style = "word-wrap: break-word;" >${postVO.post_Content}</p>
 			                                                <br>
 			                                                <script type="text/javascript">
 				                                                var postseq = "${postVO.post_Seq}";
@@ -509,10 +509,10 @@
                         		</div>
                         		<!-- 검색 결과 리스트 -->
                         		<div id="searchResults"></div>
+                              	
+                              	<!-- Hottest Feed -->
                            		<div class="bg-white rounded-4 overflow-hidden shadow-sm mb-4">
-                              		<!-- 실시간 인기 급상승 게시글 -->
                               		<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
-	                              	<!-- 트랜딩 아이템 -->
 	                              	<!-- 표시할 최대 문자 수 -->
                               		<c:set var = "maxChar" value = "50"/>                              
                               		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
@@ -521,26 +521,38 @@
 									   			<c:when test = "${postVO.post_Image_Count == 0}">
 									      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
 								            	 		<div class = "d-flex">
-								                			<div style = "width : 60%;">
+								                			<div>
 									               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 									               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               				<br><br>
+									               				<br><div style = "height : 5%;"></div>
 												               	<small class="text-muted">
-																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+												               		<c:choose>
+												               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
+												               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
+												               			</c:when>
+												               			<c:otherwise>
+												               				${postVO.post_Content}
+												               			</c:otherwise>
+												               		</c:choose>
 												               	</small>
-									               				<br>
+									               				<br><div style = "height : 5%;"></div>
 									               				<c:choose>
-												                  	<c:when test="${postVO.post_Hashtag eq '' }">
+												                  	<c:when test="${postVO.post_Hashtag eq null }">
 												                  	</c:when>
 									                  				<c:otherwise>
 									                     				<small class="text-muted">
-									                        				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+														               		<c:choose>
+														               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+														               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+														               			</c:when>
+														               			<c:otherwise>
+														               				${postVO.post_Hashtag}
+														               			</c:otherwise>
+														               		</c:choose>
 									                     				</small>									                  
 									                  				</c:otherwise>
 									               				</c:choose>
 									            			</div>
-															<div style = "width : 40%;">	         
-															</div>
 														</div>
 													</a>
 												</c:when>
@@ -550,13 +562,13 @@
 															<div style = "width : 60%;">
 																<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
 																<small class="text-muted">Posted by ${postVO.member_Id}</small>
-																<br><br>
+																<br><div style = "height : 5%;"></div>
 																<small class="text-muted">
 																	<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
 																</small>
-																<br>
+																<br><div style = "height : 5%;"></div>
 																<c:choose>
-																	<c:when test="${postVO.post_Hashtag eq 'nothing' }">
+																	<c:when test="${postVO.post_Hashtag eq null }">
 																	</c:when>
 																	<c:otherwise>
 																		<small class="text-muted">

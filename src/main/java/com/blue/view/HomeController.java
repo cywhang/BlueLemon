@@ -26,6 +26,8 @@ public class HomeController {
 	private AlarmService alarmService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private PostService postService;
 	
 	@GetMapping(value="/faq")
 	public String Faq(HttpSession session, Model model) {
@@ -38,6 +40,7 @@ public class HomeController {
 		
 			String session_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();			
 			String profileImage = memberService.getMemberInfo(session_Id).getMember_Profile_Image();
+			List<PostVO> hottestFeed = postService.getHottestFeed();
 			
 			// 알람 리스트를 담는 부분
 	    	List<AlarmVO> alarmList = alarmService.getAllAlarm(session_Id);
@@ -60,6 +63,7 @@ public class HomeController {
 	    		}
 	    	}
 	    	
+	    	model.addAttribute("hottestFeed", hottestFeed);
 	    	model.addAttribute("profileImage", profileImage);
 	    	model.addAttribute("alarmList", alarmList);
 			model.addAttribute("alarmListSize", alarmListSize);			

@@ -45,9 +45,14 @@
 		SELECT *
 		FROM post 
 		INNER JOIN (SELECT post_seq, count(*) post_Like_Count
-					FROM likes
+		            FROM likes
 					GROUP BY post_seq)
 		USING (post_seq)
+		LEFT OUTER JOIN (SELECT post_Seq, LISTAGG(CONCAT('#', tag_Content), ' ')
+		                 WITHIN GROUP (ORDER BY tag_Seq) AS post_Hashtag
+		                 FROM tag
+		                 GROUP BY post_Seq) a
+		USING (post_Seq)
 		WHERE post_public = 'y'
 		ORDER BY post_Like_Count DESC
 	</select>             

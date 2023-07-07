@@ -134,7 +134,7 @@ $.ajax({
              html += '               </div>';
              html += '            </div>';
              html += '            <div class="my-2">';
-             html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+             html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
 
              
 
@@ -256,6 +256,7 @@ $.ajax({
 
 
              feed.innerHTML += html;
+             autolink('postContent'+PostVO.post_Seq);
              html = "";
 
 
