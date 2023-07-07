@@ -22,20 +22,6 @@
         display: none;
     }
 </style>
-<script>
-	// 프로필 사진 미리보기 함수	
-	function previewProfileImage(event) {
-		var reader = new FileReader();
-		reader.onload = function() {
-			var output = document.getElementById('profile_image_preview');
-			output.src = reader.result;
-		};
-		reader.readAsDataURL(event.target.files[0]);
-		// 이미지 파일 이름은 출력하지 않음
-		var fileName = event.target.files[0].name;
-		document.getElementById('photo_file_name').textContent = "";
-	}
-</script>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -54,8 +40,24 @@
 <link href="vendor/icons/css/materialdesignicons.min.css" rel="stylesheet" type="text/css">
 <!-- Custom Css -->
 <link href="css/style.css" rel="stylesheet">
-<!-- Material Icons -->
-<body class="bg-light">
+<script>
+	// 프로필 사진 미리보기 함수	
+	function previewProfileImage(event) {
+		var reader = new FileReader();
+		reader.onload = function() {
+			var output = document.getElementById('profile_image_preview');
+			output.src = reader.result;
+		};
+		reader.readAsDataURL(event.target.files[0]);
+		// 이미지 파일 이름은 출력하지 않음
+		var fileName = event.target.files[0].name;
+		document.getElementById('photo_file_name').textContent = "";
+	} 
+</script>
+<body class="bg-light">   
+	<div class = "goToTop">
+		<a href = "#"><img src = "img/goToTop.png"></a>
+	</div>
 	<div class="theme-switch-wrapper ms-3">
 		<label class="theme-switch" for="checkbox">
 			<input	type="checkbox" id="checkbox">
@@ -69,7 +71,7 @@
 			<div class="row position-relative">
 				<!-- Main Content -->
 				<main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12" style = "margin : auto;">
-					<form id="create_form" method="post" action="create_form"	enctype="multipart/form-data">
+					<form id="createAccount" method="post" action="create_form" enctype="multipart/form-data">
 						<div class="main-content">
 							<div class="mb-5">
 								<header class="profile d-flex align-items-center">
@@ -91,19 +93,20 @@
 									<div class="col-lg-12" style = "margin-bottom : 5%;">
 										<label class="mb-2 text-muted small" style = "margin-left : 5px;">필수 입력 항목</label>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id">
-											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" id="check_duplicate_button">중복 체크</button>
+											<input type="text" class="form-control rounded-5" id="member_Id" name="member_Id" maxlength="12">
+											<button type="button" class="btn btn-primary rounded-5 w-50 text-decoration-none py-3 fw-bold text-uppercase m-0" 
+											id="check_duplicate_button" >중복 체크</button>
 											<span id="id_error_message" class="error-message"></span>
 											<span id="duplicate_result"></span>
 											<label for="floatingssName">ID</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password" >
+											<input type="password" name="member_Password" class="form-control rounded-5" id="member_Password" maxlength="12">
 											<span id="password_message"	class="error-message"></span>
 											<label for="floatingssName">PASSWORD</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-end">
-											<input type="password" name="repassowrd" class="form-control rounded-5" id="repassword">
+											<input type="password" name="repassowrd" class="form-control rounded-5" id="repassword" maxlength="12">
 											<span id="confirm_password_message"	class="error-message"></span>
 											<label for="floatingssName">REPASSWORD</label>
 										</div>
@@ -124,7 +127,7 @@
 											<label for="floatingEmail">PHONE</label>
 										</div>
 										<div class="form-floating mb-3 d-flex align-items-center">
-											<input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth">
+											<input type="date" class="form-control rounded-5" name="member_Birthday" id="member_Birth" onclick="handleDateClick()">
 											<label for="floatingBirth">DATE OF BIRTH</label>
 										</div>
 										<div class="d-flex align-items-center mb-3 px-0 rounded"  style="border:1px solid #dee2e6;">
@@ -139,21 +142,47 @@
 											</div>
 										</div>
 										<label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
-										<div>
-											<div class="form-floating mb-3 d-flex align-items-center">
-												<input type="text" name="member_Country" class="form-control rounded-5" name="member_Country" id="member_Country">
-												<label for="floatingBirth">Country</label>
-											</div>
-											<div class="form-floating mb-3 d-flex align-items-center">
-												<input  type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti">
-												<label for="floatingBirth">MBTI</label>
-											</div>
+										<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Country" class="form-control rounded-5" id="member_Country">
+									        <option value=""></option>
+									        <option value="Korea">Korea</option>
+									        <option value="Japan">Japan</option>
+									        <option value="China">China</option>
+									        <option value="America">America</option>
+									        <option value="Russia">Russia</option>
+									        <option value="Germany">Germany</option>
+									        <option value="Italy">Italy</option>
+									        <option value="Spain">Spain</option>									       
+									    </select>
+									    <label for="member_Country">Country</label>
+									</div>
+									<div class="form-floating mb-3 d-flex align-items-center">
+									    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
+									        <option value=""></option>
+									        <option value="INFJ">INFJ</option>
+									        <option value="INFP">INFP</option>
+									        <option value="ISFJ">ISFJ</option>
+									        <option value="ISFP">ISFP</option>
+									        <option value="ISTP">ISTP</option>
+									        <option value="ISTJ">ISTJ</option>
+									        <option value="INTP">INTP</option>
+									        <option value="INTJ">INTJ</option>
+									        <option value="ENTP">ENTP</option>
+									        <option value="ESTJ">ESTJ</option>
+									        <option value="ESTP">ESTP</option>
+									        <option value="ENFP">ENFP</option>
+									        <option value="ESFJ">ESFJ</option>
+									        <option value="ENTJ">ENTJ</option>
+									        <option value="ENFJ">ENFJ</option>
+									        <option value="ESFP">ESFP</option>
+									    </select>
+										    <label for="member_Mbti">MBTI</label>
 										</div>
 										<div class="rounded"  style="border:1px solid #dee2e6; height : auto;">
 											<label style = "width : 23%; margin-top : 10px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
 												Profile Image
 											</label><br>
-											<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 1%; margin-top : 1%;">
+											<label for="member_Profile_Image" class="custom-file-upload" style = "margin-left : 2%; margin-bottom : 2%; margin-top : 1%;">
 												<span style = "color : white;">Upload</span>
 												<input type="file" name="profile_Image" accept=".png" id="member_Profile_Image" onchange="previewProfileImage(event)">
 											</label>											
@@ -161,7 +190,7 @@
 										</div>
 									</div>
 									<div>
-										<button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick="go_save()">SAVE</button>
+										<button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick="go_save(event)">SAVE</button>
 									</div>
 								</div>
 							</div>

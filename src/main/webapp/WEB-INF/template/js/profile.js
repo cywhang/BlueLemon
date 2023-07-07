@@ -123,7 +123,7 @@ $.ajax({
 						html += '                <div class="dropdown">';
 	                    html += '                  <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>';
 	                    html += '                  <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">';
-	                    html += '                    <li><button class="dropdown-item text-muted editbutton" onclick="postEditView(${postVO.post_Seq})" data-bs-toggle="modal" data-bs-target="#postModal2"><span class="material-icons md-13 me-1">edit</span>Edit</button></li>';
+	                    html += '                    <li><button class="dropdown-item text-muted editbutton" onclick="postEditView(' + PostVO.post_Seq + ')" data-bs-toggle="modal" data-bs-target="#postModal2"><span class="material-icons md-13 me-1">edit</span>Edit</button></li>';
 	                    html += '                    <li><a class="dropdown-item text-muted deletebutton" onclick="deletePost(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
 	                    html += '                  </ul>';
 	                    html += '                </div>';
@@ -134,7 +134,7 @@ $.ajax({
              html += '               </div>';
              html += '            </div>';
              html += '            <div class="my-2">';
-             html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+             html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
 
              
 
@@ -150,13 +150,16 @@ $.ajax({
 
              html += '               </a>';
              
-             if(PostVO.post_Hashtag == null){
+             var hash = hashMap[PostVO.post_Seq];
+
+             if(hash == null){
 
              }else{
-          	  var hash = hashMap[PostVO.post_Seq];
-          	  for(var i=0; i<hash.length(); i++){
-             		html += '               <a href="#" class="mb-3 text-primary">' + hash.tag_Content + '</a>';
-          	  }
+
+               for(var j=0; j<hash.length; j++){
+                  var Tag = hash[j]
+                   html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+               }
              }
              
              
@@ -256,8 +259,8 @@ $.ajax({
 
 
              feed.innerHTML += html;
+             autolink('postContent'+PostVO.post_Seq);
              html = "";
-
 
 
 

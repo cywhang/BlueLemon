@@ -56,7 +56,6 @@
     }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/editprofile.js"></script>
 <script>
 	// 프로필 사진 미리보기 함수	
 	function previewProfileImage(event) {
@@ -77,10 +76,15 @@
 		alert("BLUE LEMON 탈퇴가 완료되었습니다.\n 그동안 이용해주셔서 감사합니다.")
 	}
 	
+	$('#member_Country').val("${loginUser.member_Country}").prop("selected", true);
+	console.log($('#member_Country'));
 </script>	  
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
-   <body class="bg-light">
+   <body class="bg-light">   
+      <div class = "goToTop">
+ 	     <a href = "#"><img src = "img/goToTop.png"></a>
+      </div>
    	  <!-- 페이지 우측 하단에 고정되어있는 테마 변경 스위치  -->
       <div class="theme-switch-wrapper ms-3">
          <label class="theme-switch" for="checkbox">
@@ -111,7 +115,7 @@
                <!-- Main Content -->
                <!-- index페이지의 센터 column -->
                <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-1 col-md-12 col-sm-12 col-12">
-             <form id="update_form" method="post" action="update_form" enctype="multipart/form-data">
+             <form id="edit_profile" method="post" action="update_form" enctype="multipart/form-data">
                	  <div class="main-content">
 	                 <div class="mb-5">
 	                    <header class="profile d-flex align-items-center">
@@ -135,13 +139,13 @@
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" class="form-control rounded-5" id="member_Password" 
-                                    name="member_Password" value="${loginUser.member_Password}">
+                                    name="member_Password" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="password_message" class="error-message"></span>
                                     <label for="floatingssName">PASSWORD</label>
                                  </div>
                                  <div class="form-floating mb-3 d-flex align-items-end">
                                     <input type="password" name="repassowrd" class="form-control rounded-5" id="repassword" 
-                                    placeholder="#" value="${loginUser.member_Password}">
+                                    placeholder="#" value="${loginUser.member_Password}" maxlength="12">
                                     <span id="confirm_password_message" class="error-message"></span>
                                     <label for="floatingssName">REPASSWORD</label>
                                  </div>
@@ -168,14 +172,43 @@
                                     <input type="text" class="form-control rounded-5" id="member_Birthday" name="member_Birthday" value="${loginUser.member_Birthday}" readonly>
                                     <label for="floatingBirth">DATE OF BIRTH</label>
                                  </div>
-                                 <div class="form-floating mb-3 d-flex align-items-center">
-	                                <input type="text" name="member_Country" class="form-control rounded-5" name="member_Country" id="member_Country" value="${loginUser.member_Country}">
-	                                <label for="floatingBirth">Country</label>
-	                             </div>
-	                             <div class="form-floating mb-3 d-flex align-items-center">
-                                    <input type="text" name="member_Mbti" class="form-control rounded-5" name="member_Mbti" id="member_Mbti" value="${loginUser.member_Mbti}">
-                                    <label for="floatingBirth">MBTI</label>
-                                 </div>
+                                 <label class="mb-2 text-muted small" style = "margin-left : 5px;">선택 입력 항목</label>
+								 <div class="form-floating mb-3 d-flex align-items-center">
+								    <select name="member_Country" class="form-control rounded-5" id="member_Country">
+								       <option value=""></option>
+								       <option value="Korea" <c:if test="${loginUser.member_Country eq 'Korea'}">selected</c:if>>Korea</option>
+								       <option value="Japan" <c:if test="${loginUser.member_Country eq 'Japan'}">selected</c:if>>Japan</option>
+								       <option value="China" <c:if test="${loginUser.member_Country eq 'China'}">selected</c:if>>China</option>
+								       <option value="America" <c:if test="${loginUser.member_Country eq 'America'}">selected</c:if>>America</option>
+								       <option value="Russia" <c:if test="${loginUser.member_Country eq 'Russia'}">selected</c:if>>Russia</option>
+								       <option value="Germany" <c:if test="${loginUser.member_Country eq 'Germany'}">selected</c:if>>Germany</option>
+								       <option value="Italy" <c:if test="${loginUser.member_Country eq 'Italy'}">selected</c:if>>Italy</option>
+								       <option value="Spain" <c:if test="${loginUser.member_Country eq 'Spain'}">selected</c:if>>Spain</option>
+									</select>
+                                    <label for="member_Country">Country</label>
+								 </div>
+								 <div class="form-floating mb-3 d-flex align-items-center">
+								    <select name="member_Mbti" class="form-control rounded-5" id="member_Mbti">
+								       <option value=""></option>
+								       <option value="INFJ" <c:if test="${loginUser.member_Mbti eq 'INFJ'}">selected</c:if>>INFJ</option>
+								       <option value="INFP" <c:if test="${loginUser.member_Mbti eq 'INFP'}">selected</c:if>>INFP</option>
+								       <option value="ISFJ" <c:if test="${loginUser.member_Mbti eq 'ISFJ'}">selected</c:if>>ISFJ</option>
+								       <option value="ISFP" <c:if test="${loginUser.member_Mbti eq 'ISFP'}">selected</c:if>>ISFP</option>
+								       <option value="ISTP" <c:if test="${loginUser.member_Mbti eq 'ISTP'}">selected</c:if>>ISTP</option>
+								       <option value="ISTJ" <c:if test="${loginUser.member_Mbti eq 'ISTJ'}">selected</c:if>>ISTJ</option>
+								       <option value="INTP" <c:if test="${loginUser.member_Mbti eq 'INTP'}">selected</c:if>>INTP</option>
+								       <option value="INTJ" <c:if test="${loginUser.member_Mbti eq 'INTJ'}">selected</c:if>>INTJ</option>
+								       <option value="ENTP" <c:if test="${loginUser.member_Mbti eq 'ENTP'}">selected</c:if>>ENTP</option>
+								       <option value="ESTJ" <c:if test="${loginUser.member_Mbti eq 'ESTJ'}">selected</c:if>>ESTJ</option>
+								       <option value="ESTP" <c:if test="${loginUser.member_Mbti eq 'ESTP'}">selected</c:if>>ESTP</option>
+								       <option value="ENFP" <c:if test="${loginUser.member_Mbti eq 'ENFP'}">selected</c:if>>ENFP</option>
+								       <option value="ESFJ" <c:if test="${loginUser.member_Mbti eq 'ESFJ'}">selected</c:if>>ESFJ</option>
+								       <option value="ENTJ" <c:if test="${loginUser.member_Mbti eq 'ENTJ'}">selected</c:if>>ENTJ</option>
+								       <option value="ENFJ" <c:if test="${loginUser.member_Mbti eq 'ENFJ'}">selected</c:if>>ENFJ</option>
+								       <option value="ESFP" <c:if test="${loginUser.member_Mbti eq 'ESFP'}">selected</c:if>>ESFP</option>
+								    </select>
+								    <label for="member_Mbti">MBTI</label>
+								 </div>
 	                          </div>
 	                          <div class="rounded"  style="border:1px solid #dee2e6; height : auto; width: 96%;">
 								<label style = "width : 23%; margin-top : 12px; margin-left : 10px; color : #a4aaaf;" for="member_Profile_Image">
@@ -190,7 +223,7 @@
 	                   	 </div>
 	                   	 <br>
 	                    <div>
-	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update()">SAVE</button>
+	                       <button class="btn btn-primary rounded-5 w-100 text-decoration-none py-3 fw-bold text-uppercase m-0" onclick ="go_update(event)">SAVE</button>
 	                    </div>
 	                 </div>
                	  </div>
@@ -233,7 +266,7 @@
                               <a href="index" class="nav-link active"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
                            <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
                            <li class="nav-item">
                               <a href="follow?member_Id=${loginUser.member_Id}" class="nav-link"><span class="material-icons me-3">diversity_3</span> <span>follow</span></a>
@@ -314,7 +347,7 @@
                               <a href="index" class="nav-link"><span class="material-icons me-3">house</span> <span>Feed</span></a>
                            </li>
                            <li class="nav-item">
-                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${loginUser.member_Profile_Image}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
+                              <a href = "profile?member_Id=${sessionScope.loginUser.member_Id}" class="nav-link"><img src = "img/uploads/profile/${profileImage}" style = "width : 27px; height : 27px; border-radius : 50%; overfloiw : hidden;"> <span>&nbsp;&nbsp;&nbsp;${loginUser.member_Id}'s PROFILE</span></a>
                            </li>
                            <li class="nav-item">
 			                  <a href="edit_profile" class="nav-link active"><span class="material-icons me-3">edit</span> <span>Edit Profile</span></a>
@@ -404,65 +437,77 @@
                               <!-- 트랜딩 아이템 -->
                               <!-- 표시할 최대 문자 수 -->
                               <c:set var = "maxChar" value = "50"/>                              
-                              <c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
-                         	     <div class="p-3 border-bottom d-flex">
-                         	        <c:choose>
-									   <c:when test = "${postVO.post_Image_Count == 0}">
-									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
-								             <div class = "d-flex">
-								                <div style = "width : 60%;">
-									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               <br><br>
-									               <small class="text-muted">
-									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-									               </small>
-									               <br>
-									               <c:choose>
-									                  <c:when test="${postVO.post_Hashtag eq '' }">
-									                  </c:when>
-									                  <c:otherwise>
-									                     <small class="text-muted">
-									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-									                     </small>									                  
-									                  </c:otherwise>
-									               </c:choose>
-									            </div>
-									            <div style = "width : 40%;">	         
-									            </div>
-									         </div>
-									      </a>
-									   </c:when>
-									   <c:otherwise>
-									      <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
-								             <div class = "d-flex">
-								                <div style = "width : 60%;">
-									               <p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
-									               <small class="text-muted">Posted by ${postVO.member_Id}</small>
-									               <br><br>
-									               <small class="text-muted">
-									                  <c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
-									               </small>
-									               <br>
-									               <c:choose>
-									                  <c:when test="${postVO.post_Hashtag eq 'nothing' }">
-									                  </c:when>
-									                  <c:otherwise>
-									                     <small class="text-muted">
-									                        <c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
-									                     </small>									                  
-									                  </c:otherwise>
-									               </c:choose>
-									            </div>
-									            <div style = "width : 40%;">								      									         
-									      	       <img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
-									            </div>
-									         </div>
-									      </a>
-									   </c:otherwise>
-									</c:choose>	
-						         </div>
-							  </c:forEach>
+                           		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+                       	     		<div class="p-3 border-bottom d-flex">
+                       	        		<c:choose>
+								   			<c:when test = "${postVO.post_Image_Count == 0}">
+								      			<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(${postVO.post_Seq})" style = "width : 100%;">
+							            	 		<div class = "d-flex">
+							                			<div>
+								               				<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+								               				<small class="text-muted">Posted by ${postVO.member_Id}</small>
+								               				<br><div style = "height : 5%;"></div>
+											               	<small class="text-muted">
+											               		<c:choose>
+											               			<c:when test="${fn:length(postVO.post_Content) > 25 }">
+											               				<c:out value = "${fn:substring(postVO.post_Content, 0, 25)}"/> . . .
+											               			</c:when>
+											               			<c:otherwise>
+											               				${postVO.post_Content}
+											               			</c:otherwise>
+											               		</c:choose>
+											               	</small>
+								               				<br><div style = "height : 5%;"></div>
+								               				<c:choose>
+											                  	<c:when test="${postVO.post_Hashtag eq null }">
+											                  	</c:when>
+								                  				<c:otherwise>
+								                     				<small class="text-muted">
+													               		<c:choose>
+													               			<c:when test="${fn:length(postVO.post_Hashtag) > 22 }">
+													               				<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 22)}"/> . . .
+													               			</c:when>
+													               			<c:otherwise>
+													               				${postVO.post_Hashtag}
+													               			</c:otherwise>
+													               		</c:choose>
+								                     				</small>									                  
+								                  				</c:otherwise>
+								               				</c:choose>
+								            			</div>
+													</div>
+												</a>
+											</c:when>
+											<c:otherwise>
+												<a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(${postVO.post_Seq})" style = "width : 100%;">
+													<div class = "d-flex">
+														<div style = "width : 60%;">
+															<p class="fw-bold mb-0 pe-3 text-dark">${postVO.post_Like_Count}'s Likes</p>
+															<small class="text-muted">Posted by ${postVO.member_Id}</small>
+															<br><div style = "height : 5%;"></div>
+															<small class="text-muted">
+																<c:out value = "${fn:substring(postVO.post_Content, 0, 15)}"/> . . .
+															</small>
+															<br><div style = "height : 5%;"></div>
+															<c:choose>
+																<c:when test="${postVO.post_Hashtag eq null }">
+																</c:when>
+																<c:otherwise>
+																	<small class="text-muted">
+																		<c:out value = "${fn:substring(postVO.post_Hashtag, 0, 15)}"/> . . .
+																	</small>									                  
+																</c:otherwise>
+															</c:choose>
+														</div>
+														<div style = "width : 40%;">								      									         
+															<img src="img/uploads/post/${postVO.post_Seq}-1.png" class="img-fluid rounded-4 ms-auto" width = "100" height = "100">									         
+														</div>
+													</div>
+												</a>
+											</c:otherwise>
+										</c:choose>	
+									</div>
+								</c:forEach>
                            </div>
                         </div>
                      </div>
@@ -492,8 +537,6 @@
       
       <%@ include file="modal.jsp" %>
  
-      <!-- Jquery Js -->
-      <script src="vendor/jquery/jquery.min.js"></script>
       <!-- Bootstrap Bundle Js -->
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
       <!-- Custom Js -->
@@ -512,6 +555,7 @@
       <script src="js/insert.js"></script>
       <!-- Search Peple Js -->
       <script src="js/searchpeople.js"></script>
+      <!-- editprofile JS -->
+      <script src="js/editprofile.js"></script>
    </body>
->>>>>>> refs/remotes/origin/develop
 </html>

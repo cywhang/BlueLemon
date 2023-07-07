@@ -8,17 +8,23 @@
 	</insert>
 	
 	<select id = "selectAlarm" resultType="alarm">
-      SELECT * 
-      FROM alarm 
-      WHERE to_Mem = #{to_Mem}
+		SELECT * 
+		FROM alarm 
+		WHERE to_Mem = #{to_Mem}
 	</select>
 
 	<select id = "getOneAlarm_Seq" resultType = "String">
-		SELECT NVL(alarm_Seq, 0) FROM alarm
-		WHERE kind = #{kind} AND from_mem = #{from_Mem} AND to_mem = #{to_Mem} AND post_seq = #{post_Seq} AND reply_seq = #{reply_Seq}
+		SELECT NVL(alarm_Seq, 0)
+		FROM alarm
+		WHERE kind = #{kind}
+		  AND from_mem = #{from_Mem}
+		  AND to_mem = #{to_Mem}
+		  AND post_seq = #{post_Seq}
+		  AND reply_seq = #{reply_Seq}
 	</select>
 	
 	<delete id = "deleteAlarm">
-		DELETE FROM alarm WHERE alarm_Seq = #{alarm_Seq}
+		DELETE FROM alarm
+		WHERE alarm_Seq = #{alarm_Seq}
 	</delete>
 </mapper>

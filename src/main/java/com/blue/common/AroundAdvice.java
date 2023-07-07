@@ -3,6 +3,7 @@ package com.blue.common;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
@@ -22,15 +23,15 @@ public class AroundAdvice {
 		
 		stopWatch.start();
 		Object returnObj = pjp.proceed();
-		stopWatch.stop();
+		stopWatch.stop();		
+		
+		System.out.println("[ Around - After  ]  " + methodName + "() 메서드 수행 시간 : " + stopWatch.getTotalTimeMillis());
 		
 		if (args.length == 0) {
-			System.out.println("[ Around - Before ]  " + methodName + "() 메서드 리턴값 : 없음");
+			System.out.println("[ Around - After  ]  " + methodName + "() 메서드 수행 완료 / 리턴값 : 없음");
 		} else {
-			System.out.println("[ Around - Before ]  " + methodName + "() 메서드 리턴값 : 있음");
-		}		
-		System.out.println("[ Around - After  ]  " + methodName + "() 메서드 수행 시간 : " + stopWatch.getTotalTimeMillis());
-		System.out.println("[ Around - After  ]  " + methodName + "() 메서드 수행 완료");
+			System.out.println("[ Around - After  ]  " + methodName + "() 메서드 수행 완료 / 리턴값 : 있음");
+		}
 		
 		return returnObj;
 	}

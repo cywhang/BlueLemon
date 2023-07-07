@@ -134,7 +134,7 @@
 	      passwordMessage.text('비밀번호를 입력해 주세요.');
 	      passwordMessage.css("color", "red");
 	    } else if (!isPasswordValid(passwordValue)) {
-	      passwordMessage.text("비밀번호는 최소 8자 이상이어야 하며, 영문자,숫자,특수문자를 포함해야 합니다.");
+	      passwordMessage.text("8 ~ 12자의 영문,숫자,특수문자만 가능합니다.");
 	      passwordMessage.css("color", "red");
 	    } else {
 	      passwordMessage.text("사용 가능한 패스워드입니다.");
@@ -169,7 +169,7 @@
 	      alert("패스워드를 입력해주세요.");
 	      return;
 	    } else if (!isPasswordValid(passwordValue)) {
-	      alert("비밀번호는 최소 8자 이상이어야 하며, 영문 대소문자와 숫자를 포함해야 합니다.");
+	      alert("8 ~ 12자의 영문 대소문자와 숫자만 가능합니다.");
 	      return;
 	    } else if (passwordValue !== confirmPasswordValue) {
 	      alert("입력한 비밀번호와 일치하지 않습니다.");
@@ -183,10 +183,11 @@
         theform.submit();
     
 	  });
-	  function isPasswordValid(password) {
-		    var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[a-zA-Z\d@$!%#*^~?&]{8,}$/;
+	//패스워드 유호성 함수
+		function isPasswordValid(password) {
+			var passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_])\S{8,12}$/;;
 		    return passwordRegex.test(password);
-		  }
+		}
 
   });	  
 
@@ -197,5 +198,4 @@
 	  }
 
   
-
   

@@ -20,7 +20,7 @@ public class QnaDAO {
 
 	public List<QnaVO> getMyQna(String member_Id) {
 		List<QnaVO> result = mybatis.selectList("QnaMapper.getMyQna", member_Id);
-		return mybatis.selectList("QnaMapper.getMyQna", member_Id);
+		return result;
 	}
 	
 	public int checkMaxSeq() {

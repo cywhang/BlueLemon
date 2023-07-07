@@ -4,7 +4,7 @@
 // 해시태그
 const input = document.querySelector('textarea[name=post_Hashtag]');
 
-let tagify = new Tagify(input); // initialize Tagify
+let tagify = new Tagify(input); // initialize Tagify 
 
 // 태그가 추가되면 이벤트 발생
 tagify.on('add', function() {
@@ -30,6 +30,8 @@ var alreadyFileArr = new Array();
 
 // 실시간으로 업로드된 이미지 갯수
 var currentEditFileNo = 0;
+
+
 
 // 추가이미지 현황을 유지하기 위한 전역변수 변경
 function editVariable(neweditFileArr, neweditFileNo){
@@ -79,19 +81,17 @@ $(function() {
 	});
   
   // 글 수정 모달창 뒤로가기 버튼시 내용 초기화
-  $('#closeEditModal').on('click', function() {
-	    // form 태그 초기화
+  $('#closeEditModal').on('click', function() { 
+	    // form 태그 초기화 
 	    $('#postUpdate')[0].reset();
 	    console.log("postUpdate.reset");
-	    // 이미지 컨테이너 초기화
+	    // 이미지 컨테이너 초기화 
 	    $('#editPreview').empty();
 	    console.log("editPreview.reset");
-	    
-	    
 	    // 실제 이미지 배열 초기화
 	    editFilesArr = [];
 	    console.log("editFileArr 비우기 ");
-	});
+	}); 
   
   // 초기화 버튼 클릭시 내용 초기화
   $('#resetB').on('click', function() {
@@ -99,17 +99,29 @@ $(function() {
 	    $('#Preview').empty();
 	});
   
+  // 상세보기 모달창닫을때 댓글 입력창 초기화
+  $('.modalClose').on('click', function() {
+	  
+	    $('#inputContent').val('');
+	    console.log("inputContent.reset");
+	    
+	    $('#inputContent2').val('');
+	    console.log("inputContent2.reset");
+	});
+  
+  
+  
   
 });
-	//특수문자 입력 방지            %%%%%% 아직 안됨 %%%%%%%%%ㄴ
-	function characterCheck(obj) {
-	  var regExp = /[<>'#]/g; // 허용하지 않을 특수문자 패턴 설정
-	  if (regExp.test(obj.value)) {
-	    alert("#, <, > 문자는 입력하실 수 없습니다.");
-	    obj.value = obj.value.replace(regExp, ''); // 특수문자 제거
-	  }
-	}
 
+	// 특수문자 입력 방지
+	function characterCheck(obj){
+	    var regExp = /[<>#]/gi;
+	    if(regExp.test(obj.value)){
+	        alert("<, >, # 는 입력할 수 없습니다.");
+	        obj.value = obj.value.substring( 0 , obj.value.length - 1 );
+	    }
+	}
   
   // 게시글 인서트
   /* 첨부파일 추가 */
@@ -418,7 +430,7 @@ function postEditAction(post_Seq){
 }
   
 
-// 댓글삭제 기능 
+// 댓글삭제 기능 (모달창1)
 function replyDelete(post_Seq, reply_Seq){
 	
 	var data = {
@@ -440,6 +452,7 @@ function replyDelete(post_Seq, reply_Seq){
 			var post = response.postInfo;
 			var replies = response.replies;
 			var profileMap = response.profile;
+			var member_Id = response.member_Id; // 세션아이디
 			
 			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
 			var replyListContainer = $('#replyListContainer');
@@ -489,7 +502,7 @@ function replyDelete(post_Seq, reply_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -502,18 +515,24 @@ function replyDelete(post_Seq, reply_Seq){
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-				    	replyDelete(post_Seq, reply_Seq)
-				  });
+			  // 댓글 삭제버튼
+			  if(replies[i].member_Id === member_Id){
+				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				        replyDelete(post_Seq, reply_Seq);
+				    });
+				  replyContentWrapper.append(deleteButton);
+			  }
 			  
-			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}
@@ -535,7 +554,7 @@ function replyDelete(post_Seq, reply_Seq){
 }
   
   
-  
+// 댓글 삭제 기능 (모달창2)
 function replyDelete2(post_Seq, reply_Seq){
 	
 	var data = {
@@ -557,6 +576,7 @@ function replyDelete2(post_Seq, reply_Seq){
 			var post = response.postInfo;
 			var replies = response.replies;
 			var profileMap = response.profile;
+			var member_Id = response.member_Id; // 세션아이디
 			
 			// 2. 댓글 리스트를 그려주는 컨테이너 생성 
 			var replyListContainer = $('#replyListContainer2');
@@ -607,7 +627,7 @@ function replyDelete2(post_Seq, reply_Seq){
 			  replyContentWrapper.append(likeLink);
 			  
 			  // 띄어쓰기
-			  var nbsp = $('<span>').html('&nbsp;');
+			  var nbsp = '&nbsp;';
 			  replyContentWrapper.append(nbsp);
 			  
 			  
@@ -620,18 +640,24 @@ function replyDelete2(post_Seq, reply_Seq){
 			  
 			  // 띄어쓰기
 			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
+			  replyContentWrapper.append(nbsp);
 			  
 			  // 댓글 작성일
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
+			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제 버튼
-			  var deleteButton = $('<button>').addClass('replyDelete').text('삭제')
-				  .on('click', function() {
-					  replyDelete2(post_Seq, reply_Seq)
-				  });
+			  // 댓글 삭제버튼
+			  if(replies[i].member_Id === member_Id){
+				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				        replyDelete2(post_Seq, reply_Seq);
+				    });
+				  replyContentWrapper.append(deleteButton);
+			  }
 			  
-			  replyContentWrapper.append(deleteButton);
 			  replyItem.append(replyContentWrapper);
 			  replyListContainer.append(replyItem);
 			}

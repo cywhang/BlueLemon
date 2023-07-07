@@ -24,7 +24,6 @@ public class AlarmDAO {
 
 	public int getOneAlarm_Seq(AlarmVO alarmVO) {
         String result = mybatis.selectOne("AlarmMapper.getOneAlarm_Seq", alarmVO);
-        System.out.println("mapper ´Ù³à¿Â result : " + result);
         if(result == null) {
         	return 0;
         } else {

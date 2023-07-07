@@ -45,12 +45,12 @@ public class EmailServiceImpl implements EmailService {
     	   props.put("mail.smtp.ssl.protocols", "TLSv1.2");
     	   
     	   Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-    		   String un = username;
-    		   String pw = password;
-    		   protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-    			   return new PasswordAuthentication(un, pw);
-    		   }
-    	   });
+	    		   											   		String un = username;
+	    		   											   		String pw = password;
+	    		   											   		protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+	    		   											   			return new PasswordAuthentication(un, pw);
+	    		   											   		}
+    	   														});
     	   session.setDebug(true);
     	   
     	   Message mimeMessage = new MimeMessage(session);
@@ -63,7 +63,5 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 	}
-
 }

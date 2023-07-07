@@ -65,8 +65,8 @@ function trending_List() {
 						html += '                <div class="dropdown">';
 	                    html += '                  <a href="#" class="text-muted text-decoration-none material-icons ms-2 md-20 rounded-circle bg-light p-1" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">more_vert</a>';
 	                    html += '                  <ul class="dropdown-menu fs-13 dropdown-menu-end" aria-labelledby="dropdownMenuButton1">';
-	                    html += '                    <li><a class="dropdown-item text-muted" href="#"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>';
-	                    html += '                    <li><a class="dropdown-item text-muted" onclick="deletePost(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
+	                    html += '                    <li><a class="dropdown-item text-muted editbutton" data-bs-toggle="modal" data-bs-target="#postModal2" onclick="postEditView(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">edit</span>Edit</a></li>';
+	                    html += '                    <li><a class="dropdown-item text-muted deletebutton" onclick="deletePost(' + PostVO.post_Seq + ')"><span class="material-icons md-13 me-1">delete</span>Delete</a></li>';
 	                    html += '                  </ul>';
 	                    html += '                </div>';
 					}else{
@@ -76,7 +76,7 @@ function trending_List() {
                     html += '               </div>';
                     html += '            </div>';
                     html += '            <div class="my-2">';
-                    html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+                    
                     
                     
                     html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
@@ -91,7 +91,7 @@ function trending_List() {
                     
                     html += '               </a>';
                     html += '               <br>';
-                    
+                    html += '               <p class="text-dark">' + PostVO.post_Content.replace('\n', '<br>') + '</p>';
                     var hash = hashMap[PostVO.post_Seq];
 
 		             if(hash == null){
