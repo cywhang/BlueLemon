@@ -802,7 +802,6 @@ $('#closeModal').on('hidden.bs.modal', function () {
 	  }
 	});
 
-
 // edit view
 function postEditView(post_Seq){
 	
