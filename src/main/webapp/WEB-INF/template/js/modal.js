@@ -791,7 +791,6 @@ function insertReply2(post_Seq){
 	});
 }
 
-
 $('#closeModal').on('hidden.bs.modal', function () {
 	  var hashtagContainer = document.getElementById('hashtagContainer');
 	  if (hashtagContainer) {

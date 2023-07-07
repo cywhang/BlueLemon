@@ -428,7 +428,7 @@ function postEditAction(post_Seq){
         }
     });
 }
- 
+  
 
 // 댓글삭제 기능 (모달창1)
 function replyDelete(post_Seq, reply_Seq){
@@ -522,7 +522,6 @@ function replyDelete(post_Seq, reply_Seq){
 			  var timestamp = $('<span>').addClass('small text-muted').text(replies[i].reply_WhenDid);
 			  replyContentWrapper.append(timestamp);
 			  replyContentWrapper.append(nbsp);
-			  
 			  
 			  // 댓글 삭제버튼
 			  if(replies[i].member_Id === member_Id){
