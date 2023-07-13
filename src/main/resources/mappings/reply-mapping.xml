@@ -90,4 +90,11 @@
 		  AND reply_seq = #{reply_Seq} 
 	</delete>
 	
+   <!-- 알람 인서트 시 시퀀스 0 댓글 존재 여부 -->
+   <select id = "checkZeroReplySeq" resultType = "String">
+      SELECT member_Id
+      FROM reply
+      WHERE reply_seq = '0'
+   </select>
+   
 </mapper>

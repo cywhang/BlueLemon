@@ -58,22 +58,33 @@ public class PostDAO {
 		// 알람 테이블에 해당 알람 있나 확인
         int alarmResult = alarmService.getOneAlarm_Seq(alarmVO);	
         
+        // 1. 해당 게시글에 좋아요를 누른 상태가 아닐때
 		if(check == null) {
+			// 좋아요 추가
 			mybatis.update("PostMapper.addLike", vo);
 			
+			// 알람 테이블에서 해당 게시글의 알람이 없으면  알람 추가
 			if(alarmResult == 0) {
 				alarmService.insertAlarm(alarmVO);
+				
+			// 알람 테이블에서 해당 게시글의 알림이 있으면 아무것도x
 			} else {}
 			
+		// 2. 해당 게시글에 좋아요를 누른 상태일때
 		} else {
+			// 좋아요 취소
 			mybatis.update("PostMapper.delLike", vo);
 			
+			// 게시글 작성자가 알람을 확인하기전에 게시글의 좋아요를 취소했을때의 경우에 알림을 삭제 처리하는 부분
 			if(alarmResult == 0) {
+				
+			// 게시글 작성자가 알람을 확인하지 않았다면 해당 알람을 삭제 처리하는 부분
 			} else {
 				alarmService.deleteAlarm(alarmResult);
 			}
 		}
 	}
+	
 	public List<PostVO> getHottestFeed() {
 		return mybatis.selectList("PostMapper.getHottestFeed");
 	}
