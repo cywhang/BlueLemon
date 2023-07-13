@@ -17,30 +17,29 @@ public class AlarmDAO {
 	private SqlSessionTemplate mybatis;
 
 	public void insertAlarm(AlarmVO alarmVO) {
-      String result1 = mybatis.selectOne("PostMapper.checkZeroPostSeq");
-      if(result1 == null) {
-         PostVO postVO = new PostVO();
-         postVO.setPost_Seq(0);
-         postVO.setMember_Id("admin");
-         postVO.setPost_Content("알람 등록을 위한 게시글");
-         postVO.setPost_Public("n");
-         postVO.setPost_Image_Count(0);
-         mybatis.insert("PostMapper.insertPost", postVO);         
-      }
-      
-      String result2 = mybatis.selectOne("ReplyMapper.checkZeroReplySeq");
-      if(result2 == null) {         
-         ReplyVO replyVO = new ReplyVO();
-         replyVO.setPost_Seq(0);
-         replyVO.setReply_Seq(0);
-         replyVO.setMember_Id("admin");
-         replyVO.setReply_Content("알람 등록을 위한 댓글");
-         mybatis.insert("ReplyMapper.insertReply", replyVO);
-      }
-      
-      mybatis.insert("AlarmMapper.insertAlarm", alarmVO);      
-         
-   }
+		String result1 = mybatis.selectOne("PostMapper.checkZeroPostSeq");
+		if(result1 == null) {
+			PostVO postVO = new PostVO();
+			postVO.setPost_Seq(0);
+			postVO.setMember_Id("admin");
+			postVO.setPost_Content("알람 등록을 위한 게시글");
+			postVO.setPost_Public("n");
+			postVO.setPost_Image_Count(0);
+			mybatis.insert("PostMapper.insertPost", postVO);			
+		}
+		
+		String result2 = mybatis.selectOne("ReplyMapper.checkZeroReplySeq");
+		if(result2 == null) {			
+			ReplyVO replyVO = new ReplyVO();
+			replyVO.setPost_Seq(0);
+			replyVO.setReply_Seq(0);
+			replyVO.setMember_Id("admin");
+			replyVO.setReply_Content("알람 등록을 위한 댓글");
+			mybatis.insert("ReplyMapper.insertReply", replyVO);
+		}
+		
+		mybatis.insert("AlarmMapper.insertAlarm", alarmVO);		
+	}
 	
 	public List<AlarmVO> selectAlarm(String member_Id){
 		return mybatis.selectList("AlarmMapper.selectAlarm", member_Id);

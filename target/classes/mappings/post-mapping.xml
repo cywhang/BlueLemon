@@ -20,6 +20,7 @@
 		                    WHERE follower = #{member_Id})
 		                      AND post_public = 'y'
 		   OR member_id = #{member_Id}
+		   OR member_id = 'admin'
 		ORDER BY post_Date DESC, post_Seq DESC 
 	</select> 
 	
@@ -193,11 +194,10 @@
 		WHERE post_Seq = #{post_Seq}
 	</select>
 	
-   <!-- 알람 인서트 시 시퀀스 0 댓글 존재 여부 -->
-   <select id = "checkZeroPostSeq" resultType = "String">
-      SELECT member_Id
-      FROM post
-      WHERE post_Seq = '0'
-   </select>
-	
+	<!-- 알람 인서트 시 시퀀스 0 댓글 존재 여부 -->
+	<select id = "checkZeroPostSeq" resultType = "String">
+		SELECT member_Id
+		FROM post
+		WHERE post_Seq = '0'
+	</select>
 </mapper>
