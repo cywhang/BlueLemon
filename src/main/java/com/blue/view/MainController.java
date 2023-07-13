@@ -203,6 +203,7 @@ public class MainController {
 	    Map<String, Object> responseData = new HashMap<>();
 	    responseData.put("canFollow", canFollow);
 	    responseData.put("mostFamous", mostFamous);
+	    responseData.put("member_Id", member_Id);
 	    
 	    return ResponseEntity.ok(responseData);
 	}
