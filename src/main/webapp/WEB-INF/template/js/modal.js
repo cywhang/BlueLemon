@@ -182,10 +182,13 @@ function modalseq(post_Seq) {
 		    var modalContent = $("#imgModalContent");
 		    modalContent.empty();
 		    
-		    var Content = $('<h5>').html(post.post_Content.replace(/\n/g, "<br>"));
-		    	
-		    modalContent.append(Content);   
+		    var Content = $('<h5>')
+		    .html(post.post_Content.replace(/\n/g, "<br>"))
+		    .attr('id', 'modalPostContent'+post.post_Seq);
 		    
+		    modalContent.append(Content);
+		    
+		    autolink('modalPostContent'+post.post_Seq);
 		    
 		    // 1-8. 게시글 해시태그 그려주는 컨테이너
 		    var modalHashtag = $("#imgModalHashtag");
@@ -295,6 +298,8 @@ function modalseq(post_Seq) {
 			// 버튼 생성
 			var timestamp = $('<button>').addClass('bg-white border-0 text-primary ps-2 text-decoration-none').text('Post').attr('onclick', 'insertReply(' + post.post_Seq + ')');
 			postButton.append(timestamp);
+			
+			
 		},
 		error : function(request,status,error){
 	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -404,9 +409,12 @@ function replyModalseq(post_Seq) {
 		    var modalContent = $("#modalContent");
 		    modalContent.empty();
 		    
-		    var Content = $('<h4>').html(post.post_Content.replace(/\n/g, "<br>"));
-		    	
-		    modalContent.append(Content);   
+		    var Content = $('<h4>').html(post.post_Content.replace(/\n/g, "<br>"))
+		    .attr('id', 'modalPostContent'+post.post_Seq);
+		    
+		    modalContent.append(Content);
+		    
+		    autolink('modalPostContent'+post.post_Seq);
 		    
 		    
 		    // 1-7. 게시글 해시태그 그려주는 컨테이너

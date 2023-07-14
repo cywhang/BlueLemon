@@ -40,11 +40,12 @@
 <!-- 링크 인식기 -->
 <script>		
 	function autolink(id) {
+		console.log("오토링크 실행");
 	        var container = document.getElementById(id);
+	        console.log(id);
 	        var doc = container.innerHTML;
 	        var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
-	        var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
-	        container.innerHTML = doc.replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>").replace(regEmail,"<a href='mailto:$1'>$1</a>");
+	        container.innerHTML = doc.replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>");
 	}
 </script>
 <body class="bg-light" style="display: flex; flex-direction: column;">
@@ -509,7 +510,7 @@
                               		<h6 class="fw-bold text-body p-3 mb-0 border-bottom">Hottest Feed</h6>
 	                              	<!-- 표시할 최대 문자 수 -->
                               		<c:set var = "maxChar" value = "50"/>                              
-                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="3">
                          	     		<div class="p-3 border-bottom d-flex">
                          	        		<c:choose>
 									   			<c:when test = "${postVO.post_Image_Count == 0}">
