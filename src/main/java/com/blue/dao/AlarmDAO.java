@@ -18,6 +18,7 @@ public class AlarmDAO {
 
 	public void insertAlarm(AlarmVO alarmVO) {
 		String result1 = mybatis.selectOne("PostMapper.checkZeroPostSeq");
+		System.out.println("result1" + result1);
 		if(result1 == null) {
 			PostVO postVO = new PostVO();
 			postVO.setPost_Seq(0);
@@ -29,6 +30,7 @@ public class AlarmDAO {
 		}
 		
 		String result2 = mybatis.selectOne("ReplyMapper.checkZeroReplySeq");
+		System.out.println("result2" + result2);
 		if(result2 == null) {			
 			ReplyVO replyVO = new ReplyVO();
 			replyVO.setPost_Seq(0);

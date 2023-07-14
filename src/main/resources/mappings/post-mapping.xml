@@ -20,7 +20,6 @@
 		                    WHERE follower = #{member_Id})
 		                      AND post_public = 'y'
 		   OR member_id = #{member_Id}
-		   OR member_id = 'admin'
 		ORDER BY post_Date DESC, post_Seq DESC 
 	</select> 
 	
