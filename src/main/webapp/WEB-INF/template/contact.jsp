@@ -426,7 +426,7 @@
 									<!-- 트랜딩 아이템 -->
 									<!-- 표시할 최대 문자 수 -->
 									<c:set var = "maxChar" value = "50"/>                              
-                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+                              		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="3">
                          	     		<div class="p-3 border-bottom d-flex">
                          	        		<c:choose>
 									   			<c:when test = "${postVO.post_Image_Count == 0}">

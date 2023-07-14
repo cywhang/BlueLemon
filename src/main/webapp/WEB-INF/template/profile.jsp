@@ -230,12 +230,12 @@
 	                                                			</a>
 	                                                			<br>      
                                              					<!-- 게시글 내용 -->                                        
-                                                				<p class="text-dark">${postVO.post_Content}</p>
+                                                				<p class="text-dark"  id="postContent${postVO.post_Seq}">${postVO.post_Content}</p>
                                                 				<br>
 				                                                <script type="text/javascript">
 					                                                var postseq = "${postVO.post_Seq}";
 					                                                autolink('postContent'+postseq);
-				                                                </script>      
+				                                                </script>
 		                                                
 	                                         					<!-- 해시태그 -->
 				                                                <c:forEach var="hash" items="${hashMap[postVO.post_Seq]}">
@@ -556,7 +556,7 @@
                   				<!-- 트랜딩 아이템 -->
                       			<!-- 표시할 최대 문자 수 -->
                   				<c:set var = "maxChar" value = "50"/>                              
-                           		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="4">
+                           		<c:forEach items="${hottestFeed}" var="postVO" begin="0" end="3">
                       	     		<div class="p-3 border-bottom d-flex">
                        	        		<c:choose>
 								   			<c:when test = "${postVO.post_Image_Count == 0}">
