@@ -294,7 +294,7 @@ public class MemberController {
 	@PostMapping("pwdauth")
 	@ResponseBody
 	public Map<String, Object> pwdAuthAction(@RequestBody Map<String, String> requestBody, MemberVO vo,
-			HttpSession session, Model model) {
+			HttpSession session) {
 
 		// ajax요청에 대한 response값 전달을 위한 Map 변수 선언
 		Map<String, Object> dataMap = new HashMap<>();
