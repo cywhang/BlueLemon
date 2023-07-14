@@ -100,7 +100,7 @@ function trending_List() {
 
 		          	  for(var j=0; j<hash.length; j++){
 		          		  var Tag = hash[j]
-		             		html += '               <a href="search_HashTag?hashTag=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+		             		html += '               <a href="search_HashTag?tag_Content=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
 		          	  }
 		             }
 
