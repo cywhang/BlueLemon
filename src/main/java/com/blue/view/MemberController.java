@@ -135,6 +135,7 @@ public class MemberController {
 		return "login";
 	}
 	
+	// 회원정보 수정 - 프로필 이미지 수정 안하는 경우
 	@GetMapping(value="/editProfile")
 	public String editProfile(HttpSession session, Model model) {
 		
@@ -183,7 +184,7 @@ public class MemberController {
 		}
 	}
 
-	// 회원정보 수정
+	// 회원정보 수정 - 프로필 이미지 수정하는 경우
 	@PostMapping("update_form")
 	public String updateMember(MemberVO vo, HttpSession session, Model model,
 			@RequestParam(value = "profile_Image") MultipartFile profilePhoto,

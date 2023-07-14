@@ -17,10 +17,6 @@ import Util.EmailVO;
 
 @Service
 public class EmailServiceImpl implements EmailService {
-
-	// "presentation-layer.xml"에 설정된 bean
-	@Autowired
-	private JavaMailSender mailSender;
 	
 	@Override
 	public void sendMail(EmailVO vo) {
@@ -28,6 +24,7 @@ public class EmailServiceImpl implements EmailService {
     	   String host = "smtp.naver.com";
     	   final String username = "johann89";
     	   final String password = "!rladygks8989";
+    	   // 네이버의 포트번호
     	   int port = 465;
     	   
     	   // 메일 내용
