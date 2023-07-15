@@ -30,7 +30,7 @@
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!-- 파일 업로드 -->
 	<link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-	<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
 	<!-- 해시태그  -->
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
@@ -43,8 +43,7 @@
 	        var container = document.getElementById(id);
 	        var doc = container.innerHTML;
 	        var regURL = new RegExp("(http|https|ftp|telnet|news|irc)://([-/.a-zA-Z0-9_~#%$?&=:200-377()]+)","gi");
-	        var regEmail = new RegExp("([xA1-xFEa-z0-9_-]+@[xA1-xFEa-z0-9-]+\.[a-z0-9-]+)","gi");
-	        container.innerHTML = doc.replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>").replace(regEmail,"<a href='mailto:$1'>$1</a>");
+	        container.innerHTML = doc.replace(regURL,"<a href='$1://$2' target='_blank'>$1://$2</a>");
 	}
 </script>
 <body class="bg-light" style="display: flex; flex-direction: column;">

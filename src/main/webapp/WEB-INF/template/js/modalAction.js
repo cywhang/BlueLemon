@@ -428,7 +428,6 @@ function postEditAction(post_Seq){
         }
     });
 }
-  
 
 // 댓글삭제 기능 (모달창1)
 function replyDelete(post_Seq, reply_Seq){
@@ -528,7 +527,12 @@ function replyDelete(post_Seq, reply_Seq){
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }
@@ -653,7 +657,12 @@ function replyDelete2(post_Seq, reply_Seq){
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete2(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete2(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }

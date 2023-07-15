@@ -138,7 +138,8 @@ function modalseq(post_Seq) {
 		    	    .attr('type', 'button')
 		    	    .attr('data-bs-target', '#carouselExampleIndicators')
 		    	    .attr('data-bs-slide-to', i)
-		    	    .attr('aria-label', 'Slide ' + (i + 1));
+		    	    .attr('aria-label', 'Slide ' + (i + 1))
+		    	    .css('background-color', '#0a58ca'); // 스타일 변경 부분
 
 		    	  if (i === 0) {
 		    	    button.addClass('active').attr('aria-current', 'true');
@@ -281,7 +282,12 @@ function modalseq(post_Seq) {
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }
@@ -501,7 +507,12 @@ function replyModalseq(post_Seq) {
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete2(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete2(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }
@@ -632,7 +643,12 @@ function insertReply(post_Seq){
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }
@@ -765,7 +781,12 @@ function insertReply2(post_Seq){
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
-				        replyDelete2(post_Seq, reply_Seq);
+				    	var result = confirm("해당 댓글을 삭제하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyDelete2(post_Seq, reply_Seq);
+				        }
 				    });
 				  replyContentWrapper.append(deleteButton);
 			  }
