@@ -901,6 +901,7 @@ public class PostAndLikeController {
 		
 	}
 	
+	// ¥Ò±€ ªË¡¶
 	@PostMapping("deleteReply")
 	@ResponseBody
 	public Map<String, Object>  deleteReply(@RequestParam(value="post_Seq") int post_Seq,

@@ -135,7 +135,6 @@ public class MemberController {
 		return "login";
 	}
 	
-	// 회원정보 수정 - 프로필 이미지 수정 안하는 경우
 	@GetMapping(value="/editProfile")
 	public String editProfile(HttpSession session, Model model) {
 		
@@ -184,7 +183,7 @@ public class MemberController {
 		}
 	}
 
-	// 회원정보 수정 - 프로필 이미지 수정하는 경우
+	// 회원정보 수정
 	@PostMapping("update_form")
 	public String updateMember(MemberVO vo, HttpSession session, Model model,
 			@RequestParam(value = "profile_Image") MultipartFile profilePhoto,
@@ -294,7 +293,7 @@ public class MemberController {
 	@PostMapping("pwdauth")
 	@ResponseBody
 	public Map<String, Object> pwdAuthAction(@RequestBody Map<String, String> requestBody, MemberVO vo,
-			HttpSession session) {
+			HttpSession session, Model model) {
 
 		// ajax요청에 대한 response값 전달을 위한 Map 변수 선언
 		Map<String, Object> dataMap = new HashMap<>();
