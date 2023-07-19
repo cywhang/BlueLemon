@@ -98,8 +98,8 @@
 												<br>
                               				</c:when>                              	
                               				<c:otherwise> 
-                              					<c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                               					<h6 class="mb-3 fw-bold text-body">Post Search Result by '${hashTag}'</h6>
+                              					<c:forEach var="postVO" items="${postList}" varStatus="status" begin="0" end="9">
                                  					<div class="bg-white p-3 feed-item rounded-4 mb-3 shadow-sm">
                                     					<div class="d-flex">
                                        						<!-- 작성자의 프로필사진 -->

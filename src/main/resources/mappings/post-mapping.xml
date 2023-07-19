@@ -107,8 +107,17 @@
 	
 	<!-- 관리자 전체 게시글 조회 -->
 	<select id = "getAllPost" resultType = "post">
-		SELECT *
+		SELECT post_seq, member_id, post_content, post_date, post_public, post_image_count, post_like_count, post_reply_count
 		FROM post
+		LEFT OUTER JOIN (SELECT post_seq, count(*) post_Like_Count
+		            	 FROM likes
+		            	 WHERE reply_seq = 0
+		            	 GROUP BY post_seq)
+		USING (post_seq)
+		LEFT OUTER JOIN (SELECT post_seq, count(*) post_reply_count
+		            	 FROM reply
+		            	 GROUP BY post_seq)
+		USING (post_seq)
 		ORDER BY post_Seq DESC
 	</select>
 	

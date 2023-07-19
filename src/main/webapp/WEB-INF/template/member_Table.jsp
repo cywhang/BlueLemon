@@ -115,7 +115,7 @@
                               				<td>${member.member_Id}</td>
                               				<td>${member.member_Name}</td>
                               				<td>${member.member_Email}</td>
-                              				<td>0${member.member_Phone}</td>
+                              				<td>${member.member_Phone}</td>
                               				<td>${member.member_Join_Date_String}</td>
                               				<td>${member.member_Birthday}</td>
                               				<td>${member.member_Gender}</td>

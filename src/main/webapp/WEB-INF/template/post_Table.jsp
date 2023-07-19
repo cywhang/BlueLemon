@@ -79,18 +79,9 @@
                                         <th>Post_Seq</th>
                                         <th>Post_Date</th>
                                         <th>Like_Count</th>
+                                        <th>Reply_Count</th>
                                     </tr>
                                 </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Post_Content</th>
-                                        <th>Hash_Tag</th>
-                                        <th>Post_Seq</th>
-                                        <th>Post_Date</th>
-                                        <th>Like_Count</th>
-                                    </tr>
-                                </tfoot>
                                 <tbody>
                                 	<c:forEach items="${postList}" var="postVO" varStatus="status" begin="0" end="${postListSize}">
                                      <tr>
@@ -111,6 +102,7 @@
                                          <td>${postVO.post_Seq}</td>
                                          <td>${postVO.post_Date}</td>
                                          <td>${postVO.post_Like_Count}</td>
+                                         <td>${postVO.post_Reply_Count}</td>
                                      </tr>
                                     </c:forEach>
                                 </tbody>
