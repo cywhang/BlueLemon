@@ -103,7 +103,8 @@ function trending_List() {
 		             		html += '               <a href="search_HashTag?tag_Content=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
 		          	  }
 		             }
-
+		            
+		            html += ' <hr>';
                     
                     html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
                     html += '                  <div class="like-group" role="group">';

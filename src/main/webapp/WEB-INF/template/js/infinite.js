@@ -24,7 +24,7 @@ function followingload(followingTotalPageNum, followingPageNum, member_Id){
 
 	       success: function (response) {
 	         
-	     // 데이터 맵에서 값 가져오기
+	    	 // 데이터 맵에서 값 가져오기
 	         var following_info = response.following_info;
 	         var following_size = response.following_size;
 	         var followingPageNum = response.followingPageNum;
@@ -291,9 +291,6 @@ $.ajax({
                html += '               </div>';
                html += '            </div>';
                html += '            <div class="my-2">';
-               html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
-               html += '               <br>';
-               
                html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
                
 
@@ -302,6 +299,10 @@ $.ajax({
                }else{
                   html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
                }
+               html += '               </a>';
+               html += '               <br>';
+               html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
+               html += '               <br>';
                
                var hash = hashMap[PostVO.post_Seq];
 
@@ -314,8 +315,7 @@ $.ajax({
                       html += '               <a href="search_HashTag?tag_Content=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
                   }
                 }
-
-               html += '               </a>';
+               html += '               <hr>';
                html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
                html += '                  <div class="like-group" role="group">';
 
@@ -539,24 +539,19 @@ $.ajax({
                 
                 html += '               </div>';
                 html += '            </div>';
-                html += '            <div class="my-2">';
-                html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
                 
-               
-
                 html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
-                
-                
                 if(PostVO.post_Image_Count == 0){
                 	html += '                        <br>';
                 }else{
                 	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
                 }
-                
-                
                 html += '               </a>';
-                html += '               <br>';
                 
+                html += '               <br>';
+                html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+                html += '               <br>';
+
                 var hash = hashMap[PostVO.post_Seq];
 
 	             if(hash == null){
@@ -569,6 +564,7 @@ $.ajax({
 	          	  }
 	             }
 	             
+	            html += ' <hr>'; 
                 html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
                 html += '                  <div class="like-group" role="group">';
                 

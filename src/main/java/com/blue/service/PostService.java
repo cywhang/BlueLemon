@@ -72,4 +72,7 @@ public interface PostService {
 	
 	// 알람을 위해 게시글 작성자 추출
 	String getPostWriter(int post_Seq);
+	
+	// 게시글 이미지 삭제를 위한 사용자가 작성한 게시글의 시퀀스 번호
+	List<Integer> seqForUser(String member_Id);
 }

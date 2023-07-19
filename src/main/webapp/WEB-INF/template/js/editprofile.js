@@ -196,12 +196,3 @@
 		document.getElementById("edit_profile").submit();
 	}
 
-
-
-
-// 회원 탈퇴
-function go_delete(){
-	
-    window.location.href = "memberDelete";
-}
-	

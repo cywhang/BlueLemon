@@ -285,24 +285,32 @@
 					                        			</div>
 					                  				</div>
 					                				<div class="ms-auto">
-					       								<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-					          								<c:choose>
-																<c:when test="${search.bothFollow==1}">
-																	<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}" checked="checked">
-							                         				<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
-							                         					<span class="following d-none">Following</span>
-							                         					<span class="follow">+ Follow</span>
-							                           				</label>
-						                           				</c:when>
-								          						<c:otherwise>
-								                   					<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}">
-							                       					<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
-							             								<span class="following d-none">Following</span>
-							                     						<span class="follow">+ Follow</span>
-							                    					</label>
-								  								</c:otherwise>
-								    						</c:choose>
-					              						</div>
+					                				<c:choose> 
+														<c:when test="${search.member_Id == member_Id}">
+														</c:when>
+														<c:otherwise>
+														
+						       								<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+						          								<c:choose>
+																	<c:when test="${search.bothFollow==1}">
+																		<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}" checked="checked">
+								                         				<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
+								                         					<span class="following d-none">Following</span>
+								                         					<span class="follow">+ Follow</span>
+								                           				</label>
+							                           				</c:when>
+									          						<c:otherwise>
+									                   					<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck${search.member_Id}">
+								                       					<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck${search.member_Id}" onclick="changeFollow('${follow.member_Id}')">
+								             								<span class="following d-none">Following</span>
+								                     						<span class="follow">+ Follow</span>
+								                    					</label>
+									  								</c:otherwise>
+									    						</c:choose>
+						              						</div>
+						              						
+						              					</c:otherwise>
+						              				</c:choose>
 					       							</div>
 					        					</a>
 					       					</c:forEach>
@@ -335,22 +343,28 @@
                                          			<p class="mb-1 small">${popular.member_Name}</p>
                                   				</div>
                                  			</div>
-                                 			<div class="ms-auto">
-                                     			<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                     				<c:if test="${popular.bothFollow eq 1}">
-										  				<!-- 숫자 1과 동일한 경우에 실행될 내용 -->
-										  				<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}" checked="checked">
-													</c:if>
-													<c:if test="${popular.bothFollow ne 1}">
-										  				<!-- 숫자 1과 다른 경우에 실행될 내용 -->
-										  				<input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}">
-													</c:if>
-                                         			<label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${popular.member_Id}" onclick="changeFollow('${popular.member_Id}')">
-                                             			<span class="following d-none">Following</span>
-                                             			<span class="follow">+ Follow</span>
-                                         			</label>
-                                     			</div>
-                                			</div>
+                                 			<c:choose>
+											 <c:when test="${popular.member_Id == member_Id}">
+											 </c:when>
+											 <c:otherwise>
+											     <div class="ms-auto">
+											         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+											             <c:if test="${popular.bothFollow eq 1}">
+											                 <!-- 숫자 1과 동일한 경우에 실행될 내용 -->
+											                 <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}" checked="checked">
+											             </c:if>
+											             <c:if test="${popular.bothFollow ne 1}">
+											                 <!-- 숫자 1과 다른 경우에 실행될 내용 -->
+											                 <input type="checkbox" class="btn-check" name="btncheckbox" id="btncheck2${popular.member_Id}">
+											             </c:if>
+											             <label class="btn btn-outline-primary btn-sm px-3 rounded-pill" for="btncheck2${popular.member_Id}" onclick="changeFollow('${popular.member_Id}')">
+											                 <span class="following d-none">Following</span>
+											                 <span class="follow">+ Follow</span>
+											             </label>
+											         </div>
+											     </div>
+											 </c:otherwise>
+											</c:choose>
 										</a>
 									</c:forEach>
 								</div>

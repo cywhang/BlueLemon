@@ -192,4 +192,10 @@ public class PostDAO {
 		return mybatis.selectOne("PostMapper.postWriter", post_Seq);
 	}
 
+	// 게시글 이미지 삭제를 위한 사용자가 작성한 게시글의 시퀀스 번호
+	public List<Integer> seqForUser(String member_Id){
+		return mybatis.selectList("PostMapper.seqForUser", member_Id);
+	}
+	
+	
 }

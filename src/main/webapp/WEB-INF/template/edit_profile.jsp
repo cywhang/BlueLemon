@@ -71,13 +71,14 @@
 	}
 	var msg = "${msg}";
 	if (msg === "wrong") {
+		console.log("msg", msg);
 		alert("잘못된 비밀번호입니다.\n 다시 시도해주세요.")
 	} else if (msg === "withdrawlSuccess") {
+		console.log("탈퇴완료 else if 타기");
 		alert("BLUE LEMON 탈퇴가 완료되었습니다.\n 그동안 이용해주셔서 감사합니다.")
 	}
 	
 	$('#member_Country').val("${loginUser.member_Country}").prop("selected", true);
-	console.log($('#member_Country'));
 </script>	  
 
    <!-- body부분의 class : light모드, dark모드 버튼 -->
@@ -228,7 +229,8 @@
 	                 </div>
                	  </div>
                </form>
-			   <div class="mb-5"></div>                     
+			   <div class="mb-5"></div>    
+			                    
                <!-- 회원 탈퇴 폼 -->
 		       <div class="bg-white p-4 feed-item rounded-4 shadow-sm faq-page mb-3" width = "150">
 		          <div class="mb-3">
@@ -237,18 +239,28 @@
 			      </div>
 			      <div class="row justify-content-center">
 		             <div class="col-lg-12">
-				        <form action="memberDelete" method="post">
+				        <form action="memberDelete" method="post" onsubmit="return confirmWithdrawal()">
 				           <div class="form-floating mb-3 d-flex align-items-center">
 				              <input type="password" class="form-control rounded-5" name="member_Password" id="check_Password" placeholder="비밀번호">
 				              <span id="password_error_message" class="error-message"></span>
 				              <label for="floatingPass">PASSWORD</label>
 				           </div>
-				           <button class="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0">Withdrawal</button>
+				           <button class="btn btn-primary w-100 text-decoration-none rounded-5 py-3 fw-bold text-uppercase m-0" type="submit">Withdrawal</button>
 				        </form>					               
 				     </div>
 			      </div>
 		       </div>
                </main> <!-- index페이지의 센터 column -->
+               
+               <script> // 회원탈퇴 시 확인용 alert창 출력 스크립트
+			    function confirmWithdrawal() {
+			        if (confirm("정말로 탈퇴하시겠습니까?")) {
+			            return true;
+			        } else {
+			            return false;
+			        }
+			    }
+			   </script>
                
                <!-- index페이지 왼쪽 사이드바 column -->
                <aside class="col col-xl-3 order-xl-1 col-lg-6 order-lg-2 col-md-6 col-sm-6 col-12">

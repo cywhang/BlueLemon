@@ -473,17 +473,8 @@ public class PostAndLikeController {
 											@RequestParam(value = "currentEditFileNo", required = false) int currentEditFileNo,
 											HttpSession session, int post_Seq) {
 
-//		System.out.println("==================================게시글 수정=====================================");
-//		System.out.println("insertPost vo : " + vo);
 		vo.setPost_Seq(post_Seq);
-		
-//		System.out.println("attach_file : " + attach_file.length);
-//		System.out.println("deletedStrings : " + deletedStrings.length);
 		int deleteStrings = deletedStrings.length;
-//		System.out.println("alreadyFileNo : " + alreadyFileNo);
-//		System.out.println("currentEditFileNo : " + currentEditFileNo);
-		
-		
 		
 		// 1. 이미지 업로드 실제경로
 		String folderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
@@ -491,12 +482,10 @@ public class PostAndLikeController {
 		String imagePath = "img/uploads/post/";
 		
 		int imgCount = attach_file.length;
-//		System.out.println("imgCount : " + imgCount);
 		vo.setPost_Image_Count(currentEditFileNo);
 		
 		
 		if(imgCount == 0) { // 수정폼 제출시 이미지가 없을때
-//			System.out.println("이미지 없음");
 			
 			// 기존 파일 삭제
 			// 절대경로의 이미지 전체를 folder에 저장한다
@@ -790,7 +779,7 @@ public class PostAndLikeController {
 			model.addAttribute("postList", postlist);
 			model.addAttribute("replyMap", replymap);
 			model.addAttribute("recommendMember", recommendMember);
-			model.addAttribute("hottestFeed", hottestFeed);	
+			model.addAttribute("hottestFeed", hottestFeed);
 			model.addAttribute("member_Id", member_Id);
 			model.addAttribute("hashMap", hashmap);
 			model.addAttribute("hashTag", hashTag);
@@ -876,14 +865,30 @@ public class PostAndLikeController {
 	public ResponseEntity<Map<String, Object>> selectOnePost(@RequestBody Map<String, Integer> requestbody, HttpSession session){
 		
 		int post_Seq = requestbody.get("post_Seq");
-		
 		String member_Id = ((MemberVO) session.getAttribute("loginUser")).getMember_Id();
 		
-		//게시글 
+		// 1. 게시글 상세정보
 		PostVO postVO = postService.selectPostDetail(post_Seq);
-		//댓글
+		// 1-1. 게시글 좋아요 상태 set
+		PostVO voForLikeYN = new PostVO();
+		voForLikeYN.setMember_Id(member_Id);
+		voForLikeYN.setPost_Seq(post_Seq);
+		String post_LikeYN = postService.getLikeYN(voForLikeYN);
+		postVO.setPost_LikeYN(post_LikeYN);
+		
+		// 2. 댓글 3개 만 
 		ArrayList<ReplyVO> replylist = replyService.getReplyPreview(post_Seq);
-		//해쉬태그
+		// 2-1. 댓글 좋아요 상태 set
+		for(int k = 0; k < replylist.size(); k++) {
+			ReplyVO voForReplyCheck = replylist.get(k);
+			String realReply_Member_Id = replylist.get(k).getMember_Id();
+			voForReplyCheck.setMember_Id(member_Id);
+			String reply_LikeYN = replyService.getCheckReplyLike(voForReplyCheck);
+			replylist.get(k).setReply_LikeYN(reply_LikeYN);
+			replylist.get(k).setMember_Id(realReply_Member_Id);
+		}
+		
+		// 3. 해쉬태그
 		ArrayList<TagVO> hash = postService.getHashtagList(post_Seq);
 		
 		// 전체 회원의 이미지 Map을 세션에서 받아옴

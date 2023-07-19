@@ -3,6 +3,7 @@ package com.blue.view;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +194,7 @@ public class MemberController {
 		if (!profilePhoto.isEmpty()) {
 			
 			// 기존 프로필 사진을 삭제합니다.
-			String existingImagePath = "/WEB-INF/template/img/uploads/profile/"
+			String existingImagePath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/")
 					+ vo.getMember_Profile_Image();
 			File existingImage = new File(existingImagePath);
 			if (existingImage.exists()) {
@@ -208,20 +209,13 @@ public class MemberController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			// 이메일 주소를 설정합니다.
-			String email = vo.getMember_Email() + "@" + emailAdd;
-			vo.setMember_Email(email);
-			
-			memberService.updateMember(vo);
-			
-		} else {
-			// 이메일 주소를 설정합니다.
-			String email = vo.getMember_Email() + "@" + emailAdd;
-			vo.setMember_Email(email);
-
-			memberService.updateMember2(vo);
 		}
+		
+		// 이메일 주소를 설정합니다.
+		String email = vo.getMember_Email() + "@" + emailAdd;
+		vo.setMember_Email(email);
+		
+		memberService.updateMember2(vo);
 
 		MemberVO refreshUser = new MemberVO();
 		refreshUser = memberService.getMemberInfo(vo.getMember_Id());
@@ -235,7 +229,6 @@ public class MemberController {
 		// 이메일 아이디와 이메일 주소를 분리하여 모델에 추가하여 JSP 페이지에서 사용할 수 있도록 함
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 
-		String email = loginUser.getMember_Email();
 		int atIndex = email.indexOf("@");
 		String email_Id = email.substring(0, atIndex);
 		String email_add = email.substring(atIndex + 1);
@@ -245,34 +238,72 @@ public class MemberController {
 		return "redirect:index";
 	}
 
-
 	// 회원 탈퇴 post
 	@PostMapping(value = "/memberDelete")
 	public String memberDelete(MemberVO vo, HttpSession session, RedirectAttributes rttr) {
 
-		// 세션에 있는 member를 가져와 member변수에 넣어줍니다.
+		// 비밀번호 검사
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
-
-		// 세션에있는 비밀번호
 		String sessionPass = loginUser.getMember_Password();
-		// System.out.println("DB 상 Pass = " + sessionPass);
-
-		// 입력받아서 vo로 들어오는 비밀번호
 		String voPass = vo.getMember_Password();
-
-		if (!(sessionPass.equals(voPass))) {
-			// alert 관련은 edit_profile.jsp 맨 위에 있음
+		
+		// 1. 게시글 이미지 삭제를 위한 경로
+		String postFolderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/post/");
+		File postFolder = new File(postFolderPath);
+		File[] postFiles = postFolder.listFiles();
+		
+		// 1-1. 사용자가 작성한 게시글들의 시퀀스들을 얻어오는 과정
+		List<Integer> memSeq = postService.seqForUser(loginUser.getMember_Id());
+		
+		// 2. 프로필 이미지 삭제를 위한 경로
+		String profileFolderPath = session.getServletContext().getRealPath("/WEB-INF/template/img/uploads/profile/");
+		File profileFolder = new File(profileFolderPath);
+		File[] profileFiles = profileFolder.listFiles();
+		
+		if (!(sessionPass.equals(voPass))) { // 비밀번호가 일치하지 않으면
 			rttr.addFlashAttribute("msg", "wrong");
 			return "redirect:edit_profile";
-		} else {
+			
+		} else { // 비밀번호가 일치하면
 			postService.deleteOneMemsTag(loginUser.getMember_Id());
 			memberService.deleteMember(loginUser.getMember_Id());
+			
+			// 1-2. 사용자가 업로드한 게시글 이미지들을 삭제
+			if (postFiles != null) {
+				for(int Seq : memSeq) {
+				    for (File file : postFiles) {
+				        String fileName = file.getPath().substring(file.getPath().lastIndexOf('\\') + 1);
+				        String[] parts = fileName.split("-");
+				        if (parts.length >= 2 && parts[0].equals(String.valueOf(Seq))) {
+				            if (file.delete()) {
+				            } else {
+				            }
+				        }
+				    }
+				}
+		    }
+			// 2-1. 사용자가 업로드한 프로필 이미지들을 삭제
+			if (profileFiles != null) {
+			    for (File file : profileFiles) {
+			        String fileName = file.getName();
+			        if (fileName.equals(loginUser.getMember_Id())) {
+			            if (file.delete()) {
+			            	System.out.println("프로필 삭제");
+			            } else {
+			            	System.out.println("프로필 삭제 실패");
+			            }
+			        }
+			    }
+			}
 			session.invalidate();
 			rttr.addFlashAttribute("msg", "withdrawlSuccess");
 			return "redirect:login";
 		}
 	}
 
+	
+	
+	
 	// 아이디 찾기
 	@PostMapping("/memberSearch")
 	@ResponseBody

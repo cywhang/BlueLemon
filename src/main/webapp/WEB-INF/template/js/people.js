@@ -1,7 +1,6 @@
 
 // PEOPLE 탭의 사람들 목록을 가져와서 동적으로 표시하는 함수
 function people_List() {
-    console.log("[PEOPLE 탭 - 2] people_List url 요청함");
 
     $.ajax({
         url: "people_List",

@@ -133,4 +133,9 @@ public class PostServiceImpl implements PostService {
 		return postDao.getPostWriter(post_Seq);
 	}
 
+	@Override
+	public List<Integer> seqForUser(String member_Id) {
+		return postDao.seqForUser(member_Id);
+	}
+
 }

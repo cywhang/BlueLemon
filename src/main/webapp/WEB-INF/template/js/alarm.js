@@ -1,4 +1,5 @@
 
+// 사용자가 알림을 클릭하면 실행되는 스크립트
 function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	
 	var alarm_kind = alarm_kind;
@@ -18,6 +19,13 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	    data: JSON.stringify(data),
 	    success: function (response) {
 	    	
+	    	/*	알림 종류
+	    	 *  1. FOLLOW
+	    	 *  2. POST LIKE
+	    	 *  3. REPLY INSERT
+	    	 *  4. REPLY LIKE
+	    	 *  5. QNA REPLY
+	    	 */
 	    	if(alarm_kind == 1){
 	    		window.location.href="/blue/follow?member_Id=" + to_Mem;
 	    	}else if(alarm_kind == 2){
@@ -38,7 +46,7 @@ function clickAlarm(alarm_kind , alarm_Seq, post_Seq, reply_Seq, to_Mem){
 	}
 
 
-
+// kind가 2, 3, 4 일때 실행되는 스크립트 (게시글 하나만 출력)
 function alarmPostView(post_Seq) {
 	
 	console.log("알림 포스트 생성 실행");
@@ -97,34 +105,32 @@ $.ajax({
 
            html += '               </div>';
            html += '            </div>';
-           html += '            <div class="my-2">';
-           html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
-           html += '               <br>';
            
-             if(hash == null){
-
-             }else{
-            	 
-          	  for(var j=0; j<hash.length; j++){
-          		  var Tag = hash[j]
-             		html += '               <a href="search_HashTag?tag_Content=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
-          	  }
-             }
-
+           // 게시글의 이미지를 출력하는 부분
            html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
-
-
            if(PostVO.post_Image_Count == 0){
            	html += '                        <br>';
            }else{
            	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
            }
-
-
            html += '               </a>';
+           
+           // 게시글의 내용을 출력하는 부분
+           html += '               <br>';
+           html += '               <p class="text-dark">' + PostVO.post_Content + '</p>';
+           html += '               <br>';
+           
+             // 게시글의 해시태그를 출력하는 부분
+             if(hash == null){
+             }else{
+          	  for(var j=0; j<hash.length; j++){
+          		  var Tag = hash[j]
+             		html += '               <a href="search_HashTag?tag_Content=' + Tag.tag_Content + '" class="mb-3 text-primary">#' + Tag.tag_Content + '</a>';
+          	  }
+             }
+           html += ' <hr>';
            html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
            html += '                  <div class="like-group" role="group">';
-           
            
            if(PostVO.post_LikeYN == "Y"){
         	   
@@ -156,22 +162,11 @@ $.ajax({
            html += '							<div class="comments">';
 
 
-           //html += '								<c:set var="key" value="' + i + '"/>';
-           //html += '								<c:set var="value" value="' + replyMap[i] + '"/>';
-           //html += '								<c:forEach var="reply" items="' + value + '" begin="0" end="2">';
-
            var reply
-
            for(l=0; l<=2; l++){
 				var replyVO = reply[l];
-
-
            if(replyVO == null){
-
            }else{
-
-
-
            html += '									<div class="d-flex mb-2">';
            html += '										<a href="#" class="text-dark text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal2" onclick="replyModalseq(' + replyVO.post_Seq + ')">';
            html += '										<img src="img/uploads/profile/' + profileMap[replyVO.member_Id] + '" class="img-fluid rounded-circle profile" alt="commenters-img">';
@@ -184,8 +179,6 @@ $.ajax({
            html += '											</div>';
            html += '											</a>';
            html += '											<div class="reply-like-group" role="group" style="display: inline-block;">';
-
-           //html += '												<c:set var="replySeq" value="' + reply.reply_Seq + '"/>';
 
            if(replyVO.reply_LikeYN == 'Y'){
         	   html += '														<button type="button" style="border: none; background-color: white;" onclick="toggleReplyLike(\'' + replyVO.post_Seq + '\', \'' + replyVO.reply_Seq + '\');">';

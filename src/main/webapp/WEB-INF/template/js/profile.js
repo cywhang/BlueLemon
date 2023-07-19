@@ -134,10 +134,6 @@ $.ajax({
              html += '               </div>';
              html += '            </div>';
              html += '            <div class="my-2">';
-             html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
-
-             
-
              html += '               <a id="openModalBtn" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#commentModal" onclick="modalseq(' + PostVO.post_Seq + ')">';
 
 
@@ -146,9 +142,10 @@ $.ajax({
              }else{
              	html += '                        <img src="img/uploads/post/' + PostVO.post_Seq + '-1.png" class="img-fluid rounded mb-3" alt="post-img">';
              }
-
-
              html += '               </a>';
+             html += '               <br>';
+             html += '               <p class="text-dark" id="postContent'+PostVO.post_Seq+'">' + PostVO.post_Content + '</p>';
+             html += '               <br>';
              
              var hash = hashMap[PostVO.post_Seq];
 
@@ -162,7 +159,7 @@ $.ajax({
                }
              }
              
-             
+             html += '               <hr>';
              html += '               <div class="d-flex align-items-center justify-content-between mb-2">';
              html += '                  <div class="like-group" role="group">';
 
