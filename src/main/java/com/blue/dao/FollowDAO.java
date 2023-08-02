@@ -10,7 +10,7 @@ import com.blue.dto.FollowVO;
 
 
 @Repository("followDAO")
-public class FollowDAO {
+public class FollowDAO { 
 	
 	@Autowired
 	private SqlSessionTemplate mybatis;
