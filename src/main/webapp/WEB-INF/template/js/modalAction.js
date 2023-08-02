@@ -108,10 +108,6 @@ $(function() {
 	    $('#inputContent2').val('');
 	    console.log("inputContent2.reset");
 	});
-  
-  
-  
-  
 });
 
 	// 특수문자 입력 방지
@@ -352,7 +348,7 @@ $(function() {
 	});
 	
 	
-  /* 폼 전송 */
+  /* insert 폼 전송 */
   function submitForm() {
       // 폼데이터 담기
       var form = document.getElementById("postInsert");
@@ -390,9 +386,6 @@ $(function() {
 //edit action
 function postEditAction(post_Seq){
 	
-	
-	// url = postEditAction
-	// method = POST
 	var form = document.getElementById("postUpdate");
     var formData = new FormData(form);
     formData.append("post_Seq", post_Seq);
