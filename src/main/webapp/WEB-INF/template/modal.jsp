@@ -299,5 +299,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- reply Update Js -->
+	<script src="js/replyUpdate.js"></script>
 </body>
 </html>

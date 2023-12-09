@@ -17,7 +17,6 @@ var filesArr = new Array();
 
 
 
-
 // 추가로 업로드한 이미지 개수
 var editFileNo = 0;
 // 추가로 업로드한 파일들을 담은 배열
@@ -515,8 +514,9 @@ function replyDelete(post_Seq, reply_Seq){
 			  replyContentWrapper.append(timestamp);
 			  replyContentWrapper.append(nbsp);
 			  
-			  // 댓글 삭제버튼
+			  // 댓글 삭제 & 수정 버튼
 			  if(replies[i].member_Id === member_Id){
+				  // 댓글 삭제 버튼
 				  var deleteButton = $('<img>').addClass('replyDelete').attr('src', 'img/delete.png')
 				    .css('cursor', 'pointer')
 				    .on('click', function() {
@@ -527,6 +527,24 @@ function replyDelete(post_Seq, reply_Seq){
 				          replyDelete(post_Seq, reply_Seq);
 				        }
 				    });
+				  
+				  // 띄어쓰기
+				  var nbsp = '&nbsp;';
+				  replyContentWrapper.append(nbsp);
+				  
+				  // 댓글 수정 버튼
+				  var updateButton = $('<img>').addClass('replyUpdate').attr('src', 'img/update.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				    	var result = confirm("해당 댓글을 수정하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyUpdate(post_Seq, reply_Seq);
+				        }
+				    });
+				  
+				  replyContentWrapper.append(updateButton);
 				  replyContentWrapper.append(deleteButton);
 			  }
 			  
@@ -657,6 +675,24 @@ function replyDelete2(post_Seq, reply_Seq){
 				          replyDelete2(post_Seq, reply_Seq);
 				        }
 				    });
+				  
+				  // 띄어쓰기
+				  var nbsp = '&nbsp;';
+				  replyContentWrapper.append(nbsp);
+				  
+				  // 댓글 수정 버튼
+				  var updateButton = $('<img>').addClass('replyUpdate').attr('src', 'img/update.png')
+				    .css('cursor', 'pointer')
+				    .on('click', function() {
+				    	var result = confirm("해당 댓글을 수정하시겠습니까?");
+				        if (!result) {
+				          return false;
+				        } else {
+				          replyUpdate2(post_Seq, reply_Seq);
+				        }
+				    });
+				  
+				  replyContentWrapper.append(updateButton);
 				  replyContentWrapper.append(deleteButton);
 			  }
 			  
