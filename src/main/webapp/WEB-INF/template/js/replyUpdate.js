@@ -17,7 +17,7 @@ function replyUpdate(post_Seq, reply_Seq){
 		/* 댓글 작성 완료 후 모달창의 댓글 리스트 다시 그려주기  */
 		success : function(response) {
 			console.log("딜리트 ajax응답 성공");
-	
+	  
 }
 
 
